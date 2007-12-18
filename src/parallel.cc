@@ -171,11 +171,22 @@ PID_type system_async(const std::string& s, const std::string& ulimit, const sur
 PID_type execute_async(const std::string& s)
 {
 	#ifdef WIN32
-		PROCESS_INFORMATION PI;
-		std::string t=s;
-		CreateProcess(NULL,(char*)t.c_str(),NULL,NULL,false,0,NULL,NULL,NULL,&PI);
-		return PI.dwProcessId;
+		PROCESS_INFORMATION pi;
+		STARTUPINFO si;
+		memset(&si, 0, sizeof(si));
+		si.cb = sizeof( si );
 
+		const char *orig = s.c_str();
+
+		// Convert to a wchar_t*
+		size_t origsize = strlen(orig) + 1;
+		const size_t newsize = 100;
+		size_t convertedChars = 0;
+		wchar_t wcstring[newsize];
+		mbstowcs_s(&convertedChars, wcstring, origsize, orig, _TRUNCATE);
+
+		CreateProcess(NULL,wcstring,NULL,NULL,false,CREATE_DEFAULT_ERROR_MODE,NULL,NULL, &si, &pi );
+		return pi.dwProcessId;
 	#else
 
 		pid_t pid = fork();

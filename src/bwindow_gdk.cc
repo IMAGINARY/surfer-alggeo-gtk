@@ -770,7 +770,7 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 				break;
 			case zoom:
 				m_vscale.set_value( tx/double(width)*2);
-				data.scale = exp(log(10)*m_vscale.get_value());
+				data.scale = exp(log(10.0)*m_vscale.get_value());
 	
 	
 				break;
@@ -889,7 +889,7 @@ void SurfBWindow::on_delete_text_func(int,int)
 void SurfBWindow::on_value_changed_func()
 {
 	
-	data.scale = exp(log(10)*m_vscale.get_value());
+	data.scale = exp(log(10.0)*m_vscale.get_value());
 	
 	
 	
@@ -931,7 +931,7 @@ void SurfBWindow::on_para2_changed_func()
 bool SurfBWindow::on_button_changed_func(GdkEventButton* )
 {
 	return true;
-	data.scale = exp(log(10)*m_vscale.get_value());
+	data.scale = exp(log(10.0)*m_vscale.get_value());
 	
 	
 	refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
@@ -1813,6 +1813,7 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	else
 	m_info.clear();}
 	catch(...){m_info.clear();}
+	return true;
 }
 
 void SurfBWindow::adjust_visibility()

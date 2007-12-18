@@ -21,6 +21,7 @@
 #include "bwindow_gdk.hh"
 #include <cstdlib>
 
+
 std::string home_dir()
 {
 	#ifdef WIN32

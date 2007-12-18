@@ -28,6 +28,7 @@ using namespace std;
 typedef char char_t;
 std::string GetTempPath()
 {
+/*
   DWORD result = ::GetTempPath(0, "");
   if(result == 0)
     throw std::runtime_error("Could not get system temp path");
@@ -43,11 +44,14 @@ std::string GetTempPath()
 
 std::cout<<"TEMP "<<u<<std::endl;
 return u;
+*/
+	return ".\\tmp\\";
 }
 
-
 std::string homepath()
-{return ".\\";
+{
+	return ".\\";
+/*
 	std::string s="%HOMEPATH%";
 	const int bul = 33000;
 	char bu[bul];
@@ -56,6 +60,7 @@ std::string homepath()
 
 std::cout<<"HOME "<<bu<<std::endl;
 	return bu;
+*/
 }
 
 #endif

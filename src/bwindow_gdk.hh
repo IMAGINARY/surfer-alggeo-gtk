@@ -162,7 +162,7 @@ Glib::ustring on_format_value(double value)
 	std::ostringstream os;
 	os.precision(0);
 	os.setf(std::ios_base::fixed);
-	os<<"Zoom "<<std::exp(std::log(10)*(2-value))<<"%";
+	os<<"Zoom "<<std::exp(std::log(10.0)*(2-value))<<"%";
 	return os.str();
 }
 };
