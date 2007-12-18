@@ -86,10 +86,20 @@ class matrix
 };
 
 template <typename T>
-matrix<T>::matrix(const int N): n(N), m(N), A(N*N) {}
+matrix<T>::matrix(const int N): n(N), m(N), A(N*N)
+{
+	T v;
+	for( unsigned i = 0; i < A.size(); i++ )
+		A[i] = v;
+}
 
 template <typename T>
-matrix<T>::matrix(const int N, const int M): n(N), m(M), A(N*M) {}
+matrix<T>::matrix(const int N, const int M): n(N), m(M), A(N*M)
+{
+	T v;
+	for( unsigned i = 0; i < A.size(); i++ )
+		A[i] = v;
+}
 
 template <typename T>
 matrix<T>::matrix(const matrix& M): n(M.n), m(M.m), A(M.A.size())
@@ -98,7 +108,12 @@ matrix<T>::matrix(const matrix& M): n(M.n), m(M.m), A(M.A.size())
 }
 
 template <typename T>
-matrix<T>::matrix(const int N, const int M, const data& V) : n(N), m(M), A(V) {}
+matrix<T>::matrix(const int N, const int M, const data& V) : n(N), m(M), A(V)
+{
+	T v;
+	for( unsigned i = 0; i < A.size(); i++ )
+		A[i] = v;
+}
 
 template <typename T>
 matrix<T>& matrix<T>::operator=(const matrix& M)

@@ -118,6 +118,10 @@ m_zoom_table(1,3)
 
 
 {
+	// change window background to white
+	modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_draw.modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white"));
+
 	current_gal=0;
 	if(!gal.empty())current_surf = gal[0].file.size()-1;
 
@@ -370,13 +374,21 @@ m_zoom_table(1,3)
 
 
 				Gtk::Frame* v_gframe = new Gtk::Frame(gal[i].name);
-	
+
+				// white background for gallery widgets
+				Gtk::Widget* W = v_gframe->get_label_widget();
+				W->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+				W->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+				v_gframe->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+				v_gframe->modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 
 				m_gtab.attach(*v_gframe,1,2,i+1,i+2,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 
 				Gtk::EventBox* v_eb = new Gtk::EventBox;
 				Gtk::Image* v_im = new Gtk::Image;
 				v_im->set(gal[i].image);
+				v_eb->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+				v_eb->modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 				
 				//Gtk::DrawingArea* v_gpic = new Gtk::DrawingArea;
 				v_eb->signal_button_press_event().connect(sigc::bind(sigc::mem_fun(*this,&SurfBWindow::on_gallery_press_event),i));

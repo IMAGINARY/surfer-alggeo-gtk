@@ -182,7 +182,16 @@ namespace
 GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
 :gal(g),m_tab(1,3),opt(o)
 {
-  //set_title("Gtk::IconView (ListStore + TreeModelSort) example");
+	// change gallery background to white
+	modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_desc.modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+
+	m_tab.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_ScrolledWindow.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_IconView.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_VBox.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+
+	//set_title("Gtk::IconView (ListStore + TreeModelSort) example");
   set_border_width(5);
   set_default_size(400, 400);
   add(m_tab);
