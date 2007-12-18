@@ -1,0 +1,40 @@
+Einfache Flächen
+ebene.pic:name:Eine Ebene
+ebene.pic:lowres:300
+ebene.pic:hires:640
+kugel.pic:name:Eine Kugeloberfläche (Sphäre)
+kugel.pic:lowres:300
+kugel.pic:hires:640
+Ell.pic:name:Ein Ellipsoid
+Ell.pic:lowres:240
+Ell.pic:hires:480
+einHyp.pic:name:Ein einschaliges Hyperboloid
+einHyp.pic:lowres:240
+einHyp.pic:hires:480
+kegel.pic:name:Ein Doppelkegel
+kegel.pic:lowres:240
+kegel.pic:hires:480
+ellPar.pic:name:Ein elliptischer Paraboloid
+ellPar.pic:lowres:240
+ellPar.pic:hires:480
+hypPar.pic:name:Ein hyperbolischer Paraboloid
+hypPar.pic:lowres:240
+hypPar.pic:hires:480
+ellZyl.pic:name:Ein elliptischer Zylinder
+ellZyl.pic:lowres:240
+ellZyl.pic:hires:480
+hypZyl.pic:name:Ein hyperbolischer Zylinder
+hypZyl.pic:lowres:240
+hypZyl.pic:hires:480
+clebsch.pic:name:Die Clebsch-Kubik
+clebsch.pic:lowres:200
+clebsch.pic:hires:400
+cayley.pic:name:Die Cayley-Kubik
+cayley.pic:lowres:200
+cayley.pic:hires:400
+kub_A5A1.pic:name:Eine Kubik mit zwei Singularitäten
+kub_A5A1.pic:lowres:200
+kub_A5A1.pic:hires:400
+kub_D4.pic:name:Eine Kubik mit einer D4 Singularität
+kub_D4.pic:lowres:200
+kub_D4.pic:hires:400

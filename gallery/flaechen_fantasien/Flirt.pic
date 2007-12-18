@@ -1,0 +1,29 @@
+scale_x = 0.21645021645021645;
+scale_y = 0.21645021645021645;
+scale_z = 0.21645021645021645;
+radius=9.0;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 0;
+
+background_red=0; background_green=0; background_blue=51;
+
+poly f1 = x^2-1*x^3+y^2+y^4+z^3-1*10*z^4;
+surface = f1;
+surface_red = 204;surface_green = 204;surface_blue = 255;
+inside_red = 255;inside_green = 102;inside_blue = 51;
+transparence = 0;
+surface=rotate(surface,-1.8381758537727244,yAxis);
+surface=rotate(surface,0.7890063489620897,xAxis);
+surface=rotate(surface,-1.7773276303909173,zAxis);
+
+draw_surface;
+filename="/home/felix/henning/Flirt.pic.jpg";
+color_file_format=jpg;
+save_color_image;

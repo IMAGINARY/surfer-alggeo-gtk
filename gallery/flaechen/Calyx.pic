@@ -1,0 +1,29 @@
+scale_x = 0.4926108374384236;
+scale_y = 0.4926108374384236;
+scale_z = 0.4926108374384236;
+radius=9.0;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 0;
+
+background_red=0; background_green=0; background_blue=51;
+
+poly f1 = x^2+y^2*z^3-1*z^4;
+surface = f1;
+surface_red = 255;surface_green = 149;surface_blue = 0;
+inside_red = 255;inside_green = 43;inside_blue = 0;
+transparence = 0;
+surface=rotate(surface,1.1570521966678735,yAxis);
+surface=rotate(surface,-0.8923439017811691,xAxis);
+surface=rotate(surface,-1.4244121434972006,zAxis);
+
+draw_surface;
+filename="/home/riemann/Greuel/flaechen/henning/Calyx.pic.jpg";
+color_file_format=jpg;
+save_color_image;

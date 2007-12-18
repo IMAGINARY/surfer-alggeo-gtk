@@ -1,0 +1,40 @@
+Weltrekord-Flächen
+doppelkegel.pic:name:Ein Doppelkegel
+doppelkegel.pic:lowres:200
+doppelkegel.pic:highres:480
+cayley_cubic.pic:name:Die Cayley Kubik
+cayley_cubic.pic:lowres:200
+cayley_cubic.pic:highres:480
+kummer.pic:name:Eine Kummer Quartik
+kummer.pic:lowres:200
+kummer.pic:highres:480
+togliatti.pic:name:Eine Togliatti Quintik
+togliatti.pic:lowres:180
+togliatti.pic:highres:440
+barth_sextic.pic:name:Die Barth Sextik
+barth_sextic.pic:lowres:150
+barth_sextic.pic:highres:360
+labs_septic.pic:name:Die Labs Septik
+labs_septic.pic:lowres:150
+labs_septic.pic:highres:320
+endrass_octic.pic:name:Eine Endrass Oktik
+endrass_octic.pic:lowres:150
+endrass_octic.pic:highres:280
+p9surface.pic:name:Viele reelle Singularitäten
+p9surface.pic:lowres:150
+p9surface.pic:highres:280
+chmutov_pn_8.pic:name:Eine Oktik von Chmutov
+chmutov_pn_8.pic:lowres:200
+chmutov_pn_8.pic:hires:400
+septic_7eck.pic:name:Eine symmetrische Septik
+septic_7eck.pic:lowres:200
+septic_7eck.pic:hires:400
+monoid.pic:name:Ein Monoid mit vielen Singularitäten
+monoid.pic:lowres:200
+monoid.pic:hires:400
+dessins_quint_15a2.pic:name:Eine Quintik mit 15 Cuspen
+dessins_quint_15a2.pic:lowres:200
+dessins_quint_15a2.pic:hires:400
+barthsextic_30A2.pic:name:Barths Sextik mit 30 Cuspen
+barthsextic_30A2.pic:lowres:200
+barthsextic_30A2.pic:hires:400

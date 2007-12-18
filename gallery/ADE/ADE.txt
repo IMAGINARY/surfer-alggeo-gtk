@@ -1,0 +1,22 @@
+Einfache Singularitäten
+A1pm.pic:name:Ein Doppelkegel
+A1pm.pic:lowres:240
+A1pm.pic:hires:480
+A2pm.pic:name:Eine Cuspe (A2+- Singularität)
+A2pm.pic:lowres:240
+A2pm.pic:hires:480
+A2pp.pic:name:Noch eine Cuspe (A2++ Singularität)
+A2pp.pic:lowres:240
+A2pp.pic:hires:480
+A3pm.pic:name:Eine A3+- Singularität
+A3pm.pic:lowres:200
+A3pm.pic:hires:400
+A3mm.pic:name:Eine A3-- Singularität
+A3mm.pic:lowres:200
+A3mm.pic:hires:400
+A4pm.pic:name:Eine A4+- Singularität
+A4pm.pic:lowres:200
+A4pm.pic:hires:400
+A4pp.pic:name:Eine A4++ Singularität
+A4pp.pic:lowres:200
+A4pp.pic:hires:400

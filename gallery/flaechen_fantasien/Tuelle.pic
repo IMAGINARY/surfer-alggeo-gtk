@@ -1,0 +1,29 @@
+scale_x = 0.23980815347721823;
+scale_y = 0.23980815347721823;
+scale_z = 0.23980815347721823;
+radius=9.0;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 0;
+
+background_red=0; background_green=0; background_blue=51;
+
+poly f1 = y*z*(x^2+y-1*z);
+surface = f1;
+surface_red = 102;surface_green = 153;surface_blue = 255;
+inside_red = 204;inside_green = 102;inside_blue = 255;
+transparence = 0;
+surface=rotate(surface,-1.1589023204732394,yAxis);
+surface=rotate(surface,0.3736890704596181,xAxis);
+surface=rotate(surface,1.7401185433612993,zAxis);
+
+draw_surface;
+filename="/home/felix/henning/Tuelle.pic.jpg";
+color_file_format=jpg;
+save_color_image;
