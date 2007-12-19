@@ -1067,7 +1067,16 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	//std::cout<<width<<std::endl;
 	// coordinates for the center of the window
 	
-	for(int k=1; k<= 4; k++)
+	const int n = num_threads();
+	
+	
+	int w = full ? data.hires : data.lores;
+	
+	if(w>width-40) w = width-40;
+	if(w>height-40) w = height-40;
+	
+
+	for(int k=1; k<= n; k++)
 	{
 	std::ostringstream os;
 	os<<k;
@@ -1086,15 +1095,10 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 
 	
 	
-	{
-		int w = full ? data.hires : data.lores;
-		
-		if(w>width-40) w = width-40;
-		if(w>height-40) w = height-40;
-		
-		f<<"width="<< w <<";\n";
-		f<<"height="<< w <<";\n";
-	}
+	
+	f<<"width="<< w <<";\n";
+	f<<"height="<< w <<";\n";
+
 
 	
 
@@ -1146,32 +1150,38 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	if(full)
 	{
 		
-		my_kill(kill_list);
+		//my_kill(kill_list);
+		
 		
 		std::remove((image).c_str());
-		std::remove((image+"2" ).c_str());
-		std::remove((image+"3" ).c_str());
-		std::remove((image+"4" ).c_str());
+		for(int i = 2; i <= n; i++)
+		{
+			std::ostringstream o;
+			o<<i;
 
-		kill_list = system_async(script,"25",opt);
+			std::remove((image+o.str() ).c_str());
+		}
+		
+
+		//kill_list = system_async(script,"25",opt);
+		parallel_surf(script,true,w,opt);
 
 		Gdk::Cursor hglass(Gdk::WATCH);
-
-    			Glib::RefPtr<Gdk::Window> w = get_window();
+    		Glib::RefPtr<Gdk::Window> wi = get_window();
     //if( strcmp(name, "hourglass") == 0 ) {
-        if(w)w->set_cursor(hglass);
+		if(wi)
+		wi->set_cursor(hglass);
         //gtk_widget_set_sensitive(this->window, false);
 
 		
 	}
 	else
 	{
-		my_system(script," " REDIRECTION_APEX ,"5",opt);
+		parallel_surf(script,false,w,opt);
+		
+		//my_system(script," " REDIRECTION_APEX ,"5",opt);
 		//if(w)gdk_window_set_cursor(w, NULL);
 	}
-	
-
-	
 	
 
 }
@@ -1196,81 +1206,27 @@ void SurfBWindow::refresh_display(const std::string& image, bool full)
 			//if(full)
 			{
 
-			switch(CM)
-			{
-				case dual_core:
-try
+const int n = num_threads();
+
+
+
+for(int i = 0; i < n; i++)
 {
-Glib::RefPtr<Gdk::Pixbuf> surface = Gdk::Pixbuf::create_from_file(image.c_str());
-
-Glib::RefPtr<Gdk::Pixbuf> sface = surface->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-
-dr->draw_pixbuf(some_gc,sface,0,0,20,20,width/2-20,-1,Gdk::RGB_DITHER_NONE,0,0);
-
-
-Glib::RefPtr<Gdk::Pixbuf> surface2 = Gdk::Pixbuf::create_from_file((image+"2").c_str());
-Glib::RefPtr<Gdk::Pixbuf> sface2 = surface2->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-dr->draw_pixbuf(some_gc,sface2,width/2-20,0,width/2,20,width/2-20,-1,Gdk::RGB_DITHER_NONE,0,0);
-}
-catch(...){finished=false;}
-
-
-
-
-				break;
-				case quad_core:
-try
-{
-Glib::RefPtr<Gdk::Pixbuf> surface = Gdk::Pixbuf::create_from_file(image.c_str());
-
-Glib::RefPtr<Gdk::Pixbuf> sface = surface->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-
-dr->draw_pixbuf(some_gc,sface,0,0,20,20,width/2-20,height/2-20,Gdk::RGB_DITHER_NONE,0,0);
-}
-catch(...){finished=false;}
-try{
-
-Glib::RefPtr<Gdk::Pixbuf> surface2 = Gdk::Pixbuf::create_from_file((image+"2").c_str());
-Glib::RefPtr<Gdk::Pixbuf> sface2 = surface2->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-dr->draw_pixbuf(some_gc,sface2,width/2-20,0,width/2,20,width/2-20,height/2-20,Gdk::RGB_DITHER_NONE,0,0);
-}
-catch(...){finished=false;}
-
-
-try
-{
-Glib::RefPtr<Gdk::Pixbuf> surface3 = Gdk::Pixbuf::create_from_file((image+"3").c_str());
-
-Glib::RefPtr<Gdk::Pixbuf> sface3 = surface3->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-dr->draw_pixbuf(some_gc,sface3,0         ,height/2-20,20,     height/2,width/2-20,height/2-20,Gdk::RGB_DITHER_NONE,0,0);
-}
-catch(...){finished=false;}
+std::ostringstream o;
+if(i)o<<(i+1);
 
 try{
+Glib::RefPtr<Gdk::Pixbuf> surface2 = Gdk::Pixbuf::create_from_file((image+o.str()).c_str());
+Glib::RefPtr<Gdk::Pixbuf> sface2 = surface2->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
 
-Glib::RefPtr<Gdk::Pixbuf> surface4 = Gdk::Pixbuf::create_from_file((image+"4").c_str());
-Glib::RefPtr<Gdk::Pixbuf> sface4 = surface4->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-
-
-dr->draw_pixbuf(some_gc,sface4,width/2-20,height/2-20,width/2,height/2     ,width/2-20,height/2-20,Gdk::RGB_DITHER_NONE,0,0);
-
-
+dr->draw_pixbuf(some_gc,sface2,0,i*(height-40)/n,20,20+i*(height-40)/n,width-40,(height-40)/n,Gdk::RGB_DITHER_NONE,0,0);
 }
 catch(...){finished=false;}
 
 
 
+}
 
-
-				break;
-				case single_core:
-				default:
-					try{
-					Glib::RefPtr<Gdk::Pixbuf> surface = Gdk::Pixbuf::create_from_file(image.c_str());
-				Glib::RefPtr<Gdk::Pixbuf> sface = surface->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-				dr->draw_pixbuf(some_gc,sface,0,0,20,20,-1,-1,Gdk::RGB_DITHER_NONE,0,0);
-				}catch(...){finished=false;}
-			}
 				
 			Gdk::Cursor hptr(Gdk::LEFT_PTR);
 			Glib::RefPtr<Gdk::Window> w = get_window();

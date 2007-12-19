@@ -24,79 +24,69 @@
 #define SURF_OPT "-n"
 
 
-#define PARASURF "/home/ubuntu/totalsurf/"
+int global_num_threads = 1;
 
-void my_system(const std::string& s, const std::string& s2, const std::string& ulimit, const surfer_options& opt)
+int num_threads_via_omp()
 {
-	switch(CM)
+int n = 1;
+#pragma omp parallel shared(n)
+{
+#ifdef _OPENMP
+n = omp_get_num_threads();
+#endif
+
+}
+return n;
+}
+
+int num_threads()
+{
+	return global_num_threads;
+}
+
+void init_threads()
+{
+	global_num_threads = num_threads_via_omp();
+}
+
+void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt)
+{
+	const int n = num_threads();
+	
+
+	std::string fbuff;
 	{
-	case dual_core:
-
-#pragma omp parallel sections
-{
-#pragma omp section
-{
-	//std::cout << (PARASURF "surf_1_2/surf_1_2 -n "+s+s2).c_str() << std::endl;
-	system(("ulimit -t "+ulimit+"; "+PARASURF "surf_1_2/surf_1_2 -n "+s+s2).c_str());
-}
-#pragma omp section
-{
-	//std::cout << (PARASURF "surf_2_2/surf_2_2 -n "+s+"2"+s2).c_str() << std::endl;
-	system(("ulimit -t "+ulimit+"; "+PARASURF "surf_2_2/surf_2_2 -n "+s+"2"+s2).c_str());
-}
-}
-
-			break;
-		case quad_core:
-
-#pragma omp parallel sections
-{
-#pragma omp section
-{
-	//std::cout << (PARASURF "surf_1_2/surf_1_2 -n "+s+s2).c_str() << std::endl;
-	system(("ulimit -t "+ulimit+"; "+PARASURF "surf_1_4/surf_1_4 -n "+s+s2).c_str());
-}
-#pragma omp section
-{
-	//std::cout << (PARASURF "surf_2_2/surf_2_2 -n "+s+"2"+s2).c_str() << std::endl;
-	system(("ulimit -t "+ulimit+"; "+PARASURF "surf_2_4/surf_2_4 -n "+s+"2"+s2).c_str());
-}
-#pragma omp section
-{
-	//std::cout << (PARASURF "surf_2_2/surf_2_2 -n "+s+"2"+s2).c_str() << std::endl;
-	system(("ulimit -t "+ulimit+"; "+PARASURF "surf_3_4/surf_3_4 -n "+s+"3"+s2).c_str());
-}
-#pragma omp section
-{
-	//std::cout << (PARASURF "surf_2_2/surf_2_2 -n "+s+"2"+s2).c_str() << std::endl;
-	system(("ulimit -t "+ulimit+"; "+PARASURF "surf_4_4/surf_4_4 -n "+s+"4"+s2).c_str());
-}
-
-}
-
-			break;
-		case single_core:
-		default:
-			#ifdef WIN32
-			system((opt.surf_cmd+" -n "+s+"" REDIRECTION_APEX).c_str());
-			#else
-			system(("ulimit -t "+ulimit+"; "+opt.surf_cmd+" -n "+s+"" REDIRECTION_APEX).c_str());
-			#endif
+		std::ostringstream o;
+		o<<width;
+		fbuff = o.str();
 	}
-	
-
 
 	
+
+	#pragma omp parallel for
+	for(int i = 0; i < n; i++)
+	{
+		std::ostringstream buf;
+		std::ostringstream min_buff;
+		std::ostringstream max_buff;
+		
+		min_buff<<(i*width/n-(i)?1:0);
+		max_buff<<( (i+1) * width/n + ((i==n-1)?0:1) );
+		if(i)
+		buf<<(i+1);
+
+		std::string cmd = (opt.surf_cmd + (" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str())+" "SURF_OPT +" "+script+buf.str()+" " REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
+		std::cout<<cmd<<std::endl;
+		system(cmd.c_str());
+	}
+
+
 }
 
 
 
 
-
-
-
-
-
+/*
 PID_type system_async(const std::string& s, const std::string& ulimit, const surfer_options& opt)
 {
 	const std::string s2 = " " REDIRECTION_APEX " " DAEMONIZE;
@@ -201,7 +191,7 @@ void kill_pid(const PID_type pid)
 {
 	if(pid==0) return;
 	#ifdef WIN32
-		/*HANDLE hid = OpenProcess(PROCESS_ALL_ACCESS,false,pid);TerminateProcess(hid,17);CloseHandle(hid);*/
+		//HANDLE hid = OpenProcess(PROCESS_ALL_ACCESS,false,pid);TerminateProcess(hid,17);CloseHandle(hid);
 	#else
 		kill(pid, SIGTERM);
 		wait();
@@ -223,4 +213,4 @@ void my_kill(PID_type pid)
 //#endif
 
 }
-
+*/

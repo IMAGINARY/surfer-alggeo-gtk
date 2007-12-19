@@ -43,6 +43,8 @@ temp_dir = GetTempPath();
   bool personalized = false;
   std::istream* i = NULL;
 
+  init_threads();
+
   if(argc>1)
   {
 	if(std::string(argv[1])=="-")

@@ -18,22 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-enum Computation_model
-{
-	single_core = 1,
-	dual_core = 2,
-	quad_core = 3,
-	multicore = 4,
-	distributed_single_core = 1,
-	distributed_dual_core = 2,
-	distributed_quad_core = 3,
-	distributed_multicore = 4
-	
-};
-
-const Computation_model CM = single_core;
-
-
 
 #include <gtkmm.h>
 #include<iostream>
@@ -58,8 +42,9 @@ typedef pid_t PID_type;
 
 
 
-
-
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 
 
@@ -439,6 +424,13 @@ void write_gallery_file(std::ostream& f, const gallery& G);
 gallery read_gallery_file(std::istream& f, const std::string& path, const std::string& dname,double);
 PID_type system_async(const std::string& s, const std::string& ulimit, const surfer_options& opt);
 
+
+void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt);
+int num_threads();
+
+void init_threads();
+
+
 #ifndef WIN32
 #ifdef WIN_32
 #define WIN32 WIN_32
@@ -463,6 +455,7 @@ PID_type system_async(const std::string& s, const std::string& ulimit, const sur
 #endif
 #endif
 
+
 #ifndef HIDDEN_MARKER
 #ifdef WIN32
 #define HIDDEN_MARKER ""
@@ -470,6 +463,8 @@ PID_type system_async(const std::string& s, const std::string& ulimit, const sur
 #define HIDDEN_MARKER "."
 #endif
 #endif
+
+
 
 #ifndef DIR_SEP_CHAR
 #ifdef WIN32
@@ -498,7 +493,7 @@ PID_type system_async(const std::string& s, const std::string& ulimit, const sur
 
 #ifndef REDIRECTION_APEX
 #ifdef WIN32
-#define REDIRECTION_APEX ">NULL"
+#define REDIRECTION_APEX ""
 #else
 #define REDIRECTION_APEX ">/dev/null 2>/dev/null"
 #endif
