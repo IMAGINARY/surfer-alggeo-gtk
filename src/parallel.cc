@@ -51,6 +51,7 @@ void init_threads()
 
 void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt)
 {
+	if(width<1)return;
 	const int n = num_threads();
 	
 
@@ -70,13 +71,13 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 		std::ostringstream min_buff;
 		std::ostringstream max_buff;
 		
-		min_buff<<(i*width/n-(i)?1:0);
+		min_buff<<(i*width/n - ((i==0) ? 0 : 1) );
 		max_buff<<( (i+1) * width/n + ((i==n-1)?0:1) );
 		if(i)
 		buf<<(i+1);
 
 		std::string cmd = (opt.surf_cmd + (" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str())+" "SURF_OPT +" "+script+buf.str()+" " REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
-		std::cout<<cmd<<std::endl;
+		//std::cout<<cmd<<std::endl;
 		system(cmd.c_str());
 	}
 
@@ -199,18 +200,4 @@ void kill_pid(const PID_type pid)
 }
 
 
-
-
-void my_kill(PID_type pid)
-{
-//#ifndef WIN32
-		if(CM == single_core)
-		kill_pid(pid);
-		else		
-		system("killall -9 -q -r surf._. ");
-
-		
-//#endif
-
-}
 */
