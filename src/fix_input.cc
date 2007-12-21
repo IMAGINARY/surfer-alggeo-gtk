@@ -55,7 +55,8 @@ bool check_input(const std::string& s)
 			std::istringstream f(s.c_str()+i+1);
 			int k = 0;
 			f>>k;
-			if(k>=30) return false;
+			if(k>=30)
+				return false;
 		}
 	}
 	return true;

@@ -257,7 +257,7 @@ void make_thumb(parsepic_out data,const std::string& script, const std::string& 
 	f<<"draw_surface;\n";
 	f<<"save_color_image;\n";
 	f.close();
-	system((opt.surf_cmd+" -n "+script+" " REDIRECTION_APEX).c_str());
+	system((opt.surf_cmd+" -n \""+script+"\" " REDIRECTION_APEX).c_str());
 	
 
 

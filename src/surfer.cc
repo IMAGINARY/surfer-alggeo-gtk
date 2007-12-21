@@ -27,6 +27,14 @@ std::string temp_dir = "/tmp/";
 
 extern bool no_full;
 
+#ifdef WIN32
+int main (int argc, char *argv[]);
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow)
+{
+	return main( __argc, __argv );
+}
+#endif
+
 int main (int argc, char *argv[])
 {
 

@@ -54,8 +54,8 @@ class matrix
 {
 	typedef std::valarray<T> data;
 	public:
-		matrix(const int n);
-		matrix(const int n, const int m);
+		matrix(const int n, T default);
+		matrix(const int n, const int m, T default);
 		matrix(const matrix& M);
 		matrix(const int n, const int m, const data& V);
 		matrix& operator=(const matrix& M);
@@ -86,19 +86,17 @@ class matrix
 };
 
 template <typename T>
-matrix<T>::matrix(const int N): n(N), m(N), A(N*N)
+matrix<T>::matrix(const int N, T default): n(N), m(N), A(N*N)
 {
-	T v;
 	for( unsigned i = 0; i < A.size(); i++ )
-		A[i] = v;
+		A[i] = default;
 }
 
 template <typename T>
-matrix<T>::matrix(const int N, const int M): n(N), m(M), A(N*M)
+matrix<T>::matrix(const int N, const int M, T default): n(N), m(M), A(N*M)
 {
-	T v;
 	for( unsigned i = 0; i < A.size(); i++ )
-		A[i] = v;
+		A[i] = default;
 }
 
 template <typename T>
@@ -193,7 +191,7 @@ template <typename T>
 matrix<T> vcat(const matrix<T>& X, const matrix<T>& Y, const int v = 1);
 
 template <typename T>
-matrix<T> unitmat(const int n, const T d = T(1));
+matrix<T> unitmat(const int n, const T d, const T other );
 
 
 template <typename T>
@@ -310,9 +308,9 @@ bool operator!=(const matrix<T>& A, const matrix<T>& B)
 }
 
 template <typename T>
-matrix<T> unitmat(const int n, const T  d)
+matrix<T> unitmat(const int n, const T  d, const T other )
 {
-	matrix<T> R(n);
+	matrix<T> R(n,other);
 	for(int i = 1; i <= n; i++)
 	R.el(i,i) = d;
 	return R;

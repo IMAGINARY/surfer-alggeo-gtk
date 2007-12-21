@@ -33,7 +33,7 @@ y before x before z
 
 matrix<double> rotx(const double a)
 {
-	matrix<double> M(3);
+	matrix<double> M(3,0.0);
 	M.el(1,1) = 1.0;
 	M.el(2,2) = cos(a);
 	M.el(2,3) = -sin(a);
@@ -46,7 +46,7 @@ matrix<double> rotx(const double a)
 
 matrix<double> rotz(const double a)
 {
-	matrix<double> M(3);
+	matrix<double> M(3,0.0);
 	M.el(3,3) = 1.0;
 	M.el(1,1) = cos(a);
 	M.el(1,2) = -sin(a);
@@ -59,7 +59,7 @@ matrix<double> rotz(const double a)
 
 matrix<double> roty(const double a)
 {
-	matrix<double> M(3);
+	matrix<double> M(3,0.0);
 	M.el(2,2) = 1.0;
 	M.el(1,1) = cos(a);
 	M.el(1,3) = sin(a);

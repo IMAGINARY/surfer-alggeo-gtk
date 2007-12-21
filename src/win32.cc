@@ -22,7 +22,7 @@
 
 #ifdef WIN32
 
-
+#include <shlobj.h>
 
 using namespace std;
 typedef char char_t;
@@ -45,12 +45,48 @@ std::string GetTempPath()
 std::cout<<"TEMP "<<u<<std::endl;
 return u;
 */
-	return ".\\tmp\\";
+	// retrieve application data path
+	LPWSTR temp_path = new TCHAR[ MAX_PATH ];
+	for( int i = 0; i < MAX_PATH - 1; i++ )
+		temp_path[ i ] = ' ';
+	temp_path[ MAX_PATH - 1 ] = '\0';
+	SHGetSpecialFolderPath( 0, temp_path, CSIDL_APPDATA, TRUE );
+
+	// create surfer-directory
+	wcscat( temp_path , L"\\Surfer" );
+	CreateDirectory( temp_path, NULL);
+	wcscat( temp_path , L"\\temp" );
+	CreateDirectory( temp_path, NULL);
+	wcscat( temp_path , L"\\" );
+
+	// convert to char*
+	char *temp_path_c = new char[ 5 * MAX_PATH ];
+	wcstombs( temp_path_c, temp_path, 5 * MAX_PATH );
+
+	return std::string( temp_path_c );
 }
 
 std::string homepath()
 {
 	return ".\\";
+/*
+	LPWSTR temp_path = new TCHAR[ MAX_PATH ];
+	for( int i = 0; i < MAX_PATH - 1; i++ )
+		temp_path[ i ] = ' ';
+	temp_path[ MAX_PATH - 1 ] = '\0';
+	SHGetSpecialFolderPath( 0, temp_path, CSIDL_APPDATA, TRUE );
+
+	// create surfer-directory
+	wcscat( temp_path , L"\\Surfer" );
+	CreateDirectory( temp_path, NULL);
+	wcscat( temp_path , L"\\" );
+
+	// convert to char*
+	char *temp_path_c = new char[ 5 * MAX_PATH ];
+	wcstombs( temp_path_c, temp_path, 5 * MAX_PATH );
+
+	return std::string( temp_path_c );
+*/
 /*
 	std::string s="%HOMEPATH%";
 	const int bul = 33000;

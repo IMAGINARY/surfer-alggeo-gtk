@@ -1,0 +1,2 @@
+#include "resource.h"
+ID_APP                  ICON                    "dummy.ico"

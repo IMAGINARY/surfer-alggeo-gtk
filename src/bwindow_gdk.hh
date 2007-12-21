@@ -41,13 +41,6 @@ typedef pid_t PID_type;
 #endif
 
 
-
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
-
-
 bool check_input(const std::string& s);
 std::string fix_input(const std::string& s);
 
@@ -99,7 +92,7 @@ struct parsepic_out
 
 	matrix<double> rot;
 
-	parsepic_out():rot(unitmat<double>(3,1)){}
+	parsepic_out():rot(unitmat<double>(3,1.0,0.0)){}
 };
 
 parsepic_out parse_pic(std::istream& f, bool strict = false);

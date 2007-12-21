@@ -23,20 +23,25 @@
 
 #define SURF_OPT "-n"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 int global_num_threads = 1;
 
 int num_threads_via_omp()
 {
 int n = 1;
+
 #pragma omp parallel shared(n)
 {
 #ifdef _OPENMP
-n = omp_get_num_threads();
+n = ( int ) ( omp_get_num_threads() );
 #endif
 
 }
-return n;
+
+return n > 2 ? n - 1 : n;
 }
 
 int num_threads()
@@ -62,8 +67,6 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 		fbuff = o.str();
 	}
 
-	
-
 	#pragma omp parallel for
 	for(int i = 0; i < n; i++)
 	{
@@ -76,7 +79,7 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 		if(i)
 		buf<<(i+1);
 
-		std::string cmd = (opt.surf_cmd + (" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str())+" "SURF_OPT +" "+script+buf.str()+" " REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
+		std::string cmd = (opt.surf_cmd + (" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str())+" "SURF_OPT +" \""+script+buf.str()+"\" " REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
 		//std::cout<<cmd<<std::endl;
 		system(cmd.c_str());
 	}
