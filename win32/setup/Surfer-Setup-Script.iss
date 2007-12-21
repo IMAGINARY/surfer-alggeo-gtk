@@ -26,6 +26,15 @@ Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
 
+;; use new InnoSetup-Images
+;WizardImageFile=compiler:WizModernImage-IS.bmp
+;WizardSmallImageFile=compiler:WizModernSmallImage-IS.bmp
+
+; special Setup-Images
+WizardSmallImageFile=surfer-small.bmp
+WizardImageFile=surfer.bmp
+
+
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "de"; MessagesFile: "compiler:Languages\German.isl"
