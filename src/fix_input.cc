@@ -21,17 +21,32 @@
 #include <string>
 #include <ctype.h>
 #include <sstream>
+#include <iostream>
 
+bool my_alpha(const char x)
+{
+	switch(x)
+	{
+		case 'a':
+		case 'b':
+		case 'x':
+		case 'y':
+		case 'z':
+		return true;
+		default:
+		return false;
+	}
+}
 
 std::string fix_input(const std::string& s)
 {
-	return s;
+	//return s;
 	std::string T;
 	for(unsigned i = 0; i < s.size(); i++)
 	{
 		if(i)
 		{
-			if(isalpha(s[i-1]) && isalpha(s[i]))
+			if(my_alpha(s[i-1]) && my_alpha(s[i]))
 			{T+='*';T+=s[i];}
 			else if(isalpha(s[i-1]) && isdigit(s[i]))
 			{T+='^';T+=s[i];}
@@ -43,7 +58,50 @@ std::string fix_input(const std::string& s)
 		else
 		T+=s[i];
 	}
+
+
 	return T;
+}
+
+
+std::string fix_input_for_display(const std::string& s)
+{
+	if(s.size()<3) return s;
+
+	if(s.substr(2) == "1*") return(s.substr(2,s.size()-2));
+	
+	std::string t = s;
+	while(t.find("+1*") != -1L)
+	t=t.replace(t.find("+1*"),3,"+");
+
+	while(t.find("-1*") != -1L)
+	t=t.replace(t.find("-1*"),3,"-");
+
+	return t;
+}
+
+
+std::string fix_input_for_surf(const std::string& s)
+{
+	
+	std::string t = s;
+	while(t.find("-x") != -1L)
+	t=t.replace(t.find("-x"),2,"-1*x");
+
+	while(t.find("-y") != -1L)
+	t=t.replace(t.find("-y"),2,"-1*y");
+
+	while(t.find("-z") != -1L)
+	t=t.replace(t.find("-z"),2,"-1*z");
+
+	while(t.find("-a") != -1L)
+	t=t.replace(t.find("-a"),2,"-1*a");
+
+	while(t.find("-b") != -1L)
+	t=t.replace(t.find("-b"),2,"-1*b");
+
+
+	return t;
 }
 
 bool check_input(const std::string& s)

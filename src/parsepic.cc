@@ -399,7 +399,7 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 
 	R.antialiasing = anti;
 	R.equation = eq;
-	R.public_eq = peq;
+	R.public_eq = fix_input_for_display(peq);
 	R.general_stuff = gen.str();
 	//R.initial_x = x;
 	//R.initial_y = y;
