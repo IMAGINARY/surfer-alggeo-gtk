@@ -28,7 +28,7 @@ This file contains non-ascii characters, encoding UTF-8.
 
 #include "matrix.hh"
 
-char* fastaa = "";//"antialiasing=2;";
+char fastaa[] = "";//"antialiasing=2;";
 
 //#define SURF_CMD "surf"
 
@@ -113,9 +113,11 @@ m_prev(Gtk::Stock::GO_BACK),
 m_next(Gtk::Stock::GO_FORWARD),
 m_leave_image(Gtk::Stock::LEAVE_FULLSCREEN,Gtk::ICON_SIZE_BUTTON),
 m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
-m_zoom_table(1,3)
+m_zoom_table(1,3),
 
 
+
+m_savefile(Gtk::Stock::SAVE)
 
 {
 	// change window background to white
@@ -189,6 +191,7 @@ m_zoom_table(1,3)
 
 	m_leave.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_noscreen_clicked));
 	m_save.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_save_clicked));
+	m_savefile.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_save_file_clicked));
 	m_print.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_print_clicked));
 	m_full.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_fullscreen_clicked));
 
@@ -212,7 +215,11 @@ m_zoom_table(1,3)
 	m_hscale.set_value_pos(Gtk::POS_LEFT);
 	m_hscale2.set_value_pos(Gtk::POS_RIGHT);
 	m_aframe.add(m_draw);
+        m_aframe.set_shadow_type(Gtk::SHADOW_ETCHED_IN);
         m_aframe.set_shadow_type(Gtk::SHADOW_NONE);
+	m_aframe.modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_aframe.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white"));
+
 
 	add(m_utab);
 
@@ -242,6 +249,8 @@ m_zoom_table(1,3)
 	}
 	else
 	{
+
+		
 
 		m_utab.attach(m_aframe,0, 2, 0, 1 ,Gtk::EXPAND|Gtk::FILL,Gtk::EXPAND|Gtk::FILL);
 		//m_tab.attach(m_utab,0, 3, 0, 1 ,Gtk::EXPAND|Gtk::FILL,Gtk::EXPAND|Gtk::FILL);
@@ -278,7 +287,7 @@ m_zoom_table(1,3)
 		//m_bbox.set_child_min_width(1);
 
 		{
-			char* s = "abxyz+-*^.()0123456789D";
+			char s[] = "abxyz+-*^.()0123456789D";
 			char b[2] = {0,0};
 			for(unsigned i = 0; s[i] != 0; i++)
 			{
@@ -307,6 +316,7 @@ m_zoom_table(1,3)
 			if(!opt.print_cmd.empty())m_fbox.add(m_print);
 			if(!opt.save_cmd.empty())m_fbox.add(m_save);
 			m_fbox.add(m_full);
+			m_fbox.add(m_savefile);
 			m_fbox.set_child_min_width(1);
 
 
@@ -846,7 +856,7 @@ bool SurfBWindow::on_color_motion_notify_event_func(GdkEventMotion* event)
 void SurfBWindow::on_insert_text_func(const Glib::ustring&,int*)
 {
 	
-	std::string t2 = m_entry.get_text();
+	std::string t2 = fix_input(m_entry.get_text());
 	std::string t3;
 	for(unsigned x = 0; x < t2.size(); x++)
 		switch(t2[x])
@@ -857,10 +867,10 @@ void SurfBWindow::on_insert_text_func(const Glib::ustring&,int*)
 		default:  t3+=t2[x];break;
 	}
 
-	if(check_input(fix_input(t2)))
+	if(check_input(t2))
 	{
-	data.equation = fix_input(t3);
-	data.public_eq = fix_input(t2);
+	data.equation = t3;
+	data.public_eq = t2;
 	}
 	else
 	data.equation=1;
@@ -875,7 +885,7 @@ void SurfBWindow::on_insert_text_func(const Glib::ustring&,int*)
 void SurfBWindow::on_delete_text_func(int,int)
 {
 	
-	std::string t2 = m_entry.get_text();
+	std::string t2 = fix_input(m_entry.get_text());
 	std::string t3;
 	for(unsigned x = 0; x < t2.size(); x++)
 		switch(t2[x])
@@ -886,10 +896,10 @@ void SurfBWindow::on_delete_text_func(int,int)
 		default:  t3+=t2[x];break;
 	}
 
-	if(check_input(fix_input(t2)))
+	if(check_input(t2))
 	{
-	data.equation = fix_input(t3);
-	data.public_eq = fix_input(t2);
+	data.equation = t3;
+	data.public_eq = t2;
 	}
 
 	
@@ -1029,7 +1039,7 @@ bool SurfBWindow::on_timer_event_func(int)
 }
 
 
-void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full)
+void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n , bool max_res)
 {
 	if(!valid) return;
 	//if(fullscreen_mode)
@@ -1064,16 +1074,16 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	Gtk::Allocation allocation = m_draw.get_allocation();
 	const int width = allocation.get_width();
 	const int height = allocation.get_height();
-	//std::cout<<width<<std::endl;
+
 	// coordinates for the center of the window
 	
-	const int n = num_threads();
+	
 	
 	
 	int w = full ? data.hires : data.lores;
 	
-	if(w>width-40) w = width-40;
-	if(w>height-40) w = height-40;
+	if(w>width-40 && !max_res) w = width-40;
+	if(w>height-40  && !max_res) w = height-40;
 	
 
 	for(int k=1; k<= n; k++)
@@ -1100,8 +1110,6 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	f<<"height="<< w <<";\n";
 
 
-	
-
 	f<<"double a = "<<data.para_a<<";\n";
 	f<<"double b = "<<data.para_b<<";\n";
 	f<<"poly u="<<data.rot.el(1,1)<<"*x+("<<data.rot.el(1,2)<<")*y+("<<data.rot.el(1,3)<<")*z;\n";
@@ -1112,7 +1120,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 
 	if(!aa.empty())f<<aa<<"\n";
 	//f<<"surface="<<data.equation<<";\n";
-	f<<"surface="<< data.equation <<";\n";
+	f<<"surface="<< fix_input_for_surf(data.equation) <<";\n";
 	f<<"scale_x="<<data.scale*data.initial_scale<<";\n";
 	f<<"scale_y="<<data.scale*data.initial_scale<<";\n";
 	f<<"scale_z="<<data.scale*data.initial_scale<<";\n";
@@ -1145,8 +1153,11 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
         //gtk_widget_set_sensitive(this->window, true);
     //}
 		
-
-
+	if(max_res)
+	{
+		system((opt.surf_cmd+" -n "+script+" " REDIRECTION_APEX).c_str());
+	}
+	else
 	if(full)
 	{
 		
@@ -1219,7 +1230,7 @@ try{
 Glib::RefPtr<Gdk::Pixbuf> surface2 = Gdk::Pixbuf::create_from_file((image+o.str()).c_str());
 Glib::RefPtr<Gdk::Pixbuf> sface2 = surface2->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
 
-dr->draw_pixbuf(some_gc,sface2,0,i*(height-40)/n,20,20+i*(height-40)/n,width-40,(height-40)/n,Gdk::RGB_DITHER_NONE,0,0);
+dr->draw_pixbuf(some_gc,sface2,0,i*(height-40)/n,20,20+i*(height-40)/n,width-40,(height-40)/n+((i==n-1)?0:1),Gdk::RGB_DITHER_NONE,0,0);
 }
 catch(...){finished=false;}
 
@@ -1675,6 +1686,53 @@ void SurfBWindow::on_save_clicked()
 	system((""+s1).c_str());
 }
 
+
+void SurfBWindow::on_save_file_clicked()
+{
+	Gtk::FileChooserDialog dialog(*this,"Bild speichern",Gtk::FILE_CHOOSER_ACTION_SAVE);
+	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+
+
+	Gtk::FileFilter filter_jpeg;
+	  filter_jpeg.set_name("JPEG-Bilder (.jpg)");
+	  filter_jpeg.add_mime_type("image/jpeg");
+	  dialog.add_filter(filter_jpeg);
+
+		/*
+	  Gtk::FileFilter filter_ppm;
+	  filter_ppm.set_name("Portable Pixmap-Bilder (.ppm)");
+	  filter_ppm.add_mime_type("image/x-portable-bitmap");
+	  filter_ppm.add_mime_type("image/x-portable-pixmap");
+	  dialog.add_filter(filter_ppm);
+	*/
+
+	  Gtk::FileFilter filter_any;
+	  filter_any.set_name("Alle Dateien");
+	  filter_any.add_pattern("*");
+	  dialog.add_filter(filter_any);
+	  dialog.set_current_name(data.name+".jpg");
+
+
+        int result = dialog.run();
+
+
+
+	if(result == Gtk::RESPONSE_OK)
+	{
+		std::string of = opt.format;
+		opt.format = "jpg";
+		
+		std::string t = dialog.get_filename();
+		if(t.find("\"")==-1L && t.find(".")==-1L)
+		t = t+"."+opt.format;
+		
+		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",t,data.antialiasing,true,1,true);
+
+		opt.format = of;
+	}
+}
+
 void SurfBWindow::on_noscreen_clicked()
 {
 hide();
@@ -1702,9 +1760,9 @@ void SurfBWindow::on_next_clicked()
 {
 	if(gal.empty()) return;
 	if(gal[current_gal].file.empty()) return;
-	//std::cout<<current_surf <<" -> ";
+
 	current_surf = (current_surf+1 )%gal[current_gal].file.size();
-	//std::cout<<current_surf <<std::endl;
+
 
 	data =  gal[current_gal].file[current_surf];
 	
@@ -1796,7 +1854,7 @@ void SurfBWindow::adjust_visibility()
 	if(fa) m_hscale.show(); else m_hscale.hide();
 	if(fb) m_hscale2.show(); else m_hscale2.hide();
 
-	valid = check_input(m_entry.get_text());
+	valid = check_input(fix_input(data.public_eq));
 	if(valid)
 	{
 	std::remove(((TEMP_ROOT_SEP+"surfb_x.ppm").c_str()));
@@ -1882,6 +1940,7 @@ void SurfBWindow::check_image(const std::string& script, const std::string& imag
 
 	
 	std::string cmd = opt.surf_cmd+" -n \""+script+"\" " REDIRECTION_APEX;
+	
 	system(cmd.c_str());
 		//if(w)gdk_window_set_cursor(w, NULL);
 	
