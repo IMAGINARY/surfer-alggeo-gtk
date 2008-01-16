@@ -43,7 +43,10 @@ typedef pid_t PID_type;
 
 bool check_input(const std::string& s);
 std::string fix_input(const std::string& s);
+std::string fix_input_for_display(const std::string& s);
+std::string fix_input_for_surf(const std::string& s);
 
+int num_threads();
 
 struct color_rgb256
 {
@@ -199,6 +202,10 @@ Gtk::Image m_zoom_image;
 Gtk::Table m_zoom_table;
 Gtk::Image m_scale_free;
 Gtk::Label m_error;
+
+Gtk::Button m_savefile;
+
+
 bool on_gallery_press_event(GdkEventButton* e, int i);
 
 bool waiting;
@@ -253,7 +260,9 @@ void on_insert_text_func(const Glib::ustring&,int*);
 void on_delete_text_func(int,int);	
 
 void refresh(const std::string& script, const std::string& image, const std::string& aa, bool full = false);
-void refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full = false);
+void refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n = num_threads(), bool max_res = false);
+
+
 void refresh_display(const std::string& image, bool full = false);
 
 bool on_color_button_press_event_func(GdkEventButton* event);
@@ -283,6 +292,7 @@ void on_letter_clicked_func(char s);
 void on_fullscreen_clicked();
 void on_print_clicked();
 void on_save_clicked();
+void on_save_file_clicked();
 void on_noscreen_clicked();
 void on_left_clicked();
 void on_right_clicked();
@@ -419,7 +429,6 @@ PID_type system_async(const std::string& s, const std::string& ulimit, const sur
 
 
 void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt);
-int num_threads();
 
 void init_threads();
 
