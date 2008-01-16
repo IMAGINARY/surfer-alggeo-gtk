@@ -32,30 +32,13 @@
 #include<float.h>
 
 
-template<typename Z, int n>
-struct c_array
-{
-Z data[n];
-unsigned siz;
-
-c_array(): data(), siz(0) {for(int i = 0; i < n; i++)data[i]=0;}
-c_array(const unsigned N): data(), siz(N) {for(int i = 0; i < n; i++)data[i]=0;}
-~c_array() {}
-
-unsigned size() const {return siz;}
-void push_back(const Z& x) {data[siz++]=x;}
-void resize(const unsigned N) {siz=N;}
-Z operator[](const unsigned i) const {return data[i];}
-Z& operator[](const unsigned i)  {return data[i];}
-};
-
 template< typename T>
 class matrix
 {
 	typedef std::valarray<T> data;
 	public:
-		matrix(const int n, T default);
-		matrix(const int n, const int m, T default);
+		matrix(const int, const T& = T(0));
+		matrix(const int, const int, const T& = T(0));
 		matrix(const matrix& M);
 		matrix(const int n, const int m, const data& V);
 		matrix& operator=(const matrix& M);
@@ -86,17 +69,13 @@ class matrix
 };
 
 template <typename T>
-matrix<T>::matrix(const int N, T default): n(N), m(N), A(N*N)
+matrix<T>::matrix(const int N, const T& d): n(N), m(N), A(d,N*N)
 {
-	for( unsigned i = 0; i < A.size(); i++ )
-		A[i] = default;
 }
 
 template <typename T>
-matrix<T>::matrix(const int N, const int M, T default): n(N), m(M), A(N*M)
+matrix<T>::matrix(const int N, const int M, const T& d): n(N), m(M), A(d,N*M)
 {
-	for( unsigned i = 0; i < A.size(); i++ )
-		A[i] = default;
 }
 
 template <typename T>
