@@ -79,7 +79,9 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 		if(i)
 		buf<<(i+1);
 
-		std::string cmd = (opt.surf_cmd + (" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str())+" "SURF_OPT +" \""+script+buf.str()+"\" " REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
+		std::string cmd = (opt.surf_cmd + ((n!=1)?(" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str()):"")+" "SURF_OPT +" \""+script+buf.str()+"\" " REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
+
+
 		//std::cout<<cmd<<std::endl;
 		system(cmd.c_str());
 	}
