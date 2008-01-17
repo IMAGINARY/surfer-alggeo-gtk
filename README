@@ -1,0 +1,72 @@
+Surfer
+Interactive Visualization of Algebraic Surfaces
+
+developed for the touring exhibition IMAGINARY 2008 of Mathematisches Forschungsinstitut Oberwolfach.
+http://www.imaginary2008/
+
+
+INSTALLATION INSTRUCTIONS
+
+Read this if you want to compile from source on a unix-like operating system
+(Linux, FreeBsd, Mac OS X, Cygwin).
+
+Before you can use Surfer, you have to install surf,
+preferably the version shipped with this source, which supports partial rendering.
+
+First compile and install surf, as described in the documentation for surf.
+
+Next, issue these commands in the directory containing the source:
+
+./configure
+make
+sudo make install
+
+This will fail if you don't have the necessary libraries installed,
+Surfer depends on Gtk-- 2.8, the corresponding package will be called something like
+gtkmm2.4-dev or gtkmm-2.4-dev.
+It may happen, that your version of gtkmm does not need cairo,
+the configure script assumes that you need cairo and fails if doesn't find cairo.
+In that case, type
+g++ -o surfer src/*.cc `pkg-config --cflags --libs gtkmm-2.4`
+
+
+Compiling with multicore support:
+
+If your compiler supports OpenMP, then you should pass the options enabling OpenMP
+to the configure script.
+
+Example:
+g++ has support for OpenMP beginning with version 4.2
+If you are using g++ (the executable might be called g++-4.2) then issue the following command
+
+CXX="g++-4.2" CXXFLAGS="-fopenmp" ./configure
+
+instead of ./configure as described above.
+
+-----------------
+CONFIGURING
+
+After installation, run the program.
+You will find a file .surfer in your home directory
+(a file surfer in the installation directory if you are using windows)
+where you can modify the following options
+
+gallery=   path to gallery files for surf
+
+print=     issue a command here that prints an image. The sign # will be replaced by the image file to be printed.
+           for example
+           print=convert # print.ps ; lpr print.ps
+
+surf=      the command to invoke surf
+
+upscale=   values greater than 1.0 increase resolution, values smaller than 1.0 increase performance
+
+
+COMMAND LINE ARGUMENTS
+usage:
+surfer [-f] [file]
+where
+-f     toggles between fullscreen and windowed mode
+file   is a surf script containing the surface to be visualized
+       if file is -, then Surfer will read standard input
+
