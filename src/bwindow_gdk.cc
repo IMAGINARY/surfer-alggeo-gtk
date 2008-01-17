@@ -32,7 +32,7 @@ char fastaa[] = "";//"antialiasing=2;";
 
 //#define SURF_CMD "surf"
 
-bool no_full = true;
+bool no_full = false;
 
 double current_x = 0;
 double current_y = 0;
@@ -276,7 +276,7 @@ m_savefile(Gtk::Stock::SAVE)
 		m_utab.attach(m_note,3,4,0,2,Gtk::SHRINK);
 
 
-		if(!no_full)fullscreen(); 
+		
 		set_border_width(4);
 
 
@@ -453,6 +453,7 @@ void SurfBWindow::start()
 	on_timer_event_func(0);
 	button_down = false;
 
+	
 	
 
 	if(!personalized) on_next_clicked();
@@ -967,6 +968,14 @@ bool SurfBWindow::on_button_changed_func(GdkEventButton* )
 
 bool SurfBWindow::on_timer_event_func(int)
 {
+	if(get_window())
+	{
+		if(!no_full)
+		{
+			fullscreen();
+			no_full = true;
+		}
+	}
 	//moving_x++;
 	//if(moving_x>=total_x) moving_x = 0;
 
