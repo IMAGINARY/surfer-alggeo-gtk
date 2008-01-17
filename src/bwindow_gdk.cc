@@ -453,7 +453,8 @@ void SurfBWindow::start()
 	on_timer_event_func(0);
 	button_down = false;
 
-	
+	//set_modal();
+	//fullscreen();
 	
 
 	if(!personalized) on_next_clicked();

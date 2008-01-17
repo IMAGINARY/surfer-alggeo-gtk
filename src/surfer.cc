@@ -35,6 +35,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 }
 #endif
 
+
+class TWindow: public Gtk::Window
+{
+public:
+SurfBWindow& sbw;
+
+TWindow(SurfBWindow& s):sbw(s)
+{
+
+}
+
+virtual bool on_expose_event(GdkEventExpose*)
+{
+
+//virtual bool on_button_press_event(GdkEventButton* )
+//{
+	if(!get_window()) return false;
+	sbw.show();
+	sbw.set_modal();
+	sbw.fullscreen();
+	Gtk::Main::run(sbw);
+	hide();
+	return true;
+}
+};
+
 int main (int argc, char *argv[])
 {
 
@@ -89,12 +115,18 @@ temp_dir = GetTempPath();
 
   SurfBWindow sbw(*i, G,so,(argc>1 && std::string(argv[1])=="-f")  ,personalized);
 
-  
+
 
   sbw.start();
+//sbw.show();
+//	sbw.set_modal();
+//	sbw.fullscreen();
+	
+  TWindow t(sbw);
   //Shows the window and returns when it is closed.
   //for(;;)
-	Gtk::Main::run(sbw);
+if(!no_full)	Gtk::Main::run(t);
+else Gtk::Main::run(sbw);
 
   return 0;
 }
