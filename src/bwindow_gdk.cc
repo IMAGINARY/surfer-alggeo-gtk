@@ -1705,8 +1705,8 @@ void SurfBWindow::on_save_file_clicked()
 
 
 	Gtk::FileFilter filter_jpeg;
-	  filter_jpeg.set_name("JPEG-Bilder (.jpg)");
-	  filter_jpeg.add_mime_type("image/jpeg");
+	  filter_jpeg.set_name("Portable Network Graphics (.png)");
+	  filter_jpeg.add_mime_type("image/png");
 	  dialog.add_filter(filter_jpeg);
 
 		/*
@@ -1721,7 +1721,7 @@ void SurfBWindow::on_save_file_clicked()
 	  filter_any.set_name("Alle Dateien");
 	  filter_any.add_pattern("*");
 	  dialog.add_filter(filter_any);
-	  dialog.set_current_name(data.name+".jpg");
+	  dialog.set_current_name(data.name+".png");
 
 
         int result = dialog.run();
@@ -1730,16 +1730,18 @@ void SurfBWindow::on_save_file_clicked()
 
 	if(result == Gtk::RESPONSE_OK)
 	{
-		std::string of = opt.format;
-		opt.format = "jpg";
+		//std::string of = opt.format;
+		//opt.format = "jpg";
 		
 		std::string t = dialog.get_filename();
 		if(t.find("\"")==-1L && t.find(".")==-1L)
-		t = t+"."+opt.format;
+		t = t+".png";
 		
-		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",t,data.antialiasing,true,1,true);
+		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",data.antialiasing,true,1,true);
+		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP+"surfb_s.ppm");
+		img->save(t,"png");
 
-		opt.format = of;
+		//opt.format = of;
 	}
 }
 
