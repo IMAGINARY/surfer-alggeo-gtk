@@ -32,7 +32,7 @@ char fastaa[] = "";//"antialiasing=2;";
 
 //#define SURF_CMD "surf"
 
-bool no_full = false;
+bool no_full = true;
 
 double current_x = 0;
 double current_y = 0;
