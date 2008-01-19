@@ -181,9 +181,10 @@ Gtk::Table m_tab;
 Gtk::DrawingArea m_draw;
 AScale m_hscale;
 AScale m_hscale2;
-
+Gtk::Label m_zero;
 ZScale m_vscale;
-
+Gtk::Table m_entryinside;
+Gtk::Frame m_entryframe;
 Gtk::HBox m_bbox;
 std::vector<Gtk::Button> v_butt;
 

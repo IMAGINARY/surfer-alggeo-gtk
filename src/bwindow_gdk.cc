@@ -114,7 +114,7 @@ m_next(Gtk::Stock::GO_FORWARD),
 m_leave_image(Gtk::Stock::LEAVE_FULLSCREEN,Gtk::ICON_SIZE_BUTTON),
 m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
 m_zoom_table(1,3),
-
+m_zero("=0"),
 
 
 m_savefile(Gtk::Stock::SAVE)
@@ -344,8 +344,13 @@ m_savefile(Gtk::Stock::SAVE)
 		//m_ltab.attach(m_entryfield,0,2,3,4,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 
 			m_entryfield.attach(m_left,0,1,0,1,Gtk::SHRINK,Gtk::SHRINK);
-			m_entryfield.attach(m_entry,1,2,0,1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
-			m_entryfield.attach(m_right,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
+			m_entryfield.attach(m_entryframe,1,2,0,1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
+			m_entryinside.attach(m_entry,1,2,0,1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
+			m_entryframe.add(m_entryinside);
+			m_entryframe.set_shadow_type(Gtk::SHADOW_IN);
+			m_entry.set_has_frame(false);
+			m_entryinside.attach(m_zero,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
+			m_entryfield.attach(m_right,3,4,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
 //m_tab.attach(m_colors,0,1,0,1,Gtk::SHRINK,Gtk::SHRINK);
 //m_tab.attach(m_colors_inside,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
@@ -374,7 +379,7 @@ m_savefile(Gtk::Stock::SAVE)
 
 			m_note.append_page(m_info,"Info","z");
 
-			m_info.set_size_request(300,600);
+			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
 
 			m_gtab.attach(*new Gtk::Image,1,2,0,1);
@@ -442,6 +447,16 @@ m_savefile(Gtk::Stock::SAVE)
 
 void SurfBWindow::start()
 {
+		std::string image = TEMP_ROOT_SEP+"surfb.ppm";
+		int n = num_threads();
+		std::remove((image).c_str());
+		for(int i = 2; i <= n; i++)
+		{
+			std::ostringstream o;
+			o<<i;
+
+			std::remove((image+o.str() ).c_str());
+		}
 
 	std::vector<parsepic_out> R;
 	add_data(R);
@@ -455,8 +470,9 @@ void SurfBWindow::start()
 
 	//set_modal();
 	//fullscreen();
-	
 
+	
+	
 	if(!personalized) on_next_clicked();
 	
 

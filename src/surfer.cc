@@ -75,10 +75,11 @@ temp_dir = GetTempPath();
 
  // HelloWorld helloworld;
   bool personalized = false;
-  std::istream* i = NULL;
+  std::istream* i = new std::istringstream("");
 
   init_threads();
 
+arg_inspect:
   if(argc>1)
   {
 	if(std::string(argv[1])=="-")
@@ -92,6 +93,9 @@ temp_dir = GetTempPath();
 		//std::cout<<"generating thumbnails finished"<<std::endl;
 		//return 0;
 		no_full = !no_full;
+		argc--;
+		argv++;
+		goto arg_inspect;
 		
 	}
 	else
@@ -99,7 +103,7 @@ temp_dir = GetTempPath();
 		personalized = true;
 		i = new std::ifstream(argv[1]);
 	}
-  }else i = new std::istringstream("");
+  }
 
   std::string optfile = fix_file("~" DIR_SEP HIDDEN_MARKER "surfer");
 
