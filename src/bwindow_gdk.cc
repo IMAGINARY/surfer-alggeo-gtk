@@ -1181,7 +1181,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 		
 	if(max_res)
 	{
-		system((opt.surf_cmd+" -n "+script+" " REDIRECTION_APEX).c_str());
+		system((opt.surf_cmd+" -n \""+script+"\" " REDIRECTION_APEX).c_str());
 	}
 	else
 	if(full)
@@ -1691,11 +1691,12 @@ sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_time
 
 void SurfBWindow::on_print_clicked()
 {
+//FIXME : das geht nur singlecore
 	std::string s1 = fix_file(opt.print_cmd);
 	while(s1.find("#")!=-1)
 	{
 		int i = s1.find("#");
-		s1.replace(i,1, TEMP_ROOT_SEP +"surfb_f.ppm");
+		s1.replace(i,1, "\""+TEMP_ROOT_SEP +"surfb_f.ppm\"");
 	}
 	
 	system((""+s1).c_str());
@@ -1703,6 +1704,7 @@ void SurfBWindow::on_print_clicked()
 
 void SurfBWindow::on_save_clicked()
 {
+//FIXME : das geht nur singlecore
 	std::string s1 = fix_file(opt.save_cmd);
 	while(s1.find("#")!=-1)
 	{
@@ -1753,10 +1755,13 @@ void SurfBWindow::on_save_file_clicked()
 		if(t.find("\"")==-1L && t.find(".")==-1L)
 		t = t+".png";
 		
+		try{
 		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",data.antialiasing,true,1,true);
 		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP+"surfb_s.ppm");
 		img->save(t,"png");
-
+		}
+		catch(...)
+		{}
 		//opt.format = of;
 	}
 }

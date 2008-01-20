@@ -434,6 +434,29 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 void init_threads();
 
 
+class AboutWindow: public Gtk::Window
+{
+private:
+Gtk::Table m_tab;
+
+Gtk::Image i_mfo;
+Gtk::Label l_mfo;
+
+Gtk::Image i_bmbf;
+Gtk::Label l_bmbf;
+
+Gtk::Image i_surf;
+Gtk::Label l_surf;
+
+Gtk::Image i_surfer;
+Gtk::Label l_surfer;
+
+
+
+public:
+};
+
+
 #ifndef WIN32
 #ifdef WIN_32
 #define WIN32 WIN_32
