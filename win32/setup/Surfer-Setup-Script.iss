@@ -63,6 +63,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ; Surfer-Files
 Source: "..\bin\surfer.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "..\..\surfer"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "..\..\surfer-help.pdf"; DestDir: "{app}"; Flags: ignoreversion; Components: main
 Source: "..\..\gallery\*"; DestDir: "{app}\gallery"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main
 ; Surf-Files
 Source: "..\..\..\..\surf\trunk\win32\bin\jpeg62.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main

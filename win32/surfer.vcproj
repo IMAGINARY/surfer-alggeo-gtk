@@ -232,6 +232,10 @@
 				RelativePath="..\src\win32.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\src\xpm_data.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"

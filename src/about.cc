@@ -193,15 +193,15 @@ void AboutWindow::on_help_click()
 		case ERROR_FILE_NOT_FOUND:
 		case SE_ERR_ACCESSDENIED:
 		{
-			Gtk::MessageDialog m(*this,"Auf die Hilfe-Datei kann nicht zugegriffen werden.",Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
-			m.run()
+			Gtk::MessageDialog m(*this,"Auf die Hilfe-Datei kann nicht zugegriffen werden.",false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			m.run();
 			break;
 		}
-		case SE_ERR_NO_ASSOC:
+		case SE_ERR_NOASSOC:
 		case SE_ERR_ASSOCINCOMPLETE:
 		{
-			Gtk::MessageDialog m(*this,"Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe Reader.",Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
-			m.run()
+			Gtk::MessageDialog m(*this,"Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe Reader.",false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			m.run();
 			break;
 		}
 		
