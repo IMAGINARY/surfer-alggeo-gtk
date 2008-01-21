@@ -473,7 +473,7 @@ Gtk::Alignment a1;
 Gtk::Alignment a2;
 Gtk::Alignment a3;
 Gtk::Alignment a4;
-Gtk::Alignment a5,a7;
+Gtk::Alignment a5,a7,a8;
 Gtk::Alignment a6;
 
 

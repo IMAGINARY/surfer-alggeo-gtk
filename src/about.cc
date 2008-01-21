@@ -38,7 +38,7 @@ l_credits(
 "Gesamtleitung: Gert-Martin Greuel\n"
 "Programmierung: Henning Meyer und Christian Stussak\n"
 "Konzept/Galerien: Oliver Labs\n"
-"Untersttzung: Felix Riemann\n"
+"Unterstützung: Felix Riemann\n"
 "Konzept/Koordination"),
 l_copy("(c) Mathematisches Forschungsinstitut Oberwolfach und Technische Universität Kaiserslautern, 2008"),
 l_info("Die aktuelle Version und mehr Informationen zu Surfer finden Sie auf der Webseite http://surfer.imaginary2008.de/ und http://www.imaginary2008.de/"),
@@ -50,10 +50,11 @@ a3(0.0,0.5,0.0,0.0),
 a4(0.0,0.5,0.0,0.0),
 a5(0.0,0.5,0.0,0.0),
 a7(0.0,0.5,0.0,0.0),
+a8(0.0,0.5,0.0,0.0),
 a6(0.0,0.5,0.0,0.0)
 {
 
-
+l_surfer1.set_markup("<span weight=\"bold\">Surfer</span>");
 m_close.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_close_click));
 m_guide.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_help_click));
 
@@ -79,8 +80,8 @@ a1.add(l_surfer1);
 
 //m_tab.attach(l_surfer2,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
-
-m_tab.attach(i_surfer,0,1,1,2);
+a8.add(i_surfer);
+m_tab.attach(a8,0,2,1,2);
 
 a3.add(l_surfer3);
 m_tab.attach(a3,0,2,2,3);
