@@ -81,10 +81,6 @@ surfer_options default_settings()
 	so.format = "ppm";
 	so.resolution = PREVIEW_SIZE;
 	so.surf_cmd="surf";
-	so.surf_4[0]="surf_1_4";
-	so.surf_4[1]="surf_1_4";
-	so.surf_4[2]="surf_1_4";
-	so.surf_4[3]="surf_1_4";
 	so.upscale = 1;
 	return so;
 }
@@ -98,6 +94,9 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"resolution="<<so.resolution<<std::endl;
 	f<<"surf="<<so.surf_cmd<<std::endl;
 	f<<"upscale="<<so.upscale<<std::endl;
+	f<<"entryfont="<<so.entryfont<<std::endl;
+	f<<"help="<<so.help_cmd<<std::endl;
+	f<<"helpfile="<<so.helpfile<<std::endl;
 	return f;
 }
 
@@ -142,6 +141,9 @@ surfer_options read_settings_from_file(const std::string& filename)
 		if(t1 == "gallery") so.gallery_path = fix_file(t2);
 		if(t1 == "print") so.print_cmd = t2;
 		if(t1 == "save") so.save_cmd = t2;
+		if(t1 == "entryfont") so.entryfont = t2;
+		if(t1 == "help") so.help_cmd = t2;
+		if(t1 == "helpfile") so.helpfile = t2;
 		if(t1 == "format") so.format = t2;
 		if(t1 == "resolution")
 		{

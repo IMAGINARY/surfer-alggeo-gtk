@@ -128,8 +128,10 @@ struct surfer_options
 	std::string surf_cmd;
 	std::string surf_4[4];
 	std::string surf_2[2];
+	std::string entryfont;
 	
-	
+	std::string helpfile;
+	std::string help_cmd;
 };
 
 class ZScale: public Gtk::VScale
@@ -238,6 +240,8 @@ Gtk::Button m_leave;
 Gtk::Button m_next;
 Gtk::Button m_prev;
 
+Gtk::Button m_about;
+
 Gtk::HButtonBox m_backfor;
 
 int current_gal;
@@ -292,6 +296,7 @@ void on_letter_clicked_func(char s);
 
 void on_fullscreen_clicked();
 void on_print_clicked();
+void on_about_clicked();
 void on_save_clicked();
 void on_save_file_clicked();
 void on_noscreen_clicked();
@@ -353,9 +358,6 @@ std::ostream& write(const surfer_options& so, std::ostream& f);
 
 std::string fix_file(const std::string& s);
 
-
-void my_system(const std::string& s, const std::string& s2, const std::string& ulimit, const surfer_options& opt);
-void my_kill(PID_type pid);
 
 
 
@@ -436,6 +438,8 @@ void init_threads();
 
 class AboutWindow: public Gtk::Window
 {
+public:
+AboutWindow(const surfer_options& so);
 private:
 Gtk::Table m_tab;
 
@@ -449,10 +453,33 @@ Gtk::Image i_surf;
 Gtk::Label l_surf;
 
 Gtk::Image i_surfer;
-Gtk::Label l_surfer;
+Gtk::Image i_math;
+Gtk::Label l_surfer1;
+Gtk::Label l_surfer2;
+Gtk::Label l_surfer3;
+Gtk::Label l_surfer4;
+
+Gtk::Label l_info;
+Gtk::Label l_contact;
+Gtk::Label l_copy;
+Gtk::Label l_credits;
+
+Gtk::Button m_guide;
+
+Gtk::Button m_close;
+Gtk::VBox m_b;
+
+Gtk::Alignment a1;
+Gtk::Alignment a2;
+Gtk::Alignment a3;
+Gtk::Alignment a4;
+Gtk::Alignment a5,a7;
+Gtk::Alignment a6;
 
 
-
+void on_close_click();
+void on_help_click();
+surfer_options opt;
 public:
 };
 

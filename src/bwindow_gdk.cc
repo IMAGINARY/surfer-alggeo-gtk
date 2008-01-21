@@ -92,6 +92,7 @@ m_cframe("Flächenseite 1", /* label */
 		1.0, /* xsize/ysize = 1 */
 		false /* ignore child's aspect */),
 m_full(Gtk::Stock::FULLSCREEN),
+m_about(Gtk::Stock::ABOUT),
 m_iframe("Flächenseite 2", /* label */
 		Gtk::ALIGN_CENTER, /* center x */
 		Gtk::ALIGN_CENTER, /* center y */
@@ -138,8 +139,10 @@ m_savefile(Gtk::Stock::SAVE)
 	m_colors_inside.set_size_request(200, 200);
 	//m_colors_back.set_size_request(200, 200);
 
+	
+	if(!opt.entryfont.empty()) m_entry.modify_font(Pango::FontDescription(opt.entryfont));
 
-
+	
 
 
 	m_draw.signal_expose_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_expose_event_func) );
@@ -194,7 +197,7 @@ m_savefile(Gtk::Stock::SAVE)
 	m_savefile.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_save_file_clicked));
 	m_print.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_print_clicked));
 	m_full.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_fullscreen_clicked));
-
+	m_about.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
 	m_left.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_left_clicked));
 	m_right.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_right_clicked));
 
@@ -297,7 +300,7 @@ m_savefile(Gtk::Stock::SAVE)
 
 				if(s[i]=='D')
 				{
-					B = new Gtk::Button("Entf");
+					B = new Gtk::Button("Löschen");
 					//B -> set_image(*new Gtk::Image(Gtk::Stock::DELETE,Gtk::ICON_SIZE_BUTTON));
 				}
 				else
@@ -314,13 +317,14 @@ m_savefile(Gtk::Stock::SAVE)
 
 			m_utab.attach(m_error,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
 			if(!opt.print_cmd.empty())m_fbox.add(m_print);
-			if(!opt.save_cmd.empty())m_fbox.add(m_save);
-			m_fbox.add(m_full);
+			if(!opt.save_cmd.empty())m_fbox.add(m_save);			
 			m_fbox.add(m_savefile);
+			m_fbox.add(m_about);
 			m_fbox.set_child_min_width(1);
 
 
 			m_backfor.add(m_prev);
+			m_backfor.add(m_full);
 			m_backfor.add(m_next);
 			
 			m_backfor.set_child_min_width(60);
@@ -1649,6 +1653,8 @@ void SurfBWindow::on_letter_clicked_func(char s)
 	}
 	adjust_visibility();
 	
+	
+
 	//m_entry.set_position(m_entry.get_position());
 	return ;
 }
@@ -1770,6 +1776,15 @@ void SurfBWindow::on_noscreen_clicked()
 {
 hide();
 }
+
+void SurfBWindow::on_about_clicked()
+{
+AboutWindow W(opt);
+W.show();
+W.set_modal();
+Gtk::Main::run(W);
+}
+
 
 void SurfBWindow::on_left_clicked()
 {

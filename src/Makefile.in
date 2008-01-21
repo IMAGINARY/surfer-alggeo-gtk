@@ -45,10 +45,11 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_surfer_OBJECTS = bwindow_gdk.$(OBJEXT) fix_input.$(OBJEXT) \
-	gallery.$(OBJEXT) gallerycontrol.$(OBJEXT) options.$(OBJEXT) \
-	parallel.$(OBJEXT) parsepic.$(OBJEXT) rotate.$(OBJEXT) \
-	select.$(OBJEXT) surfer.$(OBJEXT) win32.$(OBJEXT)
+am_surfer_OBJECTS = about.$(OBJEXT) bwindow_gdk.$(OBJEXT) \
+	fix_input.$(OBJEXT) gallery.$(OBJEXT) gallerycontrol.$(OBJEXT) \
+	options.$(OBJEXT) parallel.$(OBJEXT) parsepic.$(OBJEXT) \
+	rotate.$(OBJEXT) select.$(OBJEXT) surfer.$(OBJEXT) \
+	win32.$(OBJEXT) xpm_data.$(OBJEXT)
 surfer_OBJECTS = $(am_surfer_OBJECTS)
 surfer_DEPENDENCIES =
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
@@ -157,8 +158,9 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-surfer_SOURCES = bwindow_gdk.cc fix_input.cc gallery.cc gallerycontrol.cc \
-	options.cc parallel.cc parsepic.cc rotate.cc select.cc surfer.cc win32.cc
+surfer_SOURCES = about.cc bwindow_gdk.cc fix_input.cc gallery.cc \
+	gallerycontrol.cc options.cc parallel.cc parsepic.cc rotate.cc select.cc surfer.cc \
+	win32.cc xpm_data.cc
 
 noinst_HEADERS = surfer.hh bwindow_gdk.hh matrix.hh
 AM_CXXFLAGS = @CXXFLAGS@ @GTKMM_CFLAGS@ 
@@ -229,6 +231,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/about.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bwindow_gdk.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fix_input.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gallery.Po@am__quote@
@@ -240,6 +243,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/surfer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xpm_data.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
