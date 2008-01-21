@@ -55,6 +55,7 @@ a6(0.0,0.5,0.0,0.0)
 
 
 m_close.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_close_click));
+m_guide.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_help_click));
 
 set_border_width(10);
 
