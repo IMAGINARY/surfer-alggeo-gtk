@@ -21,6 +21,9 @@
 
 /* 
 This file contains non-ascii characters, encoding UTF-8.
+
+$Revision$
+
 */
 
 #include "bwindow_gdk.hh"

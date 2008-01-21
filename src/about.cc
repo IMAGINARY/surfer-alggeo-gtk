@@ -159,7 +159,24 @@ hide();
 void AboutWindow::on_help_click()
 {
 #ifdef WIN32
-	ShellExecuteA(NULL,"open",opt.helpfile.c_str(),NULL,NULL,SW_SHOW);
+	switch(int(ShellExecuteA(NULL,"open",opt.helpfile.c_str(),NULL,NULL,SW_SHOW)))
+	{
+		case ERROR_FILE_NOT_FOUND:
+		case SE_ERR_ACCESSDENIED:
+		{
+			Gtk::MessageDialog m(*this,"Auf die Hilfe-Datei kann nicht zugegriffen werden.",Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			m.run()
+			break;
+		}
+		case SE_ERR_NO_ASSOC:
+		case SE_ERR_ASSOCINCOMPLETE:
+		{
+			Gtk::MessageDialog m(*this,"Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe Reader.",Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			m.run()
+			break;
+		}
+		
+	}
 #endif
 }
 
