@@ -64,10 +64,13 @@ std::string rev;
 std::string datum;
 try{
 rev = revstring.substr(11,revstring.size()-1);
+rev = rev.substr(0,rev.find(" "));
+rev = "Revision "+rev;
 }
 catch(...){}
 try{
 datum = datestring.substr(7,datestring.size()-1);
+datum = datum.substr(0,datum.find(" "));
 }
 catch(...){}
 
