@@ -157,7 +157,7 @@ hide();
 void AboutWindow::on_help_click()
 {
 #ifdef WIN32
-ShellExecuteA(NULL,"open",opt.helpfile,NULL,NULL,SW_SHOW);
+	ShellExecuteA(NULL,"open",opt.helpfile.c_str(),NULL,NULL,SW_SHOW);
 #endif
 }
 
