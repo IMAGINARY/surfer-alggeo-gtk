@@ -20,6 +20,10 @@
 
 #include "bwindow_gdk.hh"
 
+extern std::string revstring;
+extern std::string datestring;
+
+
 extern  char * BMBF_RGB_Gef_M_xpm[];
 extern char * mfo_logo_xpm[] ;
 extern char * surfer_small_xpm[] ;
@@ -53,8 +57,30 @@ a7(0.0,0.5,0.0,0.0),
 a8(0.0,0.5,0.0,0.0),
 a6(0.0,0.5,0.0,0.0)
 {
+//$Revision: 
+//0123456789abcdef
+//$Date: 
+std::string rev;
+std::string datum;
+try{
+rev = revstring.substr(11,revstring.size()-1);
+}
+catch(...){}
+try{
+datum = datestring.substr(7,datestring.size()-1);
+}
+catch(...){}
 
-l_surfer1.set_markup("<span weight=\"bold\">Surfer</span>");
+std::string revdat;
+if(!rev.empty()||!datum.empty())
+{
+revdat = " ("+rev;
+if(!rev.empty()&&!datum.empty())
+revdat +=", ";
+revdat +=datum+")";
+}
+
+l_surfer1.set_markup("<span weight=\"bold\">Surfer</span>"+revdat);
 m_close.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_close_click));
 m_guide.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_help_click));
 

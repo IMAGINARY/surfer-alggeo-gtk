@@ -22,14 +22,18 @@
 /* 
 This file contains non-ascii characters, encoding UTF-8.
 
-$Revision$
-
 */
+
+
 
 #include "bwindow_gdk.hh"
 #include "gdkmm/pixbuf.h"
 
 #include "matrix.hh"
+
+std::string revstring = "$Revision$";
+std::string datestring = "$Date$";
+
 
 char fastaa[] = "";//"antialiasing=2;";
 
