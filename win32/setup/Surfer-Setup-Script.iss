@@ -4,7 +4,7 @@
 #define MyAppName "Surfer"
 #define MyAppVerName "Surfer 0.1"
 #define MyAppPublisher "Mathematisches Forschungsinstitut Oberwolfach"
-#define MyAppURL "http://www.imaginary2008.de"
+#define MyAppURL "http://surfer.imaginary2008.de"
 #define MyAppExeName "surfer.exe"
 
 [Setup]

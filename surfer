@@ -1,0 +1,10 @@
+gallery=.\\gallery\
+save=
+print=
+format=ppm
+resolution=150
+surf=surf
+upscale=1
+entryfont=
+help=
+helpfile=surfer-help.pdf

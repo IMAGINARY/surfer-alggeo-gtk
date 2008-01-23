@@ -43,10 +43,10 @@ l_credits(
 "Programmierung: Henning Meyer und Christian Stussak\n"
 "Konzept/Galerien: Oliver Labs\n"
 "Unterstützung: Felix Riemann\n"
-"Konzept/Koordination"),
+"Konzept/Koordination: Andreas Matt"),
 l_copy("(c) Mathematisches Forschungsinstitut Oberwolfach und Technische Universität Kaiserslautern, 2008"),
 l_info("Die aktuelle Version und mehr Informationen zu Surfer finden Sie auf der Webseite http://surfer.imaginary2008.de/ und http://www.imaginary2008.de/"),
-l_contact("Kontakt: surfer@imaginary2008.de"),
+l_contact("Kontakt: surfer@imaginary2008.de\nBesuchen Sie auch unsere Webseite http://surfer.imaginary2008.de\nfür weitere Informationen und neue Versionen von Surfer."),
 m_guide(Gtk::Stock::HELP),
 a1(0.0,0.5,0.0,0.0),
 a2(0.0,0.5,0.0,0.0),
