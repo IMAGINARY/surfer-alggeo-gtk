@@ -69,6 +69,11 @@ int main (int argc, char *argv[])
 #ifdef WIN32
 std::string GetTempPath();
 temp_dir = GetTempPath();
+#else
+{
+	std::string s = std::getenv("USER");
+	temp_dir += s;
+}
 #endif
 
   Gtk::Main kit(argc, argv);
