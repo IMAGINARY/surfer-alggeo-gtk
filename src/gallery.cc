@@ -191,7 +191,7 @@ GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
 	m_IconView.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 	m_VBox.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 
-	//set_title("Gtk::IconView (ListStore + TreeModelSort) example");
+	set_title("Surfer - Fläche auswählen");
   set_border_width(5);
   set_default_size(400, 400);
   add(m_tab);
@@ -244,6 +244,8 @@ try{
               &GalleryWindow::on_selection_changed) );
 
   std::vector<IconEntry> entries;
+
+  m_IconView.set_size_request(1000,400);
   for(unsigned i = 0; i < gal.file.size(); i++)
   {
 	
@@ -271,6 +273,10 @@ try{
 	//std::cout<<"* "<<entries[idx].m_filename<<std::endl;
     add_entry( entries[idx].m_filename, entries[idx].m_description ,idx);
   }
+
+//set_size_request(600,500);
+		maximize();
+		fullscreen();
 
   show_all_children();
 }

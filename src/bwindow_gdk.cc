@@ -113,9 +113,6 @@ m_hscale2(0,1.05,0.05,"b"),
 fullscreen_mode(f),
 gal(G),
 opt(so),
-//m_print(Gtk::Stock::PRINT),
-//m_save(Gtk::Stock::SAVE),
-//m_full(Gtk::Stock::FULLSCREEN),
 m_entryfield(3,1),
 m_prev(Gtk::Stock::GO_BACK),
 m_next(Gtk::Stock::GO_FORWARD),
@@ -179,10 +176,7 @@ m_savefile(Gtk::Stock::SAVE)
 	m_colors_back.add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
 
 
-	m_movie.signal_expose_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_surface_expose_event_func) );
-	m_movie.signal_button_press_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_surface_button_press_event_func) );
-	m_movie.add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
-
+	
 
 	m_entry.signal_insert_text().connect(sigc::mem_fun(*this, &SurfBWindow::on_insert_text_func));
 	m_entry.signal_delete_text().connect(sigc::mem_fun(*this, &SurfBWindow::on_delete_text_func));
@@ -255,6 +249,8 @@ m_savefile(Gtk::Stock::SAVE)
 
 		m_leave.set_image(m_leave_image);
 		set_border_width(0);
+		set_size_request(600,500);
+		maximize();
 		fullscreen();
 	}
 	else
@@ -307,7 +303,9 @@ m_savefile(Gtk::Stock::SAVE)
 
 				if(s[i]=='D')
 				{
+					
 					B = new Gtk::Button("Löschen");
+					//B->set_label(B->get_label());
 					//B -> set_image(*new Gtk::Image(Gtk::Stock::DELETE,Gtk::ICON_SIZE_BUTTON));
 				}
 				else
@@ -339,13 +337,11 @@ m_savefile(Gtk::Stock::SAVE)
 			m_print.set_image(*new Gtk::Image(Gtk::Stock::PRINT,Gtk::ICON_SIZE_BUTTON));
 			m_save.set_image(*new Gtk::Image(Gtk::Stock::SAVE,Gtk::ICON_SIZE_BUTTON));
 			
-			//m_full.set_image(*new Gtk::Image(Gtk::Stock::FULLSCREEN,Gtk::ICON_SIZE_BUTTON));
+
 
 			m_left.set_image(*new Gtk::Image(Gtk::Stock::GO_BACK,Gtk::ICON_SIZE_BUTTON));
 			m_right.set_image(*new Gtk::Image(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON));
 
-			//m_prev.set_image(*new Gtk::Image(Gtk::Stock::GO_BACK,Gtk::ICON_SIZE_BUTTON));
-			//m_next.set_image(*new Gtk::Image(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON));
 
 
 
@@ -479,10 +475,6 @@ void SurfBWindow::start()
 	on_timer_event_func(0);
 	button_down = false;
 
-	//set_modal();
-	//fullscreen();
-
-	
 	
 	if(!personalized) on_next_clicked();
 	
@@ -1000,14 +992,10 @@ bool SurfBWindow::on_timer_event_func(int)
 	{
 		if(!no_full)
 		{
-			fullscreen();
+//			fullscreen();
 			no_full = true;
 		}
 	}
-	//moving_x++;
-	//if(moving_x>=total_x) moving_x = 0;
-
-	//on_surface_expose_event_func(0);
 	
 	Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
 	if( pichange>=5)
@@ -1199,7 +1187,9 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	{
 		
 		//my_kill(kill_list);
-		
+		#ifndef WIN32
+		system("killall -9 surf" REDIRECTION_APEX);
+		#endif
 		
 		std::remove((image).c_str());
 		for(int i = 2; i <= n; i++)
@@ -1305,37 +1295,6 @@ void SurfBWindow::refresh(const std::string& script, const std::string& image, c
 
 
 
-bool SurfBWindow::on_surface_button_press_event_func(GdkEventButton* event)
-{
-//deprecated, obsolete,dead
-
-// This is where we draw on the window
-
-	gallery G;
-	std::vector<parsepic_out>& R = G.file;
-	
-	R.push_back(data);
-	R[0].name = "back";
-	R[0].thumbnail = TEMP_ROOT_SEP +"surfb.ppm";
-	R[0].rot = data.rot;
-	
-	add_data(R);
-
-	SelectWindow s(G,opt);
-
-	s.set_modal();
-	s.fullscreen();
-
-	
-//Shows the window and returns when it is closed.
-	Gtk::Main::run(s);
-	data = s.res;
-	pichange = 5;
-	data.rot = data.rot;
-	m_entry.set_text(data.public_eq);
-	adjust_visibility();
-	return false;
-}
 
 
 
@@ -1683,7 +1642,7 @@ void SurfBWindow::on_fullscreen_clicked()
   //Shows the window and returns when it is closed.
   //hide();
   f.show();
-  f.fullscreen();
+//  f.fullscreen();
   f.adjust_visibility();
   f.m_hscale.set_value(data.para_a);
   f.m_hscale2.set_value(data.para_b);
@@ -1875,7 +1834,7 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	GalleryWindow w(gal[i],opt);
 	w.set_modal();
 	w.show();
-	w.fullscreen();
+	//w.fullscreen();
 	Gtk::Main::run(w);
 	data = w.ret;
 	current_surf = w.isu;

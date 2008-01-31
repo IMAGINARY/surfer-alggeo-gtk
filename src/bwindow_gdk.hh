@@ -322,26 +322,6 @@ PID_type kill_list;
 
 
 
-class SelectWindow : public Gtk::Window
-{
-public:
-SelectWindow(const gallery&, const surfer_options&);
-parsepic_out res;
-private:
-
-Gtk::Table m_tab;
-std::vector<Gtk::DrawingArea*> vdraw;
-
-bool on_surface_expose_event_func(GdkEventExpose*, int index);
-bool on_surface_button_press_event_func(GdkEventButton*, int index);
-
-
-
-std::vector<parsepic_out> R;
-surfer_options opt;
-
-};
-
 void show_gallery(const gallery& g);
 
 std::string trans_eq(const std::string& t2);

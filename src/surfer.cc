@@ -127,13 +127,8 @@ arg_inspect:
 
 
   sbw.start();
-//sbw.show();
-//	sbw.set_modal();
-//	sbw.fullscreen();
 	
   TWindow t(sbw);
-  //Shows the window and returns when it is closed.
-  //for(;;)
 if(!no_full)	Gtk::Main::run(t);
 else Gtk::Main::run(sbw);
 

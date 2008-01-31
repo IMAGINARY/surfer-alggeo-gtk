@@ -289,17 +289,18 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 			t1=="first"||
 			t1=="second"||
 			t1=="third"||
-			t1=="inside_red"||
-			t1=="inside_green"||
-			t1=="inside_blue"||
+			//t1=="inside_red"||
+			//t1=="inside_green"||
+			//t1=="inside_blue"||
 			t1=="save_dithered_image"||
-			t1=="illumination"||
-			t1=="light1_x"||
-			t1=="light1_y"||
-			t1=="light1_z"||
-			t1=="light1_red"||
-			t1=="light1_blue"||
-			t1=="light1_green"||
+			//t1=="illumination"||
+			//t1=="light1_x"||
+			//t1=="light1_y"||
+			//t1=="light1_z"||
+			//t1=="light1_red"||
+			//t1=="light1_blue"||
+			//t1=="light1_green"||
+			//t1=="light1_vol"||
 			t1=="light2_red"||
 			t1=="light2_blue"||
 			t1=="light2_green"||
@@ -321,7 +322,7 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 			t1=="light8_red"||
 			t1=="light8_blue"||
 			t1=="light8_green"||
-			t1=="light1_vol"||
+			
 			t1=="light2_x"||
 			t1=="light2_y"||
 			t1=="light2_z"||
@@ -400,7 +401,9 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 	R.antialiasing = anti;
 	R.equation = eq;
 	R.public_eq = fix_input_for_display(peq);
-	R.general_stuff = gen.str();
+	R.general_stuff = gen.str()+"root_finder=d_chain_newton;\n"
+				   +"epsilon=0.0000001;\n"
+				   +"iterations=1000;\n";
 	//R.initial_x = x;
 	//R.initial_y = y;
 	//R.initial_z = z;

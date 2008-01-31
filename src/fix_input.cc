@@ -48,9 +48,9 @@ std::string fix_input(const std::string& s)
 		{
 			if(my_alpha(s[i-1]) && my_alpha(s[i]))
 			{T+='*';T+=s[i];}
-			else if(isalpha(s[i-1]) && isdigit(s[i]))
+			else if(my_alpha(s[i-1]) && isdigit(s[i]))
 			{T+='^';T+=s[i];}
-			else if(isdigit(s[i-1]) && isalpha(s[i]))
+			else if(isdigit(s[i-1]) && my_alpha(s[i]))
 			{T+='*';T+=s[i];}
 			else
 			{T+=s[i];}

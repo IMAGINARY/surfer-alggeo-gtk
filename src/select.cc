@@ -110,89 +110,6 @@ int sandwich(double x,double l, double u)
 }
 
 
-SelectWindow::SelectWindow(const gallery& r, const surfer_options& o)
-:m_tab(x_dim,y_dim),R(r.file),opt(o)
- 
-{
-
-	
-	
-
-  
-set_title("Auswahl");
-
-  // sets the border width of the window.
-  set_border_width(10);
-
- 
-  add(m_tab);
-  
- 
-
-  for(unsigned x = 0; x < x_dim; x++)
-  for(unsigned y = 0; y < y_dim+1; y+=2)
-  {
-  if(vdraw.size() == R.size())
-	{x = x_dim; y=y_dim; break;}
-  vdraw.push_back(new Gtk::DrawingArea());
-  vdraw.back()->set_size_request(100,100);
-  m_tab.attach(*vdraw.back(),x, x+1, y, y+1 );
-  
-  vdraw.back()->signal_expose_event().connect( sigc::bind(sigc::mem_fun(*this, &SelectWindow::on_surface_expose_event_func) ,vdraw.size()-1));
-
-	vdraw.back()->signal_button_press_event().connect( sigc::bind(sigc::mem_fun(*this, &SelectWindow::on_surface_button_press_event_func) ,vdraw.size()-1));
-
-	vdraw.back()->add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
-
-	
-   std::ostringstream os;
-   //os<<"Surface "<<vdraw.size();
-	
-
-   Gtk::Label* L = new Gtk::Label(R[vdraw.size()-1].name,Gtk::ALIGN_LEFT,Gtk::ALIGN_TOP);
-
-
-   
-  m_tab.attach(*L,x, x+1, y+1, y+2 );
-
-  }
-  
-
-
-
-
-show_all_children();
-
-  }
-
-
-
-bool SelectWindow::on_surface_expose_event_func(GdkEventExpose*, int index)
-{
-	
-
-  Glib::RefPtr<Gdk::Window> window = vdraw[index]->get_window();
-		
-	
-	if(window)
-	{
-	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
-	//some_gc.create(get_window());
-	
-	Glib::RefPtr<Gdk::Drawable> dr(window);
-	
-	try{
-	Glib::RefPtr<Gdk::Pixbuf> surface = Gdk::Pixbuf::create_from_file(R[index].thumbnail);
-	Glib::RefPtr<Gdk::Pixbuf> sface = surface->scale_simple(100,100,Gdk::INTERP_BILINEAR);
-	dr->draw_pixbuf(some_gc,sface,0,0,20,20,-1,-1,Gdk::RGB_DITHER_NONE,0,0);
-	}
-	catch(...){}	
-
-	}
-
-	return true;
-}
-
 
 
 void make_thumb(parsepic_out data,const std::string& script, const std::string& image, const int size, const surfer_options& opt)
@@ -276,14 +193,3 @@ void make_thumbs(const std::vector<parsepic_out>& R, const surfer_options& opt)
 
 
 
-
-bool SelectWindow::on_surface_button_press_event_func(GdkEventButton* event, int index)
-{
-
-  // This is where we draw on the window
-
-	res = R[index];
-	hide();
-
- return true;
-}

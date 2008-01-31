@@ -18,6 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef GALLERY_PATH
+#define GALLERY_PATH ""
+#endif
+
+
 #include "bwindow_gdk.hh"
 #include <cstdlib>
 
@@ -72,7 +77,7 @@ std::string fix_path(const std::string& s)
 surfer_options default_settings()
 {
 	surfer_options so;
-	so.gallery_path = fix_file("~/gallery/");
+	so.gallery_path = fix_file(GALLERY_PATH);
 	//so.save_cmd = "convert # \"~/public_html/surface_\"`date +%Y%m%d_%k%d`\".jpg\"";
 	//so.print_cmd = "convert # /tmp/surf_print.ps && lpr /tmp/surf_print.ps";
 	so.save_cmd = "";
