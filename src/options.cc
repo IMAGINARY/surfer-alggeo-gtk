@@ -19,7 +19,11 @@
  ***************************************************************************/
 
 #ifndef GALLERY_PATH
-#define GALLERY_PATH ""
+#define GALLERY_PATH_USE ""
+#else
+#define xstr(s) astr(s)
+#define astr(s) #s
+#define GALLERY_PATH_USE xstr(GALLERY_PATH)
 #endif
 
 
@@ -77,7 +81,7 @@ std::string fix_path(const std::string& s)
 surfer_options default_settings()
 {
 	surfer_options so;
-	so.gallery_path = fix_file(GALLERY_PATH);
+	so.gallery_path = GALLERY_PATH_USE;
 	//so.save_cmd = "convert # \"~/public_html/surface_\"`date +%Y%m%d_%k%d`\".jpg\"";
 	//so.print_cmd = "convert # /tmp/surf_print.ps && lpr /tmp/surf_print.ps";
 	so.save_cmd = "";

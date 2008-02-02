@@ -1,0 +1,40 @@
+# $Id$
+PortSystem          1.0
+
+name                surfer
+version             0.0.55
+categories          games
+maintainers         mathematik.uni-kl.de:hmeyer
+description         Surfer is a free, interactive visualization tool for Algebraic Surfaces
+long_description    Surfer uses the ray-tracer surf to provide nigh-realtime pictures of algebraic surfaces. 
+homepage            http://surfer.imaginary2008.de/
+platforms           darwin
+master_sites        http://surfer.imaginary2008.de/ \
+                    http://www-user.rhrk.uni-kl.de/~meyer/
+
+checksums           md5 78c4c63cc323a675d8f3dd61e95be588
+
+depends_lib         port:gtkmm \
+                    port:surf \
+                    
+
+configure.args      --prefix=${prefix} \
+                    --exec-prefix=${prefix}
+
+configure.cppflags-append -DGALLERY_PATH=${prefix}/share/${name}/std_gallery                    
+                    
+
+
+post-destroot {
+    # Install gallery files not installed by the Makefile
+    file mkdir ${destroot}${prefix}/share/${name}
+    file copy ${worksrcpath}/gallery/ \
+              ${destroot}${prefix}/share/${name}/std_gallery
+}
+
+variant multicore description {Enables the use of several processors via OpenMP} {
+configure.cflags-append     -fopenmp
+configure.compiler          macports-gcc-4.2
+configure.cxx               g++-4.2
+depends_lib.append          port:gcc42
+}

@@ -39,7 +39,7 @@ l_surfer3("Surfer basiert auf dem Programm surf von Stehpen Endrass et al.\n(htt
 l_surfer4("Surfer wurde für die Ausstellung IMAGINARY entwickelt, die vom Mathematischen Forschungsinstitut Oberwolfach zum Jahr der Mathematik 2008 in Deutschland konzipiert wurde. Die Ausstellung ist vom Bundesministerium von Bildung und Forschung gefördert."),
 m_close(Gtk::Stock::OK),
 l_credits(
-"Gesamtleitung: Gert-Martin Greuel\n"
+"Leitung: Gert-Martin Greuel\n"
 "Programmierung: Henning Meyer und Christian Stussak\n"
 "Konzept/Galerien: Oliver Labs\n"
 "Unterstützung: Felix Riemann\n"

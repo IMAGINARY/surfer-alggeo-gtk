@@ -1,0 +1,31 @@
+# $Id$
+PortSystem          1.0
+
+name                surf
+version             1.0.5.0.55
+categories          games
+maintainers         mathematik.uni-kl.de:hmeyer
+description         Surf is a ray-tracer for Algebraic Surfaces
+long_description    This is the ray-tracer Surf, modified to work with Surfer
+homepage            http://surf.sf.net/
+platforms           darwin
+master_sites        http://surfer.imaginary2008.de/ \
+                    http://www-user.rhrk.uni-kl.de/~meyer/
+
+checksums           md5 6b777bad73e0cf3f85cebfb7bc372b73
+
+depends_lib         port:jpeg \
+                    port:tiff \
+                    port:zlib \
+                    port:gmp \
+                    port:flex
+
+configure.args      --prefix=${prefix} \
+                    --exec-prefix=${prefix} \
+                    --disable-gui
+                    
+
+variant gtk-gui description {Enables Gtk1-based gui for surf} {
+configure.args-delete --disable-gui
+depends_lib.append  port:gtkmm1
+}
