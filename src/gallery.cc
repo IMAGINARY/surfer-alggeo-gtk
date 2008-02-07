@@ -279,6 +279,7 @@ try{
 		fullscreen();
 
   show_all_children();
+  present();
 }
 
 GalleryWindow::~GalleryWindow()
