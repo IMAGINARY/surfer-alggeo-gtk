@@ -1,0 +1,101 @@
+SURFER
+Interaktive Visualisierung  Algebraischer Geometrie
+
+
+*** Installationsanweisungen ***
+
+Diese Anleitung beschreibt, wie man Surfer unter Mac OS X oder Darwin installiert.
+
+
+*** Erster Schritt: ***
+
+Installieren Sie MacPorts.
+MacPorts stellt die Bibliotheken zur Verfuegung, die von Surfer und dem Renderer Surf benutzt werden.
+
+MacPorts und eine Installationsanleitung fuer MacPorts finden Sie unter
+http://www.macports.org/install.php
+
+Stellen Sie sicher, dass sich das Verzeichnis "/opt/local/bin" in ihrem Pfad befindet.
+
+
+(Im Moment gibt es noch kein MacPorts-Paket fuer Surfer, die Quellen muessen manuell kompiliert werden.)
+
+*** Zweiter Schritt: ***
+
+Installieren Sie Surf.
+
+Die folgenden Pakete werden auf dem System benoetigt, um Surf zu kompilieren.
+In den Klammern dahinter steht der Befehl, der es installiert.
+(Hinweis: Sie muessen eventuell "sudo port install" statt "port install" eingeben)
+
+gmp     (port install gmp)
+libtiff (port install tiff)
+libjpeg (port install jpeg)
+zlib    (port install zlib)
+flex    (port install flex)
+
+
+Die Quellen fuer Surf befinden sich im Verzeichnis
+./surf-rev-55/
+
+geben Sie die folgenden Befehle ein, um Surf zu installieren:
+
+cd ./surf-rev-55
+./configure --disable-gui
+make
+sudo make install
+cd ..
+
+
+Dritter Schritt
+Surfer installieren
+
+Surfer benoetigt folgende Bibliothek
+gtkmm-2.4 (port install gtkmm)
+
+Warnung: Die Installation von gtkmm kann mehrere Stunden dauern, selbst auf schnellen Computern.
+Haben Sie bitte Geduld.
+
+Die Quellen fuer Surfer befinden sich im Verzeichnis
+./surfer-rev-55/
+
+geben Sie die folgenden Befehle ein, um Surfer zu installieren:
+
+cd ./surfer-rev-55
+./configure
+make
+sudo make install
+cd ..
+
+
+Sie sollten jetzt in der Lage sein,
+Surfer zu starten, indem sie surfer in ein Terminal eingeben.
+
+Vierter Schritt:
+Die Galerien zu Surfer hinzufuegen
+
+In ./gallery-rev-55/ finden Sie eine Galerie mit Flaechen fuer Surfer.
+
+Kopieren Sie sie an einen geeigneten Ort,
+zum Beispiel
+cp -r ./gallery-rev-55/ ~/Documents/surfer-gallery
+
+Sie muessen Surfer mitteilen, wo sich die Galerie befindet.
+
+Bearbeiten Sie dazu die versteckte Datei ~/.surfer
+und fuegen Sie die folgende Zeile hinzu
+
+gallery=~/Documents/surfer-gallery
+
+Das wars.
+
+Surfer zeigt beim naechsten Start eine Galerie algebraischer Flaechen an.
+-----------------
+
+
+Fragen, Hinweise und Fehlermeldungen ricten Sie bitte an
+surfer@imaginary2008.de
+
+Die aktuellste Version von Surfer finden Sie unter
+http://surfer.imaginary2008.de
+

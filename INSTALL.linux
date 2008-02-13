@@ -1,0 +1,93 @@
+SURFER
+Interactive Visualization of Algebraic Geometry
+
+
+QUICK INSTALLATION INSTRUCTIONS
+
+This guide explains how to install Surfer on your linux system.
+
+
+First Step:
+
+Install the rendering front-end surf:
+
+surf depends on the following packages:
+libgmp  (apt-get install libgmp3-dev)
+libtiff (apt-get install libtiff4-dev)
+libjpeg (apt-get install libjpeg62-dev)
+zlib    (apt-get install zlib1g-dev)
+libx11  (apt-get install libx11-dev)
+flex    (apt-get install flex)
+
+(You may skip this step if you already have surf installed)
+
+You find the source for surf in the subdirectory
+./surf-rev-55/
+
+type the following commands
+to install surf
+
+cd ./surf-rev-55
+./configure --disable-gui
+make
+sudo make install
+cd ..
+
+ [Optional] You might want to:
+ * add compiler flags to increase optimization for speed (e.g. -O4 -march=pentium4)
+ * remove the "--disable-gui"-flag to compile surf with a GTK+-1.2-based user interface.
+  This will add several dependencies on GTK+ and X11 development libraries.
+
+Second Step:
+Install the graphical interface Surfer:
+
+Surfer depends on
+libgtkmm-2.4 (apt-get install libgtkmm-2.4-dev)
+
+You find the source for Surfer in the subdirectory
+./surfer-rev-55/
+
+type the following commands
+to install surfer
+
+cd ./surfer-rev-55
+./configure
+make
+sudo make install
+cd ..
+
+ [Optional] You might want to:
+ * add compiler flags to enable OpenMP support if you are on a multiprocessor or multicore system
+   See surfer-rev-55/README for details on that.
+
+You should now be able to start Surfer by typing "surfer" in a shell.
+
+Third Step:
+Enable gallery files for surfer
+
+In ./gallery-rev-55/ you find a gallery with surfaces for surf.
+
+Copy it to someplace convenient:
+For example
+cp -r ./gallery-rev-55/ ~/Documents/surfer-gallery
+
+You have to tell Surfer where to find the gallery
+Edit (create if it does not exist) the hidden file ~/.surfer
+and add the following line
+
+gallery=~/Documents/surfer-gallery
+
+That's it.
+
+Surfer should display a gallery of algebraic surfaces upon start.
+-----------------
+
+You find additional instructions in the
+relative manuals of surf and surfer.
+
+Questions, suggestions, bug reports and feature requests go to
+surfer@imaginary2008.de
+
+The latest version of surfer can always be found at
+http://surfer.imaginary2008.de
+
