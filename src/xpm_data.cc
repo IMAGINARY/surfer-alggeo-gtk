@@ -680,7 +680,7 @@ char * mfo_logo_xpm[] = {
 char * surfer_small_xpm[] = {
 "55 55 1039 2",
 "  	c None",
-". 	c #FFFFFF",
+". 	c None",
 "+ 	c #FCFCF9",
 "@ 	c #F1F3E2",
 "# 	c #E3E8C9",

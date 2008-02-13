@@ -91,6 +91,7 @@ surfer_options default_settings()
 	so.resolution = PREVIEW_SIZE;
 	so.surf_cmd="surf";
 	so.upscale = 1;
+	so.print_resolution = 1740;
 	return so;
 }
 
@@ -101,6 +102,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"print="<<so.print_cmd<<std::endl;
 	f<<"format="<<so.format<<std::endl;
 	f<<"resolution="<<so.resolution<<std::endl;
+	f<<"print_resolution="<<so.print_resolution<<std::endl;
 	f<<"surf="<<so.surf_cmd<<std::endl;
 	f<<"upscale="<<so.upscale<<std::endl;
 	f<<"entryfont="<<so.entryfont<<std::endl;
@@ -158,6 +160,11 @@ surfer_options read_settings_from_file(const std::string& filename)
 		{
 			std::istringstream iss(t2);
 			iss>>so.resolution;
+		}
+		if(t1 == "print_resolution")
+		{
+			std::istringstream iss(t2);
+			iss>>so.print_resolution;
 		}
 		if(t1 == "upscale"||t1=="upscaling")
 		{

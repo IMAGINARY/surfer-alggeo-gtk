@@ -85,6 +85,9 @@ struct parsepic_out
 	
 	double para_a;
 	double para_b;
+	double para_c;
+	double para_d;
+
 
 	std::string name;
 	std::string thumbnail;
@@ -118,6 +121,8 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 struct surfer_options
 {
 	std::string print_cmd;
+	int print_resolution;
+
 	std::string save_cmd;
 	std::string gallery_path;
 	int resolution;
@@ -126,8 +131,6 @@ struct surfer_options
 	double upscale;
 
 	std::string surf_cmd;
-	std::string surf_4[4];
-	std::string surf_2[2];
 	std::string entryfont;
 	
 	std::string helpfile;
@@ -181,9 +184,15 @@ void adjust_visibility();
 std::vector<gallery> gal;
 Gtk::Table m_tab;
 Gtk::DrawingArea m_draw;
+Gtk::Label m_zero;
 AScale m_hscale;
 AScale m_hscale2;
-Gtk::Label m_zero;
+
+Gtk::Label m_printing;
+
+AScale m_hscale3;
+AScale m_hscale4;
+
 ZScale m_vscale;
 Gtk::Table m_entryinside;
 Gtk::Frame m_entryframe;
@@ -213,6 +222,8 @@ bool on_gallery_press_event(GdkEventButton* e, int i);
 
 bool waiting;
 bool personalized;
+
+
 Gtk::AspectFrame m_aframe;
 Gtk::AspectFrame m_bframe;
 Gtk::AspectFrame m_cframe;
@@ -255,6 +266,7 @@ std::vector<Gtk::AspectFrame> m_gframe;
 
 bool fullscreen_mode;
 
+void adjust_printing();
 
 bool on_expose_event_func(GdkEventExpose* event);
 bool on_motion_notify_event_func(GdkEventMotion* event);
@@ -265,10 +277,11 @@ void on_insert_text_func(const Glib::ustring&,int*);
 void on_delete_text_func(int,int);	
 
 void refresh(const std::string& script, const std::string& image, const std::string& aa, bool full = false);
-void refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n = num_threads(), bool max_res = false);
+void refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n = num_threads(), bool max_res = false, bool max_res2 = true);
 
 
 void refresh_display(const std::string& image, bool full = false);
+void refresh_print(const std::string& image);
 
 bool on_color_button_press_event_func(GdkEventButton* event);
 bool on_color_expose_event_func(GdkEventExpose* event);
@@ -312,12 +325,19 @@ sigc::connection conn;
 void on_value_changed_func();
 void on_para_changed_func();
 void on_para2_changed_func();
+void on_para3_changed_func();
+void on_para4_changed_func();
+
 bool on_button_changed_func(GdkEventButton*);
 
 parsepic_out data;
 public:
 surfer_options opt;
 PID_type kill_list;
+
+
+bool on_key_press_event_func(GdkEventKey* event);
+
 };
 
 

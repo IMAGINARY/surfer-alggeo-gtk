@@ -119,4 +119,3 @@ bool check_input(const std::string& s)
 	}
 	return true;
 }
-

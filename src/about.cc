@@ -35,7 +35,7 @@ AboutWindow::AboutWindow(const surfer_options& so)
 opt(so),
 l_surfer1("Surfer"),
 l_surfer2(""),
-l_surfer3("Surfer basiert auf dem Programm surf von Stehpen Endrass et al.\n(http://surf.sourceforge.net)"),
+l_surfer3("Surfer basiert auf dem Programm surf von Stephan Endrass et al.\n(http://surf.sourceforge.net)"),
 l_surfer4("Surfer wurde für die Ausstellung IMAGINARY entwickelt, die vom Mathematischen Forschungsinstitut Oberwolfach zum Jahr der Mathematik 2008 in Deutschland konzipiert wurde. Die Ausstellung ist vom Bundesministerium von Bildung und Forschung gefördert."),
 m_close(Gtk::Stock::OK),
 l_credits(

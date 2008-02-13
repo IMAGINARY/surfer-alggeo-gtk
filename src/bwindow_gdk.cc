@@ -41,6 +41,8 @@ char fastaa[] = "";//"antialiasing=2;";
 
 bool no_full = true;
 
+bool printing = false;
+
 double current_x = 0;
 double current_y = 0;
 double current_z = 0;
@@ -110,6 +112,9 @@ kill_list(0),
 m_vscale(-1,1,0.05),
 m_hscale(0,1.05,0.05,"a"),
 m_hscale2(0,1.05,0.05,"b"),
+m_hscale3(-1,1.05,0.05,"c"),
+m_hscale4(1,10.05,0.05,"d"),
+m_printing("Bild wird gedruckt"),
 fullscreen_mode(f),
 gal(G),
 opt(so),
@@ -148,6 +153,7 @@ m_savefile(Gtk::Stock::SAVE)
 
 	
 
+	this->signal_key_press_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_key_press_event_func) );
 
 	m_draw.signal_expose_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_expose_event_func) );
 	m_draw.signal_motion_notify_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_motion_notify_event_func) );
@@ -321,8 +327,8 @@ m_savefile(Gtk::Stock::SAVE)
 			m_error.set_selectable(false);
 
 			m_utab.attach(m_error,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
-			if(!opt.print_cmd.empty())m_fbox.add(m_print);
-			if(!opt.save_cmd.empty())m_fbox.add(m_save);			
+			//if(!opt.print_cmd.empty())m_fbox.add(m_print);
+			//if(!opt.save_cmd.empty())m_fbox.add(m_save);			
 			m_fbox.add(m_savefile);
 			m_fbox.add(m_about);
 			m_fbox.set_child_min_width(1);
@@ -443,7 +449,8 @@ m_savefile(Gtk::Stock::SAVE)
 
 	show_all_children();
 	
-	
+	m_utab.attach(m_printing,0,2,2,3/*,Gtk::SHRINK,Gtk::SHRINK*/);	
+
 	adjust_visibility();
 	sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
 
@@ -988,6 +995,11 @@ bool SurfBWindow::on_button_changed_func(GdkEventButton* )
 
 bool SurfBWindow::on_timer_event_func(int)
 {
+	if(printing)
+	{
+		refresh_print(TEMP_ROOT_SEP+"surfb_f_p.ppm");
+		return true;
+	}
 	if(get_window())
 	{
 		if(!no_full)
@@ -1064,8 +1076,10 @@ bool SurfBWindow::on_timer_event_func(int)
 }
 
 
-void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n , bool max_res)
+void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n , bool max_res, bool max_res2)
 {
+	max_res2 &= max_res;
+
 	if(!valid) return;
 	//if(fullscreen_mode)
 	{
@@ -1178,7 +1192,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
         //gtk_widget_set_sensitive(this->window, true);
     //}
 		
-	if(max_res)
+	if(max_res2)
 	{
 		system((opt.surf_cmd+" -n \""+script+"\" " REDIRECTION_APEX).c_str());
 	}
@@ -1663,15 +1677,34 @@ sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_time
 
 void SurfBWindow::on_print_clicked()
 {
-//FIXME : das geht nur singlecore
-	std::string s1 = fix_file(opt.print_cmd);
-	while(s1.find("#")!=-1)
-	{
-		int i = s1.find("#");
-		s1.replace(i,1, "\""+TEMP_ROOT_SEP +"surfb_f.ppm\"");
-	}
-	
-	system((""+s1).c_str());
+
+//Bild berechnen
+
+std::string image = TEMP_ROOT_SEP+"surfb_f_p.ppm";
+		int n = num_threads();
+		std::remove((image).c_str());
+		for(int i = 2; i <= n; i++)
+		{
+			std::ostringstream o;
+			o<<i;
+
+			std::remove((image+o.str() ).c_str());
+		}
+
+std::remove((TEMP_ROOT_SEP+"surfb_p.png").c_str());
+
+int res = data.hires;
+data.hires = opt.print_resolution;
+//std::cout<<data.hires<<std::endl;
+//std::cout<<"before refresh image"<<std::endl;
+refresh_image(TEMP_ROOT_SEP +"surfb_f_p.pic",TEMP_ROOT_SEP +"surfb_f_p.ppm",data.antialiasing,true,num_threads(),true,false);
+//std::cout<<"after refresh image"<<std::endl;
+data.hires = res;
+
+printing = true;
+adjust_printing();
+refresh_print(TEMP_ROOT_SEP +"surfb_f_p.ppm");
+
 }
 
 void SurfBWindow::on_save_clicked()
@@ -1959,3 +1992,140 @@ void SurfBWindow::check_image(const std::string& script, const std::string& imag
 		//if(w)gdk_window_set_cursor(w, NULL);
 	
 }
+
+bool SurfBWindow::on_key_press_event_func(GdkEventKey* event)
+{
+	if((event && event->state == Gdk::CONTROL_MASK && event->keyval ==GDK_p))
+	{
+		on_print_clicked();
+	}
+	if((event && event->keyval ==GDK_Escape))
+	{
+		printing = false;
+	adjust_printing();
+	}
+	return true;
+}
+
+
+void SurfBWindow::refresh_print(const std::string& image)
+{
+
+	
+	//Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
+	//if(window)
+	//{
+		//Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
+	//some_gc.create(get_window());
+		
+		//Gtk::Allocation allocation = m_draw.get_allocation();
+		//const int width = allocation.get_width();
+		//const int height = allocation.get_height();
+	bool finished = true;
+	
+		//Glib::RefPtr<Gdk::Drawable> dr(window);
+		
+			//if(full)
+			//{
+
+const int n = num_threads();
+
+
+
+for(int i = 0; i < n; i++)
+{
+std::ostringstream o;
+if(i)o<<(i+1);
+
+
+
+try{
+Glib::RefPtr<Gdk::Pixbuf> surface2 = Gdk::Pixbuf::create_from_file((image+o.str()).c_str());
+//Glib::RefPtr<Gdk::Pixbuf> sface2 = surface2->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
+
+//dr->draw_pixbuf(some_gc,sface2,0,i*(height-40)/n,20,20+i*(height-40)/n,width-40,(height-40)/n+((i==n-1)?0:1),Gdk::RGB_DITHER_NONE,0,0);
+}
+catch(...){finished=false;}
+
+
+
+}
+
+if(finished)
+{
+
+Glib::RefPtr<Gdk::Pixbuf> bs = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB,false,8,opt.print_resolution,opt.print_resolution);
+
+for(int i = 0; i < n; i++)
+{
+std::ostringstream o;
+if(i)o<<(i+1);
+
+
+
+Glib::RefPtr<Gdk::Pixbuf> surface2 = Gdk::Pixbuf::create_from_file((image+o.str()).c_str());
+//Glib::RefPtr<Gdk::Pixbuf> sface2 = surface2->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
+
+//bs->draw_pixbuf(some_gc,sface2,0,i*(height)/n,0,0+i*(height)/n,width,(height)/n+((i==n-1)?0:1),Gdk::RGB_DITHER_NONE,0,0);
+
+surface2->copy_area(
+                    0,
+                    i*(opt.print_resolution)/n,
+                    opt.print_resolution,
+                    (opt.print_resolution)/n+((i==n-1)?0:1),
+                    bs,
+                    0,
+                    i*(opt.print_resolution)/n
+                    );
+
+}
+bs->save(TEMP_ROOT_SEP+"surfb_p.png","png");
+
+
+std::ofstream f((TEMP_ROOT_SEP+"surfb_p_f.tex").c_str());
+f<<"0 = "<<data.public_eq<<std::endl;
+f.close();
+
+if(!opt.print_cmd.empty()) system((opt.print_cmd+" \""+TEMP_ROOT_SEP+"surfb_p.png\" \""+TEMP_ROOT_SEP+"surfb_p_f.tex\"").c_str());
+
+
+
+printing = false;
+adjust_printing();
+}
+
+			
+			
+		
+	
+		
+	
+}
+
+void SurfBWindow::adjust_printing()
+{
+
+if(printing)
+{
+m_printing.show();
+m_bbox.hide();
+
+		Gdk::Cursor hglass(Gdk::WATCH);
+    		Glib::RefPtr<Gdk::Window> wi = get_window();
+    //if( strcmp(name, "hourglass") == 0 ) {
+		if(wi)
+		wi->set_cursor(hglass);
+}
+else
+{
+m_printing.hide();
+m_bbox.show();
+
+			Gdk::Cursor hptr(Gdk::LEFT_PTR);
+			Glib::RefPtr<Gdk::Window> w = get_window();
+    //if( strcmp(name, "hourglass") == 0 ) {
+        		if(w)w->set_cursor(hptr);
+}
+
+}
+
