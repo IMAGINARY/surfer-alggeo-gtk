@@ -25,6 +25,17 @@ This file contains non-ascii characters, encoding UTF-8.
 */
 
 
+#ifndef PRESENTATAION_MODE
+#define PRESENTATION_MODE 1
+#endif
+
+#ifndef MAX_SURFACES
+#if PRESENTATION_MODE == 1
+#define MAX_SURFACES 1
+#else
+#define MAX_SURFACES 4
+#endif
+#endif
 
 #include "bwindow_gdk.hh"
 #include "gdkmm/pixbuf.h"
@@ -79,7 +90,21 @@ mouse_mode next_action = rotate_around_z;
 
 
 
+void apply(const parsepic_out& d, global_parse& g)
+{
+	g.antialiasing = d.antialiasing;
+	g.scale = d.scale;
+	g.initial_scale = d.initial_scale;
+	g.hires = d.hires;
+	g.lores = d.lores;
+	g.background = d.background;
+	g.rot = d.rot;
 
+	g.para[0] = d.para_a;
+	g.para[1] = d.para_b;
+	g.para[2] = d.para_c;
+	g.para[3] = d.para_d;
+}
 
 
 
@@ -125,8 +150,9 @@ m_leave_image(Gtk::Stock::LEAVE_FULLSCREEN,Gtk::ICON_SIZE_BUTTON),
 m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
 m_zoom_table(1,3),
 m_zero("=0"),
-
-
+m_spin(),
+m_special("Details"),
+m_new_surface(Gtk::Stock::NEW),
 m_savefile(Gtk::Stock::SAVE)
 
 {
@@ -140,7 +166,9 @@ m_savefile(Gtk::Stock::SAVE)
 	m_vscale.set_draw_value(false);
 	
 
-	data = parse_pic(i);
+	data.push_back(parse_pic(i));
+	data_index = 0;
+	apply(data[data_index],global_data);
 
 	m_draw.set_size_request(100, 100);
 	m_colors.set_size_request(200, 200);
@@ -167,6 +195,7 @@ m_savefile(Gtk::Stock::SAVE)
 	m_colors.signal_expose_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_color_expose_event_func) );
 	m_colors.add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
 
+	m_special.signal_clicked().connect(sigc::mem_fun(*this,&SurfBWindow::on_special_clicked));
 
 	m_colors_inside.signal_button_press_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_inside_button_press_event_func) );
 	m_colors_inside.signal_motion_notify_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_inside_motion_notify_event_func) );
@@ -182,19 +211,33 @@ m_savefile(Gtk::Stock::SAVE)
 	m_colors_back.add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
 
 
-	
+	m_new_surface.signal_clicked().connect(sigc::mem_fun(*this,&SurfBWindow::on_new_surface_clicked));
 
 	m_entry.signal_insert_text().connect(sigc::mem_fun(*this, &SurfBWindow::on_insert_text_func));
 	m_entry.signal_delete_text().connect(sigc::mem_fun(*this, &SurfBWindow::on_delete_text_func));
 	m_entry.add_events(Gdk::ALL_EVENTS_MASK);
 	m_vscale.signal_value_changed().connect(sigc::mem_fun(*this,&SurfBWindow::on_value_changed_func));
+	m_spin.signal_value_changed().connect(sigc::mem_fun(*this,&SurfBWindow::on_spin_changed_func));
 	m_hscale.signal_value_changed().connect(sigc::mem_fun(*this,&SurfBWindow::on_para_changed_func));
+	
 	m_hscale2.signal_value_changed().connect(sigc::mem_fun(*this,&SurfBWindow::on_para2_changed_func));
+	m_hscale3.signal_value_changed().connect(sigc::mem_fun(*this,&SurfBWindow::on_para3_changed_func));
+	m_hscale4.signal_value_changed().connect(sigc::mem_fun(*this,&SurfBWindow::on_para4_changed_func));
+
 	m_vscale.signal_button_release_event().connect(sigc::mem_fun(*this,&SurfBWindow::on_button_changed_func));
-	m_hscale.set_value(data.para_a);
-	m_hscale2.set_value(data.para_b);
+
+	m_hscale.set_value(global_data.para[0]);
 	m_hscale.set_increments(0.01,0.050);
+	
+	m_hscale2.set_value(global_data.para[1]);
 	m_hscale2.set_increments(0.01,0.050);
+
+	m_hscale3.set_value(global_data.para[2]);
+	m_hscale3.set_increments(0.01,0.050);
+
+	m_hscale4.set_value(global_data.para[3]);
+	m_hscale4.set_increments(0.01,0.050);
+
 	m_vscale.set_value(0);
 	m_vscale.set_increments(0.01,0.050);
 
@@ -224,6 +267,9 @@ m_savefile(Gtk::Stock::SAVE)
 	m_note.set_tab_pos(Gtk::POS_BOTTOM);
 	m_hscale.set_value_pos(Gtk::POS_LEFT);
 	m_hscale2.set_value_pos(Gtk::POS_RIGHT);
+	m_hscale3.set_value_pos(Gtk::POS_LEFT);
+	m_hscale4.set_value_pos(Gtk::POS_RIGHT);
+	
 	m_aframe.add(m_draw);
         m_aframe.set_shadow_type(Gtk::SHADOW_ETCHED_IN);
         m_aframe.set_shadow_type(Gtk::SHADOW_NONE);
@@ -248,9 +294,13 @@ m_savefile(Gtk::Stock::SAVE)
 
 		m_utab.attach(m_zoom_table,2,3,0,2,Gtk::SHRINK);
 
+		
+
 		m_utab.attach(m_scale_free,0,1,2,3,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_hscale,0,1,2,3,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale2,1,2,2,3,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale,0,1,3,4,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale2,1,2,3,4,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale3,0,1,2,3,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale4,1,2,2,3,Gtk::FILL,Gtk::SHRINK);
 
 
 		m_leave.set_image(m_leave_image);
@@ -273,8 +323,15 @@ m_savefile(Gtk::Stock::SAVE)
 		m_utab.attach(m_entryfield,0,2,3,4,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 
 		m_utab.attach(m_zoom_table,2,3,0,2,Gtk::SHRINK);
+		m_utab.attach(m_new_surface,2,3,2,3,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_spin,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
+		//m_spin.set_size_request(12,32);	
+                m_spin.set_range(1,1);
 		
-		
+		m_spin.set_value(1);
+		m_spin.set_wrap();
+		m_spin.set_increments(1,1);
+
 		
 		m_utab.attach(m_scale_free,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
 		m_utab.attach(m_hscale,0,1,1,2,Gtk::FILL,Gtk::SHRINK);
@@ -369,7 +426,7 @@ m_savefile(Gtk::Stock::SAVE)
 //m_tab.attach(m_colors_inside,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			
 
-			m_entry.set_text(data.public_eq);
+			m_entry.set_text(data[data_index].public_eq);
 			
 				
 			
@@ -377,11 +434,12 @@ m_savefile(Gtk::Stock::SAVE)
 			
 
 			m_note.append_page(m_ctab,"Farben","x");
-			m_ctab.attach(*new Gtk::Image,1,2,0,1);
-			m_ctab.attach(m_cframe,1,2,1,2,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
+			if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
+			m_ctab.attach(*new Gtk::Image,1,2,1,2);
+			m_ctab.attach(m_cframe,1,2,2,3,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 			m_cframe.add(m_colors);
 
-			m_ctab.attach(m_iframe,1,2,2,3,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
+			m_ctab.attach(m_iframe,1,2,3,4,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 			m_iframe.add(m_colors_inside);
 
 			//m_ctab.attach(m_bframe,1,2,2,3,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
@@ -448,7 +506,8 @@ m_savefile(Gtk::Stock::SAVE)
 
 
 	show_all_children();
-	
+	if(MAX_SURFACES == 1) m_spin.hide();
+
 	m_utab.attach(m_printing,0,2,2,3/*,Gtk::SHRINK,Gtk::SHRINK*/);	
 
 	adjust_visibility();
@@ -682,7 +741,7 @@ bool SurfBWindow::on_color_button_press_event_func(GdkEventButton* event)
 		//const int height = allocation.get_height();
 
 // coordinates for the center of the window
-		data.upside = colormap(event->x,event->y).surf_colors();
+		data[data_index].upside = colormap(event->x,event->y).surf_colors();
 		button_down = true;
 		pichange = 5;
 		
@@ -731,14 +790,6 @@ bool SurfBWindow::on_button_release_event_func(GdkEventButton* event)
 
 	button_down = false;
 
-	/*
-	data.initial_x += current_x;
-	data.initial_y += current_y;
-	data.initial_z += current_z;
-	current_x = 0;
-	current_y = 0;
-	current_z = 0;
-	*/
 	pichange = 3;
 
 	return false;
@@ -748,23 +799,14 @@ bool SurfBWindow::on_button_release_event_func(GdkEventButton* event)
 bool SurfBWindow::on_color_button_release_event_func(GdkEventButton* event)
 {
 
-// This is where we draw on the window
 
 	button_down = false;
 
-	/*
-	data.initial_x += current_x;
-	data.initial_y += current_y;
-	data.initial_z += current_z;
-	current_x = 0;
-	current_y = 0;
-	current_z = 0;
-	*/
 	double x, y;
 	x = event->x;
 	y = event->y;
 	
-	data.upside = colormap(x,y).surf_colors();
+	data[data_index].upside = colormap(x,y).surf_colors();
 
 	pichange = 3;
 
@@ -820,7 +862,7 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 				break;
 			case zoom:
 				m_vscale.set_value( tx/double(width)*2);
-				data.scale = exp(log(10.0)*m_vscale.get_value());
+				global_data.scale = exp(log(10.0)*m_vscale.get_value());
 	
 	
 				break;
@@ -830,12 +872,23 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 		}
 
 	
-	
+		if(event->state == Gdk::SHIFT_MASK)
+		{
 
-		if(c_y != 0.0) data.rot = data.rot * roty(c_y);
-		if(c_x != 0.0) data.rot = data.rot * rotx(c_x);
-		if(c_z != 0.0) data.rot = data.rot * rotz(c_z);
+		if(c_y != 0.0) data[data_index].rot = data[data_index].rot * roty(c_y);
+		if(c_x != 0.0) data[data_index].rot = data[data_index].rot * rotx(c_x);
+		if(c_z != 0.0) data[data_index].rot = data[data_index].rot * rotz(c_z);
 
+
+		}
+		else
+		{
+
+		if(c_y != 0.0) global_data.rot = global_data.rot * roty(c_y);
+		if(c_x != 0.0) global_data.rot = global_data.rot * rotx(c_x);
+		if(c_z != 0.0) global_data.rot = global_data.rot * rotz(c_z);
+
+		}
 		gui_x = xc;
 		gui_y = yc;
 
@@ -864,7 +917,7 @@ bool SurfBWindow::on_color_motion_notify_event_func(GdkEventMotion* event)
 		x = event->x;
 		y = event->y;
 
-		data.upside = colormap(x,y).surf_colors();
+		data[data_index].upside = colormap(x,y).surf_colors();
 		
 
 
@@ -897,11 +950,11 @@ void SurfBWindow::on_insert_text_func(const Glib::ustring&,int*)
 
 	if(check_input(t2))
 	{
-	data.equation = t3;
-	data.public_eq = t2;
+	data[data_index].equation = t3;
+	data[data_index].public_eq = t2;
 	}
 	else
-	data.equation=1;
+	data[data_index].equation=1;
 
 	//pichange = 5;
 	adjust_visibility();
@@ -926,8 +979,8 @@ void SurfBWindow::on_delete_text_func(int,int)
 
 	if(check_input(t2))
 	{
-	data.equation = t3;
-	data.public_eq = t2;
+	data[data_index].equation = t3;
+	data[data_index].public_eq = t2;
 	}
 
 	
@@ -939,12 +992,23 @@ void SurfBWindow::on_delete_text_func(int,int)
 void SurfBWindow::on_value_changed_func()
 {
 	
-	data.scale = exp(log(10.0)*m_vscale.get_value());
+	global_data.scale = exp(log(10.0)*m_vscale.get_value());
 	
 	
 	
 	pichange = 15;
 }
+
+void SurfBWindow::on_spin_changed_func()
+{
+	
+	data_index = m_spin.get_value()-1;
+	
+	
+	
+	update_visuals();
+}
+
 
 
 void SurfBWindow::on_para_changed_func()
@@ -958,7 +1022,7 @@ void SurfBWindow::on_para_changed_func()
 	//return "";
 	
 	
-	data.para_a = m_hscale.get_value();
+	global_data.para[0] = m_hscale.get_value();
 	pichange = 15;
 }
 
@@ -973,20 +1037,25 @@ void SurfBWindow::on_para2_changed_func()
 	//return "";
 	
 	
-	data.para_b = m_hscale2.get_value();
+	global_data.para[1] = m_hscale2.get_value();
+	pichange = 15;
+}
+
+void SurfBWindow::on_para3_changed_func()
+{
+	global_data.para[2] = m_hscale3.get_value();
+	pichange = 15;
+}
+
+void SurfBWindow::on_para4_changed_func()
+{
+	global_data.para[3] = m_hscale4.get_value();
 	pichange = 15;
 }
 
 
 bool SurfBWindow::on_button_changed_func(GdkEventButton* )
 {
-	return true;
-	data.scale = exp(log(10.0)*m_vscale.get_value());
-	
-	
-	refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
-	pichange = 3;
-
 	return true;
 }
 
@@ -1036,7 +1105,7 @@ bool SurfBWindow::on_timer_event_func(int)
 
 // This is where we connect the slot to the Glib::signal_timeout()
 		
-		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",data.antialiasing,true);
+		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",global_data.antialiasing,true);
 		conn = Glib::signal_timeout().connect(my_slot, MSECS);
 
 		pichange = 0;
@@ -1051,7 +1120,7 @@ bool SurfBWindow::on_timer_event_func(int)
 
 // This is where we connect the slot to the Glib::signal_timeout()
 		
-		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",data.antialiasing,true);
+		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",global_data.antialiasing,true);
 		//conn = Glib::signal_timeout().connect(my_slot, MSECS);
 
 		pichange = 0;
@@ -1067,10 +1136,7 @@ bool SurfBWindow::on_timer_event_func(int)
 // This is where we connect the slot to the Glib::signal_timeout()
 		if(waiting)
 		refresh_display(TEMP_ROOT_SEP +"surfb_f.ppm",true);
-		//refresh(TEMP_ROOT_SEP "surfb_f.pic",TEMP_ROOT_SEP "surfb_f.ppm",data.antialiasing,true);
-		//conn = Glib::signal_timeout().connect(my_slot, MSECS);
-
-		//pichange = 0;
+		
 	}
 	return true;
 }
@@ -1119,7 +1185,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	
 	
 	
-	int w = full ? data.hires : data.lores;
+	int w = full ? global_data.hires : global_data.lores;
 	
 	if(w>width-40 && !max_res) w = width-40;
 	if(w>height-40  && !max_res) w = height-40;
@@ -1133,15 +1199,6 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	if(k==1) sn="";
 	std::ofstream f((script+sn).c_str(),FILE_WRITE_MODE);
 	
-/*	f<<"rot_x="<<data.initial_x+current_x<<";\n";
-	f<<"rot_y="<<data.initial_y+current_y<<";\n";
-	f<<"rot_z="<<data.initial_z+current_z<<";\n";
-*/
-	//rot_data t = rot_yxz(data.rot);
-	//f<<"rot_x="<<t.rot_x<<";\n";
-	//f<<"rot_y="<<t.rot_y<<";\n";
-	//f<<"rot_z="<<t.rot_z<<";\n";
-
 	
 	
 	
@@ -1149,31 +1206,51 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	f<<"height="<< w <<";\n";
 
 
-	f<<"double a = "<<data.para_a<<";\n";
-	f<<"double b = "<<data.para_b<<";\n";
-	f<<"poly u="<<data.rot.el(1,1)<<"*x+("<<data.rot.el(1,2)<<")*y+("<<data.rot.el(1,3)<<")*z;\n";
-	f<<"poly v="<<data.rot.el(2,1)<<"*x+("<<data.rot.el(2,2)<<")*y+("<<data.rot.el(2,3)<<")*z;\n";
-	f<<"poly w="<<data.rot.el(3,1)<<"*x+("<<data.rot.el(3,2)<<")*y+("<<data.rot.el(3,3)<<")*z;\n";
+	f<<"double a = "<<global_data.para[0]<<";\n";
+	f<<"double b = "<<global_data.para[1]<<";\n";
+	f<<"double c = "<<global_data.para[2]<<";\n";
+	f<<"double d = "<<global_data.para[3]<<";\n";
+	
+	f<<"poly u="<<global_data.rot.el(1,1)<<"*x+("<<global_data.rot.el(1,2)<<")*y+("<<global_data.rot.el(1,3)<<")*z;\n";
+	f<<"poly v="<<global_data.rot.el(2,1)<<"*x+("<<global_data.rot.el(2,2)<<")*y+("<<global_data.rot.el(2,3)<<")*z;\n";
+	f<<"poly w="<<global_data.rot.el(3,1)<<"*x+("<<global_data.rot.el(3,2)<<")*y+("<<global_data.rot.el(3,3)<<")*z;\n";
 
-	f<<data.general_stuff;
+
 
 	if(!aa.empty())f<<aa<<"\n";
-	//f<<"surface="<<data.equation<<";\n";
-	f<<"surface="<< fix_input_for_surf(data.equation) <<";\n";
-	f<<"scale_x="<<data.scale*data.initial_scale<<";\n";
-	f<<"scale_y="<<data.scale*data.initial_scale<<";\n";
-	f<<"scale_z="<<data.scale*data.initial_scale<<";\n";
+	
+	f<<global_data.general_stuff<<std::endl;
 
-	f<<"surface_red="<<data.upside.red<<";\n";
-	f<<"inside_red="<<data.inside.red<<";\n";
-	f<<"surface_green="<<data.upside.green<<";\n";
-	f<<"inside_green="<<data.inside.green<<";\n";
-	f<<"surface_blue="<<data.upside.blue<<";\n";
-	f<<"inside_blue="<<data.inside.blue<<";\n";
+for(unsigned k = 0; k < data.size(); k++)
+{
+	std::ostringstream sis;
+	if(k) sis<<(k+1);
+	std::string si = sis.str();
 
-	f<<"background_red="<<data.background.red<<";\n";
-	f<<"background_green="<<data.background.green<<";\n";
-	f<<"background_blue="<<data.background.blue<<";\n";
+	f<<data[k].general_stuff;
+	f<<"surface"<<si<<"="<< fix_input_for_surf(data[k].equation) <<";\n";
+	
+	f<<"transparence"<<si<<"="<<data[k].transparency<<";\n";
+
+	f<<"surface"<<si<<"_red="<<data[k].upside.red<<";\n";
+	f<<"inside"<<si<<"_red="<<data[k].inside.red<<";\n";
+	f<<"surface"<<si<<"_green="<<data[k].upside.green<<";\n";
+	f<<"inside"<<si<<"_green="<<data[k].inside.green<<";\n";
+	f<<"surface"<<si<<"_blue="<<data[k].upside.blue<<";\n";
+	f<<"inside"<<si<<"_blue="<<data[k].inside.blue<<";\n";
+
+
+}
+
+
+	f<<"scale_x="<<global_data.scale*global_data.initial_scale<<";\n";
+	f<<"scale_y="<<global_data.scale*global_data.initial_scale<<";\n";
+	f<<"scale_z="<<global_data.scale*global_data.initial_scale<<";\n";
+
+
+	f<<"background_red="<<global_data.background.red<<";\n";
+	f<<"background_green="<<global_data.background.green<<";\n";
+	f<<"background_blue="<<global_data.background.blue<<";\n";
 	
 	
 
@@ -1429,7 +1506,7 @@ bool SurfBWindow::on_inside_button_press_event_func(GdkEventButton* event)
 		y = event->y;
 	
 	//std::c
-		data.inside = colormap(x,200-y).surf_colors();
+		data[data_index].inside = colormap(x,200-y).surf_colors();
 		
 		button_down = true;
 		pichange = 5;
@@ -1446,19 +1523,11 @@ bool SurfBWindow::on_inside_button_release_event_func(GdkEventButton* event)
 
 	button_down = false;
 
-	/*
-	data.initial_x += current_x;
-	data.initial_y += current_y;
-	data.initial_z += current_z;
-	current_x = 0;
-	current_y = 0;
-	current_z = 0;
-	*/
 	double x, y;
 	x = event->x;
 	y = event->y;
 	
-	data.inside = colormap(x,200-y).surf_colors();
+	data[data_index].inside = colormap(x,200-y).surf_colors();
 	
 
 	pichange = 3;
@@ -1486,7 +1555,7 @@ bool SurfBWindow::on_inside_motion_notify_event_func(GdkEventMotion* event)
 
 
 
-	data.inside = colormap(x,200-y).surf_colors();
+	data[data_index].inside = colormap(x,200-y).surf_colors();
 		
 
 
@@ -1539,7 +1608,7 @@ bool SurfBWindow::on_back_button_press_event_func(GdkEventButton* event)
 	double x, y;
 	x = event->x;
 	y = event->y;
-	data.background = colormap(x,y).surf_colors();
+	global_data.background = colormap(x,y).surf_colors();
 	
 	button_down = true;
 	pichange = 5;
@@ -1553,7 +1622,7 @@ button_down = false;
 	double x, y;
 	x = event->x;
 	y = event->y;	
-	data.background = colormap(x,y).surf_colors();
+	global_data.background = colormap(x,y).surf_colors();
 	pichange = 3;
 	return false;
 }
@@ -1570,7 +1639,7 @@ bool SurfBWindow::on_back_motion_notify_event_func(GdkEventMotion* event)
 		double x, y;
 		x = event->x;
 		y = event->y;
-	data.background = colormap(x,y).surf_colors();
+		global_data.background = colormap(x,y).surf_colors();
 		pichange = 5;
 	}
 	return false;
@@ -1651,21 +1720,23 @@ void SurfBWindow::on_fullscreen_clicked()
   
   f.start();
   f.data = data;
-  f.m_entry.set_text(data.public_eq);
+  f.global_data = global_data;
+
+  f.m_entry.set_text(data[data_index].public_eq);
   
   //Shows the window and returns when it is closed.
   //hide();
   f.show();
 //  f.fullscreen();
   f.adjust_visibility();
-  f.m_hscale.set_value(data.para_a);
-  f.m_hscale2.set_value(data.para_b);
+  f.m_hscale.set_value(global_data.para[0]);
+  f.m_hscale2.set_value(global_data.para[1]);
 conn.disconnect();
   Gtk::Main::run(f);
 	data = f.data;
        
-   m_hscale.set_value(data.para_a);
-  m_hscale2.set_value(data.para_b);
+   m_hscale.set_value(global_data.para[0]);
+  m_hscale2.set_value(global_data.para[1]);
   	
 
 sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
@@ -1678,6 +1749,20 @@ sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_time
 void SurfBWindow::on_print_clicked()
 {
 
+Gtk::Dialog PD("Bild drucken",true);
+
+PD.add_button(Gtk::Stock::OK,Gtk::RESPONSE_OK);
+PD.add_button(Gtk::Stock::CANCEL,Gtk::RESPONSE_CANCEL);
+
+Gtk::Label label("Name:");
+Gtk::Entry entry;
+PD.get_vbox()->add(label);
+PD.get_vbox()->add(entry);
+PD.show_all_children();
+PD.set_default_response(Gtk::RESPONSE_OK);
+
+int result = PD.run();
+if(result != Gtk::RESPONSE_OK) return;
 //Bild berechnen
 
 std::string image = TEMP_ROOT_SEP+"surfb_f_p.ppm";
@@ -1692,14 +1777,20 @@ std::string image = TEMP_ROOT_SEP+"surfb_f_p.ppm";
 		}
 
 std::remove((TEMP_ROOT_SEP+"surfb_p.png").c_str());
+std::remove((TEMP_ROOT_SEP+"surfb_n.txt").c_str());
 
-int res = data.hires;
-data.hires = opt.print_resolution;
-//std::cout<<data.hires<<std::endl;
-//std::cout<<"before refresh image"<<std::endl;
-refresh_image(TEMP_ROOT_SEP +"surfb_f_p.pic",TEMP_ROOT_SEP +"surfb_f_p.ppm",data.antialiasing,true,num_threads(),true,false);
-//std::cout<<"after refresh image"<<std::endl;
-data.hires = res;
+if(!entry.get_text().empty())
+{
+std::ofstream u((TEMP_ROOT_SEP+"surfb_n.txt").c_str());
+u << entry.get_text()<<std::endl;
+u.close();
+}
+
+int res = global_data.hires;
+global_data.hires = opt.print_resolution;
+refresh_image(TEMP_ROOT_SEP +"surfb_f_p.pic",TEMP_ROOT_SEP +"surfb_f_p.ppm",global_data.antialiasing,true,num_threads(),true,false);
+
+global_data.hires = res;
 
 printing = true;
 adjust_printing();
@@ -1744,7 +1835,7 @@ void SurfBWindow::on_save_file_clicked()
 	  filter_any.set_name("Alle Dateien");
 	  filter_any.add_pattern("*");
 	  dialog.add_filter(filter_any);
-	  dialog.set_current_name(data.name+".png");
+	  dialog.set_current_name(data[data_index].name+".png");
 
 
         int result = dialog.run();
@@ -1761,7 +1852,7 @@ void SurfBWindow::on_save_file_clicked()
 		t = t+".png";
 		
 		try{
-		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",data.antialiasing,true,1,true);
+		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",global_data.antialiasing,true,1,true);
 		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP+"surfb_s.ppm");
 		img->save(t,"png");
 		}
@@ -1811,24 +1902,10 @@ void SurfBWindow::on_next_clicked()
 	current_surf = (current_surf+1 )%gal[current_gal].file.size();
 
 
-	data =  gal[current_gal].file[current_surf];
-	
-	pichange=5;
-	m_vscale.set_value(0);
-	m_entry.set_text(data.public_eq);
-	m_hscale.set_value(data.para_a);
-	m_hscale2.set_value(data.para_b);
-	adjust_visibility();
-	try{
-	std::ifstream fi(data.desc.c_str());
-	if(fi.is_open())
-	{
-		m_info.set(data.desc);
-		m_note.set_current_page(2);
-	}
-	else
-	m_info.clear();}
-	catch(...){m_info.clear();}
+	data[data_index] =  gal[current_gal].file[current_surf];
+	apply(data[data_index],global_data);
+
+	update_visuals();
 }
 
 void SurfBWindow::on_prev_clicked()
@@ -1837,21 +1914,29 @@ void SurfBWindow::on_prev_clicked()
 	if(gal[current_gal].file.empty()) return;
 	
 	current_surf = (current_surf+gal[current_gal].file.size()-1 )%gal[current_gal].file.size();
-	data =  gal[current_gal].file[current_surf];
-	
+	data[data_index] =  gal[current_gal].file[current_surf];
+	apply(data[data_index],global_data);
 
+	update_visuals();
+
+}
+
+
+void SurfBWindow::update_visuals()
+{
+	
 	
 	pichange=5;
 	m_vscale.set_value(0);
-	m_entry.set_text(data.public_eq);
-	m_hscale.set_value(data.para_a);
-	m_hscale2.set_value(data.para_b);
+	m_entry.set_text(data[data_index].public_eq);
+	m_hscale.set_value(global_data.para[0]);
+	m_hscale2.set_value(global_data.para[1]);
 	adjust_visibility();
 	try{
-	std::ifstream fi(data.desc.c_str());
+	std::ifstream fi(data[data_index].desc.c_str());
 	if(fi.is_open())
 	{
-		m_info.set(data.desc);
+		m_info.set(data[data_index].desc);
 		m_note.set_current_page(2);
 	}
 	else
@@ -1859,6 +1944,7 @@ void SurfBWindow::on_prev_clicked()
 	catch(...){m_info.clear();}
 
 }
+
 
 bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 {
@@ -1869,30 +1955,29 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	w.show();
 	//w.fullscreen();
 	Gtk::Main::run(w);
-	data = w.ret;
+	data[data_index] = w.ret;
+	apply(data[data_index],global_data);
+
 	current_surf = w.isu;
-	pichange=5;
-	m_vscale.set_value(0);
-	m_entry.set_text(data.public_eq);
-	m_hscale.set_value(data.para_a);
-	m_hscale2.set_value(data.para_b);
-	try{
-	std::ifstream fi(data.desc.c_str());
-	if(fi.is_open())
-	{
-		m_info.set(data.desc);
-		m_note.set_current_page(2);
-	}
-	else
-	m_info.clear();}
-	catch(...){m_info.clear();}
+
+	update_visuals();
+
 	return true;
 }
 
 void SurfBWindow::adjust_visibility()
 {
-	bool fa = (data.public_eq.find('a')!=-1);
-	bool fb = (data.public_eq.find('b')!=-1);
+	bool fa = (data[data_index].public_eq.find('a')!=-1);
+	bool fb = (data[data_index].public_eq.find('b')!=-1);
+
+	std::string dc = data[data_index].public_eq;
+
+	while(dc.find("cos")!=-1)
+	{dc.replace(dc.find("cos"),3,"XOS");}
+
+	bool fc = (dc.find('c')!=-1);
+	bool fd = (data[data_index].public_eq.find('d')!=-1);
+
 
 	m_hscale.show();
 	m_scale_free.set_size_request(1,m_hscale.get_allocation().get_height());
@@ -1900,8 +1985,11 @@ void SurfBWindow::adjust_visibility()
 
 	if(fa) m_hscale.show(); else m_hscale.hide();
 	if(fb) m_hscale2.show(); else m_hscale2.hide();
+	if(fc) m_hscale3.show(); else m_hscale3.hide();
+	if(fd) m_hscale4.show(); else m_hscale4.hide();
 
-	valid = check_input(fix_input(data.public_eq));
+
+	valid = check_input(fix_input(data[data_index].public_eq));
 	if(valid)
 	{
 	std::remove(((TEMP_ROOT_SEP+"surfb_x.ppm").c_str()));
@@ -1910,8 +1998,20 @@ void SurfBWindow::adjust_visibility()
 	valid=f.is_open();
 	}
 
-	if(valid) m_error.hide();
-	else m_error.show();
+	if(valid) {
+		m_error.hide();
+		if(data.size()>1)
+		m_spin.show();
+
+		if(MAX_SURFACES>1&&data.size()<MAX_SURFACES)
+		m_new_surface.show();
+	}
+	else
+		{
+			 m_error.show();
+			m_spin.hide();
+			m_new_surface.hide();
+		}
 }
 
 
@@ -1944,32 +2044,23 @@ void SurfBWindow::check_image(const std::string& script, const std::string& imag
 
 	
 
-	f<<"double a = "<<data.para_a<<";\n";
-	f<<"double b = "<<data.para_b<<";\n";
-	f<<"poly u="<<data.rot.el(1,1)<<"*x+("<<data.rot.el(1,2)<<")*y+("<<data.rot.el(1,3)<<")*z;\n";
-	f<<"poly v="<<data.rot.el(2,1)<<"*x+("<<data.rot.el(2,2)<<")*y+("<<data.rot.el(2,3)<<")*z;\n";
-	f<<"poly w="<<data.rot.el(3,1)<<"*x+("<<data.rot.el(3,2)<<")*y+("<<data.rot.el(3,3)<<")*z;\n";
+	f<<"double a = "<<global_data.para[0]<<";\n";
+	f<<"double b = "<<global_data.para[1]<<";\n";
+	f<<"double c = "<<global_data.para[2]<<";\n";
+	f<<"double d = "<<global_data.para[3]<<";\n";
+	
+	f<<"poly u="<<global_data.rot.el(1,1)<<"*x+("<<global_data.rot.el(1,2)<<")*y+("<<global_data.rot.el(1,3)<<")*z;\n";
+	f<<"poly v="<<global_data.rot.el(2,1)<<"*x+("<<global_data.rot.el(2,2)<<")*y+("<<global_data.rot.el(2,3)<<")*z;\n";
+	f<<"poly w="<<global_data.rot.el(3,1)<<"*x+("<<global_data.rot.el(3,2)<<")*y+("<<global_data.rot.el(3,3)<<")*z;\n";
 
-	f<<data.general_stuff;
+	f<<global_data.general_stuff;
+
+	f<<data[data_index].general_stuff;
 
 	
 	//f<<"surface="<<data.equation<<";\n";
-	f<<"surface="<< data.equation <<";\n";
-	f<<"scale_x="<<data.scale*data.initial_scale<<";\n";
-	f<<"scale_y="<<data.scale*data.initial_scale<<";\n";
-	f<<"scale_z="<<data.scale*data.initial_scale<<";\n";
+	f<<"surface="<< data[data_index].equation <<";\n";
 
-	f<<"surface_red="<<data.upside.red<<";\n";
-	f<<"inside_red="<<data.inside.red<<";\n";
-	f<<"surface_green="<<data.upside.green<<";\n";
-	f<<"inside_green="<<data.inside.green<<";\n";
-	f<<"surface_blue="<<data.upside.blue<<";\n";
-	f<<"inside_blue="<<data.inside.blue<<";\n";
-
-	f<<"background_red="<<data.background.red<<";\n";
-	f<<"background_green="<<data.background.green<<";\n";
-	f<<"background_blue="<<data.background.blue<<";\n";
-	
 	
 
 	//f<<"transparency="<<50<<";\n";
@@ -2083,10 +2174,11 @@ bs->save(TEMP_ROOT_SEP+"surfb_p.png","png");
 
 
 std::ofstream f((TEMP_ROOT_SEP+"surfb_p_f.tex").c_str());
-f<<"0 = "<<data.public_eq<<std::endl;
+f<<"0 = "<<data[data_index].public_eq<<std::endl;
 f.close();
 
-if(!opt.print_cmd.empty()) system((opt.print_cmd+" \""+TEMP_ROOT_SEP+"surfb_p.png\" \""+TEMP_ROOT_SEP+"surfb_p_f.tex\"").c_str());
+if(!opt.print_cmd.empty())
+system((opt.print_cmd+" \""+TEMP_ROOT_SEP+"surfb_p.png\" \""+TEMP_ROOT_SEP+"surfb_p_f.tex\" \""+TEMP_ROOT_SEP+"surfb_n.txt\"").c_str());
 
 
 
@@ -2129,3 +2221,30 @@ m_bbox.show();
 
 }
 
+void special_show(parsepic_out& p,global_parse& g,int& p);
+
+void SurfBWindow::on_special_clicked()
+{
+
+
+special_show(data[data_index],global_data,pichange);
+
+}
+
+
+void SurfBWindow::on_new_surface_clicked()
+{
+
+
+	if(data.size() < MAX_SURFACES)
+	{
+		std::istringstream i("");
+		data.push_back(parse_pic(i));
+
+		data_index = data.size() -1;
+
+		m_spin.set_range(1,data.size());
+		m_spin.set_value(data.size());
+	}
+
+}

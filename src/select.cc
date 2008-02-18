@@ -193,3 +193,128 @@ void make_thumbs(const std::vector<parsepic_out>& R, const surfer_options& opt)
 
 
 
+
+
+class SpecialEffects: public Gtk::Window
+{
+public:
+SpecialEffects(parsepic_out& d,global_parse& g, int& p);
+
+private:
+
+Gtk::Notebook m_note;
+
+Gtk::ColorSelection m_c1;
+Gtk::ColorSelection m_c2;
+Gtk::ColorSelection m_cb;
+
+Gtk::Label m_lc1;
+Gtk::Label m_lc2;
+Gtk::Label m_lcb;
+
+Gtk::Table m_mat;
+Gtk::Table m_surf;
+Gtk::Table m_light;
+
+Gtk::SpinButton m_transp;
+Gtk::AccelLabel m_ltransp;
+
+void on_c1_changed_func();
+void on_c2_changed_func();
+void on_cb_changed_func();
+void on_trans_changed_func();
+
+private:
+parsepic_out& data;
+global_parse& global_data;
+int& pichange;
+};
+
+color transform_color(const Gdk::Color& g)
+{
+color c;
+c.red = g.get_red_p()*255;
+c.blue = g.get_blue_p()*255;
+c.green = g.get_green_p()*255;
+return c;
+}
+
+
+Gdk::Color transform_color(const color& c)
+{
+Gdk::Color g;
+g.set_rgb_p(c.red/255.0,c.green/255.0,c.blue/255.0);
+return g;
+}
+
+void SpecialEffects::on_c1_changed_func()
+{
+	data.upside = transform_color(m_c1.get_current_color());
+	pichange = 15;
+}
+
+
+void SpecialEffects::on_c2_changed_func()
+{
+	data.inside = transform_color(m_c2.get_current_color());
+	pichange = 15;
+}
+
+
+void SpecialEffects::on_cb_changed_func()
+{
+	global_data.background = transform_color(m_cb.get_current_color());
+	pichange = 15;
+}
+
+void SpecialEffects::on_trans_changed_func()
+{
+	data.transparency = m_transp.get_value();
+	pichange = 15;
+}
+
+
+SpecialEffects::SpecialEffects(parsepic_out& d,global_parse& g, int& p)
+:data(d),global_data(g),pichange(p)
+
+{
+	add(m_note);
+	
+
+
+	m_note.append_page(m_c1,"Farbe 1");
+	m_note.append_page(m_c2,"Farbe 2");
+	m_note.append_page(m_cb,"Hintergrundfarbe");
+	m_note.append_page(m_light,"Beleuchtung");
+	m_note.append_page(m_mat,"Material");
+	m_note.append_page(m_surf,"extra Surf-Code");
+
+	m_c1.set_current_color(transform_color(data.upside));
+	m_c2.set_current_color(transform_color(data.inside));
+	m_cb.set_current_color(transform_color(global_data.background));
+
+	m_c1.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c1_changed_func) );
+	m_c2.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c2_changed_func) );
+	m_cb.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_cb_changed_func) );
+	
+	
+	m_mat.attach(m_ltransp,0,1,0,1);
+	m_mat.attach(m_transp,1,2,0,1);
+
+	m_transp.set_range(0,100);
+	m_transp.set_value(data.transparency);
+	m_transp.set_increments(1,10);
+
+	m_transp.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_trans_changed_func) );
+
+	show_all_children();
+}
+
+void special_show(parsepic_out& data,global_parse& global_data, int& pichange)
+{
+
+SpecialEffects se(data,global_data,pichange);
+
+Gtk::Main::run(se);
+
+}

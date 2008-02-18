@@ -87,6 +87,10 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 	
 	double da = 0.0;
 	double db = 1.0;
+	double dc = 0.0;
+	double dd = 1.0;
+
+	double tra = 0.0;
 
 	double sc = 1;
 
@@ -193,6 +197,11 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 			std::istringstream w(t2);
 			if(pm)w>>cbr;
 		}
+		else if(t1=="transparency")
+		{
+			std::istringstream w(t2);
+			w>>tra;
+		}
 		else if(t1=="antialiasing")
 		{
 			//anti=t;
@@ -211,6 +220,14 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 			else if(strip(t3)=="b")
 			{std::istringstream w(t4);
 			w>>db;}
+			else if(strip(t3)=="c")
+			{std::istringstream w(t4);
+			w>>dc;}
+			else if(strip(t3)=="d")
+			{std::istringstream w(t4);
+			w>>dd;}
+			else if(strip(t3)=="PI")
+			{}
 			else
 			gen<<t<<std::endl;
 		}
@@ -398,12 +415,12 @@ parsepic_out parse_pic(std::istream& f, bool strict)
 	R.background.blue = cbb;	
 		
 
+	R.transparency = tra;
+
 	R.antialiasing = anti;
 	R.equation = eq;
 	R.public_eq = fix_input_for_display(peq);
-	R.general_stuff = gen.str()+"root_finder=d_chain_newton;\n"
-				   +"epsilon=0.0000001;\n"
-				   +"iterations=1000;\n";
+	R.general_stuff = gen.str();
 	//R.initial_x = x;
 	//R.initial_y = y;
 	//R.initial_z = z;

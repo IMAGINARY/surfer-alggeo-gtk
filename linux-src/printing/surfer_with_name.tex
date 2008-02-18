@@ -1,0 +1,208 @@
+%
+% jahrDerMathe2008_katalog.tex
+%
+% 
+% Einige interessante Flächen
+%
+%
+% 2007
+%
+% Oliver Labs
+% www.OliverLabs.net
+% www.AlgebraicSurface.net
+%         
+%
+
+\documentclass[a4paper,sans]{amsbook}
+%\documentclass[a4,11pt]{book}
+
+%
+% 
+%
+\usepackage[
+paperheight=20cm,paperwidth=14.85cm
+  ,height=20cm
+  ,width=14.85cm
+%  ,left=1.5cm
+%  ,right=1.5cm
+%  ,bottom=1.5cm
+%  ,top=1.0cm
+%%paperheight=24cm,paperwidth=17cm
+%%  ,height=8.25in
+%%  ,width=5in
+%%  ,left=2.55cm
+%%  ,top=1.5cm
+]{geometry}
+%\usepackage{layout}
+
+%\setlength{\paperheight}{20cm}
+%\setlength{\paperwidth}{29.7cm}
+%\setlength{\textheight}{17cm}
+%\setlength{\textwidth}{25cm}
+
+%%%%%
+% the papersize has to be specified here for dvipdf to work correctly:
+%
+\special{papersize=14.85cm,20cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Use the crop package only for final pdf output
+% because the kdvi program does not show the graphics
+% when crop is used.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\usepackage[cam,a4,center,dvips]{crop}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage[frame,a4,center,dvips]{crop}
+%\usepackage[cross,a4,center,dvips]{crop}
+%\usepackage{showidx}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{latexsym}
+\usepackage{amsbsy,amscd,amsmath,amstext,amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{dsfont}
+\usepackage{varioref}
+\usepackage{epsfig}
+\usepackage{eso-pic}
+\usepackage{graphicx}
+%\usepackage[active]{srcltx}
+%\usepackage{hyperref}
+%\usepackage[german]{babel}
+%\usepackage{german}
+\usepackage{ifthen}
+%\usepackage{breqn}
+\usepackage[scaled=0.92]{helvet}
+\usepackage{multicol}
+
+\usepackage{pstricks,pst-grad}
+
+%\usepackage{rotating}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Layout related stuff
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% set the space between columns,
+% and remove the line between the columns.
+%
+\setlength{\columnsep}{1.0cm}
+\setlength{\columnseprule}{0.0mm}
+
+%
+% for no indenting for a new paragraph:
+%
+\setlength{\parindent}{0pt} 
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+%
+% don't use any roman fonts:
+%
+\def\rmdefault{cmss}        % no roman
+\def\sfdefault{cmss}
+\def\ttdefault{cmtt}
+\def\itdefault{sl}
+\def\sldefault{sl}
+\def\bfdefault{bx}
+
+%\usepackage{sfmath} % use sans serif fonts in math mode
+
+
+
+%
+% some colors we'll use further down
+%
+\newrgbcolor{lightgrey}{.8 .8 .8}
+\newrgbcolor{lightocher}{0.9 0.9 0.7}
+\newrgbcolor{ocher}{0.7 0.7 0.5}
+%\newrgbcolor{lightgrey}{.8 .8 .8}
+%\newrgbcolor{lightocher}{0.9 0.9 0.65}
+%\newrgbcolor{ocher}{0.7 0.7 0.35}
+%\newrgbcolor{lightgrey}{.8 .8 .8}
+%\newrgbcolor{lightocher}{0.8 0.8 0.8}
+%\newrgbcolor{ocher}{0.7 0.7 0.7}
+
+%
+%
+%
+\definecolor{titleHgColor}{rgb}{0.0,0.0,0.0}
+\definecolor{titleFgColor}{rgb}{0.9,0.9,0.7}
+\definecolor{titleFgColorSnd}{rgb}{1.0,1.0,0.8}
+
+\definecolor{picsHgColor}{rgb}{0.0,0.0,0.0}
+\definecolor{picsFgColor}{rgb}{0.9,0.9,0.7}
+\definecolor{picsFgColorSnd}{rgb}{0.95,0.95,0.75}
+
+\definecolor{textHgColor}{rgb}{1.0,1.0,1.0}
+\definecolor{textFgColor}{rgb}{0.15,0.15,0.1}
+\definecolor{textFgColorSnd}{rgb}{0.4,0.4,0.2}
+\definecolor{textFgColorDark}{rgb}{0.1,0.1,0.07}
+
+\newcommand{\smcdot}{{\textup{$\cdot$}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% The document starts here:
+%
+\begin{document}
+%%%%%
+% the papersize has to be specified here for dvipdf to work correctly:
+%
+\special{papersize=14.85cm,20cm}
+
+\pagecolor{textHgColor}
+\color{textFgColor}
+
+%\fontfamily{phv}\fontseries{mc}\selectfont
+%\sf
+
+\titlepage{}
+
+\begin{center}
+\includegraphics[width=14cm]{surfer_print_header}  
+\end{center}
+
+
+\begin{center}
+\begin{tabular}{c}
+  \includegraphics[width=4in]{image}
+\end{tabular}
+%\end{center}
+
+%\begin{center}
+{
+\includegraphics[keepaspectratio,height=3.2cm,width=12cm]{eps_formula}
+}
+\end{center}
+
+
+
+\begin{center}
+  {\Large
+    \input{name}
+  }
+\end{center}
+
+\vfill
+
+\begin{center}
+\includegraphics[width=14cm]{surfer_print_footer}  
+\end{center}
+
+
+
+\end{document}
+%
+% end of the document.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

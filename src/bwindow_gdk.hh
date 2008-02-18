@@ -83,6 +83,8 @@ struct parsepic_out
 	double initial_scale;
 	double scale;
 	
+	double transparency;
+	
 	double para_a;
 	double para_b;
 	double para_c;
@@ -100,6 +102,36 @@ struct parsepic_out
 
 	parsepic_out():rot(unitmat<double>(3,1.0,0.0)){}
 };
+
+
+struct global_parse
+{
+	color background;
+
+	double initial_scale;
+	double scale;
+	
+	double para[4];
+	
+
+	std::string antialiasing;
+	matrix<double> rot;
+
+	global_parse():rot(unitmat<double>(3,1.0,0.0))
+	{
+		general_stuff = std::string("double PI = 2*arcsin(1);\n")
+				+"root_finder=d_chain_newton;\n"
+				   +"epsilon=0.0000001;\n"
+				   +"iterations=1000;\n";
+	}
+
+	int lores;
+	int hires;
+
+	std::string general_stuff;
+
+};
+
 
 parsepic_out parse_pic(std::istream& f, bool strict = false);
 
@@ -187,7 +219,7 @@ Gtk::DrawingArea m_draw;
 Gtk::Label m_zero;
 AScale m_hscale;
 AScale m_hscale2;
-
+Gtk::Button m_special;
 Gtk::Label m_printing;
 
 AScale m_hscale3;
@@ -214,9 +246,9 @@ Gtk::Image m_zoom_image;
 Gtk::Table m_zoom_table;
 Gtk::Image m_scale_free;
 Gtk::Label m_error;
-
+Gtk::Button m_new_surface;
 Gtk::Button m_savefile;
-
+Gtk::SpinButton m_spin;
 
 bool on_gallery_press_event(GdkEventButton* e, int i);
 
@@ -306,7 +338,7 @@ bool on_back_motion_notify_event_func(GdkEventMotion* event);
 
 void on_mode_clicked_func(char s);
 void on_letter_clicked_func(char s);
-
+void on_special_clicked();
 void on_fullscreen_clicked();
 void on_print_clicked();
 void on_about_clicked();
@@ -318,19 +350,27 @@ void on_right_clicked();
 void on_next_clicked();
 void on_prev_clicked();
 
+void update_visuals();
+
 bool on_surface_expose_event_func(GdkEventExpose* event);
 bool on_surface_button_press_event_func(GdkEventButton* event);
 
 sigc::connection conn;
 void on_value_changed_func();
+void on_spin_changed_func();
 void on_para_changed_func();
 void on_para2_changed_func();
 void on_para3_changed_func();
 void on_para4_changed_func();
+void on_new_surface_clicked();
+
 
 bool on_button_changed_func(GdkEventButton*);
 
-parsepic_out data;
+std::vector<parsepic_out> data;
+unsigned data_index;
+global_parse global_data;
+
 public:
 surfer_options opt;
 PID_type kill_list;
