@@ -1,0 +1,5 @@
+     ../src/about.cc \
+     ../src/bwindowgdk.cc \
+     ../src/select.cc \
+     ../src/gallery.cc \
+     ../src/surfer.cc

@@ -43,18 +43,23 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 		i = t2.find(':');
 		std::string t3 = t2.substr(0,i);
 		std::string t4 = t2.substr(i+1);
-
-		if(G.file.empty() || G.file.back().filename != t1)
+		
+		if(G.file.empty() || basename(G.file.back().filepath) != basename(t1))
 		{
 			std::ifstream pf((path+t1).c_str());
-			parsepic_out P = parse_pic(pf);
-			if(!P.public_eq.empty())
+			parse_result P;
+			
+			P.global_data = global_defaults();
+			P.data = read_pic(pf,P.global_data);
+			if(!P.data.empty())
 			{
 				//std::cout<<t1<<std::endl;
-				P.filename = t1;
-				P.name = basename(t1);
-				P.thumbnail = path+P.name+".ppm";
-				P.desc = path+P.name+".png";
+				
+				P.global_data.name = basename(t1);
+				
+				for(unsigned i = 0; i < P.data.size(); i++)
+				P.data[i].desc = path+basename(t1)+".png";
+				P.filepath = path+basename(t1);
 
 				G.file.push_back(P);
 
@@ -64,22 +69,22 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 		}
 
 		if(t3=="name")
-		G.file.back().name = t4;
+		G.file.back().global_data.name = t4;
 		else if(t3=="lowres"||t3=="lores")
 		{
-			int x = G.file.back().lores;
+			int x = G.file.back().global_data.lores;
 			std::istringstream w(t4);
 			w>>x;
 			x=int(upscaling*x);
-			G.file.back().lores = x;
+			G.file.back().global_data.lores = x;
 		}
 		else if(t3=="highres"||t3=="hires")
 		{
-			int x = G.file.back().hires;
+			int x = G.file.back().global_data.hires;
 			std::istringstream w(t4);
 			w>>x;
 			x=int(upscaling*x);
-			G.file.back().hires = x;
+			G.file.back().global_data.hires = x;
 		}
 		
 	}
@@ -88,11 +93,12 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 	G.desc = path+dname+".png";
 	
 	//std::cout<<G.image<<std::endl;
+	if(!G.file.empty())
 	try{
 		std::ifstream fi(G.image.c_str());
-		if(!fi.is_open())G.image = G.file[0].thumbnail;
+		if(!fi.is_open())G.image = thumbnail(G.file[0]);
 		}catch(...){
-	G.image = G.file[0].thumbnail;
+	G.image = thumbnail(G.file[0]);
 	}
 
 	return G;
@@ -111,9 +117,9 @@ void write_gallery_file(std::ostream& f, const gallery& G)
 
 	for(unsigned i = 0; i < G.file.size(); i++)
 	{
-		f<<G.file[i].filename<<":name:"<<G.file[i].name<<std::endl;
-		f<<G.file[i].filename<<":lowres:"<<G.file[i].lores<<std::endl;
-		f<<G.file[i].filename<<":highres:"<<G.file[i].hires<<std::endl;
+		f<<basename(G.file[i].filepath)<<":name:"<<G.file[i].global_data.name<<std::endl;
+		f<<basename(G.file[i].filepath)<<":lowres:"<<G.file[i].global_data.lores<<std::endl;
+		f<<basename(G.file[i].filepath)<<":highres:"<<G.file[i].global_data.hires<<std::endl;
 
 		
 	}

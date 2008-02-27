@@ -60,12 +60,12 @@ Warning: Installing gtkmm may take several hours, even on a recent machine.
 Have patience.
 
 You find the source for Surfer in the subdirectory
-./surfer-rev-55/
+./surfer-0.0.XXX/ where XXX is some number
 
 type the following commands
 to install surfer
 
-cd ./surfer-rev-55
+cd ./surfer-0.0.*
 ./configure
 make
 sudo make install
@@ -73,26 +73,19 @@ cd ..
 
  [Optional] You might want to:
  * add compiler flags to enable OpenMP support if you are on a multiprocessor or multicore system
-   See surfer-rev-55/README for details on that.
-
-You should now be able to start Surfer by typing "surfer" in a shell.
+   See surfer-0.0.*/README for details on that.
 
 Fourth Step:
-Enable gallery files for surfer
+Enable gallery files for surfer:
+Type
 
-In ./gallery-rev-55/ you find a gallery with surfaces for surf.
+sudo make gallery-install
 
-Copy it to someplace convenient:
-For example
-cp -r ./gallery-rev-55/ ~/Documents/surfer-gallery
-
-You have to tell Surfer where to find the gallery
-Edit (create if it does not exist) the hidden file ~/.surfer
-and add the following line
-
-gallery=~/Documents/surfer-gallery
 
 That's it.
+
+
+You should now be able to start Surfer by typing "surfer" into a terminal.
 
 Surfer should display a gallery of algebraic surfaces upon start.
 -----------------

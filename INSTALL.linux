@@ -12,12 +12,18 @@ First Step:
 Install the rendering front-end surf:
 
 surf depends on the following packages:
-libgmp  (apt-get install libgmp3-dev)
-libtiff (apt-get install libtiff4-dev)
-libjpeg (apt-get install libjpeg62-dev)
-zlib    (apt-get install zlib1g-dev)
-libx11  (apt-get install libx11-dev)
-flex    (apt-get install flex)
+gmp       (apt-get install libgmp3-dev)
+libtiff   (apt-get install libtiff4-dev)
+libjpeg   (apt-get install libjpeg62-dev)
+zlib      (apt-get install zlib1g-dev)
+libx11    (apt-get install libx11-dev)
+flex      (apt-get install flex)
+
+Users of Ubuntu-based distributions may just enter the commands in parentheses to install these libraries.
+Users of other linux distributions or other Unix-based systems use their respective package manager to install the libraries.
+
+Caution: You need not only binary packets (e.g. zlib) but also libraries and headers used for development,
+these packages usually end in -dev or -devel (e.g. zlib-devel). You need to install BOTH.
 
 (You may skip this step if you already have surf installed)
 
@@ -42,15 +48,23 @@ Second Step:
 Install the graphical interface Surfer:
 
 Surfer depends on
-libgtkmm-2.4 (apt-get install libgtkmm-2.4-dev)
+gtkmm-2.4        (apt-get install libgtkmm-2.4-dev)
+
+Users of Ubuntu-based distributions may just enter the command in parentheses to install these libraries.
+Users of other linux distributions or other Unix-based systems use their respective package manager to install the libraries.
+
+Caution: You need not only binary packets, but also libraries and headers used for development,
+these packages usually end in -dev or -devel. You need to install BOTH.
+The name of the gtkmm package might be something like gtkmm, libgtkmm, gtmm-2.4, libgtkmm24.
+Make sure you install gtkmm and development files for gtkmm which are AT LEAST VERSION 2.8.
 
 You find the source for Surfer in the subdirectory
-./surfer-rev-55/
+./surfer-0.0.XXX where XXX is some number
 
 type the following commands
-to install surfer
+to install Surfer
 
-cd ./surfer-rev-55
+cd ./surfer-0.0.*
 ./configure
 make
 sudo make install
@@ -58,32 +72,23 @@ cd ..
 
  [Optional] You might want to:
  * add compiler flags to enable OpenMP support if you are on a multiprocessor or multicore system
-   See surfer-rev-55/README for details on that.
-
-You should now be able to start Surfer by typing "surfer" in a shell.
+   See surfer-0.0.*/README for details on that.
 
 Third Step:
-Enable gallery files for surfer
+Enable gallery files for Surfer.
 
-In ./gallery-rev-55/ you find a gallery with surfaces for surf.
+Type the following command
 
-Copy it to someplace convenient:
-For example
-cp -r ./gallery-rev-55/ ~/Documents/surfer-gallery
-
-You have to tell Surfer where to find the gallery
-Edit (create if it does not exist) the hidden file ~/.surfer
-and add the following line
-
-gallery=~/Documents/surfer-gallery
+sudo make gallery-install
 
 That's it.
+You should now be able to run Surfer by typing "surfer".
 
 Surfer should display a gallery of algebraic surfaces upon start.
 -----------------
 
 You find additional instructions in the
-relative manuals of surf and surfer.
+relative manuals of surf and Surfer.
 
 Questions, suggestions, bug reports and feature requests go to
 surfer@imaginary2008.de

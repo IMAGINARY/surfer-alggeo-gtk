@@ -23,10 +23,18 @@
 #include <dirent.h>
 #include <fstream>
 
-std::string basename(const std::string& f)
+std::string basename(const std::string& ff)
 {
-	int i = f.find(".");
-	if(i==-1) return f;
+	std::string f = ff;
+
+	while(f.find(DIR_SEP)!=-1L)
+	{
+		long i = f.find(DIR_SEP);
+		f=f.substr(i+1);
+	}
+
+	long i = f.find(".");
+	if(i==-1L) return f;
 	else return f.substr(0,i);
 }
 
@@ -65,14 +73,18 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 		{
 
 		std::ifstream f((path+DIR_SEP+R->d_name).c_str());
-		parsepic_out P;
-		P = parse_pic( f, true);
-		if(!P.equation.empty())
+		parse_result P;
+		P.global_data = global_defaults();
+		P.data = read_pic( f, P.global_data);
+		if(!P.data.empty())
 		{
-			P.filename = d;
-			P.name = basename(d);
-			P.thumbnail = path+DIR_SEP+basename(d)+".ppm";
-			P.desc = path+DIR_SEP+basename(d)+".png";
+			//P.filename = d;
+			P.global_data.name = basename(d);
+			//P.thumbnail = path+DIR_SEP+basename(d)+".ppm";
+			for(unsigned i = 0; i < P.data.size(); i++)
+			P.data[i].desc = path+DIR_SEP+basename(d)+".png";
+			P.filepath = path+DIR_SEP+basename(d);
+
 			 G.file.push_back(P);
 			//std::cout<<"success "<<R->d_name<<" :: "<<P.name<<std::endl;
 		}
@@ -88,11 +100,12 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 	G.image = path+DIR_SEP+name+".ppm";
 	G.desc = path+DIR_SEP+name+".png";
 	//std::cout<<G.image<<std::endl;
+	if(!G.file.empty())
 	try{
 		std::ifstream fi(G.image.c_str());
-		if(!fi.is_open())G.image = G.file[0].thumbnail;
+		if(!fi.is_open())G.image = thumbnail(G.file[0]);
 		}catch(...){
-	G.image = G.file[0].thumbnail;
+	G.image = thumbnail(G.file[0]);
 	}
 	
 
@@ -191,12 +204,12 @@ GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
 	m_IconView.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 	m_VBox.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 
-	set_title("Surfer - Fläche auswählen");
+	set_title(_("Select surface - Surfer"));
   set_border_width(5);
   set_default_size(400, 400);
   add(m_tab);
   
- m_please.set_markup("<span foreground=\"#FF0000\" weight=\"bold\">Bitte auf eine Fläche klicken</span>");
+ m_please.set_markup(std::string("<span foreground=\"#FF0000\" weight=\"bold\">")+_("Click on a surface, please.")+"</span>");
 
   m_frame.add(m_desc);
   m_tab.attach(m_frame,0,1,0,1,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK);
@@ -249,7 +262,7 @@ try{
   for(unsigned i = 0; i < gal.file.size(); i++)
   {
 	
-	IconEntry e(gal.file[i].thumbnail,gal.file[i].name);
+	IconEntry e(thumbnail(gal.file[i]),gal.file[i].global_data.name);
 
 	entries.push_back(e);
   }
@@ -353,4 +366,9 @@ make_thumbs(gal.file,opt);
 
 
 
+
+std::string thumbnail(const parse_result& P)
+{
+	return P.filepath+".ppm";
+}
 

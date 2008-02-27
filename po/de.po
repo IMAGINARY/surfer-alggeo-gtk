@@ -1,0 +1,314 @@
+# SURFER i18n
+# Copyright (C) 2008 Henning Meyer
+# This file is distributed under the same license as the PACKAGE package.
+# Henning Meyer <hmeyer@mathematik.uni-kl.de>
+#
+
+
+msgid ""
+msgstr ""
+"Project-Id-Version: surfer\n"
+"Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
+"POT-Creation-Date: 2008-02-25 21:41+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Henning Meyer <hmeyer@mathematik.uni-kl.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: bwindow_gdk.hh:252
+
+msgid "Zoom"
+msgstr "Zoom"
+
+#: about.cc:38
+
+msgid ""
+"Surfer uses the program surf by Stephan Endrass et al.\n"
+"(http://surf.sourceforge.net)"
+
+msgstr ""
+"Surfer benutzt das Programm surf von Stephan Endrass et al.\n"
+"(http://surf.sourceforge.net)"
+
+
+#: about.cc:39
+
+msgid ""
+"Surfer was developed for the exposition IMAGINARY, which was conceived by Mathematischen Forschungsinstitut Oberwolfach on occassion of the Year of Mathematics 2008 in Germany. The exposition has received funding by the German Federal Department of Education and Research."
+
+msgstr ""
+"Surfer wurde für die Ausstellung IMAGINARY entwickelt, die vom "
+"Mathematischen Forschungsinstitut Oberwolfach zum Jahr der Mathematik 2008 "
+"in Deutschland konzipiert wurde. Die Ausstellung ist vom Bundesministerium "
+"von Bildung und Forschung gefördert."
+
+
+#: about.cc:42
+
+msgid ""
+"Director: Gert-Martin Greuel\n"
+"Programming: Henning Meyer and Christian Stussak\n"
+"Galleries: Oliver Labs\n"
+"Support: Felix Riemann\n"
+"Coordination: Andreas Matt"
+
+msgstr ""
+"Leitung: Gert-Martin Greuel\n"
+"Programmierung: Henning Meyer und Christian Stussak\n"
+"Konzept/Galerien: Oliver Labs\n"
+"Unterstützung: Felix Riemann\n"
+"Konzept/Koordination: Andreas Matt"
+
+
+#: about.cc:47
+
+msgid ""
+"(c) Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern, 2008"
+
+msgstr ""
+"(c) Mathematisches Forschungsinstitut Oberwolfach und Technische Universität "
+"Kaiserslautern, 2008"
+
+
+#: about.cc:48
+
+msgid ""
+"You will find the latest version of Surfer and additional information at http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/"
+
+msgstr ""
+"Die aktuelle Version und mehr Informationen zu Surfer finden Sie auf der "
+"Webseite http://surfer.imaginary2008.de/ und http://www.imaginary2008.de/"
+
+
+#: about.cc:49
+
+msgid ""
+"Contact: surfer@imaginary2008.de\n"
+"Please visit our website at http://surfer.imaginary2008.de\nfor further information and new releases of Surfer."
+
+msgstr ""
+"Kontakt: surfer@imaginary2008.de\n"
+"Besuchen Sie auch unsere Webseite http://surfer.imaginary2008.de\n"
+"für weitere Informationen und neue Versionen von Surfer."
+
+
+#: about.cc:163 bwindow_gdk.cc:138 bwindow_gdk.cc:139 bwindow_gdk.cc:254
+#: bwindow_gdk.cc:255 bwindow_gdk.cc:444 bwindow_gdk.cc:445 bwindow_gdk.cc:446
+#: bwindow_gdk.cc:447 bwindow_gdk.cc:454 bwindow_gdk.cc:455 gallery.cc:199
+#: gallery.cc:200 gallery.cc:202 gallery.cc:203 gallery.cc:204 gallery.cc:205
+
+#: about.cc:164
+
+msgid "About Surfer"
+msgstr "Über Surfer"
+
+
+
+#: about.cc:196
+
+msgid ""
+"Could not access help file."
+
+msgstr ""
+ "Auf die Hilfe-Datei kann nicht zugegriffen werden."
+
+
+#: about.cc:203
+
+msgid ""
+"Could not display help file. Install Adobe Reader."
+
+msgstr ""
+"Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe "
+"Reader."
+
+
+#: bwindow_gdk.cc:101
+
+msgid "side 1"
+msgstr "Flächenseite 1"
+
+#: bwindow_gdk.cc:108
+
+msgid "side 2"
+msgstr "Flächenseite 2"
+
+
+#: bwindow_gdk.cc:120
+
+msgid "Printing image..."
+
+msgstr "Bild wird gedruckt"
+
+#: bwindow_gdk.cc:132
+
+msgid "Details"
+msgstr "Details"
+
+
+#: bwindow_gdk.cc:348
+
+msgid "Delete"
+msgstr "Löschen"
+
+
+#: bwindow_gdk.cc:414
+
+msgid "Coloring"
+msgstr "Farben"
+
+
+#: bwindow_gdk.cc:427
+msgid "Gallery"
+msgstr "Galerie"
+
+
+#: bwindow_gdk.cc:429
+msgid "Info"
+msgstr "Info"
+
+
+
+#: bwindow_gdk.cc:1674
+msgid "Print image"
+msgstr "Bild drucken"
+
+#: bwindow_gdk.cc:1679
+msgid "Name:"
+msgstr "Name:"
+
+
+#: bwindow_gdk.cc:1738
+msgid "Save image"
+msgstr "Bild speichern"
+
+#: bwindow_gdk.cc:1744
+msgid "Portable Network Graphics (.png)"
+msgstr "Portable Network Graphics (.png)"
+
+
+#: bwindow_gdk.cc:1757
+msgid "All files"
+msgstr "Alle Dateien"
+
+
+#: gallery.cc:207
+msgid ""
+"Select surface - Surfer"
+
+msgstr ""
+"Fläche auswählen - Surfer"
+
+
+#: gallery.cc:212
+msgid "Click on a surface, please."
+msgstr ""
+"Bitte auf eine Fläche klicken"
+
+
+#: select.cc:287
+msgid "Transparency"
+msgstr "Transparenz"
+
+#: select.cc:288
+msgid "Thickness"
+msgstr "Materialstaerke"
+
+#: select.cc:289
+msgid "Smoothness"
+msgstr "Glanz"
+
+#: select.cc:290
+msgid "Ambient light"
+msgstr "Leuchten"
+
+#: select.cc:291
+msgid "Diffuse light"
+msgstr "Helligkeit"
+
+#: select.cc:292
+msgid "Reflected light"
+msgstr "Reflektion"
+
+#: select.cc:299
+msgid "Color 1"
+msgstr "Farbe 1"
+
+#: select.cc:300
+msgid "Color 2"
+msgstr "Farbe 2"
+
+#: select.cc:301
+msgid "Background color"
+msgstr "Hintergrundfarbe"
+
+#: select.cc:302
+msgid "Illumination"
+msgstr "Beleuchtung"
+
+#: select.cc:303
+msgid "Material"
+msgstr "Material"
+
+#: select.cc:304
+msgid "special Surf-Code"
+msgstr "extra Surf-Code"
+
+#: select.cc:375
+msgid "Licht"
+msgstr "Light"
+
+#: select.cc:430
+msgid "color of light"
+msgstr "Lichtfarbe"
+
+#: select.cc:431
+msgid "intensity of light"
+msgstr "Lichtintensitaet"
+
+#: select.cc:432
+msgid "x coordinate"
+msgstr "x-Koordinate"
+
+#: select.cc:433
+msgid "y coordinate"
+msgstr "y-Koordinate"
+
+#: select.cc:434
+msgid "z coordinate"
+msgstr "z-Koordinate"
+
+msgid ""
+"Surfer - visualizing algebraic geometry\n"
+"usage: surfer [-f] [-h] [-i] [-s] [file]\n";
+"       -f toggles between fullscreen and windowed mode\n"
+"       -h hides the gallery\n"
+"       -i hides the information for gallery entries\n"
+"       -s small mode: no fullscreen, no gallery, no information\n"
+"       file is a surf or surfer script\n"
+
+msgstr ""
+"Surfer - interaktive Visualisierung algebraischer Geometrie\n"
+"Syntax: surfer [-f] [-h] [-i] [-s] [datei]\n";
+"       -f schaltet den Vollbild-Modus ein oder aus\n"
+"       -h versteckt die Galerie\n"
+"       -i versteckt die Informationen der Galerieeintraege\n"
+"       -s Schrumpfmodus: kein Vollbild, keine Galerie, keine Informationen\n"
+"       datei ist ein Surf-Skript oder eine Surfer-Datei\n"
+
+msgid "Resolution"
+msgstr "Aufloesung"
+
+msgid "Resolution of saved image"
+msgstr "Afloesung beim Speichern"
+
+msgid "resolution while rotating"
+msgstr "Aufloesung beim Drehen"
+
+msgid "maximal resolution when idle"
+msgstr "maximale Aufloesung beim Rechnen"
+
+msgid "Anti-aliasing factor"
+msgstr "Antialiasing-Faktor"
+

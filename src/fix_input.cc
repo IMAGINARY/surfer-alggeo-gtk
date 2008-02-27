@@ -29,6 +29,8 @@ bool my_alpha(const char x)
 	{
 		case 'a':
 		case 'b':
+		case 'c':
+		case 'd':
 		case 'x':
 		case 'y':
 		case 'z':
@@ -99,6 +101,23 @@ std::string fix_input_for_surf(const std::string& s)
 
 	while(t.find("-b") != -1L)
 	t=t.replace(t.find("-b"),2,"-1*b");
+
+	
+	while(t.find("-u") != -1L)
+	t=t.replace(t.find("-u"),2,"-1*u");
+
+	while(t.find("-v") != -1L)
+	t=t.replace(t.find("-v"),2,"-1*v");
+
+	while(t.find("-w") != -1L)
+	t=t.replace(t.find("-w"),2,"-1*w");
+
+	while(t.find("-c") != -1L)
+	t=t.replace(t.find("-c"),2,"-1*c");
+
+	while(t.find("-d") != -1L)
+	t=t.replace(t.find("-d"),2,"-1*d");
+
 
 
 	return t;

@@ -30,6 +30,7 @@
 #include "bwindow_gdk.hh"
 #include <cstdlib>
 
+bool rewrite_config = false;
 
 std::string home_dir()
 {
@@ -72,6 +73,8 @@ std::string fix_file(const std::string& s)
 
 std::string fix_path(const std::string& s)
 {
+	if(!s.empty() && s[0]=='\"') return fix_path(s.substr(1));
+	if(!s.empty() && s[s.size()-1]=='\"') return fix_path(s.substr(0,s.size()-1));
 	if(!s.empty() && s[s.size()-1]!=DIR_SEP_CHAR)
 	return s+DIR_SEP_CHAR;
 	else return s;
@@ -121,10 +124,10 @@ surfer_options read_settings_from_file(const std::string& filename)
 	try{
 		f.open(filename.c_str());
 	}
-	catch(...){return so;}
+	catch(...){rewrite_config=true;return so;}
 
 
-	if(f.bad()||f.eof()||!f.good()) return so;
+	if(f.bad()||f.eof()||!f.good()||!f.is_open()) {rewrite_config = true; return so;}
 
 
 

@@ -12,8 +12,11 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AM_PROG_LIBTOOL
 
+
+AM_GNU_GETTEXT([external])
+
 AC_LANG_CPLUSPLUS
 
 PKG_CHECK_MODULES([GTKMM], [gtkmm-2.4 >= 2.8.0])
 
-AC_OUTPUT(Makefile src/Makefile )
+AC_OUTPUT(Makefile src/Makefile  po/Makefile.in)

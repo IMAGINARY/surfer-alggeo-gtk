@@ -28,6 +28,9 @@ std::string temp_dir = "/tmp/";
 extern char * surfer_small_xpm[] ;
 
 extern bool no_full;
+extern bool no_info;
+extern bool no_gallery;
+extern bool rewrite_config;
 
 #ifdef WIN32
 int main (int argc, char *argv[]);
@@ -66,6 +69,9 @@ virtual bool on_expose_event(GdkEventExpose*)
 int main (int argc, char *argv[])
 {
 
+bindtextdomain(PACKAGE, LOCALEDIR);
+bind_textdomain_codeset(PACKAGE, "UTF-8");
+textdomain(PACKAGE);
 
 
 #ifdef WIN32
@@ -91,15 +97,62 @@ arg_inspect:
   {
 	if(std::string(argv[1])=="-")
 		i = &std::cin;
+	else if(std::string(argv[1])=="-h" || std::string(argv[1])=="--help")
+	{
+		std::cout<<
+		_("Surfer - visualizing algebraic geometry\n"
+		"usage: surfer [-f] [-h] [-i] [-s] [file]\n"
+		"       -f toggles between fullscreen and windowed mode\n"
+                "       -h hides the gallery\n"
+		"       -i hides the information for gallery entries\n"
+                "       -s small mode: no fullscreen, no gallery, no information\n"
+                "       file is a surf or surfer script\n");
+		return 0;
+		
+	}
 	else if(std::string(argv[1])=="-f")
 	{
-		//std::vector<parsepic_out> R;
-		//add_data(R);
-		//std::cout<<"generating thumbnails"<<std::endl;
-		//make_thumbs(R);
-		//std::cout<<"generating thumbnails finished"<<std::endl;
-		//return 0;
 		no_full = !no_full;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="-h")
+	{
+		no_gallery = !no_gallery;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="-i")
+	{
+		no_info = !no_info;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="-s")
+	{
+		no_full = true;
+		no_info=true;
+		no_gallery=true;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="--version")
+	{
+		std::cout<<"Surfer "<<get_revision()<<std::endl;
+		return 0;
+		
+	}
+	else if(std::string(argv[1])=="-r")
+	{
+		rewrite_config = !rewrite_config;
 		argc--;
 		argv++;
 		goto arg_inspect;
@@ -114,7 +167,10 @@ arg_inspect:
 
   std::string optfile = fix_file("~" DIR_SEP HIDDEN_MARKER "surfer");
 
-  surfer_options so = read_settings_from_file(optfile.c_str());
+  surfer_options so = default_settings();
+if(!rewrite_config) read_settings_from_file(optfile.c_str());
+
+  if(rewrite_config)
   try{
 	std::ofstream f(optfile.c_str());
 	if(f.good()&&!f.bad())

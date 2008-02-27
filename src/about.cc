@@ -24,43 +24,15 @@ extern std::string revstring;
 extern std::string datestring;
 
 
-extern  char * BMBF_RGB_Gef_M_xpm[];
+extern char * BMBF_RGB_Gef_M_xpm[];
 extern char * mfo_logo_xpm[] ;
 extern char * surfer_small_xpm[] ;
 extern char * logo_wissenschaftsjahr08_xpm[] ;
 extern char * BMBF_JM_Alles_xpm[];
 
-AboutWindow::AboutWindow(const surfer_options& so)
-:
-opt(so),
-l_surfer1("Surfer"),
-l_surfer2(""),
-l_surfer3("Surfer basiert auf dem Programm surf von Stephan Endrass et al.\n(http://surf.sourceforge.net)"),
-l_surfer4("Surfer wurde für die Ausstellung IMAGINARY entwickelt, die vom Mathematischen Forschungsinstitut Oberwolfach zum Jahr der Mathematik 2008 in Deutschland konzipiert wurde. Die Ausstellung ist vom Bundesministerium von Bildung und Forschung gefördert."),
-m_close(Gtk::Stock::OK),
-l_credits(
-"Leitung: Gert-Martin Greuel\n"
-"Programmierung: Henning Meyer und Christian Stussak\n"
-"Konzept/Galerien: Oliver Labs\n"
-"Unterstützung: Felix Riemann\n"
-"Konzept/Koordination: Andreas Matt"),
-l_copy("(c) Mathematisches Forschungsinstitut Oberwolfach und Technische Universität Kaiserslautern, 2008"),
-l_info("Die aktuelle Version und mehr Informationen zu Surfer finden Sie auf der Webseite http://surfer.imaginary2008.de/ und http://www.imaginary2008.de/"),
-l_contact("Kontakt: surfer@imaginary2008.de\nBesuchen Sie auch unsere Webseite http://surfer.imaginary2008.de\nfür weitere Informationen und neue Versionen von Surfer."),
-m_guide(Gtk::Stock::HELP),
-a1(0.0,0.5,0.0,0.0),
-a2(0.0,0.5,0.0,0.0),
-a3(0.0,0.5,0.0,0.0),
-a4(0.0,0.5,0.0,0.0),
-a5(0.0,0.5,0.0,0.0),
-a7(0.0,0.5,0.0,0.0),
-a8(0.0,0.5,0.0,0.0),
-a6(0.0,0.5,0.0,0.0)
+std::string get_revision()
 {
-//$Revision: 
-//0123456789abcdef
-//$Date: 
-std::string rev;
+	std::string rev;
 std::string datum;
 try{
 rev = revstring.substr(11,revstring.size()-1);
@@ -82,6 +54,41 @@ if(!rev.empty()&&!datum.empty())
 revdat +=", ";
 revdat +=datum+")";
 }
+return revdat;
+}
+
+AboutWindow::AboutWindow(const surfer_options& so)
+:
+opt(so),
+l_surfer1("Surfer"),
+l_surfer2(""),
+l_surfer3(_("Surfer uses the program surf by Stephan Endrass et al.\n(http://surf.sourceforge.net)")),
+l_surfer4(_("Surfer was developed for the exposition IMAGINARY, which was conceived by Mathematischen Forschungsinstitut Oberwolfach on occassion of the Year of Mathematics 2008 in Germany. The exposition has received funding by the German Federal Department of Education and Research.")),
+m_close(Gtk::Stock::OK),
+l_credits(
+_("Director: Gert-Martin Greuel\n"
+"Programming: Henning Meyer and Christian Stussak\n"
+"Galleries: Oliver Labs\n"
+"Support: Felix Riemann\n"
+"Coordination: Andreas Matt")),
+l_copy(_("(c) Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern, 2008")),
+l_info(_("You will find the latest version of Surfer and additional information at http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/")),
+l_contact(_("Contact: surfer@imaginary2008.de\nPlease visit our website at http://surfer.imaginary2008.de\nfor further information and new releases of Surfer.")),
+m_guide(Gtk::Stock::HELP),
+a1(0.0,0.5,0.0,0.0),
+a2(0.0,0.5,0.0,0.0),
+a3(0.0,0.5,0.0,0.0),
+a4(0.0,0.5,0.0,0.0),
+a5(0.0,0.5,0.0,0.0),
+a7(0.0,0.5,0.0,0.0),
+a8(0.0,0.5,0.0,0.0),
+a6(0.0,0.5,0.0,0.0)
+{
+//$Revision: 
+//0123456789abcdef
+//$Date: 
+
+std::string revdat = get_revision();
 
 l_surfer1.set_markup("<span weight=\"bold\">Surfer</span>"+revdat);
 m_close.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_close_click));
@@ -161,7 +168,7 @@ i_math.set(math);
 
 
 modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-set_title("Über Surfer");
+set_title(_("About Surfer"));
 set_size_request(500,600);
 
 m_tab.attach(m_close,1,2,9,10,Gtk::SHRINK,Gtk::SHRINK);
@@ -193,14 +200,14 @@ void AboutWindow::on_help_click()
 		case ERROR_FILE_NOT_FOUND:
 		case SE_ERR_ACCESSDENIED:
 		{
-			Gtk::MessageDialog m(*this,"Auf die Hilfe-Datei kann nicht zugegriffen werden.",false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			Gtk::MessageDialog m(*this,_("Could not access help file."),false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
 			m.run();
 			break;
 		}
 		case SE_ERR_NOASSOC:
 		case SE_ERR_ASSOCINCOMPLETE:
 		{
-			Gtk::MessageDialog m(*this,"Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe Reader.",false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			Gtk::MessageDialog m(*this,_("Could not display help file. Install Adobe Reader."),false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
 			m.run();
 			break;
 		}

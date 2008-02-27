@@ -36,83 +36,10 @@ int sandwich(double x,double l, double u)
 	return int(l);
 }
 
- void add_data(std::vector<parsepic_out>& R)
-{
-	
-	std::vector<std::string> eqs;
-	std::vector<std::string> names;
-
-	eqs.push_back("x^2*y+y^2*z+z^2*x-0.1");
-        names.push_back("simple cubic sheet");
-
-	eqs.push_back("x^3+y^3+z^3-x-y-z");
-        names.push_back("sheet with several holes");
-
-	eqs.push_back("x^2+y^2+z^2+2*x*y*z-1");
-        names.push_back("surface with 4 singular points");
-
-
-	eqs.push_back("x^4+y^4+z^4-(0.5*x+1)^2*(x^2+y^2+z^2)-(x^2*y^2+x^2*z^2+y^2*z^2) +(0.5*x+1)^4");
-        names.push_back("a Kummer surface");
-
-
-	eqs.push_back("4*(2.618*x^2-y^2)*(2.618*y^2-z^2)*(2.618*z^2-x^2)-4.236*(x^2+y^2+z^2-1)^2");
-        names.push_back("Bath's sextic");
-
-	std::istringstream is("");
-	parsepic_out general = parse_pic( is);
-
-
-	for(unsigned i = 0; i < eqs.size(); i++)
-
-	{
-		parsepic_out P;
-		
-		P.antialiasing = general.antialiasing;
-		P.general_stuff = general.general_stuff;
-
-		//P.initial_x = general.initial_x;
-		//P.initial_y = general.initial_y;
-		//P.initial_z = general.initial_z;
-
-		P.name = names[i];
-		P.public_eq = eqs[i];
-		P.equation = trans_eq( eqs[i]);
-
-		P.initial_scale = general.scale;
-
-		//P.size = general.size;
-
-		std::ostringstream os;
-
-		os<<TEMP_ROOT_SEP +"surfb_thumb"<<i<<".ppm";
-
-		P.thumbnail = os.str();
-
-		P.upside.red = sandwich(255 * (i/double(eqs.size()-1))-20,0,255);
-		P.upside.green = sandwich(255 * (1 - i/double(eqs.size()-1))-20,0,255);
-		P.upside.blue = sandwich(255*sin(i/double(eqs.size()-1)*3)-20,0,255);
-
-		P.inside.red = sandwich(255 * (i/double(eqs.size()-1))+20,0,255);
-		P.inside.green = sandwich(255 * (1 - i/double(eqs.size()-1))+20,0,255);
-		P.inside.blue = sandwich(255*sin(i/double(eqs.size()-1)*3)+20,0,255);
-		
-		
-
-		R.push_back(P);
-
-		
-
-	}
-
-
-	return ;
-}
 
 
 
-
-void make_thumb(parsepic_out data,const std::string& script, const std::string& image, const int size, const surfer_options& opt)
+void make_thumb(parse_result data,const std::string& script, const std::string& image, const int size, const surfer_options& opt)
 {
 	
 		
@@ -139,35 +66,11 @@ void make_thumb(parsepic_out data,const std::string& script, const std::string& 
 	f<<"height="<<size<<";\n";
 	
 
-	f<<"double a = "<<data.para_a<<";\n";
-	f<<"double b = "<<data.para_b<<";\n";
 
-	f<<"poly u="<<data.rot.el(1,1)<<"*x+("<<data.rot.el(1,2)<<")*y+("<<data.rot.el(1,3)<<")*z;\n";
-	f<<"poly v="<<data.rot.el(2,1)<<"*x+("<<data.rot.el(2,2)<<")*y+("<<data.rot.el(2,3)<<")*z;\n";
-	f<<"poly w="<<data.rot.el(3,1)<<"*x+("<<data.rot.el(3,2)<<")*y+("<<data.rot.el(3,3)<<")*z;\n";
-
-	f<<data.general_stuff;
-
-	f<<data.antialiasing<<"\n";
-	//f<<"surface="<<data.equation<<";\n";
-	f<<"surface="<< data.equation <<";\n";
-	f<<"scale_x="<<data.initial_scale<<";\n";
-	f<<"scale_y="<<data.initial_scale<<";\n";
-	f<<"scale_z="<<data.initial_scale<<";\n";
-
-	f<<"surface_red="<<data.upside.red<<";\n";
-	f<<"inside_red="<<data.inside.red<<";\n";
-	f<<"surface_green="<<data.upside.green<<";\n";
-	f<<"inside_green="<<data.inside.green<<";\n";
-	f<<"surface_blue="<<data.upside.blue<<";\n";
-	f<<"inside_blue="<<data.inside.blue<<";\n";
-	//f<<"transparency="<<50<<";\n";
-
-
-	f<<"background_red="<<255<<";\n";
-	f<<"background_green="<<255<<";\n";
-	f<<"background_blue="<<255<<";\n";
-
+	write_surf(data.global_data,f);
+	for(unsigned k = 0; k < data.data.size(); k++)
+	write_surf(data.data[k],k,f);
+	
 
 	f<<"filename=\""<<image<<"\";\n";
 	f<<"color_file_format=ppm;\n";
@@ -182,23 +85,65 @@ void make_thumb(parsepic_out data,const std::string& script, const std::string& 
 
 
 
-void make_thumbs(const std::vector<parsepic_out>& R, const surfer_options& opt)
+void make_thumbs(const std::vector<parse_result>& R, const surfer_options& opt)
 {
 
 	for(unsigned i=0; i<R.size(); i++)
 	{
-		make_thumb(R[i],TEMP_ROOT_SEP +"surfb_thumb_tmp.pic",R[i].thumbnail,100,opt);
+		make_thumb(R[i],TEMP_ROOT_SEP +"surfb_thumb_tmp.pic",thumbnail(R[i]),100,opt);
 	}
 }
 
 
+class LightWidget: public Gtk::Table
+{
+public:
 
+LightWidget();
+
+void set_light(const surf_light& L);
+surf_light get_light() const;
+
+virtual void on_light_changed() {
+m_vol.update();
+	m_x.update();
+	m_y.update();
+	m_z.update();
+
+light_changed.emit();}
+
+sigc::signal<void>& signal_light_changed() {return light_changed;}
+
+private:
+
+Gtk::Label m_lcolor;
+Gtk::ColorSelection m_color;
+
+Gtk::Label m_lvol;
+Gtk::SpinButton m_vol;
+
+Gtk::Label m_lx;
+Gtk::SpinButton m_x;
+
+
+Gtk::Label m_ly;
+Gtk::SpinButton m_y;
+
+
+Gtk::Label m_lz;
+Gtk::SpinButton m_z;
+
+Gtk::VSeparator m_sep;
+
+sigc::signal<void> light_changed;
+
+};
 
 
 class SpecialEffects: public Gtk::Window
 {
 public:
-SpecialEffects(parsepic_out& d,global_parse& g, int& p);
+SpecialEffects(surface_data& d,global_parse& g, int& p);
 
 private:
 
@@ -215,17 +160,70 @@ Gtk::Label m_lcb;
 Gtk::Table m_mat;
 Gtk::Table m_surf;
 Gtk::Table m_light;
+Gtk::Table m_res;
+
+Gtk::SpinButton m_res_save;
+Gtk::SpinButton m_res_fast;
+Gtk::SpinButton m_res_fine;
+Gtk::SpinButton m_res_aa;
+
+Gtk::Label m_res_lsave;
+Gtk::Label m_res_lfast;
+Gtk::Label m_res_lfine;
+Gtk::Label m_res_laa;
+
 
 Gtk::SpinButton m_transp;
 Gtk::AccelLabel m_ltransp;
 
+
+Gtk::SpinButton m_thick;
+Gtk::AccelLabel m_lthick;
+
+
+Gtk::SpinButton m_smooth;
+Gtk::AccelLabel m_lsmooth;
+
+
+Gtk::SpinButton m_ambient;
+Gtk::AccelLabel m_lambient;
+
+
+Gtk::SpinButton m_diffuse;
+Gtk::AccelLabel m_ldiffuse;
+
+
+Gtk::SpinButton m_reflected;
+Gtk::AccelLabel m_lreflected;
+
+Gtk::TextView m_code;
+
+LightWidget m_alight[9];
+
+Gtk::Notebook m_lights;
+
+
+
 void on_c1_changed_func();
 void on_c2_changed_func();
 void on_cb_changed_func();
+
+void on_code_changed_func();
+
+
+void on_res_changed();
+
 void on_trans_changed_func();
+void on_thick_changed_func();
+void on_smooth_changed_func();
+void on_ambient_changed_func();
+void on_diffuse_changed_func();
+void on_reflected_changed_func();
+
+void on_light_changed(unsigned);
 
 private:
-parsepic_out& data;
+surface_data& data;
 global_parse& global_data;
 int& pichange;
 };
@@ -233,9 +231,9 @@ int& pichange;
 color transform_color(const Gdk::Color& g)
 {
 color c;
-c.red = g.get_red_p()*255;
-c.blue = g.get_blue_p()*255;
-c.green = g.get_green_p()*255;
+c.red = int(g.get_red_p()*255);
+c.blue = int(g.get_blue_p()*255);
+c.green = int(g.get_green_p()*255);
 return c;
 }
 
@@ -249,7 +247,7 @@ return g;
 
 void SpecialEffects::on_c1_changed_func()
 {
-	data.upside = transform_color(m_c1.get_current_color());
+	data.outside = transform_color(m_c1.get_current_color());
 	pichange = 15;
 }
 
@@ -269,52 +267,318 @@ void SpecialEffects::on_cb_changed_func()
 
 void SpecialEffects::on_trans_changed_func()
 {
-	data.transparency = m_transp.get_value();
+	m_transp.update();
+	data.transparence = m_transp.get_value_as_int();
 	pichange = 15;
 }
 
 
-SpecialEffects::SpecialEffects(parsepic_out& d,global_parse& g, int& p)
-:data(d),global_data(g),pichange(p)
+void SpecialEffects::on_thick_changed_func()
+{
+	m_thick.update();
+	data.thickness = m_thick.get_value_as_int();
+	pichange = 15;
+}
 
+
+void SpecialEffects::on_smooth_changed_func()
+{
+	m_smooth.update();
+	data.smoothness = m_smooth.get_value_as_int();
+	pichange = 15;
+}
+
+
+void SpecialEffects::on_ambient_changed_func()
+{
+	m_ambient.update();
+	data.ambient = m_ambient.get_value_as_int();
+	pichange = 15;
+}
+
+
+void SpecialEffects::on_diffuse_changed_func()
+{
+	m_diffuse.update();
+	data.diffuse = m_diffuse.get_value_as_int();
+	pichange = 15;
+}
+
+
+void SpecialEffects::on_reflected_changed_func()
+{
+	m_reflected.update();
+	data.reflected = m_reflected.get_value_as_int();
+	pichange = 15;
+}
+
+SpecialEffects::SpecialEffects(surface_data& d,global_parse& g, int& p)
+:data(d),global_data(g),pichange(p),
+
+m_ltransp(_("Transparency")),
+m_lthick(_("Thickness")),
+m_lsmooth(_("Smoothness")),
+m_lambient(_("Ambient light")),
+m_ldiffuse(_("Diffuse light")),
+m_lreflected(_("Reflected light")),
+m_res_lsave(_("Resolution of saved image")),
+m_res_lfast(_("resolution while rotating")),
+m_res_lfine(_("maximal resolution when idle")),
+m_res_laa(_("Anti-aliasing factor"))
 {
 	add(m_note);
 	
 
 
-	m_note.append_page(m_c1,"Farbe 1");
-	m_note.append_page(m_c2,"Farbe 2");
-	m_note.append_page(m_cb,"Hintergrundfarbe");
-	m_note.append_page(m_light,"Beleuchtung");
-	m_note.append_page(m_mat,"Material");
-	m_note.append_page(m_surf,"extra Surf-Code");
+	m_note.append_page(m_c1,_("Color 1"));
+	m_note.append_page(m_c2,_("Color 2"));
+	m_note.append_page(m_cb,_("Background color"));
+	m_note.append_page(m_light,_("Illumination"));
+	m_note.append_page(m_mat,_("Material"));
+        m_note.append_page(m_res,_("Resolution"));
+	m_note.append_page(m_surf,_("special Surf-Code"));
 
-	m_c1.set_current_color(transform_color(data.upside));
+	m_surf.attach(m_code,0,1,0,1);
+	m_code.get_buffer()->set_text(global_data.general_stuff);
+
+	m_res.attach(m_res_lsave,0,1,0,1);
+	m_res.attach(m_res_save,1,2,0,1);
+
+	m_res.attach(m_res_lfast,0,1,1,2);
+	m_res.attach(m_res_fast,1,2,1,2);
+
+	m_res.attach(m_res_lfine,0,1,2,3);
+	m_res.attach(m_res_fine,1,2,2,3);
+
+	m_res.attach(m_res_laa,0,1,3,4);
+	m_res.attach(m_res_aa,1,2,3,4);
+
+
+	m_res_save.set_range(1,3000);
+	m_res_save.set_value(global_data.saveres);
+	m_res_save.set_increments(10,100);
+	
+
+	m_res_fast.set_range(1,1000);
+	m_res_fast.set_value(global_data.lores);
+	m_res_fast.set_increments(1,10);
+
+	m_res_fine.set_range(1,3000);
+	m_res_fine.set_value(global_data.hires);
+	m_res_fine.set_increments(10,100);
+
+	m_res_aa.set_range(1,6);
+	m_res_aa.set_value(global_data.antialiasing);
+	m_res_aa.set_increments(1,1);
+
+	m_res_save.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
+	m_res_fast.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
+	m_res_fine.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
+	m_res_aa.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
+
+	m_c1.set_current_color(transform_color(data.outside));
 	m_c2.set_current_color(transform_color(data.inside));
 	m_cb.set_current_color(transform_color(global_data.background));
 
 	m_c1.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c1_changed_func) );
 	m_c2.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c2_changed_func) );
 	m_cb.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_cb_changed_func) );
+
+	m_code.get_buffer()->signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_code_changed_func) );
 	
 	
 	m_mat.attach(m_ltransp,0,1,0,1);
 	m_mat.attach(m_transp,1,2,0,1);
 
+	
+	m_mat.attach(m_lthick,0,1,1,2);
+	m_mat.attach(m_thick,1,2,1,2);
+
+	
+	m_mat.attach(m_lsmooth,0,1,2,3);
+	m_mat.attach(m_smooth,1,2,2,3);
+
+	
+	m_mat.attach(m_lambient,0,1,3,4);
+	m_mat.attach(m_ambient,1,2,3,4);
+
+	
+	m_mat.attach(m_ldiffuse,0,1,4,5);
+	m_mat.attach(m_diffuse,1,2,4,5);
+
+	
+	m_mat.attach(m_lreflected,0,1,5,6);
+	m_mat.attach(m_reflected,1,2,5,6);
+
+
+
+
+
+
 	m_transp.set_range(0,100);
-	m_transp.set_value(data.transparency);
+	m_transp.set_value(data.transparence);
 	m_transp.set_increments(1,10);
 
+	m_thick.set_range(0,100);
+	m_thick.set_value(data.thickness);
+	m_thick.set_increments(1,10);
+
+	m_smooth.set_range(0,100);
+	m_smooth.set_value(data.smoothness);
+	m_smooth.set_increments(1,10);
+
+	m_ambient.set_range(0,100);
+	m_ambient.set_value(data.ambient);
+	m_ambient.set_increments(1,10);
+
+	m_diffuse.set_range(0,100);
+	m_diffuse.set_value(data.diffuse);
+	m_diffuse.set_increments(1,10);
+
+	m_reflected.set_range(0,100);
+	m_reflected.set_value(data.reflected);
+	m_reflected.set_increments(1,10);
+
+
+	m_lights.set_tab_pos(Gtk::POS_LEFT);
+
+	m_light.attach(m_lights,0,1,0,1);
+	for(unsigned i = 0; i < 9; i++)
+	{
+		std::ostringstream s;
+		s<<(i+1);
+		m_lights.append_page(m_alight[i],_("Light")+(" "+s.str()));
+		m_alight[i].set_light(global_data.light[i]);
+
+		m_alight[i].signal_light_changed().connect(sigc::bind(sigc::mem_fun(*this,&SpecialEffects::on_light_changed),i));
+	}
+
 	m_transp.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_trans_changed_func) );
+	m_thick.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_thick_changed_func) );
+	m_smooth.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_smooth_changed_func) );
+	m_ambient.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_ambient_changed_func) );
+	m_diffuse.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_diffuse_changed_func) );
+	m_reflected.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_reflected_changed_func) );
+
 
 	show_all_children();
 }
 
-void special_show(parsepic_out& data,global_parse& global_data, int& pichange)
+void special_show(surface_data& data,global_parse& global_data, int& pichange)
 {
 
 SpecialEffects se(data,global_data,pichange);
 
 Gtk::Main::run(se);
 
+}
+
+
+void LightWidget::set_light(const surf_light& L)
+{
+	m_vol.set_value(L.volume);
+	m_x.set_value(L.x);
+	m_y.set_value(L.y);
+	m_z.set_value(L.z);
+	
+	m_color.set_current_color(transform_color(L.color));
+	
+}
+
+surf_light LightWidget::get_light() const
+{
+	
+	surf_light L;
+
+	L.volume = m_vol.get_value_as_int();
+	L.x = m_x.get_value();
+	L.y = m_y.get_value();
+	L.z = m_z.get_value();
+
+	L.color = transform_color(m_color.get_current_color());
+
+	return L;
+
+}
+
+LightWidget::LightWidget()
+:m_lcolor(_("color of light")),
+m_lvol(_("intensity of light")),
+m_lx(_("x coordinate")),
+m_ly(_("y coordinate")),
+m_lz(_("z coordinate"))
+{
+
+	m_x.set_range(-1000,1000);
+	m_y.set_range(-1000,1000);
+	m_z.set_range(-1000,1000);
+	m_vol.set_range(0,100);
+
+	m_x.set_increments(1,10);
+	m_y.set_increments(1,10);
+	m_z.set_increments(1,10);
+	m_vol.set_increments(1,10);
+
+	set_light(global_defaults().light[0]);
+
+	attach(m_lcolor,0,1,0,1);
+	attach(m_color,0,1,1,9);
+
+	attach(m_sep,1,2,1,9);
+
+	attach(m_lvol,2,3,0,1);
+	attach(m_vol,2,3,1,2);
+
+	attach(m_lx,2,3,2,3);
+	attach(m_x,2,3,3,4);
+
+	attach(m_ly,2,3,5,6);
+	attach(m_y,2,3,6,7);
+
+	attach(m_lz,2,3,7,8);
+	attach(m_z,2,3,8,9);
+
+	m_color.signal_color_changed().connect(sigc::mem_fun(*this,&LightWidget::on_light_changed));
+	m_vol.signal_changed().connect(sigc::mem_fun(*this,&LightWidget::on_light_changed));
+	m_x.signal_changed().connect(sigc::mem_fun(*this,&LightWidget::on_light_changed));
+	m_y.signal_changed().connect(sigc::mem_fun(*this,&LightWidget::on_light_changed));
+	m_z.signal_changed().connect(sigc::mem_fun(*this,&LightWidget::on_light_changed));
+
+	show_all_children();
+
+}
+
+std::ostream& operator<<(std::ostream& o, const surf_light& L)
+{
+	return o<<"[("<<L.color.red<<","<<L.color.green<<","<<L.color.blue<<"),"<<L.volume<<",("<<L.x<<","<<L.y<<","<<L.z<<")]";
+}
+
+void SpecialEffects::on_light_changed(unsigned i)
+{
+	
+	global_data.light[i] = m_alight[i].get_light();
+
+	pichange = 5;
+}
+
+void SpecialEffects::on_code_changed_func()
+{
+	global_data.general_stuff = m_code.get_buffer()->get_text();
+
+	pichange = 15;
+}
+
+void SpecialEffects::on_res_changed()
+{
+	m_res_save.update();
+	m_res_fast.update();
+	m_res_fine.update();
+	m_res_aa.update();
+
+	global_data.hires = m_res_fine.get_value_as_int();
+	global_data.lores = m_res_fast.get_value_as_int();
+	global_data.saveres=m_res_save.get_value_as_int();
+	global_data.antialiasing=m_res_aa.get_value_as_int();
+	
+	pichange=5;
 }

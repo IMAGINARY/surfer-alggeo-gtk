@@ -18,8 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <config.h>
 
 #include <gtkmm.h>
+#include <glibmm/i18n.h>
 #include<iostream>
 #include<fstream>
 #include<sstream>
@@ -67,79 +69,103 @@ struct color_double
 
 color_double colormap(double x, double y, double Z = 0.0);
 
-typedef color_rgb256 color;
-
-struct parsepic_out
+struct surf_light
 {
-	std::string general_stuff;
-	std::string antialiasing;
-	std::string equation;
-	std::string public_eq;
-	
-	color upside;
-	color inside;
-	color background;
-
-	double initial_scale;
-	double scale;
-	
-	double transparency;
-	
-	double para_a;
-	double para_b;
-	double para_c;
-	double para_d;
-
-
-	std::string name;
-	std::string thumbnail;
-	std::string desc;
-	std::string filename;
-	int lores;
-	int hires;
-
-	matrix<double> rot;
-
-	parsepic_out():rot(unitmat<double>(3,1.0,0.0)){}
+	double x;
+	double y;
+	double z;
+	int volume;
+	color_rgb256 color;
+	bool rotate;
 };
 
+
+typedef color_rgb256 color;
+
+
+struct surface_data
+{
+
+color outside;
+color inside;
+
+
+int ambient;
+int diffuse;
+int reflected;
+int transmitted;
+int smoothness;
+int transparence;
+int thickness;
+
+std::string equation;
+std::string public_eq;
+	
+public:
+private:
+public:
+std::string desc;
+};
+
+surface_data local_defaults();
+
+enum surf_illumination
+{
+	ambient_light = 1,
+	diffuse_light = 2,
+	reflected_light = 4,
+	transmitted_light = 8
+};
 
 struct global_parse
 {
 	color background;
-
+	double spec_z;
 	double initial_scale;
 	double scale;
-	
+	double normalize_factor;
+	bool normalize_brightness;
+	bool depth_cueing;
+	double depth_value;
 	double para[4];
 	
+	int illumination;
 
-	std::string antialiasing;
+	surf_light light[9];
+
+	int antialiasing;
 	matrix<double> rot;
 
 	global_parse():rot(unitmat<double>(3,1.0,0.0))
-	{
-		general_stuff = std::string("double PI = 2*arcsin(1);\n")
-				+"root_finder=d_chain_newton;\n"
-				   +"epsilon=0.0000001;\n"
-				   +"iterations=1000;\n";
-	}
+	{}
 
 	int lores;
 	int hires;
+	int saveres;
 
 	std::string general_stuff;
-
+	std::string name;
 };
 
+global_parse global_defaults();
 
-parsepic_out parse_pic(std::istream& f, bool strict = false);
+//parsepic_out parse_pic(std::istream& f, bool strict = false);
+
+std::vector<surface_data> read_pic(std::istream& f, global_parse& g, const std::string default_eq = "x*x+y*y-z*z");
+struct parse_result
+{
+	global_parse global_data;
+	std::vector<surface_data> data;
+	std::string filepath;
+};
+
+std::string thumbnail(const parse_result& P);
 
 struct gallery
 {
 	std::string name;
 	std::string path;
-	std::vector<parsepic_out> file;
+	std::vector<parse_result> file;
 	std::string image;
 	std::string desc;
 };
@@ -180,7 +206,7 @@ Glib::ustring on_format_value(double value)
 	std::ostringstream os;
 	os.precision(0);
 	os.setf(std::ios_base::fixed);
-	os<<"Zoom "<<std::exp(std::log(10.0)*(2-value))<<"%";
+	os<<_("Zoom")<<" "<<std::exp(std::log(10.0)*(2-value))<<"%";
 	return os.str();
 }
 };
@@ -308,8 +334,8 @@ bool on_timer_event_func(int extra);
 void on_insert_text_func(const Glib::ustring&,int*);
 void on_delete_text_func(int,int);	
 
-void refresh(const std::string& script, const std::string& image, const std::string& aa, bool full = false);
-void refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n = num_threads(), bool max_res = false, bool max_res2 = true);
+void refresh(const std::string& script, const std::string& image, int aa , bool full = false);
+void refresh_image(const std::string& script, const std::string& image, const int aa , bool full, const int n = num_threads(), bool max_res = false, bool max_res2 = true);
 
 
 void refresh_display(const std::string& image, bool full = false);
@@ -367,7 +393,7 @@ void on_new_surface_clicked();
 
 bool on_button_changed_func(GdkEventButton*);
 
-std::vector<parsepic_out> data;
+std::vector<surface_data> data;
 unsigned data_index;
 global_parse global_data;
 
@@ -380,19 +406,21 @@ bool on_key_press_event_func(GdkEventKey* event);
 
 };
 
+std::ostream& write_surf(const global_parse& g, std::ostream& o,  int antialias = 0);
+std::ostream& write_surf(const surface_data& f, const int nn, std::ostream& o);
 
 
 void show_gallery(const gallery& g);
 
 std::string trans_eq(const std::string& t2);
 
-void add_data(std::vector<parsepic_out>& R);
-void make_thumbs(const std::vector<parsepic_out>& R, const surfer_options& opt);
+void add_data(std::vector<parse_result>& R);
+void make_thumbs(const std::vector<parse_result>& R, const surfer_options& opt);
 
 
- void read_thumbs(std::vector<parsepic_out>& R);
 
 
+surface_data surfer_local();
 surfer_options read_settings_from_file(const std::string& filename);
 std::ostream& write(const surfer_options& so, std::ostream& f);
 
@@ -454,7 +482,7 @@ protected:
   //Gtk::Button m_Button_Quit;
   gallery gal;
 public:
-  parsepic_out ret;
+  parse_result ret;
 	int isu;
   surfer_options opt;
 };
@@ -474,7 +502,8 @@ PID_type system_async(const std::string& s, const std::string& ulimit, const sur
 void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt);
 
 void init_threads();
-
+std::string get_revision();
+surfer_options default_settings();
 
 class AboutWindow: public Gtk::Window
 {

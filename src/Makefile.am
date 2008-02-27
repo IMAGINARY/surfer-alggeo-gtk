@@ -9,3 +9,6 @@ noinst_HEADERS = surfer.hh bwindow_gdk.hh matrix.hh
 AM_CXXFLAGS = @CXXFLAGS@ @GTKMM_CFLAGS@ 
 
 surfer_LDADD = @LIBS@ @GTKMM_LIBS@ 
+
+DEFS = -DLOCALEDIR=\"$(localedir)\" -DGALLERY_PATH=\"$(pkgdatadir)/gallery\" @DEFS@
+

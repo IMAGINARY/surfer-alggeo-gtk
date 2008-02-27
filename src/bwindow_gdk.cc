@@ -26,14 +26,14 @@ This file contains non-ascii characters, encoding UTF-8.
 
 
 #ifndef PRESENTATAION_MODE
-#define PRESENTATION_MODE 1
+#define PRESENTATION_MODE 0
 #endif
 
 #ifndef MAX_SURFACES
 #if PRESENTATION_MODE == 1
 #define MAX_SURFACES 1
 #else
-#define MAX_SURFACES 4
+#define MAX_SURFACES 9
 #endif
 #endif
 
@@ -46,12 +46,13 @@ std::string revstring = "$Revision$";
 std::string datestring = "$Date$";
 
 
-char fastaa[] = "";//"antialiasing=2;";
+int fastaa = 1;//"antialiasing=2;";
 
 //#define SURF_CMD "surf"
 
 bool no_full = true;
-
+bool no_info = false;
+bool no_gallery = false;
 bool printing = false;
 
 double current_x = 0;
@@ -90,23 +91,6 @@ mouse_mode next_action = rotate_around_z;
 
 
 
-void apply(const parsepic_out& d, global_parse& g)
-{
-	g.antialiasing = d.antialiasing;
-	g.scale = d.scale;
-	g.initial_scale = d.initial_scale;
-	g.hires = d.hires;
-	g.lores = d.lores;
-	g.background = d.background;
-	g.rot = d.rot;
-
-	g.para[0] = d.para_a;
-	g.para[1] = d.para_b;
-	g.para[2] = d.para_c;
-	g.para[3] = d.para_d;
-}
-
-
 
 SurfBWindow::SurfBWindow(std::istream& i, const std::vector<gallery>& G, surfer_options so,bool f, bool p)
 :personalized(p),m_tab(3,2),m_ctab(3,3),m_utab(1,1),m_ltab(3,3),m_aframe("", /* label */
@@ -115,19 +99,14 @@ Gtk::ALIGN_CENTER, /* center y */
 1.0, /* xsize/ysize = 1 */
 false /* ignore child's aspect */),
 waiting(true),valid(true),
-m_bframe("Hintergrund", /* label */
-		Gtk::ALIGN_CENTER, /* center x */
-		Gtk::ALIGN_CENTER, /* center y */
-		1.0, /* xsize/ysize = 1 */
-		false /* ignore child's aspect */),
-m_cframe("Flächenseite 1", /* label */
+m_cframe(_("side 1"), /* label */
 		Gtk::ALIGN_CENTER, /* center x */
 		Gtk::ALIGN_CENTER, /* center y */
 		1.0, /* xsize/ysize = 1 */
 		false /* ignore child's aspect */),
 m_full(Gtk::Stock::FULLSCREEN),
 m_about(Gtk::Stock::ABOUT),
-m_iframe("Flächenseite 2", /* label */
+m_iframe(_("side 2"), /* label */
 		Gtk::ALIGN_CENTER, /* center x */
 		Gtk::ALIGN_CENTER, /* center y */
 		1.0, /* xsize/ysize = 1 */
@@ -139,7 +118,7 @@ m_hscale(0,1.05,0.05,"a"),
 m_hscale2(0,1.05,0.05,"b"),
 m_hscale3(-1,1.05,0.05,"c"),
 m_hscale4(1,10.05,0.05,"d"),
-m_printing("Bild wird gedruckt"),
+m_printing(_("Printing image...")),
 fullscreen_mode(f),
 gal(G),
 opt(so),
@@ -151,7 +130,7 @@ m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
 m_zoom_table(1,3),
 m_zero("=0"),
 m_spin(),
-m_special("Details"),
+m_special(_("Details")),
 m_new_surface(Gtk::Stock::NEW),
 m_savefile(Gtk::Stock::SAVE)
 
@@ -165,18 +144,17 @@ m_savefile(Gtk::Stock::SAVE)
 
 	m_vscale.set_draw_value(false);
 	
-
-	data.push_back(parse_pic(i));
+	global_data = global_defaults();
+	data = read_pic(i,global_data);
 	data_index = 0;
-	apply(data[data_index],global_data);
+	
 
 	m_draw.set_size_request(100, 100);
-	m_colors.set_size_request(200, 200);
-	//m_movie.set_size_request(100, 100);
-	m_colors_inside.set_size_request(200, 200);
-	//m_colors_back.set_size_request(200, 200);
-
 	
+	m_colors.set_size_request(200, 200);
+	m_colors_inside.set_size_request(200, 200);
+	
+		
 	if(!opt.entryfont.empty()) m_entry.modify_font(Pango::FontDescription(opt.entryfont));
 
 	
@@ -253,17 +231,9 @@ m_savefile(Gtk::Stock::SAVE)
 
 	m_next.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_next_clicked));
 	m_prev.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_prev_clicked));
-//Glib::
 
-// Add the aspect frame to our toplevel window:
-//add(m_aframe);
-
-
-// This just sets the title of our new window.
 	set_title("Surfer");
 
-// sets the border width of the window.
-	//
 	m_note.set_tab_pos(Gtk::POS_BOTTOM);
 	m_hscale.set_value_pos(Gtk::POS_LEFT);
 	m_hscale2.set_value_pos(Gtk::POS_RIGHT);
@@ -305,7 +275,7 @@ m_savefile(Gtk::Stock::SAVE)
 
 		m_leave.set_image(m_leave_image);
 		set_border_width(0);
-		set_size_request(600,500);
+		if(!no_info)set_size_request(600,500);
 		maximize();
 		fullscreen();
 	}
@@ -315,17 +285,15 @@ m_savefile(Gtk::Stock::SAVE)
 		
 
 		m_utab.attach(m_aframe,0, 2, 0, 1 ,Gtk::EXPAND|Gtk::FILL,Gtk::EXPAND|Gtk::FILL);
-		//m_tab.attach(m_utab,0, 3, 0, 1 ,Gtk::EXPAND|Gtk::FILL,Gtk::EXPAND|Gtk::FILL);
-		//m_ltab.attach(m_bbox,0, 2, 2, 3 ,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_bbox,0, 2, 2, 3 ,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
-		//m_tab.attach(m_ltab,0, 1, 1, 2 ,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_bbox,0, 2, 3, 4 ,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 
-		m_utab.attach(m_entryfield,0,2,3,4,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 
-		m_utab.attach(m_zoom_table,2,3,0,2,Gtk::SHRINK);
-		m_utab.attach(m_new_surface,2,3,2,3,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_spin,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
-		//m_spin.set_size_request(12,32);	
+		m_utab.attach(m_entryfield,0,2,4,5,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
+
+		m_utab.attach(m_zoom_table,2,3,0,3,Gtk::SHRINK);
+		m_utab.attach(m_new_surface,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_spin,2,3,4,5,Gtk::SHRINK,Gtk::SHRINK);
+
                 m_spin.set_range(1,1);
 		
 		m_spin.set_value(1);
@@ -334,26 +302,18 @@ m_savefile(Gtk::Stock::SAVE)
 
 		
 		m_utab.attach(m_scale_free,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_hscale,0,1,1,2,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale2,1,2,1,2,Gtk::FILL,Gtk::SHRINK);
-
-		//m_ltab.attach(m_hscale,0,1,1,2,Gtk::FILL,Gtk::SHRINK);
-		//m_ltab.attach(m_hscale2,1,2,1,2,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale,0,1,2,3,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale2,1,2,2,3,Gtk::FILL,Gtk::SHRINK);
 
 
-		m_utab.attach(m_bft,3, 4, 2, 4 ,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_note,3,4,0,2,Gtk::SHRINK);
+		m_utab.attach(m_hscale3,0,1,1,2,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale4,1,2,1,2,Gtk::FILL,Gtk::SHRINK);
 
-
+		m_utab.attach(m_bft,3, 4, 3, 5 ,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_note,3,4,0,3,Gtk::SHRINK);
 		
 		set_border_width(4);
 
-
-		//m_bframe.add(m_movie);
-
-		
-
-		//m_bbox.set_child_min_width(1);
 
 		{
 			char s[] = "abxyz+-*^.()0123456789D";
@@ -367,9 +327,7 @@ m_savefile(Gtk::Stock::SAVE)
 				if(s[i]=='D')
 				{
 					
-					B = new Gtk::Button("Löschen");
-					//B->set_label(B->get_label());
-					//B -> set_image(*new Gtk::Image(Gtk::Stock::DELETE,Gtk::ICON_SIZE_BUTTON));
+					B = new Gtk::Button(_("Delete"));
 				}
 				else
 				B = new Gtk::Button(b);
@@ -383,9 +341,7 @@ m_savefile(Gtk::Stock::SAVE)
 			m_error.set_markup("<span foreground=\"#FF0000\" weight=\"bold\">!</span>");
 			m_error.set_selectable(false);
 
-			m_utab.attach(m_error,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
-			//if(!opt.print_cmd.empty())m_fbox.add(m_print);
-			//if(!opt.save_cmd.empty())m_fbox.add(m_save);			
+			m_utab.attach(m_error,2,3,4,5,Gtk::SHRINK,Gtk::SHRINK);
 			m_fbox.add(m_savefile);
 			m_fbox.add(m_about);
 			m_fbox.set_child_min_width(1);
@@ -406,13 +362,6 @@ m_savefile(Gtk::Stock::SAVE)
 			m_right.set_image(*new Gtk::Image(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON));
 
 
-
-
-			
-		
-
-		//m_ltab.attach(m_entryfield,0,2,3,4,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
-
 			m_entryfield.attach(m_left,0,1,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			m_entryfield.attach(m_entryframe,1,2,0,1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 			m_entryinside.attach(m_entry,1,2,0,1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
@@ -422,18 +371,9 @@ m_savefile(Gtk::Stock::SAVE)
 			m_entryinside.attach(m_zero,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			m_entryfield.attach(m_right,3,4,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
-//m_tab.attach(m_colors,0,1,0,1,Gtk::SHRINK,Gtk::SHRINK);
-//m_tab.attach(m_colors_inside,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
-			
-
 			m_entry.set_text(data[data_index].public_eq);
-			
-				
-			
-			
-			
 
-			m_note.append_page(m_ctab,"Farben","x");
+			m_note.append_page(m_ctab,_("Coloring"),"x");
 			if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			m_ctab.attach(*new Gtk::Image,1,2,1,2);
 			m_ctab.attach(m_cframe,1,2,2,3,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
@@ -442,13 +382,10 @@ m_savefile(Gtk::Stock::SAVE)
 			m_ctab.attach(m_iframe,1,2,3,4,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 			m_iframe.add(m_colors_inside);
 
-			//m_ctab.attach(m_bframe,1,2,2,3,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
-			//m_bframe.add(m_colors_back);
 
+			if(!no_gallery)m_note.append_page(m_gtab,_("Gallery"),"y");
 
-			m_note.append_page(m_gtab,"Galerie","y");
-
-			m_note.append_page(m_info,"Info","z");
+			if(!no_info)m_note.append_page(m_info,_("Info"),"z");
 
 			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
@@ -476,7 +413,7 @@ m_savefile(Gtk::Stock::SAVE)
 				v_eb->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 				v_eb->modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
 				
-				//Gtk::DrawingArea* v_gpic = new Gtk::DrawingArea;
+			
 				v_eb->signal_button_press_event().connect(sigc::bind(sigc::mem_fun(*this,&SurfBWindow::on_gallery_press_event),i));
 				v_gframe->add(*v_eb);
 				v_im->set_size_request(100,100);
@@ -492,14 +429,6 @@ m_savefile(Gtk::Stock::SAVE)
 			m_bft.attach(m_fbox,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
 			
 			
-
-
-
-
-//m_tab.attach(m_bframe,2,3,0,2,Gtk::SHRINK);
-
-//Add the TreeView, inside a ScrolledWindow, with the button underneath:
-
 	}
 
 
@@ -508,7 +437,7 @@ m_savefile(Gtk::Stock::SAVE)
 	show_all_children();
 	if(MAX_SURFACES == 1) m_spin.hide();
 
-	m_utab.attach(m_printing,0,2,2,3/*,Gtk::SHRINK,Gtk::SHRINK*/);	
+	m_utab.attach(m_printing,0,2,3,4/*,Gtk::SHRINK,Gtk::SHRINK*/);	
 
 	adjust_visibility();
 	sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
@@ -531,11 +460,8 @@ void SurfBWindow::start()
 			std::remove((image+o.str() ).c_str());
 		}
 
-	std::vector<parsepic_out> R;
-	add_data(R);
-	read_thumbs(R);
-
-
+	std::vector<parse_result> R;
+	
 	button_down = true;
 	pichange=5;
 	on_timer_event_func(0);
@@ -544,14 +470,11 @@ void SurfBWindow::start()
 	
 	if(!personalized) on_next_clicked();
 	
-
 }
 
 
 bool SurfBWindow::on_expose_event_func(GdkEventExpose*)
 {
-	
-	
 	
 	refresh_display(TEMP_ROOT_SEP +"surfb.ppm",false);
 	return true;
@@ -575,19 +498,11 @@ bool SurfBWindow::on_expose_event_func(GdkEventExpose*)
 		Glib::RefPtr<Gdk::Drawable> dr(window);
 		
 		try{
-			//Glib::RefPtr<Gdk::Pixbuf> surface = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP +"surfb.ppm");
-			//Glib::RefPtr<Gdk::Pixbuf> sface = surface->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-
-			////dr->draw_rectangle(some_gc,true,0,0,width,height);
-			//dr->draw_pixbuf(some_gc,sface,0,0,20,20,-1,-1,Gdk::RGB_DITHER_NONE,0,0);
 			
 			refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
 		
 		}
 		catch(...){}
-
-		
-
 		
 	}
 	else if(pichange == 0)
@@ -678,38 +593,9 @@ color_double colormap(double bx, double by, double Z)
 		double fd2 = (d2>0.5)?1.5*(d2-0.5):0;
 		double fd3 = (d3>0.5)?1.5*(d3-0.5):0;
 
-		//double xy = x;
-		//if (x>y) xy = y;
-
-		//double cta = (5000-(x-50)*(x-50)-(y-50)*(y-50))/15000;
-		//double ctb = 0;//(x*x-y*y)/10000;
-
-		
-		//double ct = (cta-ctb);
-		
-
-		//if(y>90) cta=cta*(100-y)/10;
-		//if(x>90) cta=cta*(100-x)/10;
-
-		//if(x<10) cta=cta*(x)/10;
-		//if(y<10) cta=cta*(y)/10;
-
-		//double ctx =sqrt(81-(x-50)*(x-50)-(y-50)*(y-50));
-		//ctx = ctx/500;
-		//if(ctx<0) ctx = 0;
-
-		//if((x-50)*(x-50)+(y-50)*(y-50)<4)ct = 1;
-
-		//if(x>97&&y>97) ct = -1;
-
-
 		double r = (d1*1 + d2*0 + fd3*1 + d4*Z);
-		
 		double g = (d1*0 + fd2*1 + d3*1 + d4*Z);
-		
 		double b = (fd1*0 + d2*1 + d3*0 + d4*Z);
-
-		
 
 		if(r>1)r=1;
 		if(g>1)g=1;
@@ -731,21 +617,10 @@ color_double colormap(double bx, double by, double Z)
 
 bool SurfBWindow::on_color_button_press_event_func(GdkEventButton* event)
 {
-	
-// This is where we draw on the window
-	//Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
-	//if(window)
-	{
-		//Gtk::Allocation allocation = m_colors.get_allocation();
-		//const int width = allocation.get_width();
-		//const int height = allocation.get_height();
-
-// coordinates for the center of the window
-		data[data_index].upside = colormap(event->x,event->y).surf_colors();
+		data[data_index].outside = colormap(event->x,event->y).surf_colors();
 		button_down = true;
 		pichange = 5;
 		
-	}
 	return false;
 }
 
@@ -806,7 +681,7 @@ bool SurfBWindow::on_color_button_release_event_func(GdkEventButton* event)
 	x = event->x;
 	y = event->y;
 	
-	data[data_index].upside = colormap(x,y).surf_colors();
+	data[data_index].outside = colormap(x,y).surf_colors();
 
 	pichange = 3;
 
@@ -872,7 +747,7 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 		}
 
 	
-		if(event->state == Gdk::SHIFT_MASK)
+/*		if(event->state == Gdk::SHIFT_MASK)
 		{
 
 		if(c_y != 0.0) data[data_index].rot = data[data_index].rot * roty(c_y);
@@ -881,7 +756,7 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 
 
 		}
-		else
+		else*/
 		{
 
 		if(c_y != 0.0) global_data.rot = global_data.rot * roty(c_y);
@@ -906,28 +781,13 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 
 bool SurfBWindow::on_color_motion_notify_event_func(GdkEventMotion* event)
 {
-
-// This is where we draw on the window
-
 	if(button_down)
 	{
-		
-// coordinates for the center of the window
 		double x, y;
 		x = event->x;
 		y = event->y;
-
-		data[data_index].upside = colormap(x,y).surf_colors();
-		
-
-
-
-
-	
+		data[data_index].outside = colormap(x,y).surf_colors();
 		pichange = 5;
-	//dr->draw_line(some_gc,gui_x,gui_y,xc,yc);
-	
-	
 		
 	}
 	return false;
@@ -1002,10 +862,7 @@ void SurfBWindow::on_value_changed_func()
 void SurfBWindow::on_spin_changed_func()
 {
 	
-	data_index = m_spin.get_value()-1;
-	
-	
-	
+	data_index = int(m_spin.get_value())-1;	
 	update_visuals();
 }
 
@@ -1014,13 +871,6 @@ void SurfBWindow::on_spin_changed_func()
 void SurfBWindow::on_para_changed_func()
 {
 	
-	/*std::ostringstream os;
-	os.precision(2);
-	os.setf(std::ios_base::fixed);
-	os<<"a="<<m_hscale.get_value();
-	m_avalue.set_text(os.str());*/
-	//return "";
-	
 	
 	global_data.para[0] = m_hscale.get_value();
 	pichange = 15;
@@ -1028,13 +878,6 @@ void SurfBWindow::on_para_changed_func()
 
 void SurfBWindow::on_para2_changed_func()
 {
-	
-	/*std::ostringstream os;
-	os.precision(2);
-	os.setf(std::ios_base::fixed);
-	os<<"a="<<m_hscale.get_value();
-	m_avalue.set_text(os.str());*/
-	//return "";
 	
 	
 	global_data.para[1] = m_hscale2.get_value();
@@ -1102,38 +945,15 @@ bool SurfBWindow::on_timer_event_func(int)
 		conn.disconnect();
 		
 		sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
-
-// This is where we connect the slot to the Glib::signal_timeout()
-		
-		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",global_data.antialiasing,true);
+	
+		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",6,true);
 		conn = Glib::signal_timeout().connect(my_slot, MSECS);
-
-		pichange = 0;
-		waiting = true;
-	}
-	else if( !button_down && pichange == 3)
-	{
-		
-		//conn.disconnect();
-		
-		//sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
-
-// This is where we connect the slot to the Glib::signal_timeout()
-		
-		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",global_data.antialiasing,true);
-		//conn = Glib::signal_timeout().connect(my_slot, MSECS);
 
 		pichange = 0;
 		waiting = true;
 	}
 	else if( !button_down && pichange == 0)
 	{
-		
-		//conn.disconnect();
-		
-		//sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
-
-// This is where we connect the slot to the Glib::signal_timeout()
 		if(waiting)
 		refresh_display(TEMP_ROOT_SEP +"surfb_f.ppm",true);
 		
@@ -1142,44 +962,22 @@ bool SurfBWindow::on_timer_event_func(int)
 }
 
 
-void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const std::string& aa, bool full, const int n , bool max_res, bool max_res2)
+void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const int aa, bool full, const int n , bool max_res, bool max_res2)
 {
 	max_res2 &= max_res;
 
 	if(!valid) return;
 	//if(fullscreen_mode)
-	{
-		//Glib::RefPtr<Gdk::Window> window = get_window();
-		//if(window)
-		{
-		//Gtk::Allocation allocation = get_allocation();
-		//const int width = allocation.get_width();
-		//const int height = allocation.get_height();
-		
-		//Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
-		//some_gc.create(get_window());
-		
 	
-		//Glib::RefPtr<Gdk::Drawable> dr(window);
-		
-		
-		//Gdk::Color nc;
-		//nc.set_rgb(65535*0,65535*0,65535*0);
-
-		//some_gc->set_rgb_fg_color(nc);
-		//some_gc->set_rgb_bg_color(nc);
-		
-		
-		//dr->draw_rectangle(some_gc,true,0,0,width,height);
-		}
-		 ;
-	}
-		
 		
 	Gtk::Allocation allocation = m_draw.get_allocation();
 	const int width = allocation.get_width();
 	const int height = allocation.get_height();
-
+	
+	if(width < 41)
+	{
+		return;
+	}
 	// coordinates for the center of the window
 	
 	
@@ -1200,57 +998,23 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	std::ofstream f((script+sn).c_str(),FILE_WRITE_MODE);
 	
 	
-	
-	
+	f<<"// This file is intended for use with surf (http://surf.sf.net/)"<<"\n";
+	f<<"// or Surfer (http://surfer.imaginary2008.de/)"<<"\n";
+	f<<"// This file was generated by Surfer."<<"\n\n";
+
 	f<<"width="<< w <<";\n";
 	f<<"height="<< w <<";\n";
-
-
-	f<<"double a = "<<global_data.para[0]<<";\n";
-	f<<"double b = "<<global_data.para[1]<<";\n";
-	f<<"double c = "<<global_data.para[2]<<";\n";
-	f<<"double d = "<<global_data.para[3]<<";\n";
 	
-	f<<"poly u="<<global_data.rot.el(1,1)<<"*x+("<<global_data.rot.el(1,2)<<")*y+("<<global_data.rot.el(1,3)<<")*z;\n";
-	f<<"poly v="<<global_data.rot.el(2,1)<<"*x+("<<global_data.rot.el(2,2)<<")*y+("<<global_data.rot.el(2,3)<<")*z;\n";
-	f<<"poly w="<<global_data.rot.el(3,1)<<"*x+("<<global_data.rot.el(3,2)<<")*y+("<<global_data.rot.el(3,3)<<")*z;\n";
-
-
-
-	if(!aa.empty())f<<aa<<"\n";
 	
-	f<<global_data.general_stuff<<std::endl;
 
+	write_surf(global_data,f,aa);
 for(unsigned k = 0; k < data.size(); k++)
 {
-	std::ostringstream sis;
-	if(k) sis<<(k+1);
-	std::string si = sis.str();
-
-	f<<data[k].general_stuff;
-	f<<"surface"<<si<<"="<< fix_input_for_surf(data[k].equation) <<";\n";
-	
-	f<<"transparence"<<si<<"="<<data[k].transparency<<";\n";
-
-	f<<"surface"<<si<<"_red="<<data[k].upside.red<<";\n";
-	f<<"inside"<<si<<"_red="<<data[k].inside.red<<";\n";
-	f<<"surface"<<si<<"_green="<<data[k].upside.green<<";\n";
-	f<<"inside"<<si<<"_green="<<data[k].inside.green<<";\n";
-	f<<"surface"<<si<<"_blue="<<data[k].upside.blue<<";\n";
-	f<<"inside"<<si<<"_blue="<<data[k].inside.blue<<";\n";
-
+	write_surf(data[k],k,f);
 
 }
 
-
-	f<<"scale_x="<<global_data.scale*global_data.initial_scale<<";\n";
-	f<<"scale_y="<<global_data.scale*global_data.initial_scale<<";\n";
-	f<<"scale_z="<<global_data.scale*global_data.initial_scale<<";\n";
-
-
-	f<<"background_red="<<global_data.background.red<<";\n";
-	f<<"background_green="<<global_data.background.green<<";\n";
-	f<<"background_blue="<<global_data.background.blue<<";\n";
+	
 	
 	
 
@@ -1370,7 +1134,7 @@ catch(...){finished=false;}
 	}
 }
 
-void SurfBWindow::refresh(const std::string& script, const std::string& image, const std::string& aa, bool full)
+void SurfBWindow::refresh(const std::string& script, const std::string& image, const int aa, bool full)
 {
 	
 	refresh_image(script,image,aa,full);
@@ -1384,77 +1148,6 @@ void SurfBWindow::refresh(const std::string& script, const std::string& image, c
 }
 
 
-
-
-
-
-
-bool SurfBWindow::on_surface_expose_event_func(GdkEventExpose*)
-{
-	
-	int i = moving_x/100;
-	int x = moving_x % 100;
-
-
-	Glib::RefPtr<Gdk::Window> window = m_movie.get_window();
-		
-	
-	if(window)
-	{
-		Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
-	//some_gc.create(get_window());
-	
-		Glib::RefPtr<Gdk::Drawable> dr(window);
-	
-		if(total_x>=100)
-		{
-			Glib::RefPtr<Gdk::Pixbuf> surface = thumbs[i];
-			Glib::RefPtr<Gdk::Pixbuf> next_surface = thumbs[i+1];
-	
-
-			dr->draw_pixbuf(some_gc,surface,     x,0,0,0,    100-x,100,Gdk::RGB_DITHER_NONE,0,0);
-			dr->draw_pixbuf(some_gc,next_surface,0,0,100-x,0,100,100,Gdk::RGB_DITHER_NONE,0,0);
-		}
-	
-	}
-	return true;
-
-}
-
-/*
-
-
-TODO
-
-report surf errors
-make large exponents an error
-
-
-
-
-*/
-
-
-
-
-void read_thumbs(std::vector<parsepic_out>& R)
-{
-	for(unsigned i = 0; i < R.size(); i++)
-	{
-		try{
-			thumbs.push_back(Gdk::Pixbuf::create_from_file(R[i].thumbnail));
-			total_x += 100;
-		}
-		catch(...){}
-		
-	}
-
-	try{
-		thumbs.push_back(Gdk::Pixbuf::create_from_file(R[0].thumbnail));
-	}
-	catch(...){}
-
-}
 
 
 
@@ -1746,15 +1439,20 @@ sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_time
 	refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
 }
 
+void generate_image()
+{
+
+}
+
 void SurfBWindow::on_print_clicked()
 {
 
-Gtk::Dialog PD("Bild drucken",true);
+Gtk::Dialog PD(_("Print image"),true);
 
 PD.add_button(Gtk::Stock::OK,Gtk::RESPONSE_OK);
 PD.add_button(Gtk::Stock::CANCEL,Gtk::RESPONSE_CANCEL);
 
-Gtk::Label label("Name:");
+Gtk::Label label(_("Name:"));
 Gtk::Entry entry;
 PD.get_vbox()->add(label);
 PD.get_vbox()->add(entry);
@@ -1813,13 +1511,13 @@ void SurfBWindow::on_save_clicked()
 
 void SurfBWindow::on_save_file_clicked()
 {
-	Gtk::FileChooserDialog dialog(*this,"Bild speichern",Gtk::FILE_CHOOSER_ACTION_SAVE);
+	Gtk::FileChooserDialog dialog(*this,_("Save image"),Gtk::FILE_CHOOSER_ACTION_SAVE);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
 
 
 	Gtk::FileFilter filter_jpeg;
-	  filter_jpeg.set_name("Portable Network Graphics (.png)");
+	  filter_jpeg.set_name(_("Portable Network Graphics (.png)"));
 	  filter_jpeg.add_mime_type("image/png");
 	  dialog.add_filter(filter_jpeg);
 
@@ -1832,10 +1530,10 @@ void SurfBWindow::on_save_file_clicked()
 	*/
 
 	  Gtk::FileFilter filter_any;
-	  filter_any.set_name("Alle Dateien");
+	  filter_any.set_name(_("All files"));
 	  filter_any.add_pattern("*");
 	  dialog.add_filter(filter_any);
-	  dialog.set_current_name(data[data_index].name+".png");
+	  dialog.set_current_name(global_data.name+".png");
 
 
         int result = dialog.run();
@@ -1852,9 +1550,26 @@ void SurfBWindow::on_save_file_clicked()
 		t = t+".png";
 		
 		try{
+		int d = global_data.hires;
+		global_data.hires = global_data.saveres;
 		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",global_data.antialiasing,true,1,true);
+
+		global_data.hires = d;
 		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP+"surfb_s.ppm");
+
+		std::string t2;
+
+		if(t.size()>4 && t.substr(t.size()-4)==".png")
+		t2 = t.substr(0,t.size()-4)+".pic";
+		else
+		t2 = t+".pic";
+
 		img->save(t,"png");
+		std::ifstream inf((TEMP_ROOT_SEP+"surfb_s.pic").c_str());
+		std::ofstream onf(t2.c_str());
+		onf<<inf.rdbuf();
+		onf.close();
+		inf.close();
 		}
 		catch(...)
 		{}
@@ -1902,8 +1617,8 @@ void SurfBWindow::on_next_clicked()
 	current_surf = (current_surf+1 )%gal[current_gal].file.size();
 
 
-	data[data_index] =  gal[current_gal].file[current_surf];
-	apply(data[data_index],global_data);
+	data[data_index] =  gal[current_gal].file[current_surf].data[0];
+	global_data =  gal[current_gal].file[current_surf].global_data;
 
 	update_visuals();
 }
@@ -1914,8 +1629,10 @@ void SurfBWindow::on_prev_clicked()
 	if(gal[current_gal].file.empty()) return;
 	
 	current_surf = (current_surf+gal[current_gal].file.size()-1 )%gal[current_gal].file.size();
-	data[data_index] =  gal[current_gal].file[current_surf];
-	apply(data[data_index],global_data);
+	
+	
+	data[data_index] =  gal[current_gal].file[current_surf].data[0];
+	global_data =  gal[current_gal].file[current_surf].global_data;
 
 	update_visuals();
 
@@ -1948,6 +1665,7 @@ void SurfBWindow::update_visuals()
 
 bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 {
+	if(gal[i].file.empty()) return true;
 	current_gal = i;
 	
 	GalleryWindow w(gal[i],opt);
@@ -1955,8 +1673,8 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	w.show();
 	//w.fullscreen();
 	Gtk::Main::run(w);
-	data[data_index] = w.ret;
-	apply(data[data_index],global_data);
+	data[data_index] = w.ret.data[0];
+	global_data = w.ret.global_data;;
 
 	current_surf = w.isu;
 
@@ -2055,7 +1773,7 @@ void SurfBWindow::check_image(const std::string& script, const std::string& imag
 
 	f<<global_data.general_stuff;
 
-	f<<data[data_index].general_stuff;
+	
 
 	
 	//f<<"surface="<<data.equation<<";\n";
@@ -2221,7 +1939,7 @@ m_bbox.show();
 
 }
 
-void special_show(parsepic_out& p,global_parse& g,int& p);
+void special_show(surface_data& p,global_parse& g,int& p);
 
 void SurfBWindow::on_special_clicked()
 {
@@ -2239,7 +1957,8 @@ void SurfBWindow::on_new_surface_clicked()
 	if(data.size() < MAX_SURFACES)
 	{
 		std::istringstream i("");
-		data.push_back(parse_pic(i));
+		data.push_back(surfer_local());
+		
 
 		data_index = data.size() -1;
 
