@@ -63,14 +63,14 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 	{}
 
 	DIR* gd = opendir(path.c_str());
-	//std::cout<<"reading "<<path<<" : "<<name<<std::endl;
+
 	if(gd==NULL) return G;
 
 	dirent* R = readdir(gd);
 
 	while(R)
 	{
-		//std::cout<<R->d_name<<std::endl;
+
 		
 		std::string d (R->d_name);
 		if(!d.empty() && d[0]!='.' && extension(d)==".pic")
@@ -97,7 +97,7 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 			P.filepath = path+DIR_SEP+basename(d);
 
 			 G.file.push_back(P);
-			//std::cout<<"success "<<R->d_name<<" :: "<<P.name<<std::endl;
+
 		}
 
 		}
@@ -110,7 +110,7 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 	G.path = path;
 	G.image = path+DIR_SEP+name+".ppm";
 	G.desc = path+DIR_SEP+name+".png";
-	//std::cout<<G.image<<std::endl;
+	
 	if(!G.file.empty())
 	try{
 		std::ifstream fi(G.image.c_str());
@@ -281,28 +281,14 @@ try{
 
 	entries.push_back(e);
   }
- 
- /* {
-    IconEntry("mozilla-firefox.png", "<b>Mozilla Firefox</b> Logo"),
-    IconEntry("xmms.xpm", "<b>XMMS</b> Logo"),
-    IconEntry("gnome-dice-1.svg", "<b>Gnome Dice 1</b> Logo"),
-    IconEntry("gnome-dice-2.svg", "<b>Gnome Dice 2</b> Logo"),
-    IconEntry("gnome-dice-3.svg", "<b>Gnome Dice 3</b> Logo"),
-    IconEntry("gnome-dice-4.svg", "<b>Gnome Dice 4</b> Logo"),
-    IconEntry("gnome-dice-5.svg", "<b>Gnome Dice 5</b> Logo"),
-    IconEntry("gnome-dice-6.svg", "<b>Gnome Dice 6</b> Logo")
-  };*/
-
-  // Fill the TreeView's model
-  //
-  const int count = entries.size();
+const int count = entries.size();
   for( int idx = 0; idx < count; ++idx )
   {
-	//std::cout<<"* "<<entries[idx].m_filename<<std::endl;
+
     add_entry( entries[idx].m_filename, entries[idx].m_description ,idx);
   }
 
-//set_size_request(600,500);
+
 		maximize();
 		fullscreen();
 
@@ -339,11 +325,7 @@ void GalleryWindow::on_selection_changed()
     const std::string filename = row[m_Columns.m_col_filename];
     const Glib::ustring description = row[m_Columns.m_col_description];
     int i = row[m_Columns.m_col_index];
-  //std::cout  << "Selection Changed ;to: filename="
-    //  << filename
-      //<< ", description="
-      //<< description
-      //<< std::endl;
+  
 	isu = i;
         ret = gal.file[i];
 	hide();

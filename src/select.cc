@@ -46,21 +46,8 @@ void make_thumb(parse_result data,const std::string& script, const std::string& 
 		
 	
 	
-	// coordinates for the center of the window
-	
-	//std::cout<<"Thumbing "<<data.name<<" to "<<image<<std::endl;
-	
 	std::ofstream f(script.c_str(),FILE_WRITE_MODE);
 	
-/*	f<<"rot_x="<<data.initial_x+current_x<<";\n";
-	f<<"rot_y="<<data.initial_y+current_y<<";\n";
-	f<<"rot_z="<<data.initial_z+current_z<<";\n";
-*/
-	//rot_data t = rot_yxz(rotmat);
-	//f<<"rot_x="<<t.rot_x<<";\n";
-	//f<<"rot_y="<<t.rot_y<<";\n";
-	//f<<"rot_z="<<t.rot_z<<";\n";
-
 	
 	f<<"width="<<size<<";\n";
 	f<<"height="<<size<<";\n";

@@ -390,7 +390,7 @@ T det(const matrix<T>& M)
 template<typename T>
 matrix<T> inv(const matrix<T>& M)
 {
-	//std::cout<<"M "<<M<<std::endl;
+
 	matrix<T> R(M.nrows());
 	for(int i = 1; i <= M.nrows(); i++)
 	for(int j = 1; j <= M.ncols(); j++)
@@ -401,11 +401,11 @@ matrix<T> inv(const matrix<T>& M)
 		matrix<T> D = submat(M,i+1,j+1,M.nrows()-i,M.nrows()-j);
 
 		matrix<T> X = vcat(hcat(A,B),hcat(C,D));
-		//std::cout<<"("<<i<<","<<j<<") "<<X<<std::endl;
+
 		R.el(j,i) = det(X);
 		if(i+j%2==1) R.el(j,i) = -R.el(j,i);
 	}
-	//std::cout<<"R "<<R<<std::endl;
+
 	R = (1/det(M))*R;
 	
 	return R;

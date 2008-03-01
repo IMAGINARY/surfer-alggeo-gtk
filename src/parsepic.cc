@@ -628,10 +628,10 @@ std::vector<surface_data> read_pic(std::istream& f, global_parse& g, const std::
 			
 
 			
-			//std::cout<<" no match : "<<s<<std::endl;
+
 			continue;
 			next_command:;
-				//std::cout<<"it matches!"<<std::endl;
+
 		}
 
 	}

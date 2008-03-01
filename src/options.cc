@@ -48,15 +48,15 @@ std::string fix_file(const std::string& s)
 	std::string r = s;
 
 	
-	//if(!s.empty()&&s[0]=='~')
-	//r = home_dir()+s.substr(1);
+
+
 	
-	//std::cout<<"R "<<r<<std::endl;
+
 	while(r.find("~")!=-1)
 	{
 		
 		int i = r.find("~");
-		//std::cout<<i<<std::endl;
+
 		r = r.replace(i,1,home_dir());
 	}
 
@@ -64,7 +64,7 @@ std::string fix_file(const std::string& s)
 	{
 		
 		int i = r.find(WRONG_DIR_SEP_CHAR);
-		//std::cout<<i<<std::endl;
+
 		r[i] = DIR_SEP_CHAR;
 	}
 
@@ -85,8 +85,8 @@ surfer_options default_settings()
 {
 	surfer_options so;
 	so.gallery_path = GALLERY_PATH_USE;
-	//so.save_cmd = "convert # \"~/public_html/surface_\"`date +%Y%m%d_%k%d`\".jpg\"";
-	//so.print_cmd = "convert # /tmp/surf_print.ps && lpr /tmp/surf_print.ps";
+
+
 	so.save_cmd = "";
 	so.print_cmd = "";
 	
@@ -117,7 +117,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 surfer_options read_settings_from_file(const std::string& filename)
 {
 	
-	
+
 	surfer_options so = default_settings();
 	
 	std::ifstream f;
@@ -151,6 +151,8 @@ surfer_options read_settings_from_file(const std::string& filename)
 
 		for(;i<t.size() && (t[i]!=';') ;i++)
 		t2+=t[i];
+
+
 
 		if(t1 == "gallery") so.gallery_path = fix_file(t2);
 		if(t1 == "print") so.print_cmd = t2;

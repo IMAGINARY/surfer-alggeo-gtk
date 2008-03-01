@@ -56,7 +56,7 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 			P.data = read_pic(pf,P.global_data);
 			if(!P.data.empty())
 			{
-				//std::cout<<t1<<std::endl;
+
 				if(ignore_bg_in_gallery)
 				{
 					P.global_data.background = global_background;
@@ -99,7 +99,7 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 	G.image = path+dname+".ppm";
 	G.desc = path+dname+".png";
 	
-	//std::cout<<G.image<<std::endl;
+
 	if(!G.file.empty())
 	try{
 		std::ifstream fi(G.image.c_str());
@@ -168,6 +168,9 @@ std::vector<gallery> read_galleries_new(const std::string& xpath, double upscali
 	std::string path = fix_path(xpath);
 	try{
 	std::ifstream f((path+"galleries.txt").c_str());
+
+
+
 	if(f.is_open())
 	return read_galleries_file(f,xpath,upscaling);
 	}
