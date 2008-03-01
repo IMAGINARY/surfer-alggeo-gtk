@@ -23,6 +23,8 @@
 #include "bwindow_gdk.hh"
 std::string basename(const std::string& f);
 
+extern bool ignore_bg_in_gallery;
+
 gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::string& dname, double upscaling)
 {
 	//path contains DIR_SEP
@@ -30,6 +32,7 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 	gallery G;
 	getline(f,G.name);
 	G.path = path;
+	color global_background = global_defaults().background;
 
 	std::string L;
 	std::string t;
@@ -54,7 +57,11 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 			if(!P.data.empty())
 			{
 				//std::cout<<t1<<std::endl;
-				
+				if(ignore_bg_in_gallery)
+				{
+					P.global_data.background = global_background;
+					
+				}
 				P.global_data.name = basename(t1);
 				
 				for(unsigned i = 0; i < P.data.size(); i++)

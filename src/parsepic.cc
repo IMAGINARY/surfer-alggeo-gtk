@@ -70,11 +70,11 @@ g.spec_z = 100.0;
 g.scale = 1.0;
 g.initial_scale = 1.0;
 
-g.normalize_brightness  = false;
+g.normalize_brightness  = true;
 g.normalize_factor = 1.0;
 
 g.antialiasing = 1;
-g.depth_cueing = false;
+g.depth_cueing = true;
 
 g.depth_value = -14.0;
 g.illumination = ambient_light + diffuse_light + reflected_light;
@@ -82,7 +82,10 @@ g.illumination = ambient_light + diffuse_light + reflected_light;
 color white;
 white.red = white.green = white.blue = 255;
 
-g.background = white;
+color bg;
+bg.red = bg.green = bg.blue = MAIN_COLOR_LUMINA;
+
+g.background = bg;
 
 g.light[0].x = -100.0;
 g.light[0].y =  100.0;

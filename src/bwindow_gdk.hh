@@ -43,6 +43,28 @@ typedef pid_t PID_type;
 #endif
 
 
+//#define BACK_IN_BLACK
+
+#ifdef BACK_IN_BLACK
+
+#define MAIN_COLOR_STRING "black"
+#define CONTRAST_COLOR_STRING "white"
+#define MAIN_COLOR_LUMINA 0
+
+#else
+
+#define MAIN_COLOR_STRING "white"
+#define CONTRAST_COLOR_STRING "black"
+#define MAIN_COLOR_LUMINA 255
+ 
+#endif
+
+
+#define MAIN_COLOR_GDK Gdk::Color(MAIN_COLOR_STRING)
+#define CONTRAST_COLOR_GDK Gdk::Color(CONTRAST_COLOR_STRING)
+
+
+
 bool check_input(const std::string& s);
 std::string fix_input(const std::string& s);
 std::string fix_input_for_display(const std::string& s);
@@ -215,7 +237,11 @@ Glib::ustring on_format_value(double value)
 class AScale: public Gtk::HScale
 {
 public:
-AScale(double a, double b, double c, const std::string& v): Gtk::HScale(a,b,c),var(v) {}
+AScale(double a, double b, double c, const std::string& v): Gtk::HScale(a,b,c),var(v) 
+{
+modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK); 
+				
+}
 protected:
 Glib::ustring on_format_value(double value)
 {
@@ -250,6 +276,10 @@ Gtk::Label m_printing;
 
 AScale m_hscale3;
 AScale m_hscale4;
+
+Gtk::Button m_animate;
+
+void on_animate_click();
 
 ZScale m_vscale;
 Gtk::Table m_entryinside;
@@ -505,10 +535,10 @@ void init_threads();
 std::string get_revision();
 surfer_options default_settings();
 
-class AboutWindow: public Gtk::Window
+class AboutWindow: public Gtk::Dialog
 {
 public:
-AboutWindow(const surfer_options& so);
+AboutWindow(const surfer_options& so, Gtk::Window& parent);
 private:
 Gtk::Table m_tab;
 

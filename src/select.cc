@@ -147,6 +147,19 @@ SpecialEffects(surface_data& d,global_parse& g, int& p);
 
 private:
 
+Gtk::Table m_pos;
+Gtk::Button m_pos_default;
+Gtk::Button m_pos_rot_object_x;
+Gtk::Button m_pos_rot_object_y;
+Gtk::Button m_pos_rot_object_z;
+
+Gtk::Button m_pos_rot_camera_x;
+Gtk::Button m_pos_rot_camera_y;
+Gtk::Button m_pos_rot_camera_z;
+
+Gtk::Label m_pos_langle;
+Gtk::SpinButton m_pos_angle;
+
 Gtk::Notebook m_note;
 
 Gtk::ColorSelection m_c1;
@@ -324,17 +337,26 @@ m_lreflected(_("Reflected light")),
 m_res_lsave(_("Resolution of saved image")),
 m_res_lfast(_("resolution while rotating")),
 m_res_lfine(_("maximal resolution when idle")),
-m_res_laa(_("Anti-aliasing factor"))
+m_res_laa(_("Anti-aliasing factor")),
+m_pos_langle(_("angle")),
+m_pos_rot_object_x(_("rotate around x-axis of surface")),
+m_pos_rot_object_y(_("rotate around y-axis of surface")),
+m_pos_rot_object_z(_("rotate around z-axis of surface")),
+m_pos_rot_camera_x(_("rotate around x-axis of camera")),
+m_pos_rot_camera_y(_("rotate around y-axis of camera")),
+m_pos_rot_camera_z(_("rotate around z-axis of camera")),
+m_pos_default(_("rotate into default position"))
 {
 	add(m_note);
 	
-
+	set_title(_("Scene Properties - Surfer"));
 
 	m_note.append_page(m_c1,_("Color 1"));
 	m_note.append_page(m_c2,_("Color 2"));
 	m_note.append_page(m_cb,_("Background color"));
 	m_note.append_page(m_light,_("Illumination"));
 	m_note.append_page(m_mat,_("Material"));
+	m_note.append_page(m_pos,_("Position"));
         m_note.append_page(m_res,_("Resolution"));
 	m_note.append_page(m_surf,_("special Surf-Code"));
 

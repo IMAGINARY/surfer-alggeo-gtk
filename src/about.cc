@@ -57,8 +57,9 @@ revdat +=datum+")";
 return revdat;
 }
 
-AboutWindow::AboutWindow(const surfer_options& so)
+AboutWindow::AboutWindow(const surfer_options& so, Gtk::Window& paren)
 :
+Gtk::Dialog(_("About Surfer"),paren),
 opt(so),
 l_surfer1("Surfer"),
 l_surfer2(""),
@@ -96,7 +97,7 @@ m_guide.signal_clicked().connect(sigc::mem_fun(*this, &AboutWindow::on_help_clic
 
 set_border_width(10);
 
-add(m_tab);
+get_vbox()->pack_start(m_tab);
 
 //add(m_b);
 
@@ -165,13 +166,17 @@ logo_wissenschaftsjahr08_xpm
 
 );
 i_math.set(math);
+set_skip_pager_hint();
+set_skip_taskbar_hint();
+//set_keep_above();
+modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+//set_title(_("About Surfer"));
+set_size_request(500,640);
 
-
-modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-set_title(_("About Surfer"));
-set_size_request(500,600);
-
-m_tab.attach(m_close,1,2,9,10,Gtk::SHRINK,Gtk::SHRINK);
+//m_close.set_can_default();
+//set_default(m_close);
+//m_tab.attach(m_close,1,2,9,10,Gtk::SHRINK,Gtk::SHRINK);
+add_action_widget(m_close,Gtk::RESPONSE_CLOSE);
 l_surfer4.set_line_wrap();
 l_copy.set_line_wrap();
 l_surfer1.set_line_wrap();

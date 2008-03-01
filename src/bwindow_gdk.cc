@@ -26,7 +26,7 @@ This file contains non-ascii characters, encoding UTF-8.
 
 
 #ifndef PRESENTATAION_MODE
-#define PRESENTATION_MODE 0
+#define PRESENTATION_MODE 1
 #endif
 
 #ifndef MAX_SURFACES
@@ -54,6 +54,8 @@ bool no_full = true;
 bool no_info = false;
 bool no_gallery = false;
 bool printing = false;
+bool no_log = true;
+bool no_zero = false;
 
 double current_x = 0;
 double current_y = 0;
@@ -75,19 +77,6 @@ std::vector< Glib::RefPtr<Gdk::Pixbuf> > thumbs;
 int total_x = 0;
 int moving_x = 0;
 
-
-
-enum mouse_mode
-{
-	rotate_around_z='z',
-	rotate_around_y='y',
-	rotate_around_x='x',
-	zoom='Z',
-	change_param='P'
-	
-};
-
-mouse_mode next_action = rotate_around_z;
 
 
 
@@ -132,12 +121,12 @@ m_zero("=0"),
 m_spin(),
 m_special(_("Details")),
 m_new_surface(Gtk::Stock::NEW),
-m_savefile(Gtk::Stock::SAVE)
-
+m_savefile(Gtk::Stock::SAVE),
+m_animate(Gtk::Stock::MEDIA_RECORD)
 {
 	// change window background to white
-	modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-	m_draw.modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white"));
+	modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_draw.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 
 	current_gal=0;
 	if(!gal.empty())current_surf = gal[0].file.size()-1;
@@ -243,8 +232,8 @@ m_savefile(Gtk::Stock::SAVE)
 	m_aframe.add(m_draw);
         m_aframe.set_shadow_type(Gtk::SHADOW_ETCHED_IN);
         m_aframe.set_shadow_type(Gtk::SHADOW_NONE);
-	m_aframe.modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-	m_aframe.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white"));
+	m_aframe.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_aframe.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 
 
 	add(m_utab);
@@ -276,8 +265,11 @@ m_savefile(Gtk::Stock::SAVE)
 		m_leave.set_image(m_leave_image);
 		set_border_width(0);
 		if(!no_info)set_size_request(600,500);
+		show();
 		maximize();
 		fullscreen();
+		present();
+		raise();
 	}
 	else
 	{
@@ -342,6 +334,8 @@ m_savefile(Gtk::Stock::SAVE)
 			m_error.set_selectable(false);
 
 			m_utab.attach(m_error,2,3,4,5,Gtk::SHRINK,Gtk::SHRINK);
+			if(!PRESENTATION_MODE)
+			m_fbox.add(m_animate);
 			m_fbox.add(m_savefile);
 			m_fbox.add(m_about);
 			m_fbox.set_child_min_width(1);
@@ -368,12 +362,86 @@ m_savefile(Gtk::Stock::SAVE)
 			m_entryframe.add(m_entryinside);
 			m_entryframe.set_shadow_type(Gtk::SHADOW_IN);
 			m_entry.set_has_frame(false);
-			m_entryinside.attach(m_zero,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
+
+			if(!no_zero)
+			{
+				m_entryinside.attach(m_zero,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
+				m_zero.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+				m_zero.modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			}
+
 			m_entryfield.attach(m_right,3,4,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
 			m_entry.set_text(data[data_index].public_eq);
 
-			m_note.append_page(m_ctab,_("Coloring"),"x");
+
+			Gtk::Label* v_co = new Gtk::Label(_("Coloring"));
+			v_co->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_co->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_co->modify_base(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			
+			v_co->modify_fg(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_co->modify_text(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_co->modify_base(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+
+			m_note.append_page(m_ctab,*v_co);
+
+
+
+
+
+
+			m_note.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+
+			m_note.modify_bg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+
+			
+			
+
+
+			//modify_bg_pixmap(StateType state, const Glib::ustring& pixmap_name)  Gtk::Widget
+			//modify_cursor(const Gdk::Color& primary, const Gdk::Color& secondary)  Gtk::Widget
+			//modify_fg(StateType state, const Gdk::Color& color)  Gtk::Widget
+			//modify_font(const Pango::FontDescription& font_desc)  Gtk::Widget
+			//modify_style(const Glib::RefPtr<RcStyle>& style)  Gtk::Widget
+
+			/*
+			m_note.modify_base(Gtk::STATE_NORMAL, CONTRAST_COLOR_GDK);
+			m_note.modify_text(Gtk::STATE_NORMAL, CONTRAST_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_NORMAL, CONTRAST_COLOR_GDK);
+
+			m_note.modify_base(Gtk::STATE_SELECTED, CONTRAST_COLOR_GDK);
+			m_note.modify_text(Gtk::STATE_SELECTED, CONTRAST_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_SELECTED, CONTRAST_COLOR_GDK);
+
+			m_note.modify_base(Gtk::STATE_ACTIVE, CONTRAST_COLOR_GDK);
+			m_note.modify_text(Gtk::STATE_ACTIVE, CONTRAST_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_ACTIVE, CONTRAST_COLOR_GDK);
+
+			m_note.modify_base(Gtk::STATE_PRELIGHT, CONTRAST_COLOR_GDK);
+			m_note.modify_text(Gtk::STATE_PRELIGHT, CONTRAST_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_PRELIGHT, CONTRAST_COLOR_GDK);
+
+			m_note.modify_base(Gtk::STATE_INSENSITIVE, CONTRAST_COLOR_GDK);
+			m_note.modify_text(Gtk::STATE_INSENSITIVE, CONTRAST_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_INSENSITIVE, CONTRAST_COLOR_GDK);
+			*/
+
+
+
+
+
+
+
+
+
+
+
+
 			if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			m_ctab.attach(*new Gtk::Image,1,2,1,2);
 			m_ctab.attach(m_cframe,1,2,2,3,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
@@ -383,9 +451,34 @@ m_savefile(Gtk::Stock::SAVE)
 			m_iframe.add(m_colors_inside);
 
 
-			if(!no_gallery)m_note.append_page(m_gtab,_("Gallery"),"y");
+			Gtk::Label *v_ga = new Gtk::Label(_("Gallery"));
 
-			if(!no_info)m_note.append_page(m_info,_("Info"),"z");
+		
+			v_ga->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_ga->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_ga->modify_base(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			
+			v_ga->modify_fg(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_ga->modify_text(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_ga->modify_base(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+
+			if(!no_gallery)m_note.append_page(m_gtab,*v_ga);
+
+
+			Gtk::Label *v_in = new Gtk::Label(_("Info"));
+
+		
+			v_in->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_in->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_in->modify_base(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			
+			v_in->modify_fg(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_in->modify_text(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_in->modify_base(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+
+
+
+			if(!no_info)m_note.append_page(m_info,*v_in);
 
 			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
@@ -400,18 +493,18 @@ m_savefile(Gtk::Stock::SAVE)
 
 				// white background for gallery widgets
 				Gtk::Widget* W = v_gframe->get_label_widget();
-				W->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-				W->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-				v_gframe->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-				v_gframe->modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+				W->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+				W->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+				v_gframe->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+				v_gframe->modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
 
 				m_gtab.attach(*v_gframe,1,2,i+1,i+2,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 
 				Gtk::EventBox* v_eb = new Gtk::EventBox;
 				Gtk::Image* v_im = new Gtk::Image;
 				v_im->set(gal[i].image);
-				v_eb->modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-				v_eb->modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+				v_eb->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+				v_eb->modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
 				
 			
 				v_eb->signal_button_press_event().connect(sigc::bind(sigc::mem_fun(*this,&SurfBWindow::on_gallery_press_event),i));
@@ -475,66 +568,11 @@ void SurfBWindow::start()
 
 bool SurfBWindow::on_expose_event_func(GdkEventExpose*)
 {
-	
+		
 	refresh_display(TEMP_ROOT_SEP +"surfb.ppm",false);
-	return true;
-	
-	Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
-	
-	if( pichange>=5||pichange==3)
-	{
-		
-		refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
-		Gtk::Allocation allocation = m_draw.get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
-		
-		// coordinates for the center of the window
-		
-		Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
-		//some_gc.create(get_window());
-		
-	
-		Glib::RefPtr<Gdk::Drawable> dr(window);
-		
-		try{
-			
-			refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
-		
-		}
-		catch(...){}
-		
-	}
-	else if(pichange == 0)
-	{
-		
-		Gtk::Allocation allocation = m_draw.get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
-		
-		// coordinates for the center of the window
-		
-		Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
-		//some_gc.create(get_window());
-		
-	
-		Glib::RefPtr<Gdk::Drawable> dr(window);
-
-		try{
-			Glib::RefPtr<Gdk::Pixbuf> surface = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP +"surfb_f.ppm");
-			Glib::RefPtr<Gdk::Pixbuf> sface = surface->scale_simple(width-40,height-40,Gdk::INTERP_BILINEAR);
-
-			//dr->draw_rectangle(some_gc,true,0,0,width,height);
-			dr->draw_pixbuf(some_gc,sface,0,0,20,20,-1,-1,Gdk::RGB_DITHER_NONE,0,0);
-		}
-		catch(...){}
-
-		
-	}
-
 	pichange = 5;
 	return true;
-
+	
 }
 
 
@@ -721,13 +759,13 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 		double c_z = 0.0;
 
 
-		switch(next_action)
+		//switch(next_action)
 		{
-			case rotate_around_z:
+			//case rotate_around_z:
 				c_y = fx;
 				c_x = fy;
-				break;
-			case rotate_around_y:
+			//	break;
+			/*case rotate_around_y:
 				c_z = fx;
 				c_x = fy;
 				break;
@@ -744,6 +782,7 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 			case change_param:
 				m_hscale.set_value(xc/double(width));
 				break;
+			*/
 		}
 
 	
@@ -946,7 +985,7 @@ bool SurfBWindow::on_timer_event_func(int)
 		
 		sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
 	
-		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",6,true);
+		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",0,true);
 		conn = Glib::signal_timeout().connect(my_slot, MSECS);
 
 		pichange = 0;
@@ -1345,15 +1384,6 @@ bool SurfBWindow::on_back_motion_notify_event_func(GdkEventMotion* event)
 
 
 
-
-
-void SurfBWindow::on_mode_clicked_func(char s)
-{
-	next_action = mouse_mode(int(s));
-	
-	return ;
-}
-
 void SurfBWindow::on_letter_clicked_func(char s)
 {
 	GdkEventKey K;
@@ -1584,10 +1614,18 @@ hide();
 
 void SurfBWindow::on_about_clicked()
 {
-AboutWindow W(opt);
+AboutWindow W(opt,*this);
+
 W.show();
 W.set_modal();
+W.present();
+//W.set_decorated(false);
+//W.raise();
+//present();
+//present();
+//raise();
 Gtk::Main::run(W);
+W.hide();
 }
 
 
@@ -1671,6 +1709,10 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	GalleryWindow w(gal[i],opt);
 	w.set_modal();
 	w.show();
+	w.maximize();
+	w.fullscreen();
+	w.present();
+	w.raise();
 	//w.fullscreen();
 	Gtk::Main::run(w);
 	data[data_index] = w.ret.data[0];
@@ -1939,7 +1981,7 @@ m_bbox.show();
 
 }
 
-void special_show(surface_data& p,global_parse& g,int& p);
+void special_show(surface_data& p,global_parse& g,int& pi);
 
 void SurfBWindow::on_special_clicked()
 {

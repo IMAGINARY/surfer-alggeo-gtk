@@ -23,6 +23,8 @@
 #include <dirent.h>
 #include <fstream>
 
+bool ignore_bg_in_gallery = true;
+
 std::string basename(const std::string& ff)
 {
 	std::string f = ff;
@@ -48,6 +50,8 @@ std::string extension(const std::string& f)
 gallery read_gallery(const std::string& path, const std::string& name, double upscaling)
 {
 	gallery G;
+
+	color global_background = global_defaults().background;
 
 	try
 	{
@@ -76,8 +80,15 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 		parse_result P;
 		P.global_data = global_defaults();
 		P.data = read_pic( f, P.global_data);
+		
 		if(!P.data.empty())
 		{
+			if(ignore_bg_in_gallery)
+			{
+				P.global_data.background = global_background;
+				
+			}
+
 			//P.filename = d;
 			P.global_data.name = basename(d);
 			//P.thumbnail = path+DIR_SEP+basename(d)+".ppm";
@@ -196,13 +207,17 @@ GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
 :gal(g),m_tab(1,3),opt(o)
 {
 	// change gallery background to white
-	modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-	m_desc.modify_bg(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_desc.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
 
-	m_tab.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-	m_ScrolledWindow.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-	m_IconView.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
-	m_VBox.modify_base(Gtk::STATE_NORMAL,Gdk::Color("white")); 
+	m_tab.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_ScrolledWindow.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_IconView.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_VBox.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+
+	m_IconView.modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+	m_IconView.modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);  
+ 
 
 	set_title(_("Select surface - Surfer"));
   set_border_width(5);
