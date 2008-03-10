@@ -213,7 +213,7 @@ msgstr "Transparenz"
 
 #: select.cc:288
 msgid "Thickness"
-msgstr "Materialstaerke"
+msgstr "Materialstärke"
 
 #: select.cc:289
 msgid "Smoothness"
@@ -265,7 +265,7 @@ msgstr "Lichtfarbe"
 
 #: select.cc:431
 msgid "intensity of light"
-msgstr "Lichtintensitaet"
+msgstr "Lichtintensität"
 
 #: select.cc:432
 msgid "x coordinate"
@@ -281,33 +281,34 @@ msgstr "z-Koordinate"
 
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
-"usage: surfer [-f] [-h] [-i] [-s] [file]\n";
+"usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
 "       -f toggles between fullscreen and windowed mode\n"
 "       -h hides the gallery\n"
 "       -i hides the information for gallery entries\n"
 "       -s small mode: no fullscreen, no gallery, no information\n"
+"       -V verbose operation\n"
 "       file is a surf or surfer script\n"
 
 msgstr ""
 "Surfer - interaktive Visualisierung algebraischer Geometrie\n"
-"Syntax: surfer [-f] [-h] [-i] [-s] [datei]\n";
+"Syntax: surfer [-f] [-h] [-i] [-s] [datei]\n"
 "       -f schaltet den Vollbild-Modus ein oder aus\n"
 "       -h versteckt die Galerie\n"
-"       -i versteckt die Informationen der Galerieeintraege\n"
+"       -i versteckt die Informationen der Galerieeinträge\n"
 "       -s Schrumpfmodus: kein Vollbild, keine Galerie, keine Informationen\n"
 "       datei ist ein Surf-Skript oder eine Surfer-Datei\n"
 
 msgid "Resolution"
-msgstr "Aufloesung"
+msgstr "Auflösung"
 
 msgid "Resolution of saved image"
-msgstr "Afloesung beim Speichern"
+msgstr "Auflösung beim Speichern"
 
 msgid "resolution while rotating"
-msgstr "Aufloesung beim Drehen"
+msgstr "Auflösung beim Drehen"
 
 msgid "maximal resolution when idle"
-msgstr "maximale Aufloesung beim Rechnen"
+msgstr "maximale Auflösung beim Rechnen"
 
 msgid "Anti-aliasing factor"
 msgstr "Antialiasing-Faktor"

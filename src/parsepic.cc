@@ -83,7 +83,7 @@ color white;
 white.red = white.green = white.blue = 255;
 
 color bg;
-bg.red = bg.green = bg.blue = MAIN_COLOR_LUMINA;
+bg.red = bg.green = bg.blue = 0;
 
 g.background = bg;
 
@@ -610,7 +610,7 @@ std::vector<surface_data> read_pic(std::istream& f, global_parse& g, const std::
 
 			if(match(s,"epsilon",sr)) goto next_command;
 			if(match(s,"root_finder",sr)) goto next_command;
-			if(match(s,"clip",sr)) goto next_command;
+			//if(match(s,"clip",sr)) goto next_command;
 			
 			for(unsigned i = 0; i < 9; i++)
 			{
@@ -618,7 +618,7 @@ std::vector<surface_data> read_pic(std::istream& f, global_parse& g, const std::
 				if(i)sn<<(i+1);
 				std::string n = sn.str();
 				
-			if(match(s,"clip_surface"+n,sr)) goto next_command;
+			//if(match(s,"clip_surface"+n,sr)) goto next_command;
 			}
 
 			if(match(s,"illumination",sr)) goto next_command;
@@ -627,7 +627,7 @@ std::vector<surface_data> read_pic(std::istream& f, global_parse& g, const std::
 			if(s=="save_color_image") goto next_command;
 			
 
-			
+			g.general_stuff+=s+";\n";
 
 			continue;
 			next_command:;

@@ -83,4 +83,11 @@ std::cout<<"HOME "<<bu<<std::endl;
 */
 }
 
+
+
+class AniDia: public Gtk::Dialog
+{
+
+};
+
 #endif

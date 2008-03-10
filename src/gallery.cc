@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2008 by Henning Meyer                                   *
+ *   hmeyer@mathematik.uni-kl.de                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,11 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <fstream>
+
+bool no_modify_gallery = true;
+
+#define MOD if(!no_modify_gallery)
+
 
 bool ignore_bg_in_gallery = true;
 
@@ -207,7 +212,7 @@ GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
 :gal(g),m_tab(1,3),opt(o)
 {
 	// change gallery background to white
-	modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
 	m_desc.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
 
 	m_tab.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
@@ -216,7 +221,7 @@ GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
 	m_VBox.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 
 	m_IconView.modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
-	m_IconView.modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);  
+	m_IconView.modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);  }
  
 
 	set_title(_("Select surface - Surfer"));

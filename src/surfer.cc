@@ -101,11 +101,12 @@ arg_inspect:
 	{
 		std::cout<<
 		_("Surfer - visualizing algebraic geometry\n"
-		"usage: surfer [-f] [-h] [-i] [-s] [file]\n"
+		"usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
 		"       -f toggles between fullscreen and windowed mode\n"
                 "       -h hides the gallery\n"
 		"       -i hides the information for gallery entries\n"
                 "       -s small mode: no fullscreen, no gallery, no information\n"
+                "       -V verbose operation\n"
                 "       file is a surf or surfer script\n");
 		return 0;
 		
@@ -139,6 +140,14 @@ arg_inspect:
 		no_full = true;
 		no_info=true;
 		no_gallery=true;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="-V")
+	{
+		no_log = false;
 		argc--;
 		argv++;
 		goto arg_inspect;
@@ -197,7 +206,11 @@ else Gtk::Main::run(sbw);
 
 
 
-
+void log_system(const std::string& s)
+{
+	if(!no_log) std::cout<<"executing "<<s<<std::endl;
+	system(s.c_str());
+}
 
 
 

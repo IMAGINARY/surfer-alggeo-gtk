@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2007 by Henning Meyer                                   *
+ *   hmeyer@mathematik.uni-kl.de                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -48,6 +48,13 @@ std::string fix_input(const std::string& s)
 	{
 		if(i)
 		{
+			if(isdigit(s[i-1]) && (s[i]=='('))
+			{T+='*';T+=s[i];}
+			if((s[i-1]==')') && (s[i]=='('))
+			{T+='*';T+=s[i];}
+			
+			if(my_alpha(s[i-1]) && (s[i]=='('))
+			{T+='*';T+=s[i];}
 			if(my_alpha(s[i-1]) && my_alpha(s[i]))
 			{T+='*';T+=s[i];}
 			else if(my_alpha(s[i-1]) && isdigit(s[i]))

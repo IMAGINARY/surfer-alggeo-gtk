@@ -64,7 +64,7 @@ void make_thumb(parse_result data,const std::string& script, const std::string& 
 	f<<"draw_surface;\n";
 	f<<"save_color_image;\n";
 	f.close();
-	system((opt.surf_cmd+" -n \""+script+"\" " REDIRECTION_APEX).c_str());
+	system((opt.surf_cmd+" -n \""+script+"\" " +REDIRECTION_APEX).c_str());
 	
 
 
@@ -343,7 +343,7 @@ m_pos_default(_("rotate into default position"))
 	m_note.append_page(m_cb,_("Background color"));
 	m_note.append_page(m_light,_("Illumination"));
 	m_note.append_page(m_mat,_("Material"));
-	m_note.append_page(m_pos,_("Position"));
+	if(false) m_note.append_page(m_pos,_("Position"));
         m_note.append_page(m_res,_("Resolution"));
 	m_note.append_page(m_surf,_("special Surf-Code"));
 

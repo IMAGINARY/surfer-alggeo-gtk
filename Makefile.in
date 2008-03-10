@@ -605,10 +605,6 @@ ps: ps-recursive
 
 ps-am:
 
-gallery-install:
-	$(mkdir_p) $(pkgdatadir)
-	cp -r gallery $(pkgdatadir)/	
-
 uninstall-am:
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \

@@ -25,6 +25,18 @@ std::string basename(const std::string& f);
 
 extern bool ignore_bg_in_gallery;
 
+void gallery_override(parse_result& P)
+{
+	global_parse G = global_defaults();
+	if(!ignore_bg_in_gallery) return;
+
+	color bg;
+	bg.red = bg.green = bg.blue = MAIN_COLOR_LUMINA;
+
+	P.global_data.background = bg;
+	P.global_data.antialiasing = 4;
+}
+
 gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::string& dname, double upscaling)
 {
 	//path contains DIR_SEP
@@ -32,7 +44,7 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 	gallery G;
 	getline(f,G.name);
 	G.path = path;
-	color global_background = global_defaults().background;
+	
 
 	std::string L;
 	std::string t;
@@ -57,11 +69,8 @@ gallery read_gallery_file(std::istream& f, const std::string& xpath, const std::
 			if(!P.data.empty())
 			{
 
-				if(ignore_bg_in_gallery)
-				{
-					P.global_data.background = global_background;
-					
-				}
+				gallery_override(P);
+
 				P.global_data.name = basename(t1);
 				
 				for(unsigned i = 0; i < P.data.size(); i++)

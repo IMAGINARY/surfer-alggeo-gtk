@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2007 by Henning Meyer                                   *
+ *   hmeyer@mathematik.uni-kl.de                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -390,6 +390,7 @@ bool on_back_expose_event_func(GdkEventExpose* event);
 bool on_back_button_release_event_func(GdkEventButton* event);
 bool on_back_motion_notify_event_func(GdkEventMotion* event);
 
+bool on_scroll_event_func(GdkEventScroll*);
 
 
 void on_mode_clicked_func(char s);
@@ -422,6 +423,9 @@ void on_new_surface_clicked();
 
 
 bool on_button_changed_func(GdkEventButton*);
+
+bool draw_coords;
+void draw_grid();
 
 std::vector<surface_data> data;
 unsigned data_index;
@@ -647,7 +651,10 @@ public:
 #ifdef WIN32
 #define REDIRECTION_APEX ""
 #else
-#define REDIRECTION_APEX ">/dev/null 2>/dev/null"
+
+extern bool no_log;
+
+#define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
 #endif
 #endif
 
@@ -664,3 +671,4 @@ public:
 #endif
 
 
+void log_system(const std::string& s);
