@@ -30,6 +30,7 @@ extern char * surfer_small_xpm[] ;
 extern bool no_full;
 extern bool no_info;
 extern bool no_gallery;
+extern bool no_log;
 extern bool rewrite_config;
 
 #ifdef WIN32
