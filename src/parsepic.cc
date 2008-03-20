@@ -126,7 +126,7 @@ g.rot = unitmat<double>(3,1.0,0.0);
 
 g.general_stuff = std::string("double PI = 2*arcsin(1);\n")
 				+"root_finder=d_chain_newton;\n"
-				   +"epsilon=0.0000001;\n"
+				   +"epsilon=0.0000000000001;\n"
 				   +"iterations=1000;\n";
 
 g.hires = 700;

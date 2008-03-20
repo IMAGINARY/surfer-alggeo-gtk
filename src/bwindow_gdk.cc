@@ -125,7 +125,8 @@ m_spin(),
 m_special(_("Details")),
 m_new_surface(Gtk::Stock::NEW),
 m_savefile(Gtk::Stock::SAVE),
-m_animate(Gtk::Stock::MEDIA_RECORD)
+m_animate(Gtk::Stock::MEDIA_RECORD),
+draw_coords(false)
 {
 	// change window background to white
 	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
