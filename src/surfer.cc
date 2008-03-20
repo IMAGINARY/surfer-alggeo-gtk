@@ -190,7 +190,9 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
 
   std::vector<gallery> G =  read_galleries_new(so.gallery_path,so.upscale);
 
+#ifndef WIN32
 Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_small_xpm));
+#endif
 
   SurfBWindow sbw(*i, G,so,(argc>1 && std::string(argv[1])=="-f")  ,personalized);
 
