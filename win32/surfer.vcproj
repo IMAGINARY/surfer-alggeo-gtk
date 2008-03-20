@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\config.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\matrix.hh"
 				>
 			</File>
