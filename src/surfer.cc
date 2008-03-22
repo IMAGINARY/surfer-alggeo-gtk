@@ -32,6 +32,7 @@ extern bool no_info;
 extern bool no_gallery;
 extern bool no_log;
 extern bool rewrite_config;
+extern bool no_modify;
 
 #ifdef WIN32
 int main (int argc, char *argv[]);
@@ -141,6 +142,14 @@ arg_inspect:
 		no_full = true;
 		no_info=true;
 		no_gallery=true;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="-d")
+	{
+		no_modify = true;
 		argc--;
 		argv++;
 		goto arg_inspect;

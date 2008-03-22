@@ -56,7 +56,10 @@ bool no_gallery = false;
 bool printing = false;
 bool no_log = true;
 bool no_zero = false;
+
 bool no_modify = false;
+
+bool no_keys = false;
 
 #define MOD if(!no_modify)
 
@@ -254,19 +257,19 @@ draw_coords(false)
 	if(fullscreen_mode)
 	{
 		
-		m_utab.attach(m_aframe,0,2,0,2);
-		m_utab.attach(m_avalue,3,4,0,1,Gtk::SHRINK);
-		m_utab.attach(m_leave,3,4,1,2,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_aframe,0,2,0+1,2+1);
+		m_utab.attach(m_avalue,3,4,0+1,1+1,Gtk::SHRINK);
+		m_utab.attach(m_leave,3,4,1+1,2+1,Gtk::SHRINK,Gtk::SHRINK);
 
-		m_utab.attach(m_zoom_table,2,3,0,2,Gtk::SHRINK);
+		m_utab.attach(m_zoom_table,2,3,0+1,2+1,Gtk::SHRINK);
 
 		
 
-		m_utab.attach(m_scale_free,0,1,2,3,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_hscale,0,1,3,4,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale2,1,2,3,4,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale3,0,1,2,3,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale4,1,2,2,3,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_scale_free,0,1,2+1,3+1,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_hscale,0,1,3+1,4+1,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale2,1,2,3+1,4+1,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale3,0,1,2+1,3+1,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale4,1,2,2+1,3+1,Gtk::FILL,Gtk::SHRINK);
 
 
 		m_leave.set_image(m_leave_image);
@@ -281,17 +284,19 @@ draw_coords(false)
 	else
 	{
 
+		set_up_the_menu();
+
+		m_utab.attach(m_aframe,0, 2, 0+1, 1+1 ,Gtk::EXPAND|Gtk::FILL,Gtk::EXPAND|Gtk::FILL);
+		m_utab.attach(m_bbox,0, 2, 3+1, 4+1 ,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
+
+
+		m_utab.attach(m_entryfield,0,2,4+1,5+1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
+
+		m_utab.attach(m_zoom_table,2,3,0+1,3+1,Gtk::SHRINK);
 		
-
-		m_utab.attach(m_aframe,0, 2, 0, 1 ,Gtk::EXPAND|Gtk::FILL,Gtk::EXPAND|Gtk::FILL);
-		m_utab.attach(m_bbox,0, 2, 3, 4 ,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
-
-
-		m_utab.attach(m_entryfield,0,2,4,5,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
-
-		m_utab.attach(m_zoom_table,2,3,0,3,Gtk::SHRINK);
-		m_utab.attach(m_new_surface,2,3,3,4,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_spin,2,3,4,5,Gtk::SHRINK,Gtk::SHRINK);
+		//m_utab.attach(m_new_surface,2,3,3+1,4+1,Gtk::SHRINK,Gtk::SHRINK);
+		
+		m_utab.attach(m_spin,3,4,5,6,Gtk::SHRINK,Gtk::SHRINK);
 
                 m_spin.set_range(1,1);
 		
@@ -300,20 +305,20 @@ draw_coords(false)
 		m_spin.set_increments(1,1);
 
 		
-		m_utab.attach(m_scale_free,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_hscale,0,1,2,3,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale2,1,2,2,3,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_scale_free,0,1,1+1,2+1,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_hscale,0,1,2+1,3+1,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale2,1,2,2+1,3+1,Gtk::FILL,Gtk::SHRINK);
 
 
-		m_utab.attach(m_hscale3,0,1,1,2,Gtk::FILL,Gtk::SHRINK);
-		m_utab.attach(m_hscale4,1,2,1,2,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale3,0,1,1+1,2+1,Gtk::FILL,Gtk::SHRINK);
+		m_utab.attach(m_hscale4,1,2,1+1,2+1,Gtk::FILL,Gtk::SHRINK);
 
-		m_utab.attach(m_bft,3, 4, 3, 5 ,Gtk::SHRINK,Gtk::SHRINK);
-		m_utab.attach(m_note,3,4,0,3,Gtk::SHRINK);
+		//m_utab.attach(m_bft,3, 4, 3+1, 5+1 ,Gtk::SHRINK,Gtk::SHRINK);
+		m_utab.attach(m_note,3,6,0+1,3+1,Gtk::SHRINK);
 		
-		set_border_width(4);
+		set_border_width(0);
 
-
+		if(!no_keys)
 		{
 			char s[] = "abxyz+-*^.()0123456789D";
 			char b[2] = {0,0};
@@ -340,16 +345,19 @@ draw_coords(false)
 			m_error.set_markup("<span foreground=\"#FF0000\" weight=\"bold\">!</span>");
 			m_error.set_selectable(false);
 
-			m_utab.attach(m_error,2,3,4,5,Gtk::SHRINK,Gtk::SHRINK);
+			m_utab.attach(m_error,2,3,4+1,5+1,Gtk::SHRINK,Gtk::SHRINK);
+
 			if(false && !PRESENTATION_MODE)
 			m_fbox.add(m_animate);
-			m_fbox.add(m_savefile);
-			m_fbox.add(m_about);
-			m_fbox.set_child_min_width(1);
+			//m_fbox.add(m_savefile);
+			//m_fbox.add(m_about);
+
+
+			//m_fbox.set_child_min_width(1);
 
 
 			m_backfor.add(m_prev);
-			m_backfor.add(m_full);
+			//m_backfor.add(m_full);
 			m_backfor.add(m_next);
 			
 			m_backfor.set_child_min_width(60);
@@ -408,49 +416,8 @@ draw_coords(false)
 			m_note.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
 			}
 			
-			
+			//if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
-
-			//modify_bg_pixmap(StateType state, const Glib::ustring& pixmap_name)  Gtk::Widget
-			//modify_cursor(const Gdk::Color& primary, const Gdk::Color& secondary)  Gtk::Widget
-			//modify_fg(StateType state, const Gdk::Color& color)  Gtk::Widget
-			//modify_font(const Pango::FontDescription& font_desc)  Gtk::Widget
-			//modify_style(const Glib::RefPtr<RcStyle>& style)  Gtk::Widget
-
-			/*
-			m_note.modify_base(Gtk::STATE_NORMAL, CONTRAST_COLOR_GDK);
-			m_note.modify_text(Gtk::STATE_NORMAL, CONTRAST_COLOR_GDK);
-			m_note.modify_fg(Gtk::STATE_NORMAL, CONTRAST_COLOR_GDK);
-
-			m_note.modify_base(Gtk::STATE_SELECTED, CONTRAST_COLOR_GDK);
-			m_note.modify_text(Gtk::STATE_SELECTED, CONTRAST_COLOR_GDK);
-			m_note.modify_fg(Gtk::STATE_SELECTED, CONTRAST_COLOR_GDK);
-
-			m_note.modify_base(Gtk::STATE_ACTIVE, CONTRAST_COLOR_GDK);
-			m_note.modify_text(Gtk::STATE_ACTIVE, CONTRAST_COLOR_GDK);
-			m_note.modify_fg(Gtk::STATE_ACTIVE, CONTRAST_COLOR_GDK);
-
-			m_note.modify_base(Gtk::STATE_PRELIGHT, CONTRAST_COLOR_GDK);
-			m_note.modify_text(Gtk::STATE_PRELIGHT, CONTRAST_COLOR_GDK);
-			m_note.modify_fg(Gtk::STATE_PRELIGHT, CONTRAST_COLOR_GDK);
-
-			m_note.modify_base(Gtk::STATE_INSENSITIVE, CONTRAST_COLOR_GDK);
-			m_note.modify_text(Gtk::STATE_INSENSITIVE, CONTRAST_COLOR_GDK);
-			m_note.modify_fg(Gtk::STATE_INSENSITIVE, CONTRAST_COLOR_GDK);
-			*/
-
-
-
-
-
-
-
-
-
-
-
-
-			if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			m_ctab.attach(*new Gtk::Image,1,2,1,2);
 			m_ctab.attach(m_cframe,1,2,2,3,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 			m_cframe.add(m_colors);
@@ -552,19 +519,20 @@ draw_coords(false)
 			}
 
 
-			m_bft.attach(m_backfor,0,1,0,1,Gtk::FILL,Gtk::SHRINK);
-			m_bft.attach(m_fbox,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
+			//m_bft.attach(m_backfor,0,1,0,1,Gtk::FILL,Gtk::SHRINK);
+			//m_bft.attach(m_fbox,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
 			
 			
 	}
 
 
 
-
+	m_entry.grab_focus();
+	
 	show_all_children();
 	if(MAX_SURFACES == 1) m_spin.hide();
 
-	m_utab.attach(m_printing,0,2,3,4/*,Gtk::SHRINK,Gtk::SHRINK*/);	
+	m_utab.attach(m_printing,0,2,3+1,4+1/*,Gtk::SHRINK,Gtk::SHRINK*/);	
 
 	adjust_visibility();
 	sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
@@ -1487,16 +1455,14 @@ void SurfBWindow::on_fullscreen_clicked()
   //hide();
   f.show();
 //  f.fullscreen();
-  f.adjust_visibility();
-  f.m_hscale.set_value(global_data.para[0]);
-  f.m_hscale2.set_value(global_data.para[1]);
+  f.update_visuals();
+  
 conn.disconnect();
   Gtk::Main::run(f);
 	data = f.data;
        
-   m_hscale.set_value(global_data.para[0]);
-  m_hscale2.set_value(global_data.para[1]);
-  	
+  global_data = f.global_data;
+  	update_visuals();
 
 sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
 
@@ -1575,79 +1541,6 @@ void SurfBWindow::on_save_clicked()
 }
 
 
-void SurfBWindow::on_save_file_clicked()
-{
-	Gtk::FileChooserDialog dialog(*this,_("Save image"),Gtk::FILE_CHOOSER_ACTION_SAVE);
-	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
-
-
-	Gtk::FileFilter filter_jpeg;
-	  filter_jpeg.set_name(_("Portable Network Graphics (.png)"));
-	  filter_jpeg.add_mime_type("image/png");
-	  dialog.add_filter(filter_jpeg);
-
-		/*
-	  Gtk::FileFilter filter_ppm;
-	  filter_ppm.set_name("Portable Pixmap-Bilder (.ppm)");
-	  filter_ppm.add_mime_type("image/x-portable-bitmap");
-	  filter_ppm.add_mime_type("image/x-portable-pixmap");
-	  dialog.add_filter(filter_ppm);
-	*/
-
-	  Gtk::FileFilter filter_any;
-	  filter_any.set_name(_("All files"));
-	  filter_any.add_pattern("*");
-	  dialog.add_filter(filter_any);
-	  dialog.set_current_name(global_data.name+".png");
-
-       dialog.show();
-       dialog.present();
-       dialog.raise();
-
-	//Gtk::Main::run(dialog);
-
-	int result = Gtk::RESPONSE_CANCEL;
-        result = dialog.run();
-
-
-
-	if(result == Gtk::RESPONSE_OK)
-	{
-		//std::string of = opt.format;
-		//opt.format = "jpg";
-		
-		std::string t = dialog.get_filename();
-		if(t.find("\"")==-1L && t.find(".")==-1L)
-		t = t+".png";
-		
-		try{
-		int d = global_data.hires;
-		global_data.hires = global_data.saveres;
-		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",global_data.antialiasing,true,1,true);
-
-		global_data.hires = d;
-		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP+"surfb_s.ppm");
-
-		std::string t2;
-
-		if(t.size()>4 && t.substr(t.size()-4)==".png")
-		t2 = t.substr(0,t.size()-4)+".pic";
-		else
-		t2 = t+".pic";
-
-		img->save(t,"png");
-		std::ifstream inf((TEMP_ROOT_SEP+"surfb_s.pic").c_str());
-		std::ofstream onf(t2.c_str());
-		onf<<inf.rdbuf();
-		onf.close();
-		inf.close();
-		}
-		catch(...)
-		{}
-		//opt.format = of;
-	}
-}
 
 void SurfBWindow::on_noscreen_clicked()
 {
@@ -1722,12 +1615,16 @@ void SurfBWindow::on_prev_clicked()
 void SurfBWindow::update_visuals()
 {
 	
-	
+	//scale = exp(log10*v)
+        //log(scale) = log10*v
 	pichange=5;
-	m_vscale.set_value(0);
+	m_vscale.set_value(log(global_data.scale)/log(10.0));
+
 	m_entry.set_text(data[data_index].public_eq);
 	m_hscale.set_value(global_data.para[0]);
 	m_hscale2.set_value(global_data.para[1]);
+	m_hscale3.set_value(global_data.para[2]);
+	m_hscale4.set_value(global_data.para[3]);
 	adjust_visibility();
 	try{
 	std::ifstream fi(data[data_index].desc.c_str());
@@ -1769,17 +1666,30 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 
 void SurfBWindow::adjust_visibility()
 {
-	bool fa = (data[data_index].public_eq.find('a')!=-1);
-	bool fb = (data[data_index].public_eq.find('b')!=-1);
+	bool fa = false;
+	bool fb = false;
+	bool fc = false;
+	bool fd = false;
 
-	std::string dc = data[data_index].public_eq;
+	for(unsigned i = 0; i < data.size(); i++)
+	{
+	fa = fa || (data[i].public_eq.find('a')!=-1);
+	
+	fb = fb || (data[i].public_eq.find('b')!=-1);
+
+	std::string dc = data[i].public_eq;
 
 	while(dc.find("cos")!=-1)
 	{dc.replace(dc.find("cos"),3,"XOS");}
 
-	bool fc = (dc.find('c')!=-1);
-	bool fd = (data[data_index].public_eq.find('d')!=-1);
+	while(dc.find("arc")!=-1)
+	{dc.replace(dc.find("arc"),3,"ARX");}
 
+	
+	fc = fc || (dc.find('c')!=-1);
+	
+	fd = fd || (data[i].public_eq.find('d')!=-1);
+	}
 
 	m_hscale.show();
 	m_scale_free.set_size_request(1,m_hscale.get_allocation().get_height());
@@ -1802,17 +1712,17 @@ void SurfBWindow::adjust_visibility()
 
 	if(valid) {
 		m_error.hide();
-		if(data.size()>1)
-		m_spin.show();
+		//if(data.size()>1)
+		//m_spin.show();
 
-		if(MAX_SURFACES>1&&data.size()<MAX_SURFACES)
-		m_new_surface.show();
+		//if(MAX_SURFACES>1&&data.size()<MAX_SURFACES)
+		//m_new_surface.show();
 	}
 	else
 		{
 			 m_error.show();
-			m_spin.hide();
-			m_new_surface.hide();
+			//m_spin.hide();
+			//m_new_surface.hide();
 		}
 }
 
@@ -2099,6 +2009,8 @@ void SurfBWindow::on_new_surface_clicked()
 
 		m_spin.set_range(1,data.size());
 		m_spin.set_value(data.size());
+
+		update_visuals();
 	}
 
 }
@@ -2157,5 +2069,507 @@ cr->set_line_width(3);
 	
 	cr->stroke();
 
+
+}
+
+
+
+void SurfBWindow::on_save_file_clicked()
+{
+	do_file_save(true,true);
+}
+
+
+void SurfBWindow::on_export_png_clicked()
+{
+	do_file_save(false,true);
+}
+
+
+void SurfBWindow::on_export_pic_clicked()
+{
+	do_file_save(true,false);
+}
+
+void SurfBWindow::do_file_save(bool do_pic,bool do_png)
+{
+	std::ostringstream title;
+
+	if(do_pic && !do_png)
+	title << _("Save surface");
+	else
+	if(do_pic&&do_png)
+	title<<_("Save image and save surface");
+	else
+	title << _("Save image");
+
+	
+	
+
+	Gtk::FileChooserDialog dialog(*this,title.str(),Gtk::FILE_CHOOSER_ACTION_SAVE);
+	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+
+	if(do_png)
+	{
+	Gtk::FileFilter filter_png;
+	  filter_png.set_name(_("Portable Network Graphics (.png)"));
+	  filter_png.add_mime_type("image/png");
+	  dialog.add_filter(filter_png);
+	}
+	if(do_pic){
+	Gtk::FileFilter filter_pic;
+	  filter_pic.set_name(_("Surfer Script (.pic)"));
+	  filter_pic.add_mime_type("image/png");
+	  filter_pic.add_pattern("*.pic");
+	  dialog.add_filter(filter_pic);}
+
+
+		/*
+	  Gtk::FileFilter filter_ppm;
+	  filter_ppm.set_name("Portable Pixmap-Bilder (.ppm)");
+	  filter_ppm.add_mime_type("image/x-portable-bitmap");
+	  filter_ppm.add_mime_type("image/x-portable-pixmap");
+	  dialog.add_filter(filter_ppm);
+	*/
+
+	  Gtk::FileFilter filter_any;
+	  filter_any.set_name(_("All files"));
+	  filter_any.add_pattern("*");
+	  dialog.add_filter(filter_any);
+	  dialog.set_current_name(global_data.name+".png");
+
+       dialog.show();
+       dialog.present();
+       dialog.raise();
+
+	//Gtk::Main::run(dialog);
+
+	int result = Gtk::RESPONSE_CANCEL;
+        result = dialog.run();
+
+
+
+	if(result == Gtk::RESPONSE_OK)
+	{
+		//std::string of = opt.format;
+		//opt.format = "jpg";
+		
+		std::string t = dialog.get_filename();
+
+		if(t.find("\"")==-1L && t.size()>=4 && t.substr(t.size()-4)==".pic")
+		t = t.substr(0,t.size()-4);
+		if(t.find("\"")==-1L && t.find(".")==-1L)
+		t = t+".png";
+		
+		if(do_png)
+		{
+		try{
+		int d = global_data.hires;
+		global_data.hires = global_data.saveres;
+		refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",global_data.antialiasing,true,1,true);
+
+		global_data.hires = d;
+		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create_from_file(TEMP_ROOT_SEP+"surfb_s.ppm");
+
+
+		img->save(t,"png");
+		
+		}
+		catch(...)
+		{}
+		}
+
+		if(do_pic)
+		{
+			try{
+
+			std::string t2;
+
+			if(t.size()>4 && t.substr(t.size()-4)==".png")
+			t2 = t.substr(0,t.size()-4)+".pic";
+			else
+			t2 = t+".pic";
+
+			std::ifstream inf((TEMP_ROOT_SEP+"surfb_s.pic").c_str());
+			std::ofstream onf(t2.c_str());
+			onf<<inf.rdbuf();
+			onf.close();
+			inf.close();
+			}
+			catch(...)
+			{}
+		}
+		
+		//opt.format = of;
+	}
+}
+
+void SurfBWindow::on_open_file_clicked()
+{
+
+	std::ostringstream title;
+
+	
+	title << _("Open surface");
+	
+	
+	
+
+	Gtk::FileChooserDialog dialog(*this,title.str(),Gtk::FILE_CHOOSER_ACTION_OPEN);
+	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+	dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+
+	Gtk::FileFilter filter_pic;
+	  filter_pic.set_name(_("Surfer Script (.pic)"));
+	  filter_pic.add_mime_type("image/png");
+	  filter_pic.add_pattern("*.pic");
+	  dialog.add_filter(filter_pic);
+
+
+		/*
+	  Gtk::FileFilter filter_ppm;
+	  filter_ppm.set_name("Portable Pixmap-Bilder (.ppm)");
+	  filter_ppm.add_mime_type("image/x-portable-bitmap");
+	  filter_ppm.add_mime_type("image/x-portable-pixmap");
+	  dialog.add_filter(filter_ppm);
+	*/
+
+	  Gtk::FileFilter filter_any;
+	  filter_any.set_name(_("All files"));
+	  filter_any.add_pattern("*");
+	  dialog.add_filter(filter_any);
+	  
+
+       dialog.show();
+       dialog.present();
+       dialog.raise();
+
+	//Gtk::Main::run(dialog);
+
+	int result = Gtk::RESPONSE_CANCEL;
+        result = dialog.run();
+
+
+
+	if(result == Gtk::RESPONSE_OK)
+	{
+		//std::string of = opt.format;
+		//opt.format = "jpg";
+		
+		std::string t = dialog.get_filename();
+
+		try{
+
+		std::ifstream f(t.c_str());
+		
+			parse_result P;
+			
+			P.global_data = global_defaults();
+			P.data = read_pic(f,P.global_data);
+		
+		if(!P.data.empty())
+		{
+
+			data = P.data;
+			global_data = P.global_data;
+
+			data_index = 0;
+			update_visuals();
+			
+		}
+
+
+		}
+		catch(...)
+		{}
+		
+		//opt.format = of;
+	}
+
+}
+
+void SurfBWindow::on_manual_clicked()
+{
+show_the_manual(this);
+}
+
+void SurfBWindow::on_homepage_clicked()
+{
+
+}
+
+void SurfBWindow::on_delete_surface_clicked()
+{
+
+	
+	if(data.size() > 1)
+	{
+		data.erase(data.begin()+data_index);
+
+		if(data_index) data_index--;
+		
+		m_spin.set_range(1,data.size());
+		m_spin.set_value(data_index+1);
+
+		update_visuals();
+	}
+
+
+}
+
+void SurfBWindow::set_up_the_menu()
+{
+
+std::string amp = "&";
+
+ mr_AG = Gtk::ActionGroup::create();
+
+mr_AG->add(Gtk::Action::create("MenuFile",_("File")));
+mr_AG->add(Gtk::Action::create("MenuSurface",_("Surface")));
+mr_AG->add(Gtk::Action::create("MenuHelp",_("Help")));
+mr_AG->add(Gtk::Action::create("MenuView",_("View")));
+mr_AG->add(Gtk::Action::create("MenuGallery",_("Gallery")));
+
+
+mr_AG->add(Gtk::Action::create("FileOpen",Gtk::Stock::OPEN), sigc::mem_fun(*this, &SurfBWindow::on_open_file_clicked));
+mr_AG->add(Gtk::Action::create("FileSave",Gtk::Stock::SAVE), sigc::mem_fun(*this, &SurfBWindow::on_save_file_clicked));
+
+mr_AG->add(Gtk::Action::create("FileExportPng",_("Save a copy of this image")), sigc::mem_fun(*this, &SurfBWindow::on_export_png_clicked));
+mr_AG->add(Gtk::Action::create("FileExportPic",_("Save a copy of this surface")), sigc::mem_fun(*this, &SurfBWindow::on_export_pic_clicked));
+
+
+mr_AG->add(Gtk::Action::create("FileQuit",Gtk::Stock::QUIT), sigc::mem_fun(*this, &SurfBWindow::on_noscreen_clicked) );
+
+
+mr_AG->add(Gtk::Action::create("SurfaceNew",Gtk::Stock::NEW),sigc::mem_fun(*this, &SurfBWindow::on_new_surface_clicked));
+mr_AG->add(Gtk::Action::create("SurfaceDelete",Gtk::Stock::DELETE),sigc::mem_fun(*this, &SurfBWindow::on_delete_surface_clicked));
+mr_AG->add(Gtk::Action::create("SurfaceEdit",Gtk::Stock::PROPERTIES), sigc::mem_fun(*this, &SurfBWindow::on_special_clicked));
+
+mr_AG->add(Gtk::Action::create("ViewFullscreen",Gtk::Stock::FULLSCREEN), sigc::mem_fun(*this, &SurfBWindow::on_fullscreen_clicked));
+
+mr_AG->add(Gtk::Action::create("GalleryPrevious",Gtk::Stock::GO_BACK), sigc::mem_fun(*this, &SurfBWindow::on_prev_clicked));
+mr_AG->add(Gtk::Action::create("GalleryNext",Gtk::Stock::GO_FORWARD), sigc::mem_fun(*this, &SurfBWindow::on_next_clicked));
+
+mr_AG->add(Gtk::Action::create("HelpManual",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_manual_clicked));
+mr_AG->add(Gtk::Action::create("HelpHomepage",Gtk::Stock::HOME), sigc::mem_fun(*this,&SurfBWindow::on_homepage_clicked));
+mr_AG->add(Gtk::Action::create("HelpAbout",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
+
+
+mr_UIM = Gtk::UIManager::create();
+
+mr_UIM->insert_action_group(mr_AG);
+
+add_accel_group(mr_UIM->get_accel_group());
+
+Glib::ustring ui_info =
+    "<ui>"
+    "  <menubar name='MenuBar'>"
+    "    <menu action='MenuFile'>"
+    "      <menuitem action='FileOpen'/>"
+    "      <menuitem action='FileSave'/>"
+    "      <separator/>"
+    "      <menuitem action='FileQuit'/>"
+    "    </menu>"
+    "    <menu action='MenuSurface'>"
+    "      <menuitem action='SurfaceEdit'/>"
+    "      <menuitem action='SurfaceDelete'/>"
+    "      <separator/>"
+    "      <menuitem action='SurfaceNew'/>"
+    "    </menu>"
+    "    <menu action='MenuView'>"
+    "      <menuitem action='ViewFullscreen'/>"
+    "    </menu>"
+    "    <menu action='MenuHelp'>"
+    "      <menuitem action='HelpManual'/>"
+    "      <separator/>"
+    "      <menuitem action='HelpAbout'/>"
+    "    </menu>"
+    "  </menubar>"
+    "  <toolbar  name='NavBar'>"
+    "    <toolitem action='GalleryPrevious'/>"
+
+    "    <toolitem action='GalleryNext'/>"
+"      <separator/>"
+    "    <toolitem action='ViewFullscreen'/>"
+
+    "      <separator/>"
+//    "      <toolitem action='HelpManual'/>"
+    "      <toolitem action='HelpAbout'/>"
+    "  </toolbar>"
+    "  <toolbar  name='StdBar'>"
+    "      <toolitem action='SurfaceNew'/>"
+    "      <toolitem action='SurfaceDelete'/>"
+    "      <separator/>"
+    
+    "      <toolitem action='SurfaceEdit'/>"
+    "      <separator/>"
+    "    <toolitem action='FileOpen'/>"
+    "    <toolitem action='FileSave'/>"
+    "  </toolbar>"
+
+    "  <toolbar  name='DefaultBar'>"
+    "    <toolitem action='FileOpen'/>"
+    "    <toolitem action='FileSave'/>"
+    "      <separator/>"
+    "      <toolitem action='SurfaceNew'/>"
+    "      <toolitem action='SurfaceDelete'/>"
+    "      <separator/>"
+    
+    "      <toolitem action='SurfaceEdit'/>"
+    "      <separator/>"
+    "    <toolitem action='ViewFullscreen'/>"
+    "      <separator/>"
+//    "      <toolitem action='HelpManual'/>"
+    "      <toolitem action='HelpAbout'/>"
+    
+    "  </toolbar>"
+
+"  <toolbar  name='GalleryBar'>"
+    "    <toolitem action='GalleryPrevious'/>"
+
+    "    <toolitem action='GalleryNext'/>"
+    "  </toolbar>"
+
+    "  <toolbar  name='MiniBar'>"
+    "      <separator/>"
+    "      <toolitem action='SurfaceNew'/>"
+    "      <toolitem action='SurfaceDelete' position='bottom'/>"
+    "  </toolbar>"
+
+    "  <toolbar  name='TopBar'>"
+"    <toolitem action='FileOpen'/>"
+    "    <toolitem action='FileSave'/>"
+    "      <separator/>"
+    "    <toolitem action='GalleryPrevious'/>"
+
+    "    <toolitem action='GalleryNext'/>"
+"      <separator/>"
+    "    <toolitem action='ViewFullscreen'/>"
+    
+    "  </toolbar>"
+
+
+    "  <toolbar  name='HelpBar'>"
+    "      <toolitem action='HelpAbout'/>"
+    "  </toolbar>"
+    "  <toolbar  name='PropBar'>"
+    "      <toolitem action='SurfaceEdit'/>"
+    "  </toolbar>"
+
+
+    "</ui>";
+
+if(!opt.ui_xml.empty())
+{
+	try{
+	std::ifstream uif(opt.ui_xml.c_str());
+
+	std::string t;
+	std::string s;
+	while(!uif.eof())
+	{
+		std::getline(uif,t);
+		
+		if(!t.empty())
+		s+=t+'\n';
+	}
+
+	if(!s.empty())
+	ui_info = s;
+
+	}
+	catch(...){}
+
+}
+
+mr_UIM->add_ui_from_string(ui_info);
+
+Gtk::Widget* pMenuBar = mr_UIM->get_widget("/MenuBar");
+if(false&&pMenuBar)
+m_utab.attach(*pMenuBar, 0,3,0,1);
+
+/*
+Gtk::Toolbar* pStdBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/DefaultBar"));
+if(pStdBar)
+{
+m_utab.attach(*pStdBar, 0,5,0,1);
+pStdBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pStdBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+
+int n = pStdBar->get_n_items();
+pStdBar->get_nth_item(n-1)->set_expand();
+
+}
+*/
+
+Gtk::Toolbar* pToolbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/TopBar")) ;
+  if(pToolbar)
+{
+pToolbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+    m_utab.attach(*pToolbar,3,5,4,5,Gtk::FILL|Gtk::EXPAND);
+//pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
+}
+
+Gtk::Toolbar* pHelpbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/HelpBar")) ;
+  if(pHelpbar)
+{
+pHelpbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pHelpbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+    m_utab.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK);
+pHelpbar->set_show_arrow(false);
+//pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
+}
+
+
+Gtk::Toolbar* pMiniBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/MiniBar"));
+if(pMiniBar)
+{
+m_utab.attach(*pMiniBar, 4,5,5,6);
+pMiniBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+}
+
+
+Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/PropBar")) ;
+  if(pPropbar)
+{
+pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+    m_utab.attach(*pPropbar,5,6,5,6,Gtk::SHRINK);
+pPropbar->set_show_arrow(false);
+//pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
+}
+
+}
+
+
+
+void make_colormap()
+{
+	/*
+
+	Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
+		
+	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
+		//some_gc.create(get_window());
+		
+	
+	Glib::RefPtr<Gdk::Drawable> dr(window);
+
+
+	for(double x= 0; x <= 200; x = x+1)
+		for(double y= 0; y <= 200; y = y+1)
+	{
+		
+		Gdk::Color nc = colormap(x,y).gdk_colors();
+		
+
+		some_gc->set_rgb_fg_color(nc);
+		dr->draw_point(some_gc,int(x),int(y));		
+		
+	}
+	*/
 
 }

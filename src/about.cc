@@ -199,20 +199,26 @@ hide();
 
 void AboutWindow::on_help_click()
 {
+	show_the_manual(this);
+}
+
+
+void show_the_manual(Gtk::Window* wnd)
+{
 #ifdef WIN32
 	switch(int(ShellExecuteA(NULL,"open",opt.helpfile.c_str(),NULL,NULL,SW_SHOW)))
 	{
 		case ERROR_FILE_NOT_FOUND:
 		case SE_ERR_ACCESSDENIED:
 		{
-			Gtk::MessageDialog m(*this,_("Could not access help file."),false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			Gtk::MessageDialog m(*wnd,_("Could not access help file."),false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
 			m.run();
 			break;
 		}
 		case SE_ERR_NOASSOC:
 		case SE_ERR_ASSOCINCOMPLETE:
 		{
-			Gtk::MessageDialog m(*this,_("Could not display help file. Install Adobe Reader."),false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
+			Gtk::MessageDialog m(*wnd,_("Could not display help file. Install Adobe Reader."),false,Gtk::MESSAGE_ERROR,Gtk::BUTTONS_OK,true);
 			m.run();
 			break;
 		}

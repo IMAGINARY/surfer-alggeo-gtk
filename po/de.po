@@ -10,12 +10,12 @@ msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
 "POT-Creation-Date: 2008-02-25 21:41+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: $Date$"
 "Last-Translator: Henning Meyer <hmeyer@mathematik.uni-kl.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
+"Language-Team: German <surfer@imaginary2008.de>"
 #: bwindow_gdk.hh:252
 
 msgid "Zoom"
@@ -312,4 +312,22 @@ msgstr "maximale Auflösung beim Rechnen"
 
 msgid "Anti-aliasing factor"
 msgstr "Antialiasing-Faktor"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "Surface"
+msgstr "Fläche"
+
+msgid "View"
+msgstr "Ansicht"
+
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "Open surface"
+msgstr "Fläche öffnen"
+
+msgid "Save image and save surface"
+msgstr "Bild und Fläche speichern"
 

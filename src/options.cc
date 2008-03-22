@@ -95,6 +95,7 @@ surfer_options default_settings()
 	so.surf_cmd="surf";
 	so.upscale = 1;
 	so.print_resolution = 1740;
+	so.ui_xml = "";
 	return so;
 }
 
@@ -111,6 +112,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"entryfont="<<so.entryfont<<std::endl;
 	f<<"help="<<so.help_cmd<<std::endl;
 	f<<"helpfile="<<so.helpfile<<std::endl;
+	f<<"uixml="<<so.ui_xml<<std::endl;
 	return f;
 }
 
@@ -161,6 +163,7 @@ surfer_options read_settings_from_file(const std::string& filename)
 		if(t1 == "help") so.help_cmd = t2;
 		if(t1 == "helpfile") so.helpfile = t2;
 		if(t1 == "format") so.format = t2;
+		if(t1 == "uixml") so.ui_xml = t2;
 		if(t1 == "resolution")
 		{
 			std::istringstream iss(t2);

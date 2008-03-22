@@ -215,6 +215,8 @@ struct surfer_options
 	
 	std::string helpfile;
 	std::string help_cmd;
+
+	std::string ui_xml;
 };
 
 class ZScale: public Gtk::VScale
@@ -401,6 +403,7 @@ void on_print_clicked();
 void on_about_clicked();
 void on_save_clicked();
 void on_save_file_clicked();
+void on_open_file_clicked();
 void on_noscreen_clicked();
 void on_left_clicked();
 void on_right_clicked();
@@ -413,6 +416,12 @@ bool on_surface_expose_event_func(GdkEventExpose* event);
 bool on_surface_button_press_event_func(GdkEventButton* event);
 
 sigc::connection conn;
+
+void on_export_pic_clicked();
+void on_export_png_clicked();
+
+void do_file_save(bool,bool);
+
 void on_value_changed_func();
 void on_spin_changed_func();
 void on_para_changed_func();
@@ -421,6 +430,11 @@ void on_para3_changed_func();
 void on_para4_changed_func();
 void on_new_surface_clicked();
 
+void on_delete_surface_clicked();
+
+void set_up_the_menu();
+Glib::RefPtr<Gtk::ActionGroup> mr_AG;
+Glib::RefPtr<Gtk::UIManager> mr_UIM ;
 
 bool on_button_changed_func(GdkEventButton*);
 
@@ -438,7 +452,12 @@ PID_type kill_list;
 
 bool on_key_press_event_func(GdkEventKey* event);
 
+void on_manual_clicked();
+void on_homepage_clicked();
+
 };
+
+void show_the_manual(Gtk::Window* wnd);
 
 std::ostream& write_surf(const global_parse& g, std::ostream& o,  int antialias = 0);
 std::ostream& write_surf(const surface_data& f, const int nn, std::ostream& o);
