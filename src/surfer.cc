@@ -26,6 +26,7 @@
 std::string temp_dir = "/tmp/";
 
 extern char * surfer_small_xpm[] ;
+extern char * surfer_xpm[] ;
 
 extern bool no_full;
 extern bool no_info;
@@ -200,7 +201,7 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
   std::vector<gallery> G =  read_galleries_new(so.gallery_path,so.upscale);
 
 #ifndef WIN32
-Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_small_xpm));
+Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));
 #endif
 
   SurfBWindow sbw(*i, G,so,(argc>1 && std::string(argv[1])=="-f")  ,personalized);

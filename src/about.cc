@@ -199,11 +199,11 @@ hide();
 
 void AboutWindow::on_help_click()
 {
-	show_the_manual(this);
+	show_the_manual(this,opt);
 }
 
 
-void show_the_manual(Gtk::Window* wnd)
+void show_the_manual(Gtk::Window* wnd, surfer_options opt)
 {
 #ifdef WIN32
 	switch(int(ShellExecuteA(NULL,"open",opt.helpfile.c_str(),NULL,NULL,SW_SHOW)))

@@ -457,7 +457,7 @@ void on_homepage_clicked();
 
 };
 
-void show_the_manual(Gtk::Window* wnd);
+void show_the_manual(Gtk::Window* wnd, surfer_options);
 
 std::ostream& write_surf(const global_parse& g, std::ostream& o,  int antialias = 0);
 std::ostream& write_surf(const surface_data& f, const int nn, std::ostream& o);

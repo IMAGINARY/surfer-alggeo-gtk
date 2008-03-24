@@ -54,7 +54,7 @@ bool no_full = true;
 bool no_info = false;
 bool no_gallery = false;
 bool printing = false;
-bool no_log = true;
+bool no_log = false;
 bool no_zero = false;
 
 bool no_modify = false;
@@ -2291,7 +2291,7 @@ void SurfBWindow::on_open_file_clicked()
 
 void SurfBWindow::on_manual_clicked()
 {
-show_the_manual(this);
+show_the_manual(this,opt);
 }
 
 void SurfBWindow::on_homepage_clicked()
@@ -2507,7 +2507,7 @@ Gtk::Toolbar* pToolbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/TopBar
   if(pToolbar)
 {
 pToolbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
-pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+//pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
     m_utab.attach(*pToolbar,3,5,4,5,Gtk::FILL|Gtk::EXPAND);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 }
@@ -2516,7 +2516,7 @@ Gtk::Toolbar* pHelpbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/HelpBa
   if(pHelpbar)
 {
 pHelpbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
-pHelpbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+//pHelpbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
     m_utab.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK);
 pHelpbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
@@ -2528,7 +2528,7 @@ if(pMiniBar)
 {
 m_utab.attach(*pMiniBar, 4,5,5,6);
 pMiniBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
-pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+//pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
 }
 
 
@@ -2536,7 +2536,7 @@ Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/PropBa
   if(pPropbar)
 {
 pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
-pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+//pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
     m_utab.attach(*pPropbar,5,6,5,6,Gtk::SHRINK);
 pPropbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
