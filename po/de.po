@@ -252,12 +252,12 @@ msgid "Material"
 msgstr "Material"
 
 #: select.cc:304
-msgid "special Surf-Code"
+msgid "Special Surf-Code"
 msgstr "extra Surf-Code"
 
 #: select.cc:375
-msgid "Licht"
-msgstr "Light"
+msgid "Light"
+msgstr "Licht"
 
 #: select.cc:430
 msgid "color of light"
@@ -304,10 +304,10 @@ msgstr "Auflösung"
 msgid "Resolution of saved image"
 msgstr "Auflösung beim Speichern"
 
-msgid "resolution while rotating"
+msgid "Resolution while rotating"
 msgstr "Auflösung beim Drehen"
 
-msgid "maximal resolution when idle"
+msgid "Maximal resolution when idle"
 msgstr "maximale Auflösung beim Rechnen"
 
 msgid "Anti-aliasing factor"

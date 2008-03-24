@@ -33,7 +33,7 @@ This file contains non-ascii characters, encoding UTF-8.
 #if PRESENTATION_MODE == 1
 #define MAX_SURFACES 1
 #else
-#define MAX_SURFACES 9
+#define MAX_SURFACES 8
 #endif
 #endif
 

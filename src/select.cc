@@ -322,8 +322,8 @@ m_lambient(_("Ambient light")),
 m_ldiffuse(_("Diffuse light")),
 m_lreflected(_("Reflected light")),
 m_res_lsave(_("Resolution of saved image")),
-m_res_lfast(_("resolution while rotating")),
-m_res_lfine(_("maximal resolution when idle")),
+m_res_lfast(_("Resolution while rotating")),
+m_res_lfine(_("Maximal resolution when idle")),
 m_res_laa(_("Anti-aliasing factor")),
 m_pos_langle(_("angle")),
 m_pos_rot_object_x(_("rotate around x-axis of surface")),
@@ -345,7 +345,7 @@ m_pos_default(_("rotate into default position"))
 	m_note.append_page(m_mat,_("Material"));
 	if(false) m_note.append_page(m_pos,_("Position"));
         m_note.append_page(m_res,_("Resolution"));
-	m_note.append_page(m_surf,_("special Surf-Code"));
+	m_note.append_page(m_surf,_("Special Surf-Code"));
 
 	m_surf.attach(m_code,0,1,0,1);
 	m_code.get_buffer()->set_text(global_data.general_stuff);
