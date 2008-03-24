@@ -54,7 +54,7 @@ bool no_full = true;
 bool no_info = false;
 bool no_gallery = false;
 bool printing = false;
-bool no_log = false;
+bool no_log = true;
 bool no_zero = false;
 
 bool no_modify = false;
@@ -2343,7 +2343,8 @@ mr_AG->add(Gtk::Action::create("FileQuit",Gtk::Stock::QUIT), sigc::mem_fun(*this
 
 
 mr_AG->add(Gtk::Action::create("SurfaceNew",Gtk::Stock::NEW),sigc::mem_fun(*this, &SurfBWindow::on_new_surface_clicked));
-mr_AG->add(Gtk::Action::create("SurfaceDelete",Gtk::Stock::DELETE),sigc::mem_fun(*this, &SurfBWindow::on_delete_surface_clicked));
+//FIXME: Gtk::Stock::DELETE does not work under windows (with Gtkmm 2.10)
+mr_AG->add(Gtk::Action::create("SurfaceDelete",Gtk::Stock::CLOSE),sigc::mem_fun(*this, &SurfBWindow::on_delete_surface_clicked));
 mr_AG->add(Gtk::Action::create("SurfaceEdit",Gtk::Stock::PROPERTIES), sigc::mem_fun(*this, &SurfBWindow::on_special_clicked));
 
 mr_AG->add(Gtk::Action::create("ViewFullscreen",Gtk::Stock::FULLSCREEN), sigc::mem_fun(*this, &SurfBWindow::on_fullscreen_clicked));
@@ -2510,6 +2511,7 @@ pToolbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
     m_utab.attach(*pToolbar,3,5,4,5,Gtk::FILL|Gtk::EXPAND);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
+MOD{pToolbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
 
 Gtk::Toolbar* pHelpbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/HelpBar")) ;
@@ -2519,6 +2521,8 @@ pHelpbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pHelpbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
     m_utab.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK);
 pHelpbar->set_show_arrow(false);
+
+MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 }
 
@@ -2529,6 +2533,7 @@ if(pMiniBar)
 m_utab.attach(*pMiniBar, 4,5,5,6);
 pMiniBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+MOD{pMiniBar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
 
 
@@ -2540,6 +2545,7 @@ pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
     m_utab.attach(*pPropbar,5,6,5,6,Gtk::SHRINK);
 pPropbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
+MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
 
 }
