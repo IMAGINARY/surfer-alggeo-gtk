@@ -61,6 +61,20 @@ std::string trans_eq(const std::string& t2)
 	return t3;
 }
 
+std::string inv_trans_eq(const std::string& t2)
+{
+	std::string t3;
+			for(unsigned x = 0; x < t2.size(); x++)
+			switch(t2[x])
+			{
+				case 'u': t3+='x';break;
+				case 'v': t3+='y';break;
+				case 'w': t3+='z';break;
+				default:  t3+=t2[x];break;
+			}
+	return t3;
+}
+
 
 global_parse global_defaults()
 {
@@ -643,7 +657,7 @@ std::vector<surface_data> read_pic(std::istream& f, global_parse& g, const std::
 	for(unsigned i = 0; i < S.size(); i++)
 	{
 		S[i].equation = trans_eq(S[i].public_eq);
-		S[i].public_eq = fix_input_for_display(S[i].public_eq);
+		S[i].public_eq = inv_trans_eq(fix_input_for_display(S[i].public_eq));
 	}
 
 	return S;

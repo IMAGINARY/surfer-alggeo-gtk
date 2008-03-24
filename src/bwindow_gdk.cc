@@ -218,6 +218,13 @@ draw_coords(false)
 	m_vscale.set_value(0);
 	m_vscale.set_increments(0.01,0.050);
 
+MOD{
+	m_hscale.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_hscale2.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_hscale3.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_hscale4.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_vscale.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+}
 
 	m_leave.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_noscreen_clicked));
 	m_save.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_save_clicked));
@@ -2110,18 +2117,22 @@ void SurfBWindow::do_file_save(bool do_pic,bool do_png)
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
 
-	if(do_png)
-	{
-	Gtk::FileFilter filter_png;
-	  filter_png.set_name(_("Portable Network Graphics (.png)"));
-	  filter_png.add_mime_type("image/png");
-	  dialog.add_filter(filter_png);
-	}
-	if(do_pic){
 	Gtk::FileFilter filter_pic;
 	  filter_pic.set_name(_("Surfer Script (.pic)"));
 	  filter_pic.add_mime_type("image/png");
 	  filter_pic.add_pattern("*.pic");
+
+	Gtk::FileFilter filter_png;
+	  filter_png.set_name(_("Portable Network Graphics (.png)"));
+	  filter_png.add_mime_type("image/png");
+	  dialog.add_filter(filter_png);
+	
+
+	if(do_png)
+	{
+	
+	}
+	if(do_pic){
 	  dialog.add_filter(filter_pic);}
 
 
@@ -2154,7 +2165,18 @@ void SurfBWindow::do_file_save(bool do_pic,bool do_png)
 	{
 		//std::string of = opt.format;
 		//opt.format = "jpg";
-		
+		if(!no_log)
+		{
+		std::cout<<"file save: "<<dialog.get_filename()<<std::endl;
+		std::cout<<dialog.get_filter()->get_name()<<std::endl;	
+		}
+
+		do_png = dialog.get_filter()->get_name() == filter_png.get_name();
+		do_pic = dialog.get_filter()->get_name() == filter_pic.get_name();
+
+		if(dialog.get_filter()->get_name() == filter_any.get_name())
+		{do_pic = do_png = true; }
+
 		std::string t = dialog.get_filename();
 
 		if(t.find("\"")==-1L && t.size()>=4 && t.substr(t.size()-4)==".pic")
