@@ -82,151 +82,8 @@ void make_thumbs(const std::vector<parse_result>& R, const surfer_options& opt)
 }
 
 
-class LightWidget: public Gtk::Table
-{
-public:
-
-LightWidget();
-
-void set_light(const surf_light& L);
-surf_light get_light() const;
-
-virtual void on_light_changed() {
-m_vol.update();
-	m_x.update();
-	m_y.update();
-	m_z.update();
-
-light_changed.emit();}
-
-sigc::signal<void>& signal_light_changed() {return light_changed;}
-
-private:
-
-Gtk::Label m_lcolor;
-Gtk::ColorSelection m_color;
-
-Gtk::Label m_lvol;
-Gtk::SpinButton m_vol;
-
-Gtk::Label m_lx;
-Gtk::SpinButton m_x;
 
 
-Gtk::Label m_ly;
-Gtk::SpinButton m_y;
-
-
-Gtk::Label m_lz;
-Gtk::SpinButton m_z;
-
-Gtk::VSeparator m_sep;
-
-sigc::signal<void> light_changed;
-
-};
-
-
-class SpecialEffects: public Gtk::Window
-{
-public:
-SpecialEffects(surface_data& d,global_parse& g, int& p);
-
-private:
-
-Gtk::Table m_pos;
-Gtk::Button m_pos_default;
-Gtk::Button m_pos_rot_object_x;
-Gtk::Button m_pos_rot_object_y;
-Gtk::Button m_pos_rot_object_z;
-
-Gtk::Button m_pos_rot_camera_x;
-Gtk::Button m_pos_rot_camera_y;
-Gtk::Button m_pos_rot_camera_z;
-
-Gtk::Label m_pos_langle;
-Gtk::SpinButton m_pos_angle;
-
-Gtk::Notebook m_note;
-
-Gtk::ColorSelection m_c1;
-Gtk::ColorSelection m_c2;
-Gtk::ColorSelection m_cb;
-
-Gtk::Label m_lc1;
-Gtk::Label m_lc2;
-Gtk::Label m_lcb;
-
-Gtk::Table m_mat;
-Gtk::Table m_surf;
-Gtk::Table m_light;
-Gtk::Table m_res;
-
-Gtk::SpinButton m_res_save;
-Gtk::SpinButton m_res_fast;
-Gtk::SpinButton m_res_fine;
-Gtk::SpinButton m_res_aa;
-
-Gtk::Label m_res_lsave;
-Gtk::Label m_res_lfast;
-Gtk::Label m_res_lfine;
-Gtk::Label m_res_laa;
-
-
-Gtk::SpinButton m_transp;
-Gtk::AccelLabel m_ltransp;
-
-
-Gtk::SpinButton m_thick;
-Gtk::AccelLabel m_lthick;
-
-
-Gtk::SpinButton m_smooth;
-Gtk::AccelLabel m_lsmooth;
-
-
-Gtk::SpinButton m_ambient;
-Gtk::AccelLabel m_lambient;
-
-
-Gtk::SpinButton m_diffuse;
-Gtk::AccelLabel m_ldiffuse;
-
-
-Gtk::SpinButton m_reflected;
-Gtk::AccelLabel m_lreflected;
-
-Gtk::TextView m_code;
-
-LightWidget m_alight[9];
-
-Gtk::Notebook m_lights;
-
-
-
-void on_c1_changed_func();
-void on_c2_changed_func();
-void on_cb_changed_func();
-
-void on_code_changed_func();
-
-
-void on_res_changed();
-
-void on_trans_changed_func();
-void on_thick_changed_func();
-void on_smooth_changed_func();
-void on_ambient_changed_func();
-void on_diffuse_changed_func();
-void on_reflected_changed_func();
-
-void on_light_changed(unsigned);
-
-private:
-surface_data& data;
-global_parse& global_data;
-int& pichange;
-};
 
 color transform_color(const Gdk::Color& g)
 {
@@ -247,73 +104,82 @@ return g;
 
 void SpecialEffects::on_c1_changed_func()
 {
-	data.outside = transform_color(m_c1.get_current_color());
-	pichange = 15;
+	if(refreshing) return;
+	gui.data[gui.data_index].outside = transform_color(m_c1.get_current_color());
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_c2_changed_func()
 {
-	data.inside = transform_color(m_c2.get_current_color());
-	pichange = 15;
+	if(refreshing) return;
+	gui.data[gui.data_index].inside = transform_color(m_c2.get_current_color());
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_cb_changed_func()
 {
-	global_data.background = transform_color(m_cb.get_current_color());
-	pichange = 15;
+	if(refreshing) return;
+	gui.global_data.background = transform_color(m_cb.get_current_color());
+	gui.pichange = 15;
 }
 
 void SpecialEffects::on_trans_changed_func()
 {
+	if(refreshing) return;
 	m_transp.update();
-	data.transparence = m_transp.get_value_as_int();
-	pichange = 15;
+	gui.data[gui.data_index].transparence = m_transp.get_value_as_int();
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_thick_changed_func()
 {
+	if(refreshing) return;
 	m_thick.update();
-	data.thickness = m_thick.get_value_as_int();
-	pichange = 15;
+	gui.data[gui.data_index].thickness = m_thick.get_value_as_int();
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_smooth_changed_func()
 {
+	if(refreshing) return;
 	m_smooth.update();
-	data.smoothness = m_smooth.get_value_as_int();
-	pichange = 15;
+	gui.data[gui.data_index].smoothness = m_smooth.get_value_as_int();
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_ambient_changed_func()
 {
+	if(refreshing) return;
 	m_ambient.update();
-	data.ambient = m_ambient.get_value_as_int();
-	pichange = 15;
+	gui.data[gui.data_index].ambient = m_ambient.get_value_as_int();
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_diffuse_changed_func()
 {
+	if(refreshing) return;
 	m_diffuse.update();
-	data.diffuse = m_diffuse.get_value_as_int();
-	pichange = 15;
+	gui.data[gui.data_index].diffuse = m_diffuse.get_value_as_int();
+	gui.pichange = 15;
 }
 
 
 void SpecialEffects::on_reflected_changed_func()
 {
+	if(refreshing) return;
 	m_reflected.update();
-	data.reflected = m_reflected.get_value_as_int();
-	pichange = 15;
+	gui.data[gui.data_index].reflected = m_reflected.get_value_as_int();
+	gui.pichange = 15;
 }
 
-SpecialEffects::SpecialEffects(surface_data& d,global_parse& g, int& p)
-:data(d),global_data(g),pichange(p),
+SpecialEffects::SpecialEffects(SurfBWindow& g)
+:gui(g),refreshing(false),
 
 m_ltransp(_("Transparency")),
 m_lthick(_("Thickness")),
@@ -348,7 +214,7 @@ m_pos_default(_("rotate into default position"))
 	m_note.append_page(m_surf,_("Special Surf-Code"));
 
 	m_surf.attach(m_code,0,1,0,1);
-	m_code.get_buffer()->set_text(global_data.general_stuff);
+	
 
 	m_res.attach(m_res_lsave,0,1,0,1);
 	m_res.attach(m_res_save,1,2,0,1);
@@ -364,20 +230,19 @@ m_pos_default(_("rotate into default position"))
 
 
 	m_res_save.set_range(1,3000);
-	m_res_save.set_value(global_data.saveres);
+	
 	m_res_save.set_increments(10,100);
 	
 
 	m_res_fast.set_range(1,1000);
-	m_res_fast.set_value(global_data.lores);
+	
 	m_res_fast.set_increments(1,10);
 
 	m_res_fine.set_range(1,3000);
-	m_res_fine.set_value(global_data.hires);
+	
 	m_res_fine.set_increments(10,100);
 
 	m_res_aa.set_range(1,6);
-	m_res_aa.set_value(global_data.antialiasing);
 	m_res_aa.set_increments(1,1);
 
 	m_res_save.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
@@ -385,10 +250,7 @@ m_pos_default(_("rotate into default position"))
 	m_res_fine.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
 	m_res_aa.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
 
-	m_c1.set_current_color(transform_color(data.outside));
-	m_c2.set_current_color(transform_color(data.inside));
-	m_cb.set_current_color(transform_color(global_data.background));
-
+	
 	m_c1.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c1_changed_func) );
 	m_c2.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c2_changed_func) );
 	m_cb.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_cb_changed_func) );
@@ -425,27 +287,26 @@ m_pos_default(_("rotate into default position"))
 
 
 	m_transp.set_range(0,100);
-	m_transp.set_value(data.transparence);
+	
 	m_transp.set_increments(1,10);
 
 	m_thick.set_range(0,100);
-	m_thick.set_value(data.thickness);
+	
 	m_thick.set_increments(1,10);
 
 	m_smooth.set_range(0,100);
-	m_smooth.set_value(data.smoothness);
+	
 	m_smooth.set_increments(1,10);
 
 	m_ambient.set_range(0,100);
-	m_ambient.set_value(data.ambient);
+	
 	m_ambient.set_increments(1,10);
 
 	m_diffuse.set_range(0,100);
-	m_diffuse.set_value(data.diffuse);
+	
 	m_diffuse.set_increments(1,10);
 
 	m_reflected.set_range(0,100);
-	m_reflected.set_value(data.reflected);
 	m_reflected.set_increments(1,10);
 
 
@@ -457,7 +318,7 @@ m_pos_default(_("rotate into default position"))
 		std::ostringstream s;
 		s<<(i+1);
 		m_lights.append_page(m_alight[i],_("Light")+(" "+s.str()));
-		m_alight[i].set_light(global_data.light[i]);
+		
 
 		m_alight[i].signal_light_changed().connect(sigc::bind(sigc::mem_fun(*this,&SpecialEffects::on_light_changed),i));
 	}
@@ -469,17 +330,44 @@ m_pos_default(_("rotate into default position"))
 	m_diffuse.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_diffuse_changed_func) );
 	m_reflected.signal_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_reflected_changed_func) );
 
+	
 
 	show_all_children();
 }
 
-void special_show(surface_data& data,global_parse& global_data, int& pichange)
+void SpecialEffects::recapture()
 {
+refreshing = true;
+m_code.get_buffer()->set_text(gui.global_data.general_stuff);
 
-SpecialEffects se(data,global_data,pichange);
+for(unsigned i = 0; i < 9; i++)
+	{
+		m_alight[i].set_light(gui.global_data.light[i]);
 
-Gtk::Main::run(se);
+		
+	}
 
+
+
+	m_transp.set_value(gui.data[gui.data_index].transparence);
+	m_thick.set_value(gui.data[gui.data_index].thickness);
+	m_smooth.set_value(gui.data[gui.data_index].smoothness);
+	m_ambient.set_value(gui.data[gui.data_index].ambient);
+	m_diffuse.set_value(gui.data[gui.data_index].diffuse);
+	m_reflected.set_value(gui.data[gui.data_index].reflected);
+	
+
+	m_c1.set_current_color(transform_color(gui.data[gui.data_index].outside));
+	m_c2.set_current_color(transform_color(gui.data[gui.data_index].inside));
+	m_cb.set_current_color(transform_color(gui.global_data.background));
+
+	m_res_save.set_value(gui.global_data.saveres);
+	m_res_fast.set_value(gui.global_data.lores);
+	m_res_fine.set_value(gui.global_data.hires);
+	m_res_aa.set_value(gui.global_data.antialiasing);
+	
+
+refreshing = false;
 }
 
 
@@ -564,30 +452,32 @@ std::ostream& operator<<(std::ostream& o, const surf_light& L)
 
 void SpecialEffects::on_light_changed(unsigned i)
 {
-	
-	global_data.light[i] = m_alight[i].get_light();
+	if(refreshing) return;	
+	gui.global_data.light[i] = m_alight[i].get_light();
 
-	pichange = 5;
+	gui.pichange = 5;
 }
 
 void SpecialEffects::on_code_changed_func()
 {
-	global_data.general_stuff = m_code.get_buffer()->get_text();
+	if(refreshing) return;
+	gui.global_data.general_stuff = m_code.get_buffer()->get_text();
 
-	pichange = 15;
+	gui.pichange = 15;
 }
 
 void SpecialEffects::on_res_changed()
 {
+	if(refreshing) return;
 	m_res_save.update();
 	m_res_fast.update();
 	m_res_fine.update();
 	m_res_aa.update();
 
-	global_data.hires = m_res_fine.get_value_as_int();
-	global_data.lores = m_res_fast.get_value_as_int();
-	global_data.saveres=m_res_save.get_value_as_int();
-	global_data.antialiasing=m_res_aa.get_value_as_int();
+	gui.global_data.hires = m_res_fine.get_value_as_int();
+	gui.global_data.lores = m_res_fast.get_value_as_int();
+	gui.global_data.saveres=m_res_save.get_value_as_int();
+	gui.global_data.antialiasing=m_res_aa.get_value_as_int();
 	
-	pichange=5;
+	gui.pichange=5;
 }

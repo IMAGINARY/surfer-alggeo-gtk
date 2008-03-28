@@ -69,7 +69,7 @@ double current_z = 0;
 
 const int MSECS = 40;
 
-int pichange = 0;
+
 
 
 
@@ -88,7 +88,7 @@ int moving_x = 0;
 
 
 SurfBWindow::SurfBWindow(std::istream& i, const std::vector<gallery>& G, surfer_options so,bool f, bool p)
-:personalized(p),m_tab(3,2),m_ctab(3,3),m_utab(1,1),m_ltab(3,3),m_aframe("", /* label */
+:pichange(0),personalized(p),m_tab(3,2),m_ctab(3,3),m_utab(1,1),m_ltab(3,3),m_aframe("", /* label */
 Gtk::ALIGN_CENTER, /* center x */
 Gtk::ALIGN_CENTER, /* center y */
 1.0, /* xsize/ysize = 1 */
@@ -129,6 +129,8 @@ m_special(_("Details")),
 m_new_surface(Gtk::Stock::NEW),
 m_savefile(Gtk::Stock::SAVE),
 m_animate(Gtk::Stock::MEDIA_RECORD),
+w_ani(*this),
+w_sfx(*this),
 draw_coords(false)
 {
 	// change window background to white
@@ -1083,7 +1085,7 @@ for(unsigned k = 0; k < data.size(); k++)
 		
 	if(max_res2)
 	{
-		system((opt.surf_cmd+" -n \""+script+"\" " +REDIRECTION_APEX).c_str());
+		log_system((opt.surf_cmd+" -n \""+script+"\" " +REDIRECTION_APEX).c_str());
 	}
 	else
 	if(full)
@@ -1556,6 +1558,9 @@ hide();
 
 void SurfBWindow::on_about_clicked()
 {
+
+//AniWindow W(*this);
+
 AboutWindow W(opt,*this);
 
 W.show();
@@ -1997,7 +2002,11 @@ void SurfBWindow::on_special_clicked()
 {
 
 
-special_show(data[data_index],global_data,pichange);
+//Gtk::Main::run(se);
+w_sfx.recapture();
+if(!w_sfx.is_visible())
+w_sfx.show();
+
 
 }
 
@@ -2340,6 +2349,17 @@ void SurfBWindow::on_delete_surface_clicked()
 
 }
 
+void SurfBWindow::on_animate_click()
+{
+	w_ani.ani_add();
+	if(!w_ani.is_visible())
+	{
+		//Gtk::Main::run(w_ani);
+		w_ani.show();
+	}
+	
+}
+
 void SurfBWindow::set_up_the_menu()
 {
 
@@ -2353,6 +2373,7 @@ mr_AG->add(Gtk::Action::create("MenuHelp",_("Help")));
 mr_AG->add(Gtk::Action::create("MenuView",_("View")));
 mr_AG->add(Gtk::Action::create("MenuGallery",_("Gallery")));
 
+mr_AG->add(Gtk::Action::create("Animate",Gtk::Stock::MEDIA_RECORD), sigc::mem_fun(*this, &SurfBWindow::on_animate_click));
 
 mr_AG->add(Gtk::Action::create("FileOpen",Gtk::Stock::OPEN), sigc::mem_fun(*this, &SurfBWindow::on_open_file_clicked));
 mr_AG->add(Gtk::Action::create("FileSave",Gtk::Stock::SAVE), sigc::mem_fun(*this, &SurfBWindow::on_save_file_clicked));
@@ -2399,6 +2420,7 @@ Glib::ustring ui_info =
     "      <menuitem action='SurfaceDelete'/>"
     "      <separator/>"
     "      <menuitem action='SurfaceNew'/>"
+
     "    </menu>"
     "    <menu action='MenuView'>"
     "      <menuitem action='ViewFullscreen'/>"
@@ -2457,7 +2479,9 @@ Glib::ustring ui_info =
     "  <toolbar  name='MiniBar'>"
     "      <separator/>"
     "      <toolitem action='SurfaceNew'/>"
-    "      <toolitem action='SurfaceDelete' position='bottom'/>"
+    "      <toolitem action='SurfaceDelete' />"
+"      <separator/>"
+    "      <toolitem action='Animate'/>"
     "  </toolbar>"
 
     "  <toolbar  name='TopBar'>"

@@ -259,6 +259,249 @@ std::string var;
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class SurfBWindow ;
+
+
+class LightWidget: public Gtk::Table
+{
+public:
+
+LightWidget();
+
+void set_light(const surf_light& L);
+surf_light get_light() const;
+
+virtual void on_light_changed() {
+m_vol.update();
+	m_x.update();
+	m_y.update();
+	m_z.update();
+
+light_changed.emit();}
+
+sigc::signal<void>& signal_light_changed() {return light_changed;}
+
+private:
+
+Gtk::Label m_lcolor;
+Gtk::ColorSelection m_color;
+
+Gtk::Label m_lvol;
+Gtk::SpinButton m_vol;
+
+Gtk::Label m_lx;
+Gtk::SpinButton m_x;
+
+
+Gtk::Label m_ly;
+Gtk::SpinButton m_y;
+
+
+Gtk::Label m_lz;
+Gtk::SpinButton m_z;
+
+Gtk::VSeparator m_sep;
+
+sigc::signal<void> light_changed;
+
+};
+
+class SpecialEffects: public Gtk::Window
+{
+public:
+SpecialEffects(SurfBWindow& g);
+
+void recapture();
+
+private:
+
+SurfBWindow& gui;
+
+Gtk::Table m_pos;
+Gtk::Button m_pos_default;
+Gtk::Button m_pos_rot_object_x;
+Gtk::Button m_pos_rot_object_y;
+Gtk::Button m_pos_rot_object_z;
+
+Gtk::Button m_pos_rot_camera_x;
+Gtk::Button m_pos_rot_camera_y;
+Gtk::Button m_pos_rot_camera_z;
+
+Gtk::Label m_pos_langle;
+Gtk::SpinButton m_pos_angle;
+
+Gtk::Notebook m_note;
+
+Gtk::ColorSelection m_c1;
+Gtk::ColorSelection m_c2;
+Gtk::ColorSelection m_cb;
+
+Gtk::Label m_lc1;
+Gtk::Label m_lc2;
+Gtk::Label m_lcb;
+
+Gtk::Table m_mat;
+Gtk::Table m_surf;
+Gtk::Table m_light;
+Gtk::Table m_res;
+
+Gtk::SpinButton m_res_save;
+Gtk::SpinButton m_res_fast;
+Gtk::SpinButton m_res_fine;
+Gtk::SpinButton m_res_aa;
+
+Gtk::Label m_res_lsave;
+Gtk::Label m_res_lfast;
+Gtk::Label m_res_lfine;
+Gtk::Label m_res_laa;
+
+
+Gtk::SpinButton m_transp;
+Gtk::AccelLabel m_ltransp;
+
+
+Gtk::SpinButton m_thick;
+Gtk::AccelLabel m_lthick;
+
+
+Gtk::SpinButton m_smooth;
+Gtk::AccelLabel m_lsmooth;
+
+
+Gtk::SpinButton m_ambient;
+Gtk::AccelLabel m_lambient;
+
+
+Gtk::SpinButton m_diffuse;
+Gtk::AccelLabel m_ldiffuse;
+
+
+Gtk::SpinButton m_reflected;
+Gtk::AccelLabel m_lreflected;
+
+Gtk::TextView m_code;
+
+LightWidget m_alight[9];
+
+Gtk::Notebook m_lights;
+
+
+
+void on_c1_changed_func();
+void on_c2_changed_func();
+void on_cb_changed_func();
+
+void on_code_changed_func();
+
+
+void on_res_changed();
+
+void on_trans_changed_func();
+void on_thick_changed_func();
+void on_smooth_changed_func();
+void on_ambient_changed_func();
+void on_diffuse_changed_func();
+void on_reflected_changed_func();
+
+void on_light_changed(unsigned);
+
+private:
+//surface_data& data;
+//global_parse& global_data;
+//int& pichange;
+bool refreshing;
+};
+
+class AniWindow: public Gtk::Window
+{
+public:
+AniWindow(SurfBWindow& g);
+
+private:
+SurfBWindow& gui;
+
+
+
+Gtk::Label m_lres;
+Gtk::SpinButton m_res;
+
+Gtk::Table m_tab;
+
+Gtk::TreeView m_TreeView;
+
+class ModelColumns : public Gtk::TreeModelColumnRecord
+{
+public:
+
+  ModelColumns()
+    { add(m_col_number); add(m_col_pic); add(m_col_duration); add(m_col_state);}
+
+  //Gtk::TreeModelColumn<Glib::ustring> m_col_text;
+  Gtk::TreeModelColumn<int> m_col_number;
+  Gtk::TreeModelColumn<int> m_col_duration;
+  Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > m_col_pic;
+  Gtk::TreeModelColumn<parse_result> m_col_state;
+};
+
+ModelColumns m_Columns;
+
+void add_entry(const parse_result& P,
+        unsigned duration , int idx);
+
+
+unsigned fcount;
+Glib::RefPtr<Gtk::ListStore> m_refListStore ;
+
+
+bool on_timer(int);
+sigc::connection conn;
+
+Gtk::Image m_preview;
+
+std::vector<Glib::RefPtr<Gdk::Pixbuf> > m_movie;
+std::vector<std::string > m_movie_file;
+int m_movie_frame;
+
+Gtk::Button m_record;
+
+void on_record();
+
+public:
+void ani_add();
+};
+
+
+
+
+
+
+
+
+
 class SurfBWindow : public Gtk::Window
 {
 public:
@@ -358,6 +601,7 @@ bool fullscreen_mode;
 
 void adjust_printing();
 
+
 bool on_expose_event_func(GdkEventExpose* event);
 bool on_motion_notify_event_func(GdkEventMotion* event);
 bool on_button_press_event_func(GdkEventButton* event);
@@ -455,6 +699,12 @@ bool on_key_press_event_func(GdkEventKey* event);
 void on_manual_clicked();
 void on_homepage_clicked();
 
+friend class AniWindow;
+friend class SpecialEffects;
+AniWindow w_ani;
+SpecialEffects w_sfx;
+
+int pichange;
 };
 
 void show_the_manual(Gtk::Window* wnd, surfer_options);
@@ -604,6 +854,23 @@ void on_help_click();
 surfer_options opt;
 public:
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef WIN32

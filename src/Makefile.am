@@ -4,6 +4,8 @@ surfer_SOURCES = about.cc bwindow_gdk.cc fix_input.cc gallery.cc \
 	gallerycontrol.cc options.cc parallel.cc parsepic.cc rotate.cc select.cc surfer.cc \
 	win32.cc xpm_data.cc
 
+surfer_CPPFLAGS = -I $(srcdir)/vecmath
+
 noinst_HEADERS = surfer.hh bwindow_gdk.hh matrix.hh
 
 AM_CXXFLAGS = @CXXFLAGS@ @GTKMM_CFLAGS@ 
