@@ -22,9 +22,9 @@
 #include "matrix.hh"
 
 #include <sys/stat.h>
+#include <glib/gstdio.h>
 
-
-#include "vecmath.h"
+#include <vecmath.h>
 /*
 
 rotation in surf
@@ -488,7 +488,7 @@ void AniWindow::on_record()
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
 		
-		mkdir((TEMP_ROOT_SEP+"ani").c_str(), S_IRWXU | S_IRWXG | S_IROTH );
+		g_mkdir((TEMP_ROOT_SEP+"ani").c_str(), 0774 );
 		
 		
 		
@@ -498,7 +498,7 @@ void AniWindow::on_record()
 		v_script.push_back(TEMP_ROOT_SEP+"ani"+DIR_SEP+"frame"+os.str()+".pic");
 		v_image.push_back(TEMP_ROOT_SEP+"ani"+DIR_SEP+"frame"+os.str()+".ppm");
 
-		std::ofstream f(v_script[i].c_str());
+		std::ofstream f(v_script[i].c_str(),FILE_WRITE_MODE);
 
 		f<<"width="<<m_res.get_text()<<";\n";
 		f<<"height="<<m_res.get_text()<<";\n";
