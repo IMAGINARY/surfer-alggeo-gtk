@@ -97,8 +97,13 @@ surfer_options default_settings()
 	so.print_resolution = 1740;
 	so.ui_xml = "";
 
+	#ifndef WIN32
 	so.mencoder_cmd = "mencoder";
 	so.ffmpeg_cmd = "ffmpeg";
+	#else
+	so.mencoder_cmd = "";
+	so.ffmpeg_cmd = "";
+	#endif
 	return so;
 }
 
@@ -116,6 +121,8 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"help="<<so.help_cmd<<std::endl;
 	f<<"helpfile="<<so.helpfile<<std::endl;
 	f<<"uixml="<<so.ui_xml<<std::endl;
+	f<<"mencoder="<<so.mencoder_cmd<<std::endl;
+	f<<"ffmpeg="<<so.ffmpeg_cmd<<std::endl;
 	return f;
 }
 
@@ -167,6 +174,8 @@ surfer_options read_settings_from_file(const std::string& filename)
 		if(t1 == "helpfile") so.helpfile = t2;
 		if(t1 == "format") so.format = t2;
 		if(t1 == "uixml") so.ui_xml = t2;
+		if(t1 == "mencoder") so.mencoder_cmd = t2;
+		if(t1 == "ffmpeg") so.ffmpeg_cmd = t2;
 		if(t1 == "resolution")
 		{
 			std::istringstream iss(t2);

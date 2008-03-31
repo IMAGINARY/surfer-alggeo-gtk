@@ -22,19 +22,18 @@
 #include "matrix.hh"
 
 #include <glib/gstdio.h>
-#include <glib/gstdio.h>
 
-<<<<<<< .mine
+
+
 #include <sys/types.h>
 #include <dirent.h>
 
 #include "vecmath.h"
-=======
-#include <vecmath.h>
->>>>>>> .r130
 
-const bool use_mencoder = true;
-const bool use_ffmpeg = !use_mencoder;
+bool use_mencoder = false;
+bool use_ffmpeg = false;
+
+
 
 /*
 
@@ -312,6 +311,15 @@ AniWindow::AniWindow(SurfBWindow& g)
 :gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_lres(_("Resolution")),m_movie_frame(-1),
 m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP), m_save(Gtk::Stock::SAVE)
 {
+
+if(use_mencoder == false && use_ffmpeg == false)
+{
+	use_mencoder = !gui.opt.mencoder_cmd.empty();
+	use_ffmpeg = !gui.opt.ffmpeg_cmd.empty();
+
+	if(use_mencoder && use_ffmpeg) use_ffmpeg = false;
+}
+
 m_refListStore = Gtk::ListStore::create(m_Columns);
 
 m_TreeView.set_model(m_refListStore);
@@ -591,11 +599,8 @@ void AniWindow::on_record()
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
 		
-<<<<<<< .mine
+
 		g_mkdir((TEMP_ROOT_SEP+"surfer_ani").c_str(), 0774);
-=======
-		g_mkdir((TEMP_ROOT_SEP+"ani").c_str(), 0774 );
->>>>>>> .r130
 		
 		
 		
@@ -604,13 +609,10 @@ void AniWindow::on_record()
 
 		std::string si = os.str();
 
-<<<<<<< .mine
+
 		if(do_pad)
 		while (si.size()<six.size())
 		si = "0"+si;
-=======
-		std::ofstream f(v_script[i].c_str(),FILE_WRITE_MODE);
->>>>>>> .r130
 
 		v_script.push_back(TEMP_ROOT_SEP+"surfer_ani"+DIR_SEP+"frame"+si+".pic");
 		v_image.push_back(TEMP_ROOT_SEP+"surfer_ani"+DIR_SEP+"frame"+si+".ppm");
@@ -670,7 +672,7 @@ void AniWindow::on_record()
 	{
 		m_prog.set_fraction(1);
 		m_movie_frame = 0;
-		m_save.set_sensitive(true);
+		if(use_mencoder || use_ffmpeg)m_save.set_sensitive(true);
 	}
 	else
 	m_prog.set_fraction(0);
@@ -846,6 +848,8 @@ if(false) dialog.add_filter(filter_gif);
 	
 
 }
+
+
 
 void AniWindow::on_pause()
 {
