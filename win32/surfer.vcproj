@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include"
+				AdditionalIncludeDirectories="include;..\src\vecmath"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				OpenMP="true"
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="include"
+				AdditionalIncludeDirectories="include;..\src\vecmath"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				OpenMP="true"
@@ -258,6 +258,102 @@
 				RelativePath="..\src\surfer.hh"
 				>
 			</File>
+			<Filter
+				Name="vecmath"
+				>
+				<File
+					RelativePath="..\src\vecmath\AxisAngle4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\AxisAngle4_.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Color3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Color4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Matrix3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Matrix3_.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Matrix4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Matrix4_.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Point2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Point3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Point4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Quat4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Quat4_.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\TexCoord2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Tuple2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Tuple3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Tuple4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\vecmath.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Vector2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Vector3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\Vector4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\vm_conf.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\vecmath\VmUtil.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
