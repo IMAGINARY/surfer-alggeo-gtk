@@ -96,6 +96,9 @@ surfer_options default_settings()
 	so.upscale = 1;
 	so.print_resolution = 1740;
 	so.ui_xml = "";
+
+	so.mencoder_cmd = "mencoder";
+	so.ffmpeg_cmd = "ffmpeg";
 	return so;
 }
 

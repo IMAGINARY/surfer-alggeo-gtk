@@ -217,6 +217,9 @@ struct surfer_options
 	std::string help_cmd;
 
 	std::string ui_xml;
+
+	std::string mencoder_cmd;
+	std::string ffmpeg_cmd;
 };
 
 class ZScale: public Gtk::VScale
@@ -453,6 +456,18 @@ Gtk::Table m_tab;
 
 Gtk::TreeView m_TreeView;
 
+Gtk::ScrolledWindow m_scroll;
+
+Gtk::ProgressBar m_prog;
+
+Gtk::Button m_save;
+Gtk::Button m_stop;
+Gtk::Frame m_fpreview;
+unsigned m_pad_to;
+
+void on_pause();
+void on_save();
+
 class ModelColumns : public Gtk::TreeModelColumnRecord
 {
 public:
@@ -476,7 +491,7 @@ void add_entry(const parse_result& P,
 unsigned fcount;
 Glib::RefPtr<Gtk::ListStore> m_refListStore ;
 
-
+bool on_view_key_press(GdkEventKey* event);
 bool on_timer(int);
 sigc::connection conn;
 
@@ -855,20 +870,9 @@ surfer_options opt;
 public:
 };
 
+extern bool no_log;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+#define QUIET_SURF (std::string((no_log)?(" -q "):("")))
 
 
 
@@ -933,12 +937,14 @@ public:
 #endif
 #endif
 
+
+
 #ifndef REDIRECTION_APEX
 #ifdef WIN32
 #define REDIRECTION_APEX ""
 #else
 
-extern bool no_log;
+
 
 #define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
 #endif

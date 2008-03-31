@@ -588,34 +588,6 @@ bool SurfBWindow::on_expose_event_func(GdkEventExpose*)
 
 
 
-bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
-{
-	
-
-	Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
-		
-	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
-		//some_gc.create(get_window());
-		
-	
-	Glib::RefPtr<Gdk::Drawable> dr(window);
-
-
-	for(double x= 0; x <= 200; x = x+1)
-		for(double y= 0; y <= 200; y = y+1)
-	{
-		
-		Gdk::Color nc = colormap(x,y).gdk_colors();
-		
-
-		some_gc->set_rgb_fg_color(nc);
-		dr->draw_point(some_gc,int(x),int(y));		
-		
-	}
-
-	return true;
-}
-
 
 color_double colormap(double bx, double by, double Z)
 {
@@ -1648,7 +1620,7 @@ void SurfBWindow::update_visuals()
 	else
 	m_info.clear();}
 	catch(...){m_info.clear();}
-
+	w_sfx.recapture();
 }
 
 
@@ -2128,7 +2100,7 @@ void SurfBWindow::do_file_save(bool do_pic,bool do_png)
 
 	Gtk::FileFilter filter_pic;
 	  filter_pic.set_name(_("Surfer Script (.pic)"));
-	  filter_pic.add_mime_type("image/png");
+	  filter_pic.add_mime_type("text/plain");
 	  filter_pic.add_pattern("*.pic");
 
 	Gtk::FileFilter filter_png;
@@ -2533,8 +2505,6 @@ if(!opt.ui_xml.empty())
 mr_UIM->add_ui_from_string(ui_info);
 
 Gtk::Widget* pMenuBar = mr_UIM->get_widget("/MenuBar");
-if(false&&pMenuBar)
-m_utab.attach(*pMenuBar, 0,3,0,1);
 
 /*
 Gtk::Toolbar* pStdBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/DefaultBar"));
@@ -2555,7 +2525,8 @@ Gtk::Toolbar* pToolbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/TopBar
 {
 pToolbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-    m_utab.attach(*pToolbar,3,5,4,5,Gtk::FILL|Gtk::EXPAND);
+    m_utab.attach(*pToolbar,3,5,4,5,Gtk::FILL,Gtk::SHRINK);
+pToolbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 MOD{pToolbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
@@ -2565,7 +2536,7 @@ Gtk::Toolbar* pHelpbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/HelpBa
 {
 pHelpbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pHelpbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-    m_utab.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK);
+    m_utab.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK,Gtk::SHRINK);
 pHelpbar->set_show_arrow(false);
 
 MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
@@ -2576,8 +2547,9 @@ MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 Gtk::Toolbar* pMiniBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/MiniBar"));
 if(pMiniBar)
 {
-m_utab.attach(*pMiniBar, 4,5,5,6);
+m_utab.attach(*pMiniBar, 4,5,5,6,Gtk::FILL,Gtk::SHRINK);
 pMiniBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pMiniBar->set_show_arrow(false);
 //pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
 MOD{pMiniBar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
@@ -2588,7 +2560,7 @@ Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/PropBa
 {
 pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-    m_utab.attach(*pPropbar,5,6,5,6,Gtk::SHRINK);
+    m_utab.attach(*pPropbar,5,6,5,6,Gtk::SHRINK,Gtk::SHRINK);
 pPropbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
@@ -2598,10 +2570,45 @@ MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 
 
 
-void make_colormap()
+Glib::RefPtr<Gdk::Pixbuf> make_colormap(unsigned size = 200)
 {
-	/*
+	Gtk::Window m_w;
+	Gtk::DrawingArea m_colors;
+	m_w.add(m_colors);
+	
+	m_colors.set_size_request(size,size);
 
+	Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
+		
+	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(window);
+		//some_gc.create(get_window());
+		
+	
+	Glib::RefPtr<Gdk::Drawable> dr(window);
+
+	Glib::RefPtr<Gdk::Pixmap> gp = Gdk::Pixmap::create(dr,size,size,-1);
+
+
+	for(double x= 0; x <= size; x = x+1)
+		for(double y= 0; y <= size; y = y+1)
+	{
+		
+		Gdk::Color nc = colormap(x,y).gdk_colors();
+		
+
+		some_gc->set_rgb_fg_color(nc);
+		dr->draw_point(some_gc,int(x),int(y));		
+		
+	}
+	
+	return Gdk::Pixbuf::create(dr,0,0,size,size);
+}
+
+
+bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
+{
+	
+	
 	Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
 		
 	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
@@ -2610,6 +2617,10 @@ void make_colormap()
 	
 	Glib::RefPtr<Gdk::Drawable> dr(window);
 
+
+	
+
+	//return true;
 
 	for(double x= 0; x <= 200; x = x+1)
 		for(double y= 0; y <= 200; y = y+1)
@@ -2622,6 +2633,6 @@ void make_colormap()
 		dr->draw_point(some_gc,int(x),int(y));		
 		
 	}
-	*/
 
+	return true;
 }

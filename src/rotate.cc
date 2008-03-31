@@ -21,10 +21,21 @@
 #include "bwindow_gdk.hh"
 #include "matrix.hh"
 
-#include <sys/stat.h>
+#include <glib/gstdio.h>
 #include <glib/gstdio.h>
 
+<<<<<<< .mine
+#include <sys/types.h>
+#include <dirent.h>
+
+#include "vecmath.h"
+=======
 #include <vecmath.h>
+>>>>>>> .r130
+
+const bool use_mencoder = true;
+const bool use_ffmpeg = !use_mencoder;
+
 /*
 
 rotation in surf
@@ -163,14 +174,14 @@ matrix<double> interpolate(const matrix<double>& P, const matrix<double>& Q, dou
 
 double interpolate(double P, double Q, double t)
 {
-	double Qt = t*P+(1-t)*Q;
+	double Qt = (1-t)*P+t*Q;
 	return Qt;
 }
 
 
 int interpolate(int P, int Q, double t)
 {
-	int Qt = int(t*P+(1-t)*Q);
+	int Qt = int(interpolate(double(P),double(Q),t));
 	return Qt;
 }
 
@@ -278,22 +289,38 @@ parse_result interpolate(const parse_result& P, const parse_result& Q, double t)
 }
 
 
+bool AniWindow::on_view_key_press(GdkEventKey* event)
+{
+	if(!event)	return true;
+	
+	if(event->keyval == GDK_Delete)
+	{
+		Gtk::TreePath T;
+		Gtk::TreeViewColumn* C;
+		m_TreeView.get_cursor(T,C);
 
+		
+		if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) m_refListStore->erase(m_refListStore->get_iter(T));
+	}
+
+	return true;
+}
 
 
 
 AniWindow::AniWindow(SurfBWindow& g)
-:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_lres(_("Resolution")),m_movie_frame(-1)
+:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_lres(_("Resolution")),m_movie_frame(-1),
+m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP), m_save(Gtk::Stock::SAVE)
 {
 m_refListStore = Gtk::ListStore::create(m_Columns);
 
 m_TreeView.set_model(m_refListStore);
 
-m_TreeView.append_column(_("Position"),m_Columns.m_col_number);
+//m_TreeView.append_column(_("Position"),m_Columns.m_col_number);
 m_TreeView.append_column(_("Preview"),m_Columns.m_col_pic);
 m_TreeView.append_column_editable(_("Duration"),m_Columns.m_col_duration);
 
-
+m_save.set_sensitive(false);
 
 /*
 parse_result p;
@@ -307,15 +334,32 @@ set_title(_("Create Animation"));
 
 add(m_tab);
 
-m_tab.attach(m_TreeView,0,3,2,3);
+m_scroll.add(m_TreeView);
 
-m_tab.attach(m_record,0,1,0,1,Gtk::SHRINK,Gtk::SHRINK);
+
+m_TreeView.signal_key_press_event().connect( sigc::mem_fun(*this, &AniWindow::on_view_key_press) );
+m_scroll.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_AUTOMATIC);
+
+
+m_tab.attach(m_scroll,0,3,5,6);
+
 m_tab.attach(m_lres,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 m_tab.attach(m_res,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
-m_tab.attach(m_preview,0,3,1,2,Gtk::SHRINK,Gtk::SHRINK);
+m_fpreview.add(m_preview);
+m_tab.attach(m_fpreview,1,3,1,4,Gtk::SHRINK,Gtk::SHRINK);
+
+
+
+m_tab.attach(m_record,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
+m_tab.attach(m_stop,0,1,2,3,Gtk::SHRINK,Gtk::SHRINK);
+m_tab.attach(m_save,0,1,3,4,Gtk::SHRINK,Gtk::SHRINK);
+
+m_tab.attach(m_prog,0,1,4,5);
 
 m_record.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_record));
+m_stop.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_pause));
+m_save.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_save));
 
 m_preview.set_size_request(100,100);
 
@@ -325,11 +369,14 @@ m_preview.set_size_request(100,100);
 	m_res.set_value(100);
 
 m_TreeView.set_size_request(400,500);
+m_TreeView.set_reorderable();
 
 sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &AniWindow::on_timer),0);
 
 // This is where we connect the slot to the Glib::signal_timeout()
-	conn = Glib::signal_timeout().connect(my_slot, 1000/25);
+const int frame_rate = 10;
+
+	conn = Glib::signal_timeout().connect(my_slot, 1000/frame_rate);
 
 
 show_all_children();
@@ -388,7 +435,7 @@ Glib::RefPtr<Gdk::Pixbuf> create_ani_thumb(const parse_result& P,const surfer_op
 		
 	
 	
-	log_system((opt.surf_cmd+" -n \""+ts+"\" " +REDIRECTION_APEX).c_str());
+	log_system((opt.surf_cmd+QUIET_SURF+" -n \""+ts+"\" " +REDIRECTION_APEX).c_str());
 	Glib::RefPtr<Gdk::Pixbuf> img;
 		try{
 		
@@ -427,11 +474,12 @@ add_entry(p,25,++fcount);
 
 bool AniWindow::on_timer(int)
 {
+	if(!is_visible()) return true;
 	if(m_movie_frame==m_movie_file.size()) m_movie_frame = 0;
 	if (m_movie_frame<0) {return true;}
 
 	
-	std::cout<<"now playing "<<m_movie_frame<<": "<<m_movie_file[m_movie_frame]<<std::endl;
+	//out<<"now playing "<<m_movie_frame<<": "<<m_movie_file[m_movie_frame]<<std::endl;
 	m_preview.set(Gdk::Pixbuf::create_from_file(m_movie_file[m_movie_frame]));
 
 	m_movie_frame++;
@@ -450,11 +498,35 @@ Gtk::Button m_record;
 */
 
 
+void clear_dir(const std::string& path)
+{
+	DIR* gd = opendir(path.c_str());
+	if(gd==NULL) return ;
+	dirent* R = readdir(gd);
+	while(R)
+	{	
+		std::string d (R->d_name);
+		if(!d.empty() && d[0]!='.' )
+		std::remove((path+DIR_SEP+R->d_name).c_str());
+		R = readdir(gd);
+	}
+	closedir(gd);
+}
+
 void AniWindow::on_record()
 {
 
+	m_movie_frame = -1;
+	m_save.set_sensitive(false);
+	m_prog.set_fraction(0);
+	
+
+	const bool do_pad = use_mencoder;
+	const bool do_jpeg = true;
+
 	std::vector<std::string> v_script;
 	std::vector<std::string> v_image;
+	std::vector<std::string> v_jpeg;
 
 	std::vector<unsigned> v_dur;
 	std::vector<parse_result> v_sta;
@@ -467,7 +539,7 @@ void AniWindow::on_record()
 		v_dur.push_back((*irow)[m_Columns.m_col_duration]);
 		v_sta.push_back((*irow)[m_Columns.m_col_state]);
 	}
-
+	if(v_dur.empty()) return;
 
 	std::vector<parse_result> intermediate;
 	
@@ -482,21 +554,67 @@ void AniWindow::on_record()
 	}
 	intermediate.push_back(v_sta.back());
 
+
+	clear_dir(TEMP_ROOT_SEP+"surfer_ani");
+
+	for(unsigned i = 0; i < intermediate.size(); i++)
+	{
+		std::ostringstream clocks;
+		clocks<<"double clock = "<<i<<";";
+
+		std::ostringstream clocki;
+		clocki<<"int clocki = "<<i<<";";
+
+		if(intermediate[i].global_data.general_stuff.find("double clock = 0;")!=std::string::npos)
+		intermediate[i].global_data.general_stuff.replace(intermediate[i].global_data.general_stuff.find("double clock = 0;"),std::string("double clock = 0;").size(),clocks.str());
+
+		if(intermediate[i].global_data.general_stuff.find("int clocki = 0;")!=std::string::npos)
+		intermediate[i].global_data.general_stuff.replace(intermediate[i].global_data.general_stuff.find("int clocki = 0;"),std::string("int clocki = 0;").size(),clocki.str());
+	}
+
 	m_movie_frame = -1;
 	m_movie.clear();
+	m_movie_file.clear();
+
+	std::ostringstream osx;
+	osx<<intermediate.size();
+	std::string six = osx.str();
+
+	std::vector<std::string> optionk;
+	optionk.push_back("quality");
+
+	std::vector<std::string> optionv;
+	optionv.push_back("100");
+	
+	if(do_pad) m_pad_to = six.size();
 
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
 		
+<<<<<<< .mine
+		g_mkdir((TEMP_ROOT_SEP+"surfer_ani").c_str(), 0774);
+=======
 		g_mkdir((TEMP_ROOT_SEP+"ani").c_str(), 0774 );
+>>>>>>> .r130
 		
 		
 		
 		std::ostringstream os;
 		os<<i;
 
-		v_script.push_back(TEMP_ROOT_SEP+"ani"+DIR_SEP+"frame"+os.str()+".pic");
-		v_image.push_back(TEMP_ROOT_SEP+"ani"+DIR_SEP+"frame"+os.str()+".ppm");
+		std::string si = os.str();
+
+<<<<<<< .mine
+		if(do_pad)
+		while (si.size()<six.size())
+		si = "0"+si;
+=======
+		std::ofstream f(v_script[i].c_str(),FILE_WRITE_MODE);
+>>>>>>> .r130
+
+		v_script.push_back(TEMP_ROOT_SEP+"surfer_ani"+DIR_SEP+"frame"+si+".pic");
+		v_image.push_back(TEMP_ROOT_SEP+"surfer_ani"+DIR_SEP+"frame"+si+".ppm");
+		v_jpeg.push_back(TEMP_ROOT_SEP+"surfer_ani"+DIR_SEP+"frame"+si+".jpg");
 
 		std::ofstream f(v_script[i].c_str(),FILE_WRITE_MODE);
 
@@ -516,29 +634,221 @@ void AniWindow::on_record()
 		
 	
 		//f<<"transparency="<<50<<";\n";
-		f<<"filename=\""<<(TEMP_ROOT_SEP+"ani"+DIR_SEP+"frame"+os.str()+".ppm")<<"\";\n";
+		f<<"filename=\""<<(v_image[i])<<"\";\n";
 		f<<"color_file_format="+gui.opt.format+";\n";
 		f<<"draw_surface;\n";
 		f<<"save_color_image;\n";
 		f.close();		
 
-		std::cout<<"finished file "<<i<<std::endl;
+		//out<<"finished file "<<i<<std::endl;
 	}
 
         //#pragma omp parallel for
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
-		log_system(gui.opt.surf_cmd+" -n \""+v_script[i]+"\" " + REDIRECTION_APEX);
+		m_prog.set_fraction(double(i)/intermediate.size());
+
+		while( Gtk::Main::events_pending() )
+   		Gtk::Main::iteration();
+
+		log_system(gui.opt.surf_cmd+QUIET_SURF+" -n \""+v_script[i]+"\" " + REDIRECTION_APEX);
 	}
 
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
-		m_movie_file.push_back((v_image[i]));
+		if(do_jpeg)
+		{m_movie_file.push_back((v_jpeg[i]));
 		//try{
-		m_movie.push_back(Gdk::Pixbuf::create_from_file(v_image[i]));
+		 Gdk::Pixbuf::create_from_file(v_image[i])->save(v_jpeg[i],"jpeg",optionk,optionv);
+		}
+		else
+		{m_movie_file.push_back((v_image[i]));}
 		//}
 		//catch(...){}
 	}
-	if(m_movie.size() == intermediate.size()) m_movie_frame = 0;
+	if(m_movie_file.size() == intermediate.size())
+	{
+		m_prog.set_fraction(1);
+		m_movie_frame = 0;
+		m_save.set_sensitive(true);
+	}
+	else
+	m_prog.set_fraction(0);
 
 }
+
+
+void make_movie_mencoder(const std::string& outfile, const std::string& indir, const surfer_options& opt, unsigned bitrate = 1800, unsigned fps = 10,  const std::string format ="msmpeg4v2", const std::string container="avi")
+{
+	std::ostringstream os;
+	os<<opt.mencoder_cmd;
+	os<<" \"mf://"<<indir<<DIR_SEP<<"*.jpg\" -mf fps="<<fps<<" -o \""<<outfile<<"\"";
+	if(container != "avi") os<<" -of lavf ";
+	os<<" -ovc lavc -lavcopts vcodec="<<format<<":vbitrate="<<bitrate;
+	if(container == "gif") os<<":pix_fmt=rgb24";
+	if(container != "avi") os<<" -lavfopts format="<<container;
+	
+
+	log_system(os.str()+" "+REDIRECTION_APEX); 
+}
+
+
+void make_movie_ffmpeg(const std::string& outfile, const std::string& indir, const surfer_options& opt, unsigned bitrate = 1800, unsigned fps = 10, unsigned pad = 0, const std::string format ="msmpeg4v2")
+{
+	std::ostringstream os;
+
+	os<<opt.ffmpeg_cmd<<" -r "<<fps<<" -i \""<<indir<<DIR_SEP<<"frame%";
+	if(pad)os<<"0"<<pad;
+	os<<"d.jpg\"";
+	if(format=="gif")os<<"-f gif";
+	else if(format =="mp4")os<<"";
+	else os<<" -vcodec "<<format;
+
+	os<<" \""<<outfile<<"\"";
+	if(format != "gif")
+	os<<" -b "<<bitrate;
+
+	log_system(os.str()+" "+REDIRECTION_APEX); 
+}
+
+
+void AniWindow::on_save()
+{
+	
+
+	std::ostringstream title;
+
+	
+	title << _("Save video");
+
+	
+	
+
+	Gtk::FileChooserDialog dialog(*this,title.str(),Gtk::FILE_CHOOSER_ACTION_SAVE);
+	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+
+	Gtk::FileFilter filter_msmpeg;
+	  filter_msmpeg.set_name(_("AVI Video Container (*.avi)"));
+	  filter_msmpeg.add_mime_type("video");
+	  filter_msmpeg.add_pattern("*.avi");
+	dialog.add_filter(filter_msmpeg);
+
+
+	Gtk::FileFilter filter_mp4;
+	  filter_mp4.set_name(_("MPEG-4 Video (.mp4)"));
+	  filter_mp4.add_mime_type("video/mp4");	  
+	dialog.add_filter(filter_mp4);
+
+	
+	Gtk::FileFilter filter_gif;
+	  filter_gif.set_name(_("GIF Animation (.gif)"));
+	  filter_gif.add_mime_type("image/gif");	  
+if(false) dialog.add_filter(filter_gif);
+
+		/*
+	  Gtk::FileFilter filter_ppm;
+	  filter_ppm.set_name("Portable Pixmap-Bilder (.ppm)");
+	  filter_ppm.add_mime_type("image/x-portable-bitmap");
+	  filter_ppm.add_mime_type("image/x-portable-pixmap");
+	  dialog.add_filter(filter_ppm);
+	*/
+
+	  Gtk::FileFilter filter_any;
+	  filter_any.set_name(_("All files"));
+	  filter_any.add_pattern("*");
+	  dialog.add_filter(filter_any);
+	  dialog.set_current_name("surfer_video.avi");
+
+       dialog.show();
+       dialog.present();
+       dialog.raise();
+
+	//Gtk::Main::run(dialog);
+
+	int result = Gtk::RESPONSE_CANCEL;
+        result = dialog.run();
+
+	bool do_gif = false;
+	bool do_msmpeg = false;
+	bool do_mp4 = false;
+
+	if(result == Gtk::RESPONSE_OK)
+	{
+		//std::string of = opt.format;
+		//opt.format = "jpg";
+		if(!no_log)
+		{
+		std::cout<<"video save: "<<dialog.get_filename()<<std::endl;
+		std::cout<<dialog.get_filter()->get_name()<<std::endl;	
+		}
+
+		do_gif = dialog.get_filter()->get_name() == filter_gif.get_name();
+		do_mp4 = dialog.get_filter()->get_name() == filter_mp4.get_name();
+		do_msmpeg = dialog.get_filter()->get_name() == filter_msmpeg.get_name();
+
+		if(dialog.get_filter()->get_name() == filter_any.get_name())
+		{do_msmpeg = true; }
+
+		std::string t = dialog.get_filename();
+
+		if(do_msmpeg)
+		{
+			if(t.find("\"")==-1L && t.find(".")==-1L) t = t+".avi";
+		}
+
+		if(do_mp4)
+		{
+
+			if(t.find("\"")==-1L && t.find(".")==-1L) t = t+".mp4";
+			if(t.find("\"")==-1L && t.find(".avi")!=-1L) t = t.replace(t.find(".avi"),4,".mp4");
+		}
+
+		if(do_gif)
+		{
+
+			if(t.find("\"")==-1L && t.find(".")==-1L) t = t+".gif";
+			if(t.find("\"")==-1L && t.find(".avi")!=-1L) t = t.replace(t.find(".avi"),4,".gif");
+		}
+
+		if(use_mencoder)
+		{			
+			if(do_msmpeg)
+			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt);
+			else if(do_mp4)
+			{
+			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,"mpeg4","mp4");
+			}
+			else if(do_gif)
+			{
+			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,"gif","gif");
+			}
+
+		} else
+		if(use_ffmpeg)
+		{			
+			if(do_msmpeg)
+			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt);
+			else if(do_mp4)
+			{
+			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,m_pad_to,"mpeg4");
+			}
+			else if(do_gif)
+			{
+			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,m_pad_to,"gif");
+			}
+
+		}
+	}
+
+
+
+	
+
+}
+
+void AniWindow::on_pause()
+{
+m_movie_frame = -1;
+}
+

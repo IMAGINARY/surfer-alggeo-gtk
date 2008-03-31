@@ -143,6 +143,7 @@ g.general_stuff = std::string("double PI = 2*arcsin(1);\n")
 				   +"epsilon=0.0000000000001;\n"
 				   +"iterations=1000;\n";
 
+
 g.hires = 700;
 g.lores = 200;
 g.saveres = g.hires;

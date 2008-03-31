@@ -64,7 +64,7 @@ void make_thumb(parse_result data,const std::string& script, const std::string& 
 	f<<"draw_surface;\n";
 	f<<"save_color_image;\n";
 	f.close();
-	system((opt.surf_cmd+" -n \""+script+"\" " +REDIRECTION_APEX).c_str());
+	log_system((opt.surf_cmd+QUIET_SURF+" -n \""+script+"\" " +REDIRECTION_APEX).c_str());
 	
 
 
