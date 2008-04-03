@@ -344,15 +344,21 @@ private:
 
 SurfBWindow& gui;
 
-Gtk::Table m_pos;
-Gtk::Button m_pos_default;
-Gtk::Button m_pos_rot_object_x;
-Gtk::Button m_pos_rot_object_y;
-Gtk::Button m_pos_rot_object_z;
+void on_apply_toggle();
 
-Gtk::Button m_pos_rot_camera_x;
-Gtk::Button m_pos_rot_camera_y;
-Gtk::Button m_pos_rot_camera_z;
+Gtk::Table m_tab;
+Gtk::CheckButton m_apply;
+Gtk::Table m_pos;
+
+Gtk::Label m_lrotx;
+Gtk::Label m_lroty;
+Gtk::Label m_lrotz;
+
+Gtk::SpinButton m_rotx;
+Gtk::SpinButton m_roty;
+Gtk::SpinButton m_rotz;
+
+void on_rot_change();
 
 Gtk::Label m_pos_langle;
 Gtk::SpinButton m_pos_angle;

@@ -789,7 +789,8 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 		gui_x = xc;
 		gui_y = yc;
 
-		pichange = 5;
+		w_sfx.recapture();
+		pichange=5;
 	//dr->draw_line(some_gc,gui_x,gui_y,xc,yc);
 	
 	
@@ -2569,7 +2570,7 @@ MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
 
 
-
+/*
 Glib::RefPtr<Gdk::Pixbuf> make_colormap(unsigned size = 200)
 {
 	Gtk::Window m_w;
@@ -2603,7 +2604,7 @@ Glib::RefPtr<Gdk::Pixbuf> make_colormap(unsigned size = 200)
 	
 	return Gdk::Pixbuf::create(dr,0,0,size,size);
 }
-
+*/
 
 bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
 {

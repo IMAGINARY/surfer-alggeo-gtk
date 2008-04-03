@@ -702,12 +702,12 @@ void make_movie_ffmpeg(const std::string& outfile, const std::string& indir, con
 	os<<opt.ffmpeg_cmd<<" -r "<<fps<<" -i \""<<indir<<DIR_SEP<<"frame%";
 	if(pad)os<<"0"<<pad;
 	os<<"d.jpg\"";
-	if(format=="gif")os<<"-f gif";
+	if(format=="flv")os<<"-f flv";
 	else if(format =="mp4")os<<"";
 	else os<<" -vcodec "<<format;
 
 	os<<" \""<<outfile<<"\"";
-	if(format != "gif")
+	if(format != "flv")
 	os<<" -b "<<bitrate;
 
 	log_system(os.str()+" "+REDIRECTION_APEX); 
