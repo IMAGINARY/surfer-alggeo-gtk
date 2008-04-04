@@ -68,11 +68,11 @@ Source: "..\..\surfer-help.pdf"; DestDir: "{app}"; Flags: ignoreversion; Compone
 Source: "..\..\po\de.gmo"; DestDir: "{app}\languages\de\LC_MESSAGES"; DestName: "surfer.mo"; Flags: ignoreversion; Components: main
 Source: "..\..\gallery\*"; DestDir: "{app}\gallery"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main
 ; Surf-Files
-Source: "..\..\..\..\surf\trunk\win32\bin\jpeg62.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\..\..\surf\trunk\win32\bin\libtiff3.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\..\..\surf\trunk\win32\bin\pthreadVC2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\..\..\surf\trunk\win32\bin\surf.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\..\..\surf\trunk\win32\bin\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "surf\jpeg62.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "surf\libtiff3.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "surf\pthreadVC2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "surf\surf.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "surf\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
 ; Dependencies
 Source: "..\redist\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Components: vcredist
 Source: "..\redist\gtk-2.10.11-win32-1.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Components: gtk
