@@ -67,6 +67,9 @@ Source: "..\..\surfer"; DestDir: "{app}"; Flags: ignoreversion; Components: main
 Source: "..\..\surfer-help.pdf"; DestDir: "{app}"; Flags: ignoreversion; Components: main
 Source: "..\..\po\de.gmo"; DestDir: "{app}\languages\de\LC_MESSAGES"; DestName: "surfer.mo"; Flags: ignoreversion; Components: main
 Source: "..\..\gallery\*"; DestDir: "{app}\gallery"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main
+; ffmpeg-Files
+Source: "..\redist\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: "..\redist\pthreadGC2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
 ; Surf-Files
 Source: "surf\jpeg62.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
 Source: "surf\libtiff3.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main

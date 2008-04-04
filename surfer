@@ -1,4 +1,4 @@
-gallery=.\\gallery\
+gallery=.\gallery\
 save=
 print=
 format=ppm
@@ -8,3 +8,4 @@ upscale=1
 entryfont=
 help=
 helpfile=surfer-help.pdf
+ffmpeg=ffmpeg

@@ -52,7 +52,7 @@ std::string GetTempPath()
 
 std::string homepath()
 {
-	return ".\\";
+	return ".";
 /*
 	LPWSTR temp_path = new TCHAR[ MAX_PATH ];
 	for( int i = 0; i < MAX_PATH - 1; i++ )
