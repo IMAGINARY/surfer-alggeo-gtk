@@ -951,8 +951,8 @@ extern bool no_log;
 #else
 
 
-
-#define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
+// #define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
+#define REDIRECTION_APEX "" 
 #endif
 #endif
 

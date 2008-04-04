@@ -1774,7 +1774,7 @@ void SurfBWindow::check_image(const std::string& script, const std::string& imag
 
 
 	
-	std::string cmd = opt.surf_cmd+" -n \""+script+"\" " +REDIRECTION_APEX;
+	std::string cmd = opt.surf_cmd+" "+QUIET_SURF+" -n \""+script+"\" " +REDIRECTION_APEX;
 	
 	system(cmd.c_str());
 		//if(w)gdk_window_set_cursor(w, NULL);
