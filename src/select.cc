@@ -213,7 +213,11 @@ m_pos_langle(_("angle")),
 m_lrotx(_("rotate around x-axis")),
 m_lroty(_("rotate around y-axis")),
 m_lrotz(_("rotate around z-axis")),
+m_lres_video(_("Video resolution")),
+m_lframe_video(_("Video frame rate")),
+m_lbitrate_video(_("Video bit rate")),
 m_apply(_("apply changes immediately"))
+
 {
 	add(m_tab);
 	m_tab.attach(m_apply,0,1,0,1);
@@ -246,10 +250,26 @@ m_apply(_("apply changes immediately"))
 	m_res.attach(m_res_aa,1,2,3,4);
 
 
+	m_res.attach(m_lres_video,0,1,4,5);
+	m_res.attach(m_res_video,1,2,4,5);
+
+	m_res.attach(m_lbitrate_video,0,1,5,6);
+	m_res.attach(m_bitrate_video,1,2,5,6);
+
+	m_res.attach(m_lframe_video,0,1,6,7);
+	m_res.attach(m_frame_video,1,2,6,7);
+
+
 	m_res_save.set_range(1,3000);
+	m_res_video.set_range(1,3000);
+
+	m_bitrate_video.set_range(1,32000);
+	m_frame_video.set_range(1,100);
 	
 	m_res_save.set_increments(10,100);
-	
+	m_res_video.set_increments(10,100);
+	m_bitrate_video.set_increments(100,1000);
+	m_frame_video.set_increments(1,10);
 
 	m_res_fast.set_range(1,1000);
 	
@@ -266,7 +286,9 @@ m_apply(_("apply changes immediately"))
 	m_res_fast.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
 	m_res_fine.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
 	m_res_aa.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
-
+	m_res_video.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
+	m_frame_video.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
+	m_bitrate_video.signal_changed().connect(sigc::mem_fun(*this,&SpecialEffects::on_res_changed));
 	
 	m_c1.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c1_changed_func) );
 	m_c2.signal_color_changed().connect( sigc::mem_fun(*this, &SpecialEffects::on_c2_changed_func) );
@@ -482,11 +504,18 @@ void SpecialEffects::on_res_changed()
 	m_res_fast.update();
 	m_res_fine.update();
 	m_res_aa.update();
+	m_res_video.update();
+	m_bitrate_video.update();
+	m_frame_video.update();
 
 	gui.global_data.hires = m_res_fine.get_value_as_int();
 	gui.global_data.lores = m_res_fast.get_value_as_int();
 	gui.global_data.saveres=m_res_save.get_value_as_int();
 	gui.global_data.antialiasing=m_res_aa.get_value_as_int();
+
+	gui.opt.video_resolution=m_res_video.get_value_as_int();
+	gui.opt.video_frame_rate=m_frame_video.get_value_as_int();
+	gui.opt.video_bitrate=m_bitrate_video.get_value_as_int();
 	
 	if(m_apply.get_active())
 	gui.pichange=5;
@@ -570,6 +599,10 @@ for(unsigned i = 0; i < 9; i++)
 	m_res_fast.set_value(gui.global_data.lores);
 	m_res_fine.set_value(gui.global_data.hires);
 	m_res_aa.set_value(gui.global_data.antialiasing);
+
+	m_res_video.set_value(gui.opt.video_resolution);
+	m_frame_video.set_value(gui.opt.video_frame_rate);
+	m_bitrate_video.set_value(gui.opt.video_bitrate);
 
 	double w1 = 0;
 	double w2 = 0;

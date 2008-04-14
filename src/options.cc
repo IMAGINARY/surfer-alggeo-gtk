@@ -97,6 +97,10 @@ surfer_options default_settings()
 	so.print_resolution = 1740;
 	so.ui_xml = "";
 
+	so.video_frame_rate = 10;
+	so.video_bitrate = 1800;
+	so.video_resolution = 100;
+
 	#ifndef WIN32
 	so.mencoder_cmd = "mencoder";
 	so.ffmpeg_cmd = "ffmpeg";
@@ -109,6 +113,8 @@ surfer_options default_settings()
 
 std::ostream& write(const surfer_options& so, std::ostream& f)
 {
+	
+
 	f<<"gallery="<<so.gallery_path<<std::endl;
 	f<<"save="<<so.save_cmd<<std::endl;
 	f<<"print="<<so.print_cmd<<std::endl;
@@ -147,6 +153,7 @@ surfer_options read_settings_from_file(const std::string& filename)
 	std::string t;
 	while(!getline(f,t).eof())
 	{
+
 		std::string t1;
 		std::string t2;
 		int i = 0;

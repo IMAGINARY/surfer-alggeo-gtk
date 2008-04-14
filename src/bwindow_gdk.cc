@@ -128,8 +128,8 @@ m_spin(),
 m_special(_("Details")),
 m_new_surface(Gtk::Stock::NEW),
 m_savefile(Gtk::Stock::SAVE),
-m_animate(Gtk::Stock::MEDIA_RECORD),
-w_ani(*this),
+//m_animate(Gtk::Stock::MEDIA_RECORD),
+m_ani(*this),
 w_sfx(*this),
 draw_coords(false)
 {
@@ -356,8 +356,7 @@ MOD{
 
 			m_utab.attach(m_error,2,3,4+1,5+1,Gtk::SHRINK,Gtk::SHRINK);
 
-			if(false && !PRESENTATION_MODE)
-			m_fbox.add(m_animate);
+			
 			//m_fbox.add(m_savefile);
 			//m_fbox.add(m_about);
 
@@ -483,6 +482,23 @@ MOD{
 
 			if(!no_info)m_note.append_page(m_info,*v_in);
 
+
+			
+			Gtk::Label *v_ani = new Gtk::Label(_("Animate"));
+
+			MOD {
+			v_ani->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_ani->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			v_ani->modify_base(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			
+			v_ani->modify_fg(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_ani->modify_text(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			v_ani->modify_base(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK); }
+
+
+
+			m_note.append_page(m_ani,*v_ani);
+
 			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
 
@@ -579,9 +595,9 @@ void SurfBWindow::start()
 
 bool SurfBWindow::on_expose_event_func(GdkEventExpose*)
 {
-		
-	refresh_display(TEMP_ROOT_SEP +"surfb.ppm",false);
-	pichange = 5;
+	waiting = true;
+	on_timer_event_func(0);
+	//pichange = 5;
 	return true;
 	
 }
@@ -1066,7 +1082,7 @@ for(unsigned k = 0; k < data.size(); k++)
 		
 		//my_kill(kill_list);
 		#ifndef WIN32
-		system(("killall -9 surf" + std::string(REDIRECTION_APEX)).c_str());
+		//system(("killall surf" + std::string(REDIRECTION_APEX)).c_str());
 		#endif
 		
 		std::remove((image).c_str());
@@ -2324,11 +2340,11 @@ void SurfBWindow::on_delete_surface_clicked()
 
 void SurfBWindow::on_animate_click()
 {
-	w_ani.ani_add();
-	if(!w_ani.is_visible())
+	//w_ani.ani_add();
+	//if(!w_ani.is_visible())
 	{
 		//Gtk::Main::run(w_ani);
-		w_ani.show();
+		//w_ani.show();
 	}
 	
 }
@@ -2453,8 +2469,8 @@ Glib::ustring ui_info =
     "      <separator/>"
     "      <toolitem action='SurfaceNew'/>"
     "      <toolitem action='SurfaceDelete' />"
-"      <separator/>"
-    "      <toolitem action='Animate'/>"
+//"      <separator/>"
+//    "      <toolitem action='Animate'/>"
     "  </toolbar>"
 
     "  <toolbar  name='TopBar'>"

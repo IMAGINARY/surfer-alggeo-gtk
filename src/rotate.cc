@@ -294,12 +294,7 @@ bool AniWindow::on_view_key_press(GdkEventKey* event)
 	
 	if(event->keyval == GDK_Delete)
 	{
-		Gtk::TreePath T;
-		Gtk::TreeViewColumn* C;
-		m_TreeView.get_cursor(T,C);
-
-		
-		if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) m_refListStore->erase(m_refListStore->get_iter(T));
+		on_delete_frame();
 	}
 
 	return true;
@@ -309,7 +304,7 @@ bool AniWindow::on_view_key_press(GdkEventKey* event)
 
 AniWindow::AniWindow(SurfBWindow& g)
 :gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_lres(_("Resolution")),m_movie_frame(-1),
-m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP), m_save(Gtk::Stock::SAVE)
+m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP),m_pause_cont(Gtk::Stock::MEDIA_PAUSE),m_add_frame(Gtk::Stock::ADD),m_delete_frame(Gtk::Stock::REMOVE), m_save(Gtk::Stock::SAVE),invalidated(true)
 {
 
 if(use_mencoder == false && use_ffmpeg == false)
@@ -325,10 +320,10 @@ m_refListStore = Gtk::ListStore::create(m_Columns);
 m_TreeView.set_model(m_refListStore);
 
 //m_TreeView.append_column(_("Position"),m_Columns.m_col_number);
-m_TreeView.append_column(_("Preview"),m_Columns.m_col_pic);
+m_TreeView.append_column(_("Key Frame"),m_Columns.m_col_pic);
 m_TreeView.append_column_editable(_("Duration"),m_Columns.m_col_duration);
 
-m_save.set_sensitive(false);
+//m_save.set_sensitive(false);
 
 /*
 parse_result p;
@@ -338,9 +333,10 @@ p.global_data = gui.global_data;
 add_entry(p,10,1);
 */
 
-set_title(_("Create Animation"));
+//set_title(_("Create Animation"));
 
-add(m_tab);
+//add(m_tab);
+Gtk::Table& m_tab = *this;
 
 m_scroll.add(m_TreeView);
 
@@ -349,25 +345,33 @@ m_TreeView.signal_key_press_event().connect( sigc::mem_fun(*this, &AniWindow::on
 m_scroll.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_AUTOMATIC);
 
 
-m_tab.attach(m_scroll,0,3,5,6);
+m_tab.attach(m_scroll,0,3,8,9);
 
-m_tab.attach(m_lres,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
-m_tab.attach(m_res,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
+//m_tab.attach(m_lres,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
+//m_tab.attach(m_res,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
 m_fpreview.add(m_preview);
-m_tab.attach(m_fpreview,1,3,1,4,Gtk::SHRINK,Gtk::SHRINK);
+m_tab.attach(m_fpreview,2,3,1,7,Gtk::SHRINK,Gtk::SHRINK);
 
 
 
-m_tab.attach(m_record,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
-m_tab.attach(m_stop,0,1,2,3,Gtk::SHRINK,Gtk::SHRINK);
-m_tab.attach(m_save,0,1,3,4,Gtk::SHRINK,Gtk::SHRINK);
+m_tab.attach(m_add_frame,0,1,1,2,Gtk::FILL,Gtk::SHRINK);
+m_tab.attach(m_delete_frame,1,2,1,2,Gtk::FILL,Gtk::SHRINK);
+m_tab.attach(m_record,0,1,3,4,Gtk::FILL,Gtk::SHRINK);
+//m_tab.attach(m_pause_cont,0,1,4,5,Gtk::SHRINK,Gtk::SHRINK);
+m_tab.attach(m_stop,1,2,3,4,Gtk::FILL,Gtk::SHRINK);
+m_tab.attach(m_save,0,1,6,7,Gtk::FILL,Gtk::SHRINK);
 
-m_tab.attach(m_prog,0,1,4,5);
+
+m_tab.attach(m_prog,0,2,7,8,Gtk::FILL,Gtk::SHRINK);
 
 m_record.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_record));
 m_stop.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_pause));
 m_save.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_save));
+m_add_frame.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::ani_add));
+
+m_delete_frame.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_delete_frame));
+m_pause_cont.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_pause_cont));
 
 m_preview.set_size_request(100,100);
 
@@ -376,15 +380,15 @@ m_preview.set_size_request(100,100);
 	m_res.set_increments(10,100);
 	m_res.set_value(100);
 
-m_TreeView.set_size_request(400,500);
+//m_TreeView.set_size_request(400,500);
 m_TreeView.set_reorderable();
 
 sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &AniWindow::on_timer),0);
 
 // This is where we connect the slot to the Glib::signal_timeout()
-const int frame_rate = 10;
+//const int frame_rate = 10;
 
-	conn = Glib::signal_timeout().connect(my_slot, 1000/frame_rate);
+	conn = Glib::signal_timeout().connect(my_slot, 1000/gui.opt.video_frame_rate);
 
 
 show_all_children();
@@ -490,6 +494,15 @@ bool AniWindow::on_timer(int)
 	//out<<"now playing "<<m_movie_frame<<": "<<m_movie_file[m_movie_frame]<<std::endl;
 	m_preview.set(Gdk::Pixbuf::create_from_file(m_movie_file[m_movie_frame]));
 
+	conn.disconnect();
+	sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &AniWindow::on_timer),0);
+
+// This is where we connect the slot to the Glib::signal_timeout()
+//const int frame_rate = 10;
+
+	conn = Glib::signal_timeout().connect(my_slot, 1000/gui.opt.video_frame_rate);
+
+
 	m_movie_frame++;
 
 	return true;
@@ -523,9 +536,21 @@ void clear_dir(const std::string& path)
 
 void AniWindow::on_record()
 {
+	compute();
+	m_movie_frame = 0;
+		
+	
 
+}
+
+
+
+void AniWindow::compute()
+{
+	if(!invalidated)
+	return;
 	m_movie_frame = -1;
-	m_save.set_sensitive(false);
+	//m_save.set_sensitive(false);
 	m_prog.set_fraction(0);
 	
 
@@ -670,9 +695,9 @@ void AniWindow::on_record()
 	}
 	if(m_movie_file.size() == intermediate.size())
 	{
+		invalidated = false;
 		m_prog.set_fraction(1);
-		m_movie_frame = 0;
-		if(use_mencoder || use_ffmpeg)m_save.set_sensitive(true);
+		
 	}
 	else
 	m_prog.set_fraction(0);
@@ -716,7 +741,7 @@ void make_movie_ffmpeg(const std::string& outfile, const std::string& indir, con
 
 void AniWindow::on_save()
 {
-	
+	compute();
 
 	std::ostringstream title;
 
@@ -726,7 +751,7 @@ void AniWindow::on_save()
 	
 	
 
-	Gtk::FileChooserDialog dialog(*this,title.str(),Gtk::FILE_CHOOSER_ACTION_SAVE);
+	Gtk::FileChooserDialog dialog(gui,title.str(),Gtk::FILE_CHOOSER_ACTION_SAVE);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
 
@@ -819,25 +844,25 @@ if(false) dialog.add_filter(filter_gif);
 			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt);
 			else if(do_mp4)
 			{
-			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,"mpeg4","mp4");
+			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate,"mpeg4","mp4");
 			}
 			else if(do_gif)
 			{
-			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,"gif","gif");
+			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate,"gif","gif");
 			}
 
 		} else
 		if(use_ffmpeg)
 		{			
 			if(do_msmpeg)
-			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt);
+			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate);
 			else if(do_mp4)
 			{
-			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,m_pad_to,"mpeg4");
+			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate,m_pad_to,"mpeg4");
 			}
 			else if(do_gif)
 			{
-			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,1800,10,m_pad_to,"gif");
+			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate,m_pad_to,"gif");
 			}
 
 		}
@@ -856,3 +881,17 @@ void AniWindow::on_pause()
 m_movie_frame = -1;
 }
 
+void AniWindow::on_delete_frame()
+{
+Gtk::TreePath T;
+		Gtk::TreeViewColumn* C;
+		m_TreeView.get_cursor(T,C);
+
+		
+		if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) m_refListStore->erase(m_refListStore->get_iter(T));
+}
+
+void AniWindow::on_pause_cont()
+{
+m_movie_frame = -1;
+}

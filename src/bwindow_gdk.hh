@@ -220,6 +220,10 @@ struct surfer_options
 
 	std::string mencoder_cmd;
 	std::string ffmpeg_cmd;
+
+	int video_frame_rate;
+	int video_resolution;
+	int video_bitrate;
 };
 
 class ZScale: public Gtk::VScale
@@ -383,6 +387,16 @@ Gtk::SpinButton m_res_fast;
 Gtk::SpinButton m_res_fine;
 Gtk::SpinButton m_res_aa;
 
+Gtk::SpinButton m_res_video;
+Gtk::SpinButton m_frame_video;
+Gtk::SpinButton m_bitrate_video;
+
+
+Gtk::Label m_lres_video;
+Gtk::Label m_lframe_video;
+Gtk::Label m_lbitrate_video;
+
+
 Gtk::Label m_res_lsave;
 Gtk::Label m_res_lfast;
 Gtk::Label m_res_lfine;
@@ -445,7 +459,7 @@ private:
 bool refreshing;
 };
 
-class AniWindow: public Gtk::Window
+class AniWindow: public Gtk::Table
 {
 public:
 AniWindow(SurfBWindow& g);
@@ -508,9 +522,15 @@ std::vector<std::string > m_movie_file;
 int m_movie_frame;
 
 Gtk::Button m_record;
+Gtk::Button m_add_frame;
+Gtk::Button m_delete_frame;
+Gtk::Button m_pause_cont;
 
 void on_record();
-
+void on_delete_frame();
+void on_pause_cont();
+void compute();
+bool invalidated;
 public:
 void ani_add();
 };
@@ -543,7 +563,7 @@ Gtk::Label m_printing;
 AScale m_hscale3;
 AScale m_hscale4;
 
-Gtk::Button m_animate;
+//Gtk::Button m_animate;
 
 void on_animate_click();
 
@@ -571,6 +591,8 @@ Gtk::Label m_error;
 Gtk::Button m_new_surface;
 Gtk::Button m_savefile;
 Gtk::SpinButton m_spin;
+
+
 
 bool on_gallery_press_event(GdkEventButton* e, int i);
 
@@ -722,7 +744,7 @@ void on_homepage_clicked();
 
 friend class AniWindow;
 friend class SpecialEffects;
-AniWindow w_ani;
+AniWindow m_ani;
 SpecialEffects w_sfx;
 
 int pichange;

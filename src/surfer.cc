@@ -185,7 +185,7 @@ arg_inspect:
 	}
   }
 
-  std::string optfile = fix_file("~" DIR_SEP HIDDEN_MARKER "surfer");
+  std::string optfile = fix_path(fix_file("~"))+(HIDDEN_MARKER "surfer");
 
   surfer_options so = default_settings();
 if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
