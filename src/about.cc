@@ -59,23 +59,41 @@ return revdat;
 
 AboutWindow::AboutWindow(const surfer_options& so, Gtk::Window& paren)
 :
+
 Gtk::Dialog(_("About Surfer"),paren),
-opt(so),
+
 l_surfer1("Surfer"),
 l_surfer2(""),
 l_surfer3(_("Surfer uses the program surf by Stephan Endrass et al.\n(http://surf.sourceforge.net)")),
 l_surfer4(_("Surfer was developed for the exposition IMAGINARY, which was conceived by Mathematischen Forschungsinstitut Oberwolfach on occassion of the Year of Mathematics 2008 in Germany. The exposition has received funding by the German Federal Department of Education and Research.")),
-m_close(Gtk::Stock::OK),
+
+
+l_info(_("You will find the latest version of Surfer and additional information at http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/")),
+
+
+
+
+l_contact(_("Contact: surfer@imaginary2008.de\nPlease visit our website at http://surfer.imaginary2008.de\nfor further information and new releases of Surfer.")),
+
+
+l_copy(_("(c) Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern, 2008")),
+
+
 l_credits(
 _("Director: Gert-Martin Greuel\n"
 "Programming: Henning Meyer and Christian Stussak\n"
 "Galleries: Oliver Labs\n"
 "Support: Felix Riemann\n"
 "Coordination: Andreas Matt")),
-l_copy(_("(c) Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern, 2008")),
-l_info(_("You will find the latest version of Surfer and additional information at http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/")),
-l_contact(_("Contact: surfer@imaginary2008.de\nPlease visit our website at http://surfer.imaginary2008.de\nfor further information and new releases of Surfer.")),
+
+
+
+
+
+
 m_guide(Gtk::Stock::HELP),
+m_close(Gtk::Stock::OK),
+
 a1(0.0,0.5,0.0,0.0),
 a2(0.0,0.5,0.0,0.0),
 a3(0.0,0.5,0.0,0.0),
@@ -83,7 +101,8 @@ a4(0.0,0.5,0.0,0.0),
 a5(0.0,0.5,0.0,0.0),
 a7(0.0,0.5,0.0,0.0),
 a8(0.0,0.5,0.0,0.0),
-a6(0.0,0.5,0.0,0.0)
+a6(0.0,0.5,0.0,0.0),
+opt(so)
 {
 //$Revision: 
 //0123456789abcdef
@@ -99,23 +118,10 @@ set_border_width(10);
 
 get_vbox()->pack_start(m_tab);
 
-//add(m_b);
 
 m_tab.attach(a1,0,2,0,1);
 
 a1.add(l_surfer1);
-//m_b.pack_start(a1,false,true);
-//m_b.pack_start(l_surfer2,false,true);
-//m_b.pack_start(l_surfer3,true,true);
-//m_b.pack_start(l_surfer4,true,false);
-//m_b.pack_start(i_bmbf,false,true);
-
-//l_surfer1.set_justify(Gtk::JUSTIFY_LEFT);
-//l_surfer3.set_justify(Gtk::JUSTIFY_LEFT);
-//l_surfer4.set_justify(Gtk::JUSTIFY_LEFT);
-
-
-//m_tab.attach(l_surfer2,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
 a8.add(i_surfer);
 m_tab.attach(a8,0,2,1,2);
@@ -151,31 +157,23 @@ m_tab.attach(a7,0,2,7,8);
 a6.add(l_contact);
 m_tab.attach(a6,0,2,8,9);
 
-tm mittwoch = {0,0,0,24,0,108,0,0,-1};
-time_t m2 =mktime(&mittwoch);
-
-time_t now;
-time(&now);
 
 
 Glib::RefPtr<Gdk::Pixbuf> math = Gdk::Pixbuf::create_from_xpm_data(
 
-(now>m2)?
-BMBF_JM_Alles_xpm:
-logo_wissenschaftsjahr08_xpm
+
+BMBF_JM_Alles_xpm
+
 
 );
 i_math.set(math);
 set_skip_pager_hint();
 set_skip_taskbar_hint();
-//set_keep_above();
+
 modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
-//set_title(_("About Surfer"));
+
 set_size_request(500,640);
 
-//m_close.set_can_default();
-//set_default(m_close);
-//m_tab.attach(m_close,1,2,9,10,Gtk::SHRINK,Gtk::SHRINK);
 add_action_widget(m_close,Gtk::RESPONSE_CLOSE);
 l_surfer4.set_line_wrap();
 l_copy.set_line_wrap();
@@ -225,6 +223,8 @@ void show_the_manual(Gtk::Window* wnd, surfer_options opt)
 		
 	}
 #endif
+if(false)wnd=wnd;
+if(false)opt=opt;
 }
 
 

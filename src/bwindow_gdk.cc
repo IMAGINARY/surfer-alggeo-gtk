@@ -88,38 +88,58 @@ int moving_x = 0;
 
 
 SurfBWindow::SurfBWindow(std::istream& i, const std::vector<gallery>& G, surfer_options so,bool f, bool p)
-:pichange(0),personalized(p),m_tab(3,2),m_ctab(3,3),m_utab(1,1),m_ltab(3,3),m_aframe("", /* label */
-Gtk::ALIGN_CENTER, /* center x */
-Gtk::ALIGN_CENTER, /* center y */
-1.0, /* xsize/ysize = 1 */
-false /* ignore child's aspect */),
-waiting(true),valid(true),
-m_cframe(_("side 1"), /* label */
-		Gtk::ALIGN_CENTER, /* center x */
-		Gtk::ALIGN_CENTER, /* center y */
-		1.0, /* xsize/ysize = 1 */
-		false /* ignore child's aspect */),
-m_full(Gtk::Stock::FULLSCREEN),
-m_about(Gtk::Stock::ABOUT),
-m_iframe(_("side 2"), /* label */
-		Gtk::ALIGN_CENTER, /* center x */
-		Gtk::ALIGN_CENTER, /* center y */
-		1.0, /* xsize/ysize = 1 */
-		false /* ignore child's aspect */),
+:
+personalized(p),
+waiting(true),
+valid(true),
+fullscreen_mode(f),
+
+draw_coords(false),
+pichange(0),
+
+
+opt(so),
+
+gal(G),
 kill_list(0),
 
-m_vscale(-1,1,0.05),
+m_tab(3,2),
+
+
 m_hscale(0,1.05,0.05,"a"),
 m_hscale2(0,1.05,0.05,"b"),
 m_hscale3(-1,1.05,0.05,"c"),
 m_hscale4(1,10.05,0.05,"d"),
-m_printing(_("Printing image...")),
-fullscreen_mode(f),
-gal(G),
-opt(so),
-m_entryfield(3,1),
-m_prev(Gtk::Stock::GO_BACK),
+m_vscale(-1,1,0.05),
+
+m_aframe("",Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER,1.0,false),
+m_cframe(_("side 1"), Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 1.0, false ),
+m_iframe(_("side 2"), Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 1.0, false),
+
+
+
+
+
+m_ctab(3,3),
+m_utab(1,1),
+m_ltab(3,3),
+
+
+
+
+
+m_about(Gtk::Stock::ABOUT),
+m_full(Gtk::Stock::FULLSCREEN),
 m_next(Gtk::Stock::GO_FORWARD),
+m_prev(Gtk::Stock::GO_BACK),
+
+m_entryfield(3,1),
+
+m_printing(_("Printing image...")),
+
+
+
+
 m_leave_image(Gtk::Stock::LEAVE_FULLSCREEN,Gtk::ICON_SIZE_BUTTON),
 m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
 m_zoom_table(1,3),
@@ -130,8 +150,7 @@ m_new_surface(Gtk::Stock::NEW),
 m_savefile(Gtk::Stock::SAVE),
 //m_animate(Gtk::Stock::MEDIA_RECORD),
 m_ani(*this),
-w_sfx(*this),
-draw_coords(false)
+w_sfx(*this)
 {
 	// change window background to white
 	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
@@ -695,7 +714,7 @@ bool SurfBWindow::on_button_press_event_func(GdkEventButton* event)
 
 
 
-bool SurfBWindow::on_button_release_event_func(GdkEventButton* event)
+bool SurfBWindow::on_button_release_event_func(GdkEventButton* )
 {
 
 // This is where we draw on the window
@@ -735,17 +754,17 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 	{
 		Gtk::Allocation allocation = m_draw.get_allocation();
 		const int width = allocation.get_width();
-		const int height = allocation.get_height();
+		//const int height = allocation.get_height();
 
 // coordinates for the center of the window
 		int xc, yc;
 		xc = int(event->x);
 		yc = int(event->y);
 	
-		double tx = xc - double(width)/2;
-		double ty = yc - double(width)/2;
-		double tgx = gui_x - double(width)/2;
-		double tgy = gui_y - double(width)/2;
+		//double tx = xc - double(width)/2;
+		//double ty = yc - double(width)/2;
+		//double tgx = gui_x - double(width)/2;
+		//double tgy = gui_y - double(width)/2;
 
 
 
@@ -758,50 +777,15 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 		double c_z = 0.0;
 
 
-		//switch(next_action)
-		{
-			//case rotate_around_z:
-				c_y = fx;
-				c_x = fy;
-			//	break;
-			/*case rotate_around_y:
-				c_z = fx;
-				c_x = fy;
-				break;
-			case rotate_around_x:
-				c_y = fx;
-				c_z = fy;
-				break;
-			case zoom:
-				m_vscale.set_value( tx/double(width)*2);
-				global_data.scale = exp(log(10.0)*m_vscale.get_value());
-	
-	
-				break;
-			case change_param:
-				m_hscale.set_value(xc/double(width));
-				break;
-			*/
-		}
-
-	
-/*		if(event->state == Gdk::SHIFT_MASK)
-		{
-
-		if(c_y != 0.0) data[data_index].rot = data[data_index].rot * roty(c_y);
-		if(c_x != 0.0) data[data_index].rot = data[data_index].rot * rotx(c_x);
-		if(c_z != 0.0) data[data_index].rot = data[data_index].rot * rotz(c_z);
-
-
-		}
-		else*/
-		{
+		c_y = fx;
+		c_x = fy;
+		
 
 		if(c_y != 0.0) global_data.rot = global_data.rot * roty(c_y);
 		if(c_x != 0.0) global_data.rot = global_data.rot * rotx(c_x);
 		if(c_z != 0.0) global_data.rot = global_data.rot * rotz(c_z);
 
-		}
+		
 		gui_x = xc;
 		gui_y = yc;
 
@@ -1118,7 +1102,7 @@ for(unsigned k = 0; k < data.size(); k++)
 
 }
 
-void SurfBWindow::refresh_display(const std::string& image, bool full)
+void SurfBWindow::refresh_display(const std::string& image, bool )
 {
 
 	
@@ -1231,8 +1215,6 @@ bool SurfBWindow::on_inside_button_press_event_func(GdkEventButton* event)
 	if(window)
 	{
 		Gtk::Allocation allocation = m_colors.get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
 
 // coordinates for the center of the window
 		double x, y;
@@ -1279,8 +1261,6 @@ bool SurfBWindow::on_inside_motion_notify_event_func(GdkEventMotion* event)
 	if(button_down)
 	{
 		Gtk::Allocation allocation = m_draw.get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
 
 // coordinates for the center of the window
 		double x, y;
@@ -1368,8 +1348,7 @@ bool SurfBWindow::on_back_motion_notify_event_func(GdkEventMotion* event)
 	if(button_down)
 	{
 		Gtk::Allocation allocation = m_draw.get_allocation();
-		const int width = allocation.get_width();
-		const int height = allocation.get_height();
+		
 		double x, y;
 		x = event->x;
 		y = event->y;
@@ -1530,7 +1509,7 @@ void SurfBWindow::on_save_clicked()
 {
 //FIXME : das geht nur singlecore
 	std::string s1 = fix_file(opt.save_cmd);
-	while(s1.find("#")!=-1)
+	while(s1.find("#")!=std::string::npos)
 	{
 		int i = s1.find("#");
 		s1.replace(i,1, TEMP_ROOT_SEP +"surfb_f.ppm");
@@ -1674,22 +1653,22 @@ void SurfBWindow::adjust_visibility()
 
 	for(unsigned i = 0; i < data.size(); i++)
 	{
-	fa = fa || (data[i].public_eq.find('a')!=-1);
+	fa = fa || (data[i].public_eq.find('a')!=std::string::npos);
 	
-	fb = fb || (data[i].public_eq.find('b')!=-1);
+	fb = fb || (data[i].public_eq.find('b')!=std::string::npos);
 
 	std::string dc = data[i].public_eq;
 
-	while(dc.find("cos")!=-1)
+	while(dc.find("cos")!=std::string::npos)
 	{dc.replace(dc.find("cos"),3,"XOS");}
 
-	while(dc.find("arc")!=-1)
+	while(dc.find("arc")!=std::string::npos)
 	{dc.replace(dc.find("arc"),3,"ARX");}
 
 	
-	fc = fc || (dc.find('c')!=-1);
+	fc = fc || (dc.find('c')!=std::string::npos);
 	
-	fd = fd || (data[i].public_eq.find('d')!=-1);
+	fd = fd || (data[i].public_eq.find('d')!=std::string::npos);
 	}
 
 	m_hscale.show();
@@ -2177,9 +2156,9 @@ void SurfBWindow::do_file_save(bool do_pic,bool do_png)
 
 		std::string t = dialog.get_filename();
 
-		if(t.find("\"")==-1L && t.size()>=4 && t.substr(t.size()-4)==".pic")
+		if(t.find("\"")==std::string::npos && t.size()>=4 && t.substr(t.size()-4)==".pic")
 		t = t.substr(0,t.size()-4);
-		if(t.find("\"")==-1L && t.find(".")==-1L)
+		if(t.find("\"")==std::string::npos && t.find(".")==std::string::npos)
 		t = t+".png";
 		
 		if(do_png)
@@ -2521,7 +2500,7 @@ if(!opt.ui_xml.empty())
 
 mr_UIM->add_ui_from_string(ui_info);
 
-Gtk::Widget* pMenuBar = mr_UIM->get_widget("/MenuBar");
+//Gtk::Widget* pMenuBar = mr_UIM->get_widget("/MenuBar");
 
 /*
 Gtk::Toolbar* pStdBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/DefaultBar"));

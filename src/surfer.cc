@@ -57,8 +57,6 @@ TWindow(SurfBWindow& s):sbw(s)
 virtual bool on_expose_event(GdkEventExpose*)
 {
 
-//virtual bool on_button_press_event(GdkEventButton* )
-//{
 	if(!get_window()) return false;
 	sbw.show();
 	sbw.set_modal();
@@ -67,6 +65,7 @@ virtual bool on_expose_event(GdkEventExpose*)
 	hide();
 	return true;
 }
+
 };
 
 int main (int argc, char *argv[])

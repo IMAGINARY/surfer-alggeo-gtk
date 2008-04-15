@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2008 by Henning Meyer                                   *
+ *   hmeyer@mathematik.uni-kl.de                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -303,8 +303,9 @@ bool AniWindow::on_view_key_press(GdkEventKey* event)
 
 
 AniWindow::AniWindow(SurfBWindow& g)
-:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_lres(_("Resolution")),m_movie_frame(-1),
-m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP),m_pause_cont(Gtk::Stock::MEDIA_PAUSE),m_add_frame(Gtk::Stock::ADD),m_delete_frame(Gtk::Stock::REMOVE), m_save(Gtk::Stock::SAVE),invalidated(true)
+:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_movie_frame(-1),
+m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP),m_pause_cont(Gtk::Stock::MEDIA_PAUSE),m_add_frame(Gtk::Stock::ADD),m_delete_frame(Gtk::Stock::REMOVE),
+m_edit(Gtk::Stock::COPY), m_save(Gtk::Stock::SAVE),invalidated(true)
 {
 
 if(use_mencoder == false && use_ffmpeg == false)
@@ -323,25 +324,23 @@ m_TreeView.set_model(m_refListStore);
 m_TreeView.append_column(_("Key Frame"),m_Columns.m_col_pic);
 m_TreeView.append_column_editable(_("Duration"),m_Columns.m_col_duration);
 
-//m_save.set_sensitive(false);
-
-/*
-parse_result p;
-p.data = gui.data;
-p.global_data = gui.global_data;
-
-add_entry(p,10,1);
-*/
-
-//set_title(_("Create Animation"));
-
-//add(m_tab);
 Gtk::Table& m_tab = *this;
 
 m_scroll.add(m_TreeView);
 
 
 m_TreeView.signal_key_press_event().connect( sigc::mem_fun(*this, &AniWindow::on_view_key_press) );
+
+
+
+m_TreeView.add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
+
+m_TreeView.signal_button_press_event().connect( sigc::mem_fun(*this, &AniWindow::on_button_press_event_func) );
+
+m_refListStore->signal_row_changed().connect( sigc::mem_fun(*this, &AniWindow::on_my_row_changed) );
+
+
+
 m_scroll.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_AUTOMATIC);
 
 
@@ -361,6 +360,8 @@ m_tab.attach(m_record,0,1,3,4,Gtk::FILL,Gtk::SHRINK);
 //m_tab.attach(m_pause_cont,0,1,4,5,Gtk::SHRINK,Gtk::SHRINK);
 m_tab.attach(m_stop,1,2,3,4,Gtk::FILL,Gtk::SHRINK);
 m_tab.attach(m_save,0,1,6,7,Gtk::FILL,Gtk::SHRINK);
+m_tab.attach(m_edit,1,2,6,7,Gtk::FILL,Gtk::SHRINK);
+
 
 
 m_tab.attach(m_prog,0,2,7,8,Gtk::FILL,Gtk::SHRINK);
@@ -369,16 +370,17 @@ m_record.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_record));
 m_stop.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_pause));
 m_save.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_save));
 m_add_frame.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::ani_add));
+m_edit.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_edit));
 
 m_delete_frame.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_delete_frame));
 m_pause_cont.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_pause_cont));
 
 m_preview.set_size_request(100,100);
 
-	m_res.set_range(1,3000);
+	/*m_res.set_range(1,3000);
 	
 	m_res.set_increments(10,100);
-	m_res.set_value(100);
+	m_res.set_value(100);*/
 
 //m_TreeView.set_size_request(400,500);
 m_TreeView.set_reorderable();
@@ -473,7 +475,7 @@ void AniWindow::add_entry(const parse_result& P,
 
 void AniWindow::ani_add()
 {
-
+invalidated = true;
 parse_result p;
 p.data = gui.data;
 p.global_data = gui.global_data;
@@ -492,13 +494,17 @@ bool AniWindow::on_timer(int)
 
 	
 	//out<<"now playing "<<m_movie_frame<<": "<<m_movie_file[m_movie_frame]<<std::endl;
-	m_preview.set(Gdk::Pixbuf::create_from_file(m_movie_file[m_movie_frame]));
+
+	Glib::RefPtr<Gdk::Pixbuf> g = Gdk::Pixbuf::create_from_file(m_movie_file[m_movie_frame]);
+	
+	m_preview.set(g->scale_simple(100,100,Gdk::INTERP_BILINEAR));
 
 	conn.disconnect();
 	sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &AniWindow::on_timer),0);
 
 // This is where we connect the slot to the Glib::signal_timeout()
 //const int frame_rate = 10;
+
 
 	conn = Glib::signal_timeout().connect(my_slot, 1000/gui.opt.video_frame_rate);
 
@@ -645,8 +651,8 @@ void AniWindow::compute()
 
 		std::ofstream f(v_script[i].c_str(),FILE_WRITE_MODE);
 
-		f<<"width="<<m_res.get_text()<<";\n";
-		f<<"height="<<m_res.get_text()<<";\n";
+		f<<"width="<<gui.opt.video_resolution<<";\n";
+		f<<"height="<<gui.opt.video_resolution<<";\n";
 
 			
 		write_surf(intermediate[i].global_data,f,0);
@@ -883,6 +889,7 @@ m_movie_frame = -1;
 
 void AniWindow::on_delete_frame()
 {
+invalidated = true;
 Gtk::TreePath T;
 		Gtk::TreeViewColumn* C;
 		m_TreeView.get_cursor(T,C);
@@ -894,4 +901,54 @@ Gtk::TreePath T;
 void AniWindow::on_pause_cont()
 {
 m_movie_frame = -1;
+}
+
+bool AniWindow::on_button_press_event_func(GdkEventButton* event)
+{
+	if(event)
+	{
+		if(event->type == GDK_2BUTTON_PRESS)
+		{
+			Gtk::TreePath T;
+			Gtk::TreeViewColumn* C;
+			m_TreeView.get_cursor(T,C);
+			Gtk::TreeModel::Row row = *(m_refListStore->get_iter(T));
+			std::cout<<"button press"<<std::endl;			
+			if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) 
+			{
+			parse_result P = row[m_Columns.m_col_state];
+			gui.data = P.data;
+			gui.global_data = P.global_data;
+			gui.data_index = 0;
+			gui.update_visuals();
+			}
+		}
+	}
+	return true;
+}
+
+void AniWindow::on_my_row_changed(Gtk::TreePath const&,Gtk::TreeIter const&)
+{
+	invalidated = true;
+}
+
+void AniWindow::on_edit()
+{
+
+	{
+			Gtk::TreePath T;
+			Gtk::TreeViewColumn* C;
+			m_TreeView.get_cursor(T,C);
+			
+			
+			if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) 
+			{
+			Gtk::TreeModel::Row row = *(m_refListStore->get_iter(T));
+			parse_result P = row[m_Columns.m_col_state];
+			gui.data = P.data;
+			gui.global_data = P.global_data;
+			gui.data_index = 0;
+			gui.update_visuals();
+			}
+		}
 }

@@ -99,7 +99,7 @@ surfer_options default_settings()
 
 	so.video_frame_rate = 10;
 	so.video_bitrate = 1800;
-	so.video_resolution = 100;
+	so.video_resolution = 300;
 
 	#ifndef WIN32
 	so.mencoder_cmd = "mencoder";

@@ -469,8 +469,8 @@ SurfBWindow& gui;
 
 
 
-Gtk::Label m_lres;
-Gtk::SpinButton m_res;
+//Gtk::Label m_lres;
+//Gtk::SpinButton m_res;
 
 Gtk::Table m_tab;
 
@@ -480,6 +480,7 @@ Gtk::ScrolledWindow m_scroll;
 
 Gtk::ProgressBar m_prog;
 
+Gtk::Button m_edit;
 Gtk::Button m_save;
 Gtk::Button m_stop;
 Gtk::Frame m_fpreview;
@@ -487,6 +488,8 @@ unsigned m_pad_to;
 
 void on_pause();
 void on_save();
+
+bool on_button_press_event_func(GdkEventButton* event);
 
 class ModelColumns : public Gtk::TreeModelColumnRecord
 {
@@ -530,7 +533,12 @@ void on_record();
 void on_delete_frame();
 void on_pause_cont();
 void compute();
+void on_edit();
+
 bool invalidated;
+
+void on_my_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
+
 public:
 void ani_add();
 };
@@ -549,55 +557,78 @@ public:
 SurfBWindow(std::istream& i,const std::vector<gallery>& G, surfer_options so, bool f = false, bool personalized = false);
 void start();
 private:
+bool personalized;
+bool waiting;
+
+bool valid;
+
+bool fullscreen_mode;
+bool draw_coords;
+
+int current_gal;
+int current_surf;
+
+int pichange;
+
+surfer_options opt;
+std::vector<gallery> gal;
+
+
+PID_type kill_list;
+
+
+
+
+
+std::vector<surface_data> data;
+unsigned data_index;
+global_parse global_data;
+
+
+
+
+
+sigc::connection conn;
+
 void adjust_visibility();
 
-std::vector<gallery> gal;
+
 Gtk::Table m_tab;
 Gtk::DrawingArea m_draw;
-Gtk::Label m_zero;
+
+
+
 AScale m_hscale;
 AScale m_hscale2;
-Gtk::Button m_special;
-Gtk::Label m_printing;
-
 AScale m_hscale3;
 AScale m_hscale4;
-
-//Gtk::Button m_animate;
-
+ZScale m_vscale;
 void on_animate_click();
 
-ZScale m_vscale;
-Gtk::Table m_entryinside;
-Gtk::Frame m_entryframe;
-Gtk::HBox m_bbox;
-std::vector<Gtk::Button> v_butt;
 
-Gtk::HButtonBox m_fbox;
-std::vector<Gtk::RadioButton*> v_fbutt;
+
+Gtk::Frame m_entryframe;
+
+
 Gtk::Table m_bft;
-Gtk::Image m_info;
-Gtk::Button m_left;
-Gtk::Button m_right;
 Gtk::Table m_entryfield;
-Gtk::Label m_avalue;
-Gtk::Label m_avalue2;
+Gtk::Table m_entryinside;
+Gtk::Table m_zoom_table;
+
+
+Gtk::Image m_info;
 Gtk::Image m_zoom_free;
 Gtk::Image m_leave_image;
 Gtk::Image m_zoom_image;
-Gtk::Table m_zoom_table;
 Gtk::Image m_scale_free;
-Gtk::Label m_error;
-Gtk::Button m_new_surface;
-Gtk::Button m_savefile;
+
+
 Gtk::SpinButton m_spin;
 
 
 
 bool on_gallery_press_event(GdkEventButton* e, int i);
 
-bool waiting;
-bool personalized;
 
 
 Gtk::AspectFrame m_aframe;
@@ -614,33 +645,49 @@ Gtk::DrawingArea m_movie;
 
 Gtk::Notebook m_note;
 
-Gtk::Table m_ctab;
-Gtk::Button m_print;
-Gtk::Button m_full;
-Gtk::Button m_save;
 
+Gtk::Table m_ctab;
 Gtk::Table m_utab;
 Gtk::Table m_ltab;
 Gtk::Table m_gtab;
-Gtk::Button m_leave;
 
-Gtk::Button m_next;
-Gtk::Button m_prev;
 
 Gtk::Button m_about;
+Gtk::Button m_full;
+Gtk::Button m_leave;
+Gtk::Button m_left;
+Gtk::Button m_next;
+Gtk::Button m_new_surface;
+Gtk::Button m_prev;
+Gtk::Button m_print;
+Gtk::Button m_right;
+Gtk::Button m_save;
+Gtk::Button m_savefile;
+Gtk::Button m_special;
+
+
+Gtk::HBox m_bbox;
+Gtk::HButtonBox m_fbox;
+
+std::vector<Gtk::Button> v_butt;
+std::vector<Gtk::RadioButton*> v_fbutt;
+
+
 
 Gtk::HButtonBox m_backfor;
 
-int current_gal;
-int current_surf;
+Gtk::Label m_avalue;
+Gtk::Label m_avalue2;
+Gtk::Label m_error;
+Gtk::Label m_printing;
+Gtk::Label m_zero;
 
-bool valid;
+
 void check_image(const std::string& script, const std::string& image);
+
 std::vector<Gtk::DrawingArea> m_gdraw;
 std::vector<Gtk::AspectFrame> m_gframe;
 
-
-bool fullscreen_mode;
 
 void adjust_printing();
 
@@ -702,7 +749,7 @@ void update_visuals();
 bool on_surface_expose_event_func(GdkEventExpose* event);
 bool on_surface_button_press_event_func(GdkEventButton* event);
 
-sigc::connection conn;
+
 
 void on_export_pic_clicked();
 void on_export_png_clicked();
@@ -725,17 +772,8 @@ Glib::RefPtr<Gtk::UIManager> mr_UIM ;
 
 bool on_button_changed_func(GdkEventButton*);
 
-bool draw_coords;
+
 void draw_grid();
-
-std::vector<surface_data> data;
-unsigned data_index;
-global_parse global_data;
-
-public:
-surfer_options opt;
-PID_type kill_list;
-
 
 bool on_key_press_event_func(GdkEventKey* event);
 
@@ -747,7 +785,7 @@ friend class SpecialEffects;
 AniWindow m_ani;
 SpecialEffects w_sfx;
 
-int pichange;
+
 };
 
 void show_the_manual(Gtk::Window* wnd, surfer_options);
@@ -973,8 +1011,8 @@ extern bool no_log;
 #else
 
 
-// #define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
-#define REDIRECTION_APEX "" 
+#define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
+
 #endif
 #endif
 
