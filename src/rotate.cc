@@ -32,8 +32,8 @@
 
 bool use_mencoder = false;
 bool use_ffmpeg = false;
-
-
+extern bool no_modify;
+#define MOD if(!no_modify)
 
 /*
 
@@ -303,10 +303,13 @@ bool AniWindow::on_view_key_press(GdkEventKey* event)
 
 
 AniWindow::AniWindow(SurfBWindow& g)
-:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_movie_frame(-1),
-m_fpreview(_("Video Preview")),m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP),m_pause_cont(Gtk::Stock::MEDIA_PAUSE),m_add_frame(Gtk::Stock::ADD),m_delete_frame(Gtk::Stock::REMOVE),
-m_edit(Gtk::Stock::COPY), m_save(Gtk::Stock::SAVE),invalidated(true)
+:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_movie_frame(-1), 
+m_fpreview(_("Video Preview")), m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP),m_pause_cont(Gtk::Stock::MEDIA_PAUSE),m_add_frame(Gtk::Stock::ADD),m_delete_frame(Gtk::Stock::REMOVE),
+m_edit(Gtk::Stock::JUMP_TO), m_save(Gtk::Stock::SAVE),invalidated(true)
 {
+
+set_up_the_ani_menu();
+
 
 if(use_mencoder == false && use_ffmpeg == false)
 {
@@ -377,12 +380,7 @@ m_pause_cont.signal_clicked().connect(sigc::mem_fun(*this,&AniWindow::on_pause_c
 
 m_preview.set_size_request(100,100);
 
-	/*m_res.set_range(1,3000);
-	
-	m_res.set_increments(10,100);
-	m_res.set_value(100);*/
 
-//m_TreeView.set_size_request(400,500);
 m_TreeView.set_reorderable();
 
 sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &AniWindow::on_timer),0);
@@ -948,7 +946,76 @@ void AniWindow::on_edit()
 			gui.data = P.data;
 			gui.global_data = P.global_data;
 			gui.data_index = 0;
-			gui.update_visuals();
+			gui.update_visuals(false);
 			}
 		}
+}
+
+
+
+void AniWindow::set_up_the_ani_menu()
+{
+
+std::string amp = "&";
+
+ mr_AG = Gtk::ActionGroup::create();
+
+mr_AG->add(Gtk::Action::create("GotoFrame",Gtk::Stock::JUMP_TO), sigc::mem_fun(*this, &AniWindow::on_edit));
+
+mr_AG->add(Gtk::Action::create("AddFrame",Gtk::Stock::ADD), sigc::mem_fun(*this, &AniWindow::ani_add));
+mr_AG->add(Gtk::Action::create("KillFrame",Gtk::Stock::REMOVE), sigc::mem_fun(*this, &AniWindow::on_delete_frame));
+
+
+mr_AG->add(Gtk::Action::create("Preview",Gtk::Stock::MEDIA_PLAY), sigc::mem_fun(*this, &AniWindow::on_record) );
+
+
+mr_AG->add(Gtk::Action::create("Stop",Gtk::Stock::MEDIA_STOP),sigc::mem_fun(*this, &AniWindow::on_pause));
+
+mr_AG->add(Gtk::Action::create("Save",Gtk::Stock::SAVE),sigc::mem_fun(*this, &AniWindow::on_save));
+//FIXME: Gtk::Stock::DELETE does not work under windows (with Gtkmm 2.10)
+
+mr_UIM = Gtk::UIManager::create();
+
+mr_UIM->insert_action_group(mr_AG);
+
+//add_accel_group(mr_UIM->get_accel_group());
+
+Glib::ustring ui_info =
+    "<ui>"
+    "  <toolbar  name='AniBar'>"
+    "    <toolitem action='AddFrame'/>"
+    "    <toolitem action='KillFrame'/>"
+    "      <separator/>"
+    "    <toolitem action='Preview'/>"
+    "    <toolitem action='Stop'/>"
+    "      <separator/>"
+//    "      <toolitem action='HelpManual'/>"
+    "      <toolitem action='GotoFrame'/>"
+    "      <separator/>"
+//    "      <toolitem action='HelpManual'/>"
+    "      <toolitem action='Save'/>"
+    "  </toolbar>"
+    "</ui>";
+
+mr_UIM->add_ui_from_string(ui_info);
+
+
+
+Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/AniBar")) ;
+//if(pPropbar)
+{
+pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
+pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+
+    //m_tab.attach(*pPropbar,0,1,0,1);
+
+//pPropbar->set_size_request(500,400);
+//pPropbar->show();
+
+    //pPropbar->show();
+pPropbar->set_show_arrow(false);
+//pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
+MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
+}
+
 }

@@ -518,7 +518,7 @@ MOD{
 
 			m_note.append_page(m_ani,*v_ani);
 
-			if(!(no_full && personalized)) m_info.set_size_request(300,600);
+//			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
 
 			m_gtab.attach(*new Gtk::Image,1,2,0,1);
@@ -1592,7 +1592,7 @@ void SurfBWindow::on_prev_clicked()
 }
 
 
-void SurfBWindow::update_visuals()
+void SurfBWindow::update_visuals(bool f)
 {
 	
 	//scale = exp(log10*v)
@@ -1606,6 +1606,7 @@ void SurfBWindow::update_visuals()
 	m_hscale3.set_value(global_data.para[2]);
 	m_hscale4.set_value(global_data.para[3]);
 	adjust_visibility();
+	if(f)
 	try{
 	std::ifstream fi(data[data_index].desc.c_str());
 	if(fi.is_open())
@@ -2096,7 +2097,7 @@ void SurfBWindow::do_file_save(bool do_pic,bool do_png)
 
 	Gtk::FileFilter filter_pic;
 	  filter_pic.set_name(_("Surfer Script (.pic)"));
-	  filter_pic.add_mime_type("text/plain");
+	  //filter_pic.add_mime_type("text/plain");
 	  filter_pic.add_pattern("*.pic");
 
 	Gtk::FileFilter filter_png;
@@ -2190,6 +2191,16 @@ void SurfBWindow::do_file_save(bool do_pic,bool do_png)
 			else
 			t2 = t+".pic";
 
+
+			int d = global_data.hires;
+			global_data.hires = 1;
+			refresh_image(TEMP_ROOT_SEP+"surfb_s.pic",TEMP_ROOT_SEP+"surfb_s.ppm",global_data.antialiasing,true,1,true);
+	
+			global_data.hires = d;
+		
+
+
+
 			std::ifstream inf((TEMP_ROOT_SEP+"surfb_s.pic").c_str());
 			std::ofstream onf(t2.c_str());
 			onf<<inf.rdbuf();
@@ -2221,7 +2232,6 @@ void SurfBWindow::on_open_file_clicked()
 
 	Gtk::FileFilter filter_pic;
 	  filter_pic.set_name(_("Surfer Script (.pic)"));
-	  filter_pic.add_mime_type("image/png");
 	  filter_pic.add_pattern("*.pic");
 	  dialog.add_filter(filter_pic);
 
@@ -2372,7 +2382,7 @@ mr_UIM = Gtk::UIManager::create();
 
 mr_UIM->insert_action_group(mr_AG);
 
-add_accel_group(mr_UIM->get_accel_group());
+
 
 Glib::ustring ui_info =
     "<ui>"
@@ -2543,7 +2553,7 @@ MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 Gtk::Toolbar* pMiniBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/MiniBar"));
 if(pMiniBar)
 {
-m_utab.attach(*pMiniBar, 4,5,5,6,Gtk::FILL,Gtk::SHRINK);
+m_utab.attach(*pMiniBar, 4,5,5,6,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 pMiniBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 pMiniBar->set_show_arrow(false);
 //pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
@@ -2632,3 +2642,15 @@ bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
 
 	return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+

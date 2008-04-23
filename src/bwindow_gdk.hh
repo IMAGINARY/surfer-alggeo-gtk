@@ -539,6 +539,12 @@ bool invalidated;
 
 void on_my_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
 
+void set_up_the_ani_menu();
+
+Glib::RefPtr<Gtk::ActionGroup> mr_AG;
+Glib::RefPtr<Gtk::UIManager> mr_UIM ;
+
+
 public:
 void ani_add();
 };
@@ -744,7 +750,7 @@ void on_right_clicked();
 void on_next_clicked();
 void on_prev_clicked();
 
-void update_visuals();
+void update_visuals(bool f = true);
 
 bool on_surface_expose_event_func(GdkEventExpose* event);
 bool on_surface_button_press_event_func(GdkEventButton* event);
