@@ -1005,7 +1005,7 @@ Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/AniBar
 //if(pPropbar)
 {
 pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
-pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
+//pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
 
     //m_tab.attach(*pPropbar,0,1,0,1);
 
