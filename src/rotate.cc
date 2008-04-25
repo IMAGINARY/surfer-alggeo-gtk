@@ -316,7 +316,7 @@ if(use_mencoder == false && use_ffmpeg == false)
 	use_mencoder = !gui.opt.mencoder_cmd.empty();
 	use_ffmpeg = !gui.opt.ffmpeg_cmd.empty();
 
-	if(use_mencoder && use_ffmpeg) use_ffmpeg = false;
+	if(use_mencoder && use_ffmpeg) use_mencoder = false;
 }
 
 m_refListStore = Gtk::ListStore::create(m_Columns);
@@ -728,7 +728,7 @@ void make_movie_ffmpeg(const std::string& outfile, const std::string& indir, con
 {
 	std::ostringstream os;
 
-	os<<opt.ffmpeg_cmd<<" -r "<<fps<<" -i \""<<indir<<DIR_SEP<<"frame%";
+	os<<opt.ffmpeg_cmd<<" -y -r "<<fps<<" -i \""<<indir<<DIR_SEP<<"frame%";
 	if(pad)os<<"0"<<pad;
 	os<<"d.jpg\"";
 	if(format=="flv")os<<"-f flv";
@@ -798,11 +798,13 @@ if(false) dialog.add_filter(filter_gif);
 	//Gtk::Main::run(dialog);
 
 	int result = Gtk::RESPONSE_CANCEL;
-        result = dialog.run();
-
+	
 	bool do_gif = false;
 	bool do_msmpeg = false;
 	bool do_mp4 = false;
+
+	choose_again:
+        result = dialog.run();
 
 	if(result == Gtk::RESPONSE_OK)
 	{
@@ -857,7 +859,19 @@ if(false) dialog.add_filter(filter_gif);
 
 		} else
 		if(use_ffmpeg)
-		{			
+		{
+			{
+				std::cout<<t<<std::endl;
+				std::ifstream fe(t.c_str());
+				if(fe.is_open())
+				{
+					Gtk::MessageDialog md(gui,_("File exists. Overwrite?"),false,Gtk::MESSAGE_QUESTION,Gtk::BUTTONS_YES_NO,true);
+					int result = md.run();
+					if(result != Gtk::RESPONSE_YES)
+					goto choose_again;
+				}
+			}
+			
 			if(do_msmpeg)
 			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate);
 			else if(do_mp4)
