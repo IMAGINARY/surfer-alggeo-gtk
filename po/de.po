@@ -331,3 +331,43 @@ msgstr "Fläche öffnen"
 msgid "Save image and save surface"
 msgstr "Bild und Fläche speichern"
 
+msgid "Animate"
+msgstr "Film erstellen"
+
+msgid "Video Preview"
+msgstr "Vorschau"
+
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "Key Frame"
+msgstr "Key Frame"
+
+msgid "apply changes immediately"
+msgstr "Änderungen sofort anwenden"
+
+msgid "Scene Properties"
+msgstr "Eigenschaften"
+
+msgid "rotate around x-axis"
+msgstr "Drehung um x-Achse"
+
+msgid "rotate around y-axis"
+msgstr "Drehung um y-Achse"
+
+msgid "rotate around z-axis"
+msgstr "Drehung um z-Achse"
+
+msgid "Video resolution"
+msgstr "Video-Auflösung"
+
+msgid "Video frame rate"
+msgstr "Video-Bildfrequenz"
+
+
+msgid "Video bit rate"
+msgstr "Video-Datenrate"
+
+msgid "File exists. Overwrite?"
+msgstr "Datei überschreiben?"
+
