@@ -620,7 +620,7 @@ Gtk::Table m_bft;
 Gtk::Table m_entryfield;
 Gtk::Table m_entryinside;
 Gtk::Table m_zoom_table;
-
+Gtk::Table m_tool;
 
 Gtk::Image m_info;
 Gtk::Image m_zoom_free;

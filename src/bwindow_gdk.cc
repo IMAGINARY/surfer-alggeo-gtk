@@ -324,7 +324,7 @@ MOD{
 		
 		//m_utab.attach(m_new_surface,2,3,3+1,4+1,Gtk::SHRINK,Gtk::SHRINK);
 		
-		m_utab.attach(m_spin,3,4,5,6,Gtk::SHRINK,Gtk::SHRINK);
+		m_tool.attach(m_spin,3,4,5,6,Gtk::SHRINK,Gtk::SHRINK);
 
                 m_spin.set_range(1,1);
 		
@@ -2526,12 +2526,14 @@ pStdBar->get_nth_item(n-1)->set_expand();
 }
 */
 
+
+
 Gtk::Toolbar* pToolbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/TopBar")) ;
   if(pToolbar)
 {
 pToolbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-    m_utab.attach(*pToolbar,3,5,4,5,Gtk::FILL,Gtk::SHRINK);
+    m_tool.attach(*pToolbar,3,5,4,5,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 pToolbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 MOD{pToolbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
@@ -2542,7 +2544,7 @@ Gtk::Toolbar* pHelpbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/HelpBa
 {
 pHelpbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pHelpbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-    m_utab.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK,Gtk::SHRINK);
+    m_tool.attach(*pHelpbar,5,6,4,5,Gtk::SHRINK,Gtk::SHRINK);
 pHelpbar->set_show_arrow(false);
 
 MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
@@ -2553,7 +2555,7 @@ MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 Gtk::Toolbar* pMiniBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/MiniBar"));
 if(pMiniBar)
 {
-m_utab.attach(*pMiniBar, 4,5,5,6,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
+m_tool.attach(*pMiniBar, 4,5,5,6,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 pMiniBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 pMiniBar->set_show_arrow(false);
 //pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
@@ -2566,11 +2568,13 @@ Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/PropBa
 {
 pPropbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pPropbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-    m_utab.attach(*pPropbar,5,6,5,6,Gtk::SHRINK,Gtk::SHRINK);
+    m_tool.attach(*pPropbar,5,6,5,6,Gtk::SHRINK,Gtk::SHRINK);
 pPropbar->set_show_arrow(false);
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
+
+m_utab.attach(m_tool,3,6,4,6,Gtk::FILL,Gtk::SHRINK);
 
 }
 
