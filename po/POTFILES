@@ -1,5 +1,6 @@
      ../src/about.cc \
-     ../src/bwindowgdk.cc \
+     ../src/bwindow_gdk.cc \
      ../src/select.cc \
      ../src/gallery.cc \
-     ../src/surfer.cc
+     ../src/surfer.cc \
+     ../src/rotate.cc

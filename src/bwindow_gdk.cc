@@ -2579,41 +2579,7 @@ m_utab.attach(m_tool,3,6,4,6,Gtk::FILL,Gtk::SHRINK);
 }
 
 
-/*
-Glib::RefPtr<Gdk::Pixbuf> make_colormap(unsigned size = 200)
-{
-	Gtk::Window m_w;
-	Gtk::DrawingArea m_colors;
-	m_w.add(m_colors);
-	
-	m_colors.set_size_request(size,size);
 
-	Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
-		
-	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(window);
-		//some_gc.create(get_window());
-		
-	
-	Glib::RefPtr<Gdk::Drawable> dr(window);
-
-	Glib::RefPtr<Gdk::Pixmap> gp = Gdk::Pixmap::create(dr,size,size,-1);
-
-
-	for(double x= 0; x <= size; x = x+1)
-		for(double y= 0; y <= size; y = y+1)
-	{
-		
-		Gdk::Color nc = colormap(x,y).gdk_colors();
-		
-
-		some_gc->set_rgb_fg_color(nc);
-		dr->draw_point(some_gc,int(x),int(y));		
-		
-	}
-	
-	return Gdk::Pixbuf::create(dr,0,0,size,size);
-}
-*/
 
 bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
 {

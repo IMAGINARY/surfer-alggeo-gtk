@@ -3,56 +3,75 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Henning Meyer <hmeyer@mathematik.uni-kl.de>
 #
-
-
 msgid ""
 msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2008-02-25 21:41+0100\n"
-"PO-Revision-Date: $Date$"
-"Last-Translator: Henning Meyer <hmeyer@mathematik.uni-kl.de>\n"
+"POT-Creation-Date: 2008-05-05 18:43+0200\n"
+"PO-Revision-Date: $Date$Last-Translator: Henning Meyer <hmeyer@mathematik."
+"uni-kl.de>\n"
+"Language-Team: German <surfer@imaginary2008.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: German <surfer@imaginary2008.de>"
-#: bwindow_gdk.hh:252
 
-msgid "Zoom"
-msgstr "Zoom"
+#: src/about.cc:63
+msgid "About Surfer"
+msgstr "Über Surfer"
 
-#: about.cc:38
-
+#: src/about.cc:67
 msgid ""
 "Surfer uses the program surf by Stephan Endrass et al.\n"
 "(http://surf.sourceforge.net)"
-
 msgstr ""
 "Surfer benutzt das Programm surf von Stephan Endrass et al.\n"
 "(http://surf.sourceforge.net)"
 
-
-#: about.cc:39
-
+#: src/about.cc:68
 msgid ""
-"Surfer was developed for the exposition IMAGINARY, which was conceived by Mathematischen Forschungsinstitut Oberwolfach on occassion of the Year of Mathematics 2008 in Germany. The exposition has received funding by the German Federal Department of Education and Research."
-
+"Surfer was developed for the exposition IMAGINARY, which was conceived by "
+"Mathematischen Forschungsinstitut Oberwolfach on occassion of the Year of "
+"Mathematics 2008 in Germany. The exposition has received funding by the "
+"German Federal Department of Education and Research."
 msgstr ""
 "Surfer wurde für die Ausstellung IMAGINARY entwickelt, die vom "
 "Mathematischen Forschungsinstitut Oberwolfach zum Jahr der Mathematik 2008 "
 "in Deutschland konzipiert wurde. Die Ausstellung ist vom Bundesministerium "
 "von Bildung und Forschung gefördert."
 
+#: src/about.cc:71
+msgid ""
+"You will find the latest version of Surfer and additional information at "
+"http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/"
+msgstr ""
+"Die aktuelle Version und mehr Informationen zu Surfer finden Sie auf der "
+"Webseite http://surfer.imaginary2008.de/ und http://www.imaginary2008.de/"
 
-#: about.cc:42
+#: src/about.cc:76
+msgid ""
+"Contact: surfer@imaginary2008.de\n"
+"Please visit our website at http://surfer.imaginary2008.de\n"
+"for further information and new releases of Surfer."
+msgstr ""
+"Kontakt: surfer@imaginary2008.de\n"
+"Besuchen Sie auch unsere Webseite http://surfer.imaginary2008.de\n"
+"für weitere Informationen und neue Versionen von Surfer."
 
+#: src/about.cc:79
+msgid ""
+"(c) Mathematisches Forschungsinstitut Oberwolfach and University of "
+"Kaiserslautern, 2008"
+msgstr ""
+"(c) Mathematisches Forschungsinstitut Oberwolfach und Technische Universität "
+"Kaiserslautern, 2008"
+
+#: src/about.cc:83
 msgid ""
 "Director: Gert-Martin Greuel\n"
 "Programming: Henning Meyer and Christian Stussak\n"
 "Galleries: Oliver Labs\n"
 "Support: Felix Riemann\n"
 "Coordination: Andreas Matt"
-
 msgstr ""
 "Leitung: Gert-Martin Greuel\n"
 "Programmierung: Henning Meyer und Christian Stussak\n"
@@ -60,225 +79,256 @@ msgstr ""
 "Unterstützung: Felix Riemann\n"
 "Konzept/Koordination: Andreas Matt"
 
+#: src/about.cc:212
+msgid "Could not access help file."
+msgstr "Auf die Hilfe-Datei kann nicht zugegriffen werden."
 
-#: about.cc:47
-
-msgid ""
-"(c) Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern, 2008"
-
-msgstr ""
-"(c) Mathematisches Forschungsinstitut Oberwolfach und Technische Universität "
-"Kaiserslautern, 2008"
-
-
-#: about.cc:48
-
-msgid ""
-"You will find the latest version of Surfer and additional information at http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/"
-
-msgstr ""
-"Die aktuelle Version und mehr Informationen zu Surfer finden Sie auf der "
-"Webseite http://surfer.imaginary2008.de/ und http://www.imaginary2008.de/"
-
-
-#: about.cc:49
-
-msgid ""
-"Contact: surfer@imaginary2008.de\n"
-"Please visit our website at http://surfer.imaginary2008.de\nfor further information and new releases of Surfer."
-
-msgstr ""
-"Kontakt: surfer@imaginary2008.de\n"
-"Besuchen Sie auch unsere Webseite http://surfer.imaginary2008.de\n"
-"für weitere Informationen und neue Versionen von Surfer."
-
-
-#: about.cc:163 bwindow_gdk.cc:138 bwindow_gdk.cc:139 bwindow_gdk.cc:254
-#: bwindow_gdk.cc:255 bwindow_gdk.cc:444 bwindow_gdk.cc:445 bwindow_gdk.cc:446
-#: bwindow_gdk.cc:447 bwindow_gdk.cc:454 bwindow_gdk.cc:455 gallery.cc:199
-#: gallery.cc:200 gallery.cc:202 gallery.cc:203 gallery.cc:204 gallery.cc:205
-
-#: about.cc:164
-
-msgid "About Surfer"
-msgstr "Über Surfer"
-
-
-
-#: about.cc:196
-
-msgid ""
-"Could not access help file."
-
-msgstr ""
- "Auf die Hilfe-Datei kann nicht zugegriffen werden."
-
-
-#: about.cc:203
-
-msgid ""
-"Could not display help file. Install Adobe Reader."
-
+#: src/about.cc:219
+msgid "Could not display help file. Install Adobe Reader."
 msgstr ""
 "Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe "
 "Reader."
 
-
-#: bwindow_gdk.cc:101
-
+#: src/bwindow_gdk.cc:116
 msgid "side 1"
 msgstr "Flächenseite 1"
 
-#: bwindow_gdk.cc:108
-
+#: src/bwindow_gdk.cc:117
 msgid "side 2"
 msgstr "Flächenseite 2"
 
-
-#: bwindow_gdk.cc:120
-
+#: src/bwindow_gdk.cc:138
 msgid "Printing image..."
-
 msgstr "Bild wird gedruckt"
 
-#: bwindow_gdk.cc:132
-
+#: src/bwindow_gdk.cc:148
 msgid "Details"
 msgstr "Details"
 
-
-#: bwindow_gdk.cc:348
-
+#: src/bwindow_gdk.cc:362
 msgid "Delete"
 msgstr "Löschen"
 
-
-#: bwindow_gdk.cc:414
-
+#: src/bwindow_gdk.cc:420
 msgid "Coloring"
 msgstr "Farben"
 
-
-#: bwindow_gdk.cc:427
+#: src/bwindow_gdk.cc:474 src/bwindow_gdk.cc:2352
 msgid "Gallery"
 msgstr "Galerie"
 
-
-#: bwindow_gdk.cc:429
+#: src/bwindow_gdk.cc:489
 msgid "Info"
 msgstr "Info"
 
+#: src/bwindow_gdk.cc:506
+msgid "Animate"
+msgstr "Film erstellen"
 
-
-#: bwindow_gdk.cc:1674
+#: src/bwindow_gdk.cc:1459
 msgid "Print image"
 msgstr "Bild drucken"
 
-#: bwindow_gdk.cc:1679
+#: src/bwindow_gdk.cc:1464
 msgid "Name:"
 msgstr "Name:"
 
+#: src/bwindow_gdk.cc:2084
+#, fuzzy
+msgid "Save surface"
+msgstr "Fläche öffnen"
 
-#: bwindow_gdk.cc:1738
+#: src/bwindow_gdk.cc:2087
+msgid "Save image and save surface"
+msgstr "Bild und Fläche speichern"
+
+#: src/bwindow_gdk.cc:2089
 msgid "Save image"
 msgstr "Bild speichern"
 
-#: bwindow_gdk.cc:1744
+#: src/bwindow_gdk.cc:2099 src/bwindow_gdk.cc:2234
+msgid "Surfer Script (.pic)"
+msgstr ""
+
+#: src/bwindow_gdk.cc:2104
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-
-#: bwindow_gdk.cc:1757
+#: src/bwindow_gdk.cc:2126 src/bwindow_gdk.cc:2248 src/rotate.cc:789
 msgid "All files"
 msgstr "Alle Dateien"
 
+#: src/bwindow_gdk.cc:2224
+msgid "Open surface"
+msgstr "Fläche öffnen"
 
-#: gallery.cc:207
-msgid ""
-"Select surface - Surfer"
+#: src/bwindow_gdk.cc:2348
+msgid "File"
+msgstr "Datei"
 
+#: src/bwindow_gdk.cc:2349
+msgid "Surface"
+msgstr "Fläche"
+
+#: src/bwindow_gdk.cc:2350
+msgid "Help"
+msgstr "Hilfe"
+
+#: src/bwindow_gdk.cc:2351
+msgid "View"
+msgstr "Ansicht"
+
+#: src/bwindow_gdk.cc:2359
+msgid "Save a copy of this image"
 msgstr ""
-"Fläche auswählen - Surfer"
 
+#: src/bwindow_gdk.cc:2360
+#, fuzzy
+msgid "Save a copy of this surface"
+msgstr "Bild und Fläche speichern"
 
-#: gallery.cc:212
-msgid "Click on a surface, please."
-msgstr ""
-"Bitte auf eine Fläche klicken"
-
-
-#: select.cc:287
+#: src/select.cc:202
 msgid "Transparency"
 msgstr "Transparenz"
 
-#: select.cc:288
+#: src/select.cc:203
 msgid "Thickness"
 msgstr "Materialstärke"
 
-#: select.cc:289
+#: src/select.cc:204
 msgid "Smoothness"
 msgstr "Glanz"
 
-#: select.cc:290
+#: src/select.cc:205
 msgid "Ambient light"
 msgstr "Leuchten"
 
-#: select.cc:291
+#: src/select.cc:206
 msgid "Diffuse light"
 msgstr "Helligkeit"
 
-#: select.cc:292
+#: src/select.cc:207
 msgid "Reflected light"
 msgstr "Reflektion"
 
-#: select.cc:299
+#: src/select.cc:208
+msgid "Resolution of saved image"
+msgstr "Auflösung beim Speichern"
+
+#: src/select.cc:209
+msgid "Resolution while rotating"
+msgstr "Auflösung beim Drehen"
+
+#: src/select.cc:210
+msgid "Maximal resolution when idle"
+msgstr "maximale Auflösung beim Rechnen"
+
+#: src/select.cc:211
+msgid "Anti-aliasing factor"
+msgstr "Antialiasing-Faktor"
+
+#: src/select.cc:212
+msgid "angle"
+msgstr ""
+
+#: src/select.cc:213
+msgid "rotate around x-axis"
+msgstr "Drehung um x-Achse"
+
+#: src/select.cc:214
+msgid "rotate around y-axis"
+msgstr "Drehung um y-Achse"
+
+#: src/select.cc:215
+msgid "rotate around z-axis"
+msgstr "Drehung um z-Achse"
+
+#: src/select.cc:216
+msgid "Video resolution"
+msgstr "Video-Auflösung"
+
+#: src/select.cc:217
+msgid "Video frame rate"
+msgstr "Video-Bildfrequenz"
+
+#: src/select.cc:218
+msgid "Video bit rate"
+msgstr "Video-Datenrate"
+
+#: src/select.cc:219
+msgid "apply changes immediately"
+msgstr "Änderungen sofort anwenden"
+
+#: src/select.cc:226
+#, fuzzy
+msgid "Scene Properties - Surfer"
+msgstr "Eigenschaften"
+
+#: src/select.cc:228
 msgid "Color 1"
 msgstr "Farbe 1"
 
-#: select.cc:300
+#: src/select.cc:229
 msgid "Color 2"
 msgstr "Farbe 2"
 
-#: select.cc:301
+#: src/select.cc:230
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
-#: select.cc:302
+#: src/select.cc:231
 msgid "Illumination"
 msgstr "Beleuchtung"
 
-#: select.cc:303
+#: src/select.cc:232
 msgid "Material"
 msgstr "Material"
 
-#: select.cc:304
+#: src/select.cc:233
+msgid "Position"
+msgstr ""
+
+#: src/select.cc:234
+msgid "Resolution"
+msgstr "Auflösung"
+
+#: src/select.cc:235
 msgid "Special Surf-Code"
 msgstr "extra Surf-Code"
 
-#: select.cc:375
+#: src/select.cc:360
 msgid "Light"
 msgstr "Licht"
 
-#: select.cc:430
+#: src/select.cc:431
 msgid "color of light"
 msgstr "Lichtfarbe"
 
-#: select.cc:431
+#: src/select.cc:432
 msgid "intensity of light"
 msgstr "Lichtintensität"
 
-#: select.cc:432
+#: src/select.cc:433
 msgid "x coordinate"
 msgstr "x-Koordinate"
 
-#: select.cc:433
+#: src/select.cc:434
 msgid "y coordinate"
 msgstr "y-Koordinate"
 
-#: select.cc:434
+#: src/select.cc:435
 msgid "z coordinate"
 msgstr "z-Koordinate"
 
+#: src/gallery.cc:227
+msgid "Select surface - Surfer"
+msgstr "Fläche auswählen - Surfer"
+
+#: src/gallery.cc:232
+msgid "Click on a surface, please."
+msgstr "Bitte auf eine Fläche klicken"
+
+#: src/surfer.cc:105
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
@@ -288,7 +338,6 @@ msgid ""
 "       -s small mode: no fullscreen, no gallery, no information\n"
 "       -V verbose operation\n"
 "       file is a surf or surfer script\n"
-
 msgstr ""
 "Surfer - interaktive Visualisierung algebraischer Geometrie\n"
 "Syntax: surfer [-f] [-h] [-i] [-s] [datei]\n"
@@ -298,76 +347,38 @@ msgstr ""
 "       -s Schrumpfmodus: kein Vollbild, keine Galerie, keine Informationen\n"
 "       datei ist ein Surf-Skript oder eine Surfer-Datei\n"
 
-msgid "Resolution"
-msgstr "Auflösung"
-
-msgid "Resolution of saved image"
-msgstr "Auflösung beim Speichern"
-
-msgid "Resolution while rotating"
-msgstr "Auflösung beim Drehen"
-
-msgid "Maximal resolution when idle"
-msgstr "maximale Auflösung beim Rechnen"
-
-msgid "Anti-aliasing factor"
-msgstr "Antialiasing-Faktor"
-
-msgid "File"
-msgstr "Datei"
-
-msgid "Surface"
-msgstr "Fläche"
-
-msgid "View"
-msgstr "Ansicht"
-
-msgid "Help"
-msgstr "Hilfe"
-
-msgid "Open surface"
-msgstr "Fläche öffnen"
-
-msgid "Save image and save surface"
-msgstr "Bild und Fläche speichern"
-
-msgid "Animate"
-msgstr "Film erstellen"
-
+#: src/rotate.cc:307
 msgid "Video Preview"
 msgstr "Vorschau"
 
-msgid "Duration"
-msgstr "Dauer"
-
+#: src/rotate.cc:327
 msgid "Key Frame"
 msgstr "Key Frame"
 
-msgid "apply changes immediately"
-msgstr "Änderungen sofort anwenden"
+#: src/rotate.cc:328
+msgid "Duration"
+msgstr "Dauer"
 
-msgid "Scene Properties"
-msgstr "Eigenschaften"
+#: src/rotate.cc:753
+#, fuzzy
+msgid "Save video"
+msgstr "Bild speichern"
 
-msgid "rotate around x-axis"
-msgstr "Drehung um x-Achse"
+#: src/rotate.cc:763
+msgid "AVI Video Container (*.avi)"
+msgstr ""
 
-msgid "rotate around y-axis"
-msgstr "Drehung um y-Achse"
+#: src/rotate.cc:770
+msgid "MPEG-4 Video (.mp4)"
+msgstr ""
 
-msgid "rotate around z-axis"
-msgstr "Drehung um z-Achse"
+#: src/rotate.cc:776
+msgid "GIF Animation (.gif)"
+msgstr ""
 
-msgid "Video resolution"
-msgstr "Video-Auflösung"
-
-msgid "Video frame rate"
-msgstr "Video-Bildfrequenz"
-
-
-msgid "Video bit rate"
-msgstr "Video-Datenrate"
-
+#: src/rotate.cc:868
 msgid "File exists. Overwrite?"
 msgstr "Datei überschreiben?"
 
+#~ msgid "Zoom"
+#~ msgstr "Zoom"
