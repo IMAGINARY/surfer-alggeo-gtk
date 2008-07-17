@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer, University of Kaiserslautern   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2007 by Henning Meyer, University of Kaiserslautern     *
+ *   surfer@imaginary2008.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,6 +34,8 @@ extern bool no_gallery;
 extern bool no_log;
 extern bool rewrite_config;
 extern bool no_modify;
+extern bool no_new_features;
+
 
 #ifdef WIN32
 int main (int argc, char *argv[]);
@@ -105,10 +107,11 @@ arg_inspect:
 		_("Surfer - visualizing algebraic geometry\n"
 		"usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
 		"       -f toggles between fullscreen and windowed mode\n"
-                "       -h hides the gallery\n"
+                "       -g hides the gallery\n"
 		"       -i hides the information for gallery entries\n"
                 "       -s small mode: no fullscreen, no gallery, no information\n"
                 "       -V verbose operation\n"
+                "       -t removes animation und multiple surfaces from user interface \n"
                 "       file is a surf or surfer script\n");
 		return 0;
 		
@@ -121,9 +124,17 @@ arg_inspect:
 		goto arg_inspect;
 		
 	}
-	else if(std::string(argv[1])=="-h")
+	else if(std::string(argv[1])=="-g")
 	{
 		no_gallery = !no_gallery;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
+	else if(std::string(argv[1])=="-t")
+	{
+		no_new_features = !no_new_features;
 		argc--;
 		argv++;
 		goto arg_inspect;
@@ -177,6 +188,14 @@ arg_inspect:
 		goto arg_inspect;
 		
 	}
+	else if(std::string(argv[1])=="-m")
+	{
+		no_new_surf_features = !no_new_surf_features;
+		argc--;
+		argv++;
+		goto arg_inspect;
+		
+	}
 	else
 	{
 		personalized = true;
@@ -189,6 +208,8 @@ arg_inspect:
   surfer_options so = default_settings();
 if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
 
+  no_new_surf_features = !so.modified_surf;
+
   if(rewrite_config)
   try{
 	std::ofstream f(optfile.c_str());
@@ -198,6 +219,9 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
   catch(...){}
 
   std::vector<gallery> G =  read_galleries_new(so.gallery_path,so.upscale);
+  std::vector<gallery> Gu =  read_galleries_old(so.user_gallery_path,so.upscale);
+
+  G.insert(G.end(),Gu.begin(),Gu.end());
 
 #ifndef WIN32
 Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));

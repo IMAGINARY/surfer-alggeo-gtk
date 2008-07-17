@@ -1,28 +1,22 @@
 /***************************************************************************
-*   Copyright (C) 2007 by Henning Meyer, University of Kaiserslautern   *
-*   hmeyer@mathematik.uni-kl.de   *
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-***************************************************************************/
-
-
-/* 
-This file contains non-ascii characters, encoding UTF-8.
-
-*/
+ *   Copyright (C) 2007 by Henning Meyer, University of Kaiserslautern     *
+ *   surfer@imaginary2008.de                                               *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 
 #ifndef PRESENTATAION_MODE
@@ -60,6 +54,20 @@ bool no_zero = false;
 bool no_modify = false;
 
 bool no_keys = false;
+bool no_new_features = false;
+
+#ifndef SHIPS_WITH_MODIFIED_SURF
+#ifdef WIN32
+#define SHIPS_WITH_MODIFED_SURF 1
+#else
+#define SHIPS_WITH_MODIFIED_SURF 0
+#endif
+#endif
+
+
+bool no_new_surf_features = !SHIPS_WITH_MODIFIED_SURF;
+
+
 
 #define MOD if(!no_modify)
 
@@ -244,7 +252,10 @@ MOD{
 	m_hscale2.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 	m_hscale3.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 	m_hscale4.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+
+
 	m_vscale.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_vscale.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 }
 
 	m_leave.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_noscreen_clicked));
@@ -324,6 +335,7 @@ MOD{
 		
 		//m_utab.attach(m_new_surface,2,3,3+1,4+1,Gtk::SHRINK,Gtk::SHRINK);
 		
+		if(!no_new_features)
 		m_tool.attach(m_spin,3,4,5,6,Gtk::SHRINK,Gtk::SHRINK);
 
                 m_spin.set_range(1,1);
@@ -483,7 +495,11 @@ MOD{
 			v_ga->modify_base(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
 			}
 
-			if(!no_gallery)m_note.append_page(m_gtab,*v_ga);
+
+			m_gallcon.add(m_gtab);
+			m_gallcon.set_shadow_type(Gtk::SHADOW_NONE);
+			m_gallcon.set_policy(Gtk::POLICY_NEVER,Gtk::POLICY_AUTOMATIC);
+			if(!no_gallery)m_note.append_page(m_gallcon,*v_ga);
 
 
 			Gtk::Label *v_in = new Gtk::Label(_("Info"));
@@ -502,7 +518,8 @@ MOD{
 			if(!no_info)m_note.append_page(m_info,*v_in);
 
 
-			
+			if(!no_new_features)
+			{
 			Gtk::Label *v_ani = new Gtk::Label(_("Animate"));
 
 			MOD {
@@ -517,7 +534,7 @@ MOD{
 
 
 			m_note.append_page(m_ani,*v_ani);
-
+			}
 //			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
 
@@ -555,7 +572,7 @@ MOD{
 				v_eb->signal_button_press_event().connect(sigc::bind(sigc::mem_fun(*this,&SurfBWindow::on_gallery_press_event),i));
 				v_gframe->add(*v_eb);
 				v_im->set_size_request(100,100);
-				v_gframe->set_size_request(120,120);
+				v_gframe->set_size_request(120,119);
 				v_eb->add(*v_im);
 				
 
@@ -1156,7 +1173,7 @@ catch(...){finished=false;}
 		
 	}
 
-	draw_grid();
+
 }
 
 void SurfBWindow::refresh(const std::string& script, const std::string& image, const int aa, bool full)
@@ -1635,7 +1652,9 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	w.raise();
 	//w.fullscreen();
 	Gtk::Main::run(w);
-	data[data_index] = w.ret.data[0];
+
+	data = w.ret.data;
+
 	global_data = w.ret.global_data;;
 
 	current_surf = w.isu;
@@ -2000,62 +2019,6 @@ void SurfBWindow::on_new_surface_clicked()
 
 }
 
-void SurfBWindow::draw_grid()
-{
-	if(!draw_coords) return;
-	if(!m_draw.get_window()) return;
-	matrix<double> R(2,3);
-	R.el(1,1) = 1;
-	R.el(2,2) = 1;
-
-	matrix<double> U = R*global_data.rot;
-
-	Cairo::RefPtr<Cairo::Context> cr = m_draw.get_window()->create_cairo_context();
-    cr->set_line_width(10.0);
-
-    // clip to the area indicated by the expose event so that we only redraw
-    // the portion of the window that needs to be redrawn
-    /*cr->rectangle(event->area.x, event->area.y,
-            event->area.width, event->area.height);
-    cr->clip();*/
-
-    // draw red lines out from the center of the window
-
-Gtk::Allocation allocation = m_draw.get_allocation();
-    const int width = allocation.get_width();
-    const int height = allocation.get_height();
-
-    // coordinates for the center of the window
-    int xc, yc;
-    xc = width / 2;
-    yc = height / 2;
-
-
-    //cr->move_to(0, 0);
-    //cr->line_to(xc, yc);
-    //cr->line_to(0, height);
-    //cr->move_to(xc, yc);
-    //cr->line_to(width, yc);
-    //cr->stroke();
-
-const double c = 100;
-cr->set_line_width(3);
-
-	cr->stroke();
-
-
-        cr->set_source_rgb(0.0, 0.0, 0.8);
-
-	cr->move_to(xc,yc);
-	cr->line_to(xc-c*U.el(1,3),yc+c*U.el(2,3));
-
-
-	//for(unsigned x = 0; x < 10; x++)
-	
-	cr->stroke();
-
-
-}
 
 
 
@@ -2420,17 +2383,7 @@ Glib::ustring ui_info =
 //    "      <toolitem action='HelpManual'/>"
     "      <toolitem action='HelpAbout'/>"
     "  </toolbar>"
-    "  <toolbar  name='StdBar'>"
-    "      <toolitem action='SurfaceNew'/>"
-    "      <toolitem action='SurfaceDelete'/>"
-    "      <separator/>"
     
-    "      <toolitem action='SurfaceEdit'/>"
-    "      <separator/>"
-    "    <toolitem action='FileOpen'/>"
-    "    <toolitem action='FileSave'/>"
-    "  </toolbar>"
-
     "  <toolbar  name='DefaultBar'>"
     "    <toolitem action='FileOpen'/>"
     "    <toolitem action='FileSave'/>"
@@ -2448,11 +2401,6 @@ Glib::ustring ui_info =
     
     "  </toolbar>"
 
-"  <toolbar  name='GalleryBar'>"
-    "    <toolitem action='GalleryPrevious'/>"
-
-    "    <toolitem action='GalleryNext'/>"
-    "  </toolbar>"
 
     "  <toolbar  name='MiniBar'>"
     "      <separator/>"
@@ -2552,6 +2500,8 @@ MOD{pHelpbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
 
 
+if(!no_new_features)
+{
 Gtk::Toolbar* pMiniBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/MiniBar"));
 if(pMiniBar)
 {
@@ -2561,6 +2511,7 @@ pMiniBar->set_show_arrow(false);
 //pMiniBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
 MOD{pMiniBar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
+
 
 
 Gtk::Toolbar* pPropbar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/PropBar")) ;
@@ -2574,6 +2525,9 @@ pPropbar->set_show_arrow(false);
 MOD{pPropbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
 
+
+
+}
 m_utab.attach(m_tool,3,6,4,6,Gtk::FILL,Gtk::SHRINK);
 
 }

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer, University of Kaiserslautern   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2007 by Henning Meyer, University of Kaiserslautern     *
+ *   surfer@imaginary2008.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *

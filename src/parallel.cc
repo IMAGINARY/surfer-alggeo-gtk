@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Henning Meyer   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   surfer@imaginary2008.de   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,6 +28,8 @@
 #endif
 
 int global_num_threads = 1;
+
+
 
 int num_threads_via_omp()
 {
@@ -57,8 +59,14 @@ void init_threads()
 void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt)
 {
 	if(width<1)return;
-	const int n = num_threads();
+	int n = num_threads();
 	
+	if(n>1 && no_new_surf_features)
+	{
+		std::cerr<<_("surfer: multithreaded rendering not supported with this version of surf.")<<std::endl;
+		std::cerr<<_("use version of surf shipped with surfer and activate \"modified_surf=1\" in ")+fix_file("~/.surfer")<<std::endl;
+		n = 1;
+	}
 
 	std::string fbuff;
 	{

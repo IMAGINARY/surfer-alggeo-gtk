@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer   *
- *   hmeyer@mathematik.uni-kl.de   *
+ *   Copyright (C) 2007 by Henning Meyer                                   *
+ *   surfer@imaginary2008.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,9 +26,19 @@
 #define GALLERY_PATH_USE xstr(GALLERY_PATH)
 #endif
 
+#ifndef USER_GALLERY_PATH
+
+#ifdef WIN32
+#define USER_GALLERY_PATH GALLERY_PATH_USE
+#else
+#define USER_GALLERY_PATH "~/surfer_gallery"
+#endif
+
+#endif
 
 #include "bwindow_gdk.hh"
 #include <cstdlib>
+
 
 bool rewrite_config = false;
 
@@ -85,6 +95,7 @@ surfer_options default_settings()
 {
 	surfer_options so;
 	so.gallery_path = GALLERY_PATH_USE;
+	so.user_gallery_path = fix_path(fix_file(USER_GALLERY_PATH));
 
 
 	so.save_cmd = "";
@@ -108,6 +119,10 @@ surfer_options default_settings()
 	so.mencoder_cmd = "";
 	so.ffmpeg_cmd = "";
 	#endif
+
+
+	so.modified_surf = !no_new_surf_features;
+
 	return so;
 }
 
@@ -116,6 +131,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	
 
 	f<<"gallery="<<so.gallery_path<<std::endl;
+	f<<"user_gallery="<<so.gallery_path<<std::endl;
 	f<<"save="<<so.save_cmd<<std::endl;
 	f<<"print="<<so.print_cmd<<std::endl;
 	f<<"format="<<so.format<<std::endl;
@@ -129,6 +145,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"uixml="<<so.ui_xml<<std::endl;
 	f<<"mencoder="<<so.mencoder_cmd<<std::endl;
 	f<<"ffmpeg="<<so.ffmpeg_cmd<<std::endl;
+	f<<"modified_surf="<<so.modified_surf<<std::endl;
 	return f;
 }
 
@@ -174,6 +191,7 @@ surfer_options read_settings_from_file(const std::string& filename)
 
 
 		if(t1 == "gallery") so.gallery_path = fix_file(t2);
+		if(t1 == "user_gallery") so.user_gallery_path = fix_file(t2);
 		if(t1 == "print") so.print_cmd = t2;
 		if(t1 == "save") so.save_cmd = t2;
 		if(t1 == "entryfont") so.entryfont = t2;
@@ -197,6 +215,11 @@ surfer_options read_settings_from_file(const std::string& filename)
 		{
 			std::istringstream iss(t2);
 			iss>>so.upscale;
+		}
+		if(t1 == "modified_surf")
+		{
+			std::istringstream iss(t2);
+			iss>>so.modified_surf;
 		}
 		if(t1=="surf")
 		so.surf_cmd = t2;

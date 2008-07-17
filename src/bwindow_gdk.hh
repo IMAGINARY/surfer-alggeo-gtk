@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Henning Meyer                                   *
- *   hmeyer@mathematik.uni-kl.de                                           *
+ *   surfer@imaginary2008.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -205,6 +205,7 @@ struct surfer_options
 
 	std::string save_cmd;
 	std::string gallery_path;
+	std::string user_gallery_path;
 	int resolution;
 	std::string format;
 
@@ -224,6 +225,8 @@ struct surfer_options
 	int video_frame_rate;
 	int video_resolution;
 	int video_bitrate;
+
+	bool modified_surf;
 };
 
 class ZScale: public Gtk::VScale
@@ -602,7 +605,7 @@ void adjust_visibility();
 Gtk::Table m_tab;
 Gtk::DrawingArea m_draw;
 
-
+Gtk::ScrolledWindow m_gallcon;
 
 AScale m_hscale;
 AScale m_hscale2;
@@ -779,7 +782,7 @@ Glib::RefPtr<Gtk::UIManager> mr_UIM ;
 bool on_button_changed_func(GdkEventButton*);
 
 
-void draw_grid();
+
 
 bool on_key_press_event_func(GdkEventKey* event);
 
@@ -944,7 +947,7 @@ public:
 
 extern bool no_log;
 
-#define QUIET_SURF (std::string((no_log)?(" -q "):("")))
+#define QUIET_SURF (std::string((no_log && !no_new_surf_features)?(" -q "):("")))
 
 
 
@@ -1035,4 +1038,6 @@ extern bool no_log;
 #endif
 
 
+extern bool no_new_surf_features;
 void log_system(const std::string& s);
+

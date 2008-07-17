@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Henning Meyer                                   *
- *   hmeyer@mathematik.uni-kl.de                                           *
+ *   surfer@imaginary2008.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,7 +28,7 @@ bool no_modify_gallery = true;
 #define MOD if(!no_modify_gallery)
 
 
-bool ignore_bg_in_gallery = true;
+bool ignore_bg_in_gallery = false;
 
 std::string basename(const std::string& ff)
 {
@@ -125,8 +125,8 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 	}
 	
 
-	std::ofstream F((path+DIR_SEP+name+".txt").c_str());
-	write_gallery_file(F,G);
+	//std::ofstream F((path+DIR_SEP+name+".txt").c_str());
+	//write_gallery_file(F,G);
 	return G;
 
 }

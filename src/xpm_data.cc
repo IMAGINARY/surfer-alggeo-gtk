@@ -1,5 +1,5 @@
 /* XPM */
-char * BMBF_RGB_Gef_M_xpm[] = {
+const char * BMBF_RGB_Gef_M_xpm[] = {
 "169 120 294 2",
 "  	c #FFFFFF",
 ". 	c #FEFEFE",
@@ -416,7 +416,7 @@ char * BMBF_RGB_Gef_M_xpm[] = {
 "                                                                                                                                                                                                                                                                                                                                                  ",
 "                                                                                                                                                                                                                                                                                                                                                  "};
 /* XPM */
-char * mfo_logo_xpm[] = {
+const char * mfo_logo_xpm[] = {
 "49 70 187 2",
 "  	c #FEFEFE",
 ". 	c #EDEDED",
@@ -677,7 +677,7 @@ char * mfo_logo_xpm[] = {
 "                                                                                                  "};
 
 /* XPM */
-char * surfer_small_xpm[] = {
+const char * surfer_small_xpm[] = {
 "55 55 1039 2",
 "  	c None",
 ". 	c None",
@@ -1775,7 +1775,7 @@ char * surfer_small_xpm[] = {
 ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "};
 
 /* XPM */
-char * logo_wissenschaftsjahr08_xpm[] = {
+const char * logo_wissenschaftsjahr08_xpm[] = {
 "190 95 115 2",
 "  	c #211818",
 ". 	c #211821",
@@ -1990,7 +1990,7 @@ char * logo_wissenschaftsjahr08_xpm[] = {
 
 
 /* XPM */
-char * BMBF_JM_Alles_xpm[] = {
+const char * BMBF_JM_Alles_xpm[] = {
 "190 97 560 2",
 "  	c #FFFFFF",
 ". 	c #DCDCDC",
@@ -2655,7 +2655,7 @@ char * BMBF_JM_Alles_xpm[] = {
 
 
 /* XPM */
-char * surfer_xpm[] = {
+const char * surfer_xpm[] = {
 "48 48 1112 2",
 "  	c None",
 ". 	c #9DAF47",
