@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2008-06-28 21:14+0200\n"
+"POT-Creation-Date: 2008-07-18 12:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,99 +70,99 @@ msgstr ""
 msgid "Could not display help file. Install Adobe Reader."
 msgstr ""
 
-#: src/bwindow_gdk.cc:117
+#: src/bwindow_gdk.cc:124
 msgid "side 1"
 msgstr ""
 
-#: src/bwindow_gdk.cc:118
+#: src/bwindow_gdk.cc:125
 msgid "side 2"
 msgstr ""
 
-#: src/bwindow_gdk.cc:139
+#: src/bwindow_gdk.cc:146
 msgid "Printing image..."
 msgstr ""
 
-#: src/bwindow_gdk.cc:149
+#: src/bwindow_gdk.cc:156
 msgid "Details"
 msgstr ""
 
-#: src/bwindow_gdk.cc:367
+#: src/bwindow_gdk.cc:377
 msgid "Delete"
 msgstr ""
 
-#: src/bwindow_gdk.cc:425
+#: src/bwindow_gdk.cc:435
 msgid "Coloring"
 msgstr ""
 
-#: src/bwindow_gdk.cc:479 src/bwindow_gdk.cc:2308
+#: src/bwindow_gdk.cc:489 src/bwindow_gdk.cc:2318
 msgid "Gallery"
 msgstr ""
 
-#: src/bwindow_gdk.cc:498
+#: src/bwindow_gdk.cc:508
 msgid "Info"
 msgstr ""
 
-#: src/bwindow_gdk.cc:516
+#: src/bwindow_gdk.cc:526
 msgid "Animate"
 msgstr ""
 
-#: src/bwindow_gdk.cc:1469
+#: src/bwindow_gdk.cc:1479
 msgid "Print image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:1474
+#: src/bwindow_gdk.cc:1484
 msgid "Name:"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2040
+#: src/bwindow_gdk.cc:2050
 msgid "Save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2043
+#: src/bwindow_gdk.cc:2053
 msgid "Save image and save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2045
+#: src/bwindow_gdk.cc:2055
 msgid "Save image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2055 src/bwindow_gdk.cc:2190
+#: src/bwindow_gdk.cc:2065 src/bwindow_gdk.cc:2200
 msgid "Surfer Script (.pic)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2060
+#: src/bwindow_gdk.cc:2070
 msgid "Portable Network Graphics (.png)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2082 src/bwindow_gdk.cc:2204 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2092 src/bwindow_gdk.cc:2214 src/rotate.cc:789
 msgid "All files"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2180
+#: src/bwindow_gdk.cc:2190
 msgid "Open surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2304
+#: src/bwindow_gdk.cc:2314
 msgid "File"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2305
+#: src/bwindow_gdk.cc:2315
 msgid "Surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2306
+#: src/bwindow_gdk.cc:2316
 msgid "Help"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2307
+#: src/bwindow_gdk.cc:2317
 msgid "View"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2315
+#: src/bwindow_gdk.cc:2325
 msgid "Save a copy of this image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2316
+#: src/bwindow_gdk.cc:2326
 msgid "Save a copy of this surface"
 msgstr ""
 
@@ -306,7 +306,7 @@ msgstr ""
 msgid "Click on a surface, please."
 msgstr ""
 
-#: src/surfer.cc:106
+#: src/surfer.cc:107
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"

@@ -259,7 +259,7 @@ MOD{
 	m_vscale.modify_fg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 	m_vscale.modify_text(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 }
-}
+
 
 	m_leave.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_noscreen_clicked));
 	m_save.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_save_clicked));
