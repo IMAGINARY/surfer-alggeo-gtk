@@ -27,12 +27,14 @@ these packages usually end in -dev or -devel (e.g. zlib-devel). You need to inst
 
 (You may skip this step if you already have surf installed)
 
-You find the source for surf in the subdirectory
-./surf-rev-55/
+You find the source for surf in the tarball
+./surf-for-surfer.tar.gz
 
 type the following commands
 to install surf
 
+gunzip surf-for-surfer.tar.gz
+tar xvf surf-for-surfer.tar
 cd ./surf-rev-55
 ./configure --disable-gui
 make

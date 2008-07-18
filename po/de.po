@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2008-05-05 18:43+0200\n"
+"POT-Creation-Date: 2008-06-28 21:14+0200\n"
 "PO-Revision-Date: $Date$Last-Translator: Henning Meyer <hmeyer@mathematik."
 "uni-kl.de>\n"
 "Language-Team: German <surfer@imaginary2008.de>\n"
@@ -89,100 +89,100 @@ msgstr ""
 "Die Hilfe-Datei kann nicht angezeigt werden. Installieren Sie den Adobe "
 "Reader."
 
-#: src/bwindow_gdk.cc:116
+#: src/bwindow_gdk.cc:117
 msgid "side 1"
 msgstr "Flächenseite 1"
 
-#: src/bwindow_gdk.cc:117
+#: src/bwindow_gdk.cc:118
 msgid "side 2"
 msgstr "Flächenseite 2"
 
-#: src/bwindow_gdk.cc:138
+#: src/bwindow_gdk.cc:139
 msgid "Printing image..."
 msgstr "Bild wird gedruckt"
 
-#: src/bwindow_gdk.cc:148
+#: src/bwindow_gdk.cc:149
 msgid "Details"
 msgstr "Details"
 
-#: src/bwindow_gdk.cc:362
+#: src/bwindow_gdk.cc:367
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/bwindow_gdk.cc:420
+#: src/bwindow_gdk.cc:425
 msgid "Coloring"
 msgstr "Farben"
 
-#: src/bwindow_gdk.cc:474 src/bwindow_gdk.cc:2352
+#: src/bwindow_gdk.cc:479 src/bwindow_gdk.cc:2308
 msgid "Gallery"
 msgstr "Galerie"
 
-#: src/bwindow_gdk.cc:489
+#: src/bwindow_gdk.cc:498
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:506
+#: src/bwindow_gdk.cc:516
 msgid "Animate"
 msgstr "Film erstellen"
 
-#: src/bwindow_gdk.cc:1459
+#: src/bwindow_gdk.cc:1469
 msgid "Print image"
 msgstr "Bild drucken"
 
-#: src/bwindow_gdk.cc:1464
+#: src/bwindow_gdk.cc:1474
 msgid "Name:"
 msgstr "Name:"
 
-#: src/bwindow_gdk.cc:2084
+#: src/bwindow_gdk.cc:2040
 #, fuzzy
 msgid "Save surface"
 msgstr "Fläche öffnen"
 
-#: src/bwindow_gdk.cc:2087
+#: src/bwindow_gdk.cc:2043
 msgid "Save image and save surface"
 msgstr "Bild und Fläche speichern"
 
-#: src/bwindow_gdk.cc:2089
+#: src/bwindow_gdk.cc:2045
 msgid "Save image"
 msgstr "Bild speichern"
 
-#: src/bwindow_gdk.cc:2099 src/bwindow_gdk.cc:2234
+#: src/bwindow_gdk.cc:2055 src/bwindow_gdk.cc:2190
 msgid "Surfer Script (.pic)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2104
+#: src/bwindow_gdk.cc:2060
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2126 src/bwindow_gdk.cc:2248 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2082 src/bwindow_gdk.cc:2204 src/rotate.cc:789
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/bwindow_gdk.cc:2224
+#: src/bwindow_gdk.cc:2180
 msgid "Open surface"
 msgstr "Fläche öffnen"
 
-#: src/bwindow_gdk.cc:2348
+#: src/bwindow_gdk.cc:2304
 msgid "File"
 msgstr "Datei"
 
-#: src/bwindow_gdk.cc:2349
+#: src/bwindow_gdk.cc:2305
 msgid "Surface"
 msgstr "Fläche"
 
-#: src/bwindow_gdk.cc:2350
+#: src/bwindow_gdk.cc:2306
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/bwindow_gdk.cc:2351
+#: src/bwindow_gdk.cc:2307
 msgid "View"
 msgstr "Ansicht"
 
-#: src/bwindow_gdk.cc:2359
+#: src/bwindow_gdk.cc:2315
 msgid "Save a copy of this image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2360
+#: src/bwindow_gdk.cc:2316
 #, fuzzy
 msgid "Save a copy of this surface"
 msgstr "Bild und Fläche speichern"
@@ -328,15 +328,17 @@ msgstr "Fläche auswählen - Surfer"
 msgid "Click on a surface, please."
 msgstr "Bitte auf eine Fläche klicken"
 
-#: src/surfer.cc:105
+#: src/surfer.cc:106
+#, fuzzy
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
 "       -f toggles between fullscreen and windowed mode\n"
-"       -h hides the gallery\n"
+"       -g hides the gallery\n"
 "       -i hides the information for gallery entries\n"
 "       -s small mode: no fullscreen, no gallery, no information\n"
 "       -V verbose operation\n"
+"       -t removes animation und multiple surfaces from user interface \n"
 "       file is a surf or surfer script\n"
 msgstr ""
 "Surfer - interaktive Visualisierung algebraischer Geometrie\n"

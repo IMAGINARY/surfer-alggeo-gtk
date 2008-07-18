@@ -32,18 +32,20 @@ libx11  (use Apple's X11 SDK)
 flex    (port install flex)
 
 
-
-You find the source for surf in the subdirectory
-./surf-rev-55/
+You find the source for surf in the tarball
+./surf-for-surfer.tar.gz
 
 type the following commands
 to install surf
 
+gunzip surf-for-surfer.tar.gz
+tar xvf surf-for-surfer.tar
 cd ./surf-rev-55
 ./configure --disable-gui
 make
 sudo make install
 cd ..
+
 
  [Optional] You might want to:
  * add compiler flags to increase optimization for speed (e.g. -O4 -march=pentium4)
