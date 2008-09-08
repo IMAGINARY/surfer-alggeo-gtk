@@ -58,7 +58,7 @@ Users of other linux distributions or other Unix-based systems use their respect
 Caution: You need not only binary packets, but also libraries and headers used for development,
 these packages usually end in -dev or -devel. You need to install BOTH.
 The name of the gtkmm package might be something like gtkmm, libgtkmm, gtmm-2.4, libgtkmm24.
-Make sure you install gtkmm and development files for gtkmm which are AT LEAST VERSION 2.8.
+Make sure you install gtkmm and development files for gtkmm which are AT LEAST VERSION 2.10, version 2.12 would be even better.
 
 You find the source for Surfer in the subdirectory
 ./surfer-0.0.XXX where XXX is some number

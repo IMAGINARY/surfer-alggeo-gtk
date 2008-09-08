@@ -22,24 +22,24 @@ make
 sudo make install
 
 This will fail if you don't have the necessary libraries installed,
-Surfer depends on Gtk-- 2.8, the corresponding package will be called something like
+Surfer depends on Gtkmm 2.10, the corresponding package will be called something like
 gtkmm2.4-dev or gtkmm-2.4-dev.
-It may happen, that your version of gtkmm does not need cairo,
-the configure script assumes that you need cairo and fails if doesn't find cairo.
-In that case, type
+
+If you have problems compiling Surfer, you may try to ignore the makefile
+and use the following command:
 g++ -o surfer src/*.cc `pkg-config --cflags --libs gtkmm-2.4`
 
 
 Compiling with multicore support:
 
-If your compiler supports OpenMP, then you should pass the options enabling OpenMP
-to the configure script.
+If your compiler supports OpenMP *and* you use the version of surf shipped with Surfer,
+then you should pass the options enabling OpenMP to the configure script.
 
 Example:
 g++ has support for OpenMP beginning with version 4.2
-If you are using g++ (the executable might be called g++-4.2) then issue the following command
+If you are using g++ then issue the following command
 
-CXX="g++-4.2" CXXFLAGS="-fopenmp" ./configure
+CXX="g++" CXXFLAGS="-fopenmp" ./configure
 
 instead of ./configure as described above.
 
@@ -53,20 +53,27 @@ where you can modify the following options
 
 gallery=   path to gallery files for surf
 
-print=     issue a command here that prints an image. The sign # will be replaced by the image file to be printed.
-           for example
-           print=convert # print.ps ; lpr print.ps
-
 surf=      the command to invoke surf
 
-upscale=   values greater than 1.0 increase resolution, values smaller than 1.0 increase performance
+mencoder=  command to invoke mencoder, if you wish to create movies with surfer
+ffmpeg=    command to invoke ffmpeg, if you wish to create movies with surfer
+
+modified_surf=  To take advantage of multiple processors, we modified the source code
+                for surf such that surf now supports the option "--clip_to". If you use
+                a version of surf which does not support this option, set modified_surf=0.
 
 
 COMMAND LINE ARGUMENTS
 usage:
-surfer [-f] [file]
+surfer [-f] [-h] [-i] [-s] [-V] [file]
+
 where
--f     toggles between fullscreen and windowed mode
-file   is a surf script containing the surface to be visualized
-       if file is -, then Surfer will read standard input
+       -f toggles between fullscreen and windowed mode
+       -g hides the gallery
+       -i hides the information for gallery entries
+       -s small mode: no fullscreen, no gallery, no information
+       -V verbose operation
+       -t removes animation und multiple surfaces from user interface
+       file is a surf or surfer script
+
 

@@ -2,94 +2,27 @@ SURFER
 Interactive Visualization of Algebraic Geometry
 
 
-QUICK INSTALLATION INSTRUCTIONS
+INSTALLATION INSTRUCTIONS
 
 This guide explains how to install Surfer on your Mac OS X or Darwin system.
 
+You find fink at   http://www.finkproject.org/.
 
-First Step:
+To use fink, you need Mac OS X 10.4 or later.
 
-Install MacPorts.
-MacPorts provides the necessary libraries used by Surfer and its renderer, Surf.
-You find MacPorts and installation instructions for MacPorts under
-http://www.macports.org/install.php
+Install fink, and then type
 
-Make sure that you add "/opt/local/bin" to your path.
+sudo fink install surfer
 
-(At this moment, there is no Surfer package for MacPorts available, so you will compile the sources manually.)
-
-Second Step:
-
-Install Surf.
-(You may skip this step if you are sure that you already installed surf via fink.)
-
-surf depends on the following packages:
-gmp     (port install gmp)
-libtiff (port install tiff)
-libjpeg (port install jpeg)
-zlib    (port install zlib)
-libx11  (use Apple's X11 SDK)
-flex    (port install flex)
+or use a graphical front-end like FinkCommander.
 
 
-You find the source for surf in the tarball
-./surf-for-surfer.tar.gz
-
-type the following commands
-to install surf
-
-gunzip surf-for-surfer.tar.gz
-tar xvf surf-for-surfer.tar
-cd ./surf-rev-55
-./configure --disable-gui
-make
-sudo make install
-cd ..
+Note:
+It is possible to compile surfer manually on Mac OS X or Darwin
+via the packages provided by Fink or MacPorts,
+follow the instructions in INSTALL.linux.
 
 
- [Optional] You might want to:
- * add compiler flags to increase optimization for speed (e.g. -O4 -march=pentium4)
- * remove the "--disable-gui"-flag to compile surf with a GTK+-1.2-based user interface.
-  This will add several dependencies on GTK+ and X11 development libraries.
-
-Third Step:
-Install the graphical interface Surfer:
-
-Surfer depends on
-gtkmm-2.4 (port install gtkmm)
-
-Warning: Installing gtkmm may take several hours, even on a recent machine.
-Have patience.
-
-You find the source for Surfer in the subdirectory
-./surfer-0.0.XXX/ where XXX is some number
-
-type the following commands
-to install surfer
-
-cd ./surfer-0.0.*
-./configure
-make
-sudo make install
-cd ..
-
- [Optional] You might want to:
- * add compiler flags to enable OpenMP support if you are on a multiprocessor or multicore system
-   See surfer-0.0.*/README for details on that.
-
-Fourth Step:
-Enable gallery files for surfer:
-Type
-
-sudo make gallery-install
-
-
-That's it.
-
-
-You should now be able to start Surfer by typing "surfer" into a terminal.
-
-Surfer should display a gallery of algebraic surfaces upon start.
 -----------------
 
 You find additional instructions in the

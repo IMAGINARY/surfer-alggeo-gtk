@@ -44,5 +44,5 @@ mkdir -p archive
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 cp $LATEX_FILE.ps archive/$timestamp.ps
 cp $1 archive/$timestamp.png
-cp /tmp/usersurfb_f_p.pic archive/$timestamp.pic
+cp /tmp/$USER""surfb_f_p.pic archive/$timestamp.pic
 
