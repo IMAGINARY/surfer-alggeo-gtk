@@ -24,11 +24,11 @@ extern std::string revstring;
 extern std::string datestring;
 
 
-extern char * BMBF_RGB_Gef_M_xpm[];
-extern char * mfo_logo_xpm[] ;
-extern char * surfer_small_xpm[] ;
-extern char * logo_wissenschaftsjahr08_xpm[] ;
-extern char * BMBF_JM_Alles_xpm[];
+extern const char* BMBF_RGB_Gef_M_xpm[];
+extern const char* mfo_logo_xpm[] ;
+extern const char* surfer_small_xpm[] ;
+extern const char* logo_wissenschaftsjahr08_xpm[];
+extern const char* BMBF_JM_Alles_xpm[];
 
 std::string get_revision()
 {
