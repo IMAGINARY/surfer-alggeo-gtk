@@ -34,7 +34,7 @@ std::string GetTempPath()
 	for( int i = 0; i < MAX_PATH - 1; i++ )
 		temp_path[ i ] = ' ';
 	temp_path[ MAX_PATH - 1 ] = '\0';
-	SHGetSpecialFolderPath( 0, temp_path, CSIDL_APPDATA, TRUE );
+	SHGetSpecialFolderPath( 0, temp_path, CSIDL_COMMON_APPDATA, TRUE );
 
 	// create surfer-directory
 	wcscat( temp_path , L"\\Surfer" );

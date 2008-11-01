@@ -178,13 +178,14 @@ w_sfx(*this)
 
 	m_draw.set_size_request(100, 100);
 	
-	m_colors.set_size_request(200, 200);
-	m_colors_inside.set_size_request(200, 200);
+	m_colors.set_size_request(COLORTABLE_SIZE, COLORTABLE_SIZE);
+	m_colors_inside.set_size_request(COLORTABLE_SIZE, COLORTABLE_SIZE);
 	
 		
 	if(!opt.entryfont.empty()) m_entry.modify_font(Pango::FontDescription(opt.entryfont));
 
-	
+	m_inside_image = make_colortable(true,inside_buffer);
+	m_outside_image = make_colortable(false,outside_buffer);
 
 	this->signal_key_press_event().connect( sigc::mem_fun(*this, &SurfBWindow::on_key_press_event_func) );
 
@@ -648,11 +649,11 @@ color_double colormap(double bx, double by, double Z)
 {
 	color_double c;
 	double x = bx/2;
-	double y = 100-by/2;
+	double y = COLORTABLE_SIZE/2.-by/2.;
 	
-		double l1 = x/100.;
+		double l1 = x/(COLORTABLE_SIZE/2.);
 		double l2 = 1 - l1;
-		double u1 = y/100.;
+		double u1 = y/(COLORTABLE_SIZE/2.);
 		double u2 = 1 - u1;
 
 
@@ -1201,25 +1202,16 @@ bool SurfBWindow::on_inside_expose_event_func(GdkEventExpose*)
 	
 
 	Glib::RefPtr<Gdk::Window> window = m_colors_inside.get_window();
-		
+	if(window)
+	{
 	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
 		//some_gc.create(get_window());
 		
 	
 	Glib::RefPtr<Gdk::Drawable> dr(window);
 
-
-	for(double x= 0; x <= 200; x = x+1)
-		for(double y= 0; y <= 200; y = y+1)
-	{
-		Gdk::Color nc = colormap(x,200-y).gdk_colors();
-		
-
-		some_gc->set_rgb_fg_color(nc);
-		dr->draw_point(some_gc,int(x),int(y));		
-		
+	m_inside_image->render_to_drawable(dr,some_gc,0,0,0,0,COLORTABLE_SIZE,COLORTABLE_SIZE,Gdk::RGB_DITHER_NONE,0,0);
 	}
-
 	return true;
 }
 
@@ -1242,7 +1234,7 @@ bool SurfBWindow::on_inside_button_press_event_func(GdkEventButton* event)
 		y = event->y;
 	
 	//std::c
-		data[data_index].inside = colormap(x,200-y).surf_colors();
+		data[data_index].inside = colormap(x,COLORTABLE_SIZE-y).surf_colors();
 		
 		button_down = true;
 		pichange = 5;
@@ -1263,7 +1255,7 @@ bool SurfBWindow::on_inside_button_release_event_func(GdkEventButton* event)
 	x = event->x;
 	y = event->y;
 	
-	data[data_index].inside = colormap(x,200-y).surf_colors();
+	data[data_index].inside = colormap(x,COLORTABLE_SIZE-y).surf_colors();
 	
 
 	pichange = 3;
@@ -1289,7 +1281,7 @@ bool SurfBWindow::on_inside_motion_notify_event_func(GdkEventMotion* event)
 
 
 
-	data[data_index].inside = colormap(x,200-y).surf_colors();
+	data[data_index].inside = colormap(x,COLORTABLE_SIZE-y).surf_colors();
 		
 
 
@@ -2543,7 +2535,8 @@ bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
 	
 	
 	Glib::RefPtr<Gdk::Window> window = m_colors.get_window();
-		
+	if(window)
+	{		
 	Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
 		//some_gc.create(get_window());
 		
@@ -2552,19 +2545,8 @@ bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
 
 
 	
+	m_outside_image->render_to_drawable(dr,some_gc,0,0,0,0,COLORTABLE_SIZE,COLORTABLE_SIZE,Gdk::RGB_DITHER_NONE,0,0);
 
-	//return true;
-
-	for(double x= 0; x <= 200; x = x+1)
-		for(double y= 0; y <= 200; y = y+1)
-	{
-		
-		Gdk::Color nc = colormap(x,y).gdk_colors();
-		
-
-		some_gc->set_rgb_fg_color(nc);
-		dr->draw_point(some_gc,int(x),int(y));		
-		
 	}
 
 	return true;
@@ -2575,6 +2557,46 @@ bool SurfBWindow::on_color_expose_event_func(GdkEventExpose*)
 
 
 
+
+
+
+Glib::RefPtr<Gdk::Pixbuf> make_colortable(bool flip, rgb_triplet buffer[COLORTABLE_SIZE][COLORTABLE_SIZE])
+{
+	
+
+	//Glib::RefPtr<Gdk::Window> window = m_colors_inside.get_window();
+		
+	//Glib::RefPtr<Gdk::GC> some_gc = Gdk::GC::create(get_window());
+		//some_gc.create(get_window());
+		
+	
+	//Glib::RefPtr<Gdk::Drawable> dr(window);
+
+	typedef unsigned char rgb_triplet[3];
+
+	;
+
+
+	for(int x= 0; x < COLORTABLE_SIZE; x = x+1)
+		for(int y= 0; y < COLORTABLE_SIZE; y = y+1)
+	{
+		Gdk::Color nc = colormap(x,(!flip)?y:(COLORTABLE_SIZE-y)).gdk_colors();
+		
+
+		//some_gc->set_rgb_fg_color(nc);
+		//dr->draw_point(some_gc,int(x),int(y));	
+
+		buffer[y][x][0] = nc.get_red() / 256;
+		buffer[y][x][1] = nc.get_green() / 256;
+		buffer[y][x][2] = nc.get_blue() / 256;
+		
+	}
+
+	Glib::RefPtr<Gdk::Pixbuf> f = Gdk::Pixbuf::create_from_data(&buffer[0][0][0],Gdk::COLORSPACE_RGB,false,8,COLORTABLE_SIZE,COLORTABLE_SIZE,3*COLORTABLE_SIZE);
+	f->save("/tmp/fa.png","png");
+	return f;
+
+}
 
 
 

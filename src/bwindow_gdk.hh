@@ -557,8 +557,13 @@ void ani_add();
 
 
 
+typedef unsigned char rgb_triplet[3];
 
+#ifndef COLORTABLE_SIZE
+#define COLORTABLE_SIZE 250
+#endif
 
+Glib::RefPtr<Gdk::Pixbuf> make_colortable(bool flip,rgb_triplet buffer[COLORTABLE_SIZE][COLORTABLE_SIZE]);
 
 class SurfBWindow : public Gtk::Window
 {
@@ -794,6 +799,12 @@ friend class SpecialEffects;
 AniWindow m_ani;
 SpecialEffects w_sfx;
 
+
+
+rgb_triplet inside_buffer[COLORTABLE_SIZE][COLORTABLE_SIZE];
+rgb_triplet outside_buffer[COLORTABLE_SIZE][COLORTABLE_SIZE];
+Glib::RefPtr<Gdk::Pixbuf> m_inside_image;
+Glib::RefPtr<Gdk::Pixbuf> m_outside_image;
 
 };
 

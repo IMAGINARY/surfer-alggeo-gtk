@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer 0.1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2008-07-18 12:21+0200\n"
-"PO-Revision-Date: 2008-07-18 12:21+0200\n"
+"POT-Creation-Date: 2008-11-01 13:43+0100\n"
+"PO-Revision-Date: 2008-11-01 13:43+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -129,83 +129,83 @@ msgstr "Printing image..."
 msgid "Details"
 msgstr "Details"
 
-#: src/bwindow_gdk.cc:377
+#: src/bwindow_gdk.cc:378
 msgid "Delete"
 msgstr "Delete"
 
-#: src/bwindow_gdk.cc:435
+#: src/bwindow_gdk.cc:436
 msgid "Coloring"
 msgstr "Coloring"
 
-#: src/bwindow_gdk.cc:489 src/bwindow_gdk.cc:2318
+#: src/bwindow_gdk.cc:490 src/bwindow_gdk.cc:2310
 msgid "Gallery"
 msgstr "Gallery"
 
-#: src/bwindow_gdk.cc:508
+#: src/bwindow_gdk.cc:509
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:526
+#: src/bwindow_gdk.cc:527
 msgid "Animate"
 msgstr "Animate"
 
-#: src/bwindow_gdk.cc:1479
+#: src/bwindow_gdk.cc:1471
 msgid "Print image"
 msgstr "Print image"
 
-#: src/bwindow_gdk.cc:1484
+#: src/bwindow_gdk.cc:1476
 msgid "Name:"
 msgstr "Name:"
 
-#: src/bwindow_gdk.cc:2050
+#: src/bwindow_gdk.cc:2042
 msgid "Save surface"
 msgstr "Save surface"
 
-#: src/bwindow_gdk.cc:2053
+#: src/bwindow_gdk.cc:2045
 msgid "Save image and save surface"
 msgstr "Save image and save surface"
 
-#: src/bwindow_gdk.cc:2055
+#: src/bwindow_gdk.cc:2047
 msgid "Save image"
 msgstr "Save image"
 
-#: src/bwindow_gdk.cc:2065 src/bwindow_gdk.cc:2200
+#: src/bwindow_gdk.cc:2057 src/bwindow_gdk.cc:2192
 msgid "Surfer Script (.pic)"
 msgstr "Surfer Script (.pic)"
 
-#: src/bwindow_gdk.cc:2070
+#: src/bwindow_gdk.cc:2062
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2092 src/bwindow_gdk.cc:2214 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2084 src/bwindow_gdk.cc:2206 src/rotate.cc:789
 msgid "All files"
 msgstr "All files"
 
-#: src/bwindow_gdk.cc:2190
+#: src/bwindow_gdk.cc:2182
 msgid "Open surface"
 msgstr "Open surface"
 
-#: src/bwindow_gdk.cc:2314
+#: src/bwindow_gdk.cc:2306
 msgid "File"
 msgstr "File"
 
-#: src/bwindow_gdk.cc:2315
+#: src/bwindow_gdk.cc:2307
 msgid "Surface"
 msgstr "Surface"
 
-#: src/bwindow_gdk.cc:2316
+#: src/bwindow_gdk.cc:2308
 msgid "Help"
 msgstr "Help"
 
-#: src/bwindow_gdk.cc:2317
+#: src/bwindow_gdk.cc:2309
 msgid "View"
 msgstr "View"
 
-#: src/bwindow_gdk.cc:2325
+#: src/bwindow_gdk.cc:2317
 msgid "Save a copy of this image"
 msgstr "Save a copy of this image"
 
-#: src/bwindow_gdk.cc:2326
+#: src/bwindow_gdk.cc:2318
 msgid "Save a copy of this surface"
 msgstr "Save a copy of this surface"
 
