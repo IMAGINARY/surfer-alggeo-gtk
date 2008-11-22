@@ -4,7 +4,7 @@
 # $2 ist die Datei mit der Formel
 # $3 ist die Datei mit dem Namen
 
-HERE="/home/hmeyer/IMAGINARY/surfer/trunk/linux-src/printing"
+HERE="." # hier muss der Ordner angegeben werden, der die .tex-Dateien und dies Skript enthaelt
 IMAGE_FILE=$HERE/image.png
 FORMULA_FILE=$HERE/formula.tex
 LATEX_FILE_N_NAME=$HERE/surfer_print
@@ -18,6 +18,9 @@ echo $2
 echo $3
 
 echo printing
+
+if ! test -e $FORMULA_FILE ; then
+echo bitte HERE= im Skript aendern; fi
 
 cp $1 $IMAGE_FILE
 cat $2 | $HERE/texify.pl > $FORMULA_FILE
@@ -37,7 +40,7 @@ LATEX_FILE=$LATEX_FILE_N_NAME
 fi
 
 latex -interaction=nonstopmode $LATEX_FILE.tex
-dvips $LATEX_FILE.dvi
+dvips -t a5 $LATEX_FILE.dvi
 lpr   $LATEX_FILE.ps;
 
 mkdir -p archive
