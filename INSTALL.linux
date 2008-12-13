@@ -6,6 +6,11 @@ QUICK INSTALLATION INSTRUCTIONS
 
 This guide explains how to install Surfer on your linux system.
 
+The minimal (i.e. least recent) configuration to compile surfer is (gtkmm 2.8, gcc 4.0).
+
+Surfer has been successfully compiled on Ubuntu GNU/Linux (6.06 and later), Mac OS X (10.4 or later, gtkmm 2.10 or later via fink or macports),
+Debian GNU/Linux (etch and lenny).
+
 
 First Step:
 
@@ -76,12 +81,6 @@ cd ..
  * add compiler flags to enable OpenMP support if you are on a multiprocessor or multicore system
    See surfer-0.0.*/README for details on that.
 
-Third Step:
-Enable gallery files for Surfer.
-
-Type the following command
-
-sudo make gallery-install
 
 That's it.
 You should now be able to run Surfer by typing "surfer".

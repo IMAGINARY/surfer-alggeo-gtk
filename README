@@ -22,7 +22,7 @@ make
 sudo make install
 
 This will fail if you don't have the necessary libraries installed,
-Surfer depends on Gtkmm 2.10, the corresponding package will be called something like
+Surfer depends on Gtkmm 2.8, the corresponding package will be called something like
 gtkmm2.4-dev or gtkmm-2.4-dev.
 
 If you have problems compiling Surfer, you may try to ignore the makefile

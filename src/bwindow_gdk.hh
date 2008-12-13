@@ -306,12 +306,17 @@ void set_light(const surf_light& L);
 surf_light get_light() const;
 
 virtual void on_light_changed() {
-m_vol.update();
+#ifndef NO_MORE_WEIRD_CRASH
+return;
+#endif
+
+	m_vol.update();
 	m_x.update();
 	m_y.update();
 	m_z.update();
 
-light_changed.emit();}
+light_changed.emit();
+}
 
 sigc::signal<void>& signal_light_changed() {return light_changed;}
 
