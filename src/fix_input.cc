@@ -80,10 +80,10 @@ std::string fix_input_for_display(const std::string& s)
 	if(s.substr(2) == "1*") return(s.substr(2,s.size()-2));
 	
 	std::string t = s;
-	while(t.find("+1*") != -1L)
+	while(t.find("+1*") != std::string::npos)
 	t=t.replace(t.find("+1*"),3,"+");
 
-	while(t.find("-1*") != -1L)
+	while(t.find("-1*") != std::string::npos)
 	t=t.replace(t.find("-1*"),3,"-");
 
 	return t;
@@ -94,35 +94,35 @@ std::string fix_input_for_surf(const std::string& s)
 {
 	
 	std::string t = s;
-	while(t.find("-x") != -1L)
+	while(t.find("-x") != std::string::npos)
 	t=t.replace(t.find("-x"),2,"-1*x");
 
-	while(t.find("-y") != -1L)
+	while(t.find("-y") != std::string::npos)
 	t=t.replace(t.find("-y"),2,"-1*y");
 
-	while(t.find("-z") != -1L)
+	while(t.find("-z") != std::string::npos)
 	t=t.replace(t.find("-z"),2,"-1*z");
 
-	while(t.find("-a") != -1L)
+	while(t.find("-a") != std::string::npos)
 	t=t.replace(t.find("-a"),2,"-1*a");
 
-	while(t.find("-b") != -1L)
+	while(t.find("-b") != std::string::npos)
 	t=t.replace(t.find("-b"),2,"-1*b");
 
 	
-	while(t.find("-u") != -1L)
+	while(t.find("-u") != std::string::npos)
 	t=t.replace(t.find("-u"),2,"-1*u");
 
-	while(t.find("-v") != -1L)
+	while(t.find("-v") != std::string::npos)
 	t=t.replace(t.find("-v"),2,"-1*v");
 
-	while(t.find("-w") != -1L)
+	while(t.find("-w") != std::string::npos)
 	t=t.replace(t.find("-w"),2,"-1*w");
 
-	while(t.find("-c") != -1L)
+	while(t.find("-c") != std::string::npos)
 	t=t.replace(t.find("-c"),2,"-1*c");
 
-	while(t.find("-d") != -1L)
+	while(t.find("-d") != std::string::npos)
 	t=t.replace(t.find("-d"),2,"-1*d");
 
 

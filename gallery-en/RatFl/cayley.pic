@@ -1,0 +1,122 @@
+light1_x =-100.0;
+light1_y =100.0;
+light1_z =100.0;
+light1_vol =50;
+light1_red =255;
+light1_green =255;
+light1_blue =255;
+light2_x =100.0;
+light2_y =100.0;
+light2_z =100.0;
+light2_vol =70;
+light2_red =255;
+light2_green =255;
+light2_blue =255;
+light3_x =0.0;
+light3_y =-100.0;
+light3_z =100.0;
+light3_vol =30;
+light3_red =255;
+light3_green =255;
+light3_blue =255;
+light4_x =0.0;
+light4_y =0.0;
+light4_z =0.0;
+light4_vol =0;
+light4_red =0;
+light4_green =0;
+light4_blue =0;
+light5_x =0.0;
+light5_y =0.0;
+light5_z =0.0;
+light5_vol =0;
+light5_red =0;
+light5_green =0;
+light5_blue =0;
+light6_x =0.0;
+light6_y =0.0;
+light6_z =0.0;
+light6_vol =0;
+light6_red =0;
+light6_green =0;
+light6_blue =0;
+light7_x =0.0;
+light7_y =0.0;
+light7_z =0.0;
+light7_vol =0;
+light7_red =0;
+light7_green =0;
+light7_blue =0;
+light8_x =0.0;
+light8_y =0.0;
+light8_z =0.0;
+light8_vol =0;
+light8_red =0;
+light8_green =0;
+light8_blue =0;
+light9_x =0.0;
+light9_y =0.0;
+light9_z =0.0;
+light9_vol =0;
+light9_red =0;
+light9_green =0;
+light9_blue =0;
+root_finder = d_chain_bisection; epsilon = 0.00000001;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 6;
+background_red=255;
+background_green=255;
+background_blue=255;
+width=120;
+height=120;
+rot_x=0.0; rot_y=0.0; rot_z=0.0;
+scale_x=0.8403361344537815;
+scale_y=0.8403361344537815;
+scale_z=0.8403361344537815;
+double PI = 2*arcsin(1);
+// the parameters:
+double a=0.5;
+a=a;
+
+
+// the equations:
+surface = x^3+y^3+z^3+1-1*0.5*a*(x+y+z+1)^3;
+
+surface_red = 153;
+surface_green = 0;
+surface_blue = 51;
+inside_red = 255;
+inside_green = 102;
+inside_blue = 102;
+transparence = 0;
+
+
+// the solitary points (shown as spheres):
+
+// the rotation:
+surface=rotate(surface,0.0,yAxis);
+surface=rotate(surface,0.0,xAxis);
+surface=rotate(surface,0.0,zAxis);
+surface=rotate(surface,-0.380196586710677,yAxis);
+surface=rotate(surface,-1.0660674181488037,xAxis);
+surface=rotate(surface,-2.231779660867746,zAxis);
+clip = 0;
+radius = 9.0;
+
+// the rotation:
+draw_surface;
+
+// the curves:
+
+// save the image:
+filename="/home/labs/papers/jahrDerMathe2008/arxiv/cayley.sm.jpg";
+color_file_format=jpg;
+save_color_image;
+

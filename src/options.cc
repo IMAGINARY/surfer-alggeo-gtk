@@ -62,7 +62,7 @@ std::string fix_file(const std::string& s)
 
 	
 
-	while(r.find("~")!=-1)
+	while(r.find("~")!=std::string::npos)
 	{
 		
 		int i = r.find("~");
@@ -70,7 +70,7 @@ std::string fix_file(const std::string& s)
 		r = r.replace(i,1,home_dir());
 	}
 
-	while(r.find(WRONG_DIR_SEP_CHAR)!=-1)
+	while(r.find(WRONG_DIR_SEP_CHAR)!=std::string::npos)
 	{
 		
 		int i = r.find(WRONG_DIR_SEP_CHAR);
@@ -173,7 +173,7 @@ surfer_options read_settings_from_file(const std::string& filename)
 
 		std::string t1;
 		std::string t2;
-		int i = 0;
+		unsigned int i = 0;
 		//remove leading whitespace
 		while(!t.empty()&&t[0]<=' ')
 		t = t.substr(1);

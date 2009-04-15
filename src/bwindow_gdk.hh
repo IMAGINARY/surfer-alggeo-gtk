@@ -559,7 +559,10 @@ void ani_add();
 
 
 
+class Language_box: public Gtk::ComboBox
+{
 
+};
 
 
 typedef unsigned char rgb_triplet[3];
@@ -574,8 +577,12 @@ class SurfBWindow : public Gtk::Window
 {
 public:
 SurfBWindow(std::istream& i,const std::vector<gallery>& G, surfer_options so, bool f = false, bool personalized = false);
+
 void start();
 private:
+
+void restart_with_lang(const char* LANG);
+
 bool personalized;
 bool waiting;
 
@@ -811,6 +818,8 @@ rgb_triplet outside_buffer[COLORTABLE_SIZE][COLORTABLE_SIZE];
 Glib::RefPtr<Gdk::Pixbuf> m_inside_image;
 Glib::RefPtr<Gdk::Pixbuf> m_outside_image;
 
+Language_box m_lang;
+
 };
 
 void show_the_manual(Gtk::Window* wnd, surfer_options);
@@ -1036,7 +1045,7 @@ extern bool no_log;
 #else
 
 
-#define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
+#define REDIRECTION_APEX (no_log?">/dev/null ":"")
 
 #endif
 #endif
@@ -1055,5 +1064,8 @@ extern bool no_log;
 
 
 extern bool no_new_surf_features;
-void log_system(const std::string& s);
+int log_system(const std::string& s);
 
+extern bool do_restart;
+
+void parallel_clear();

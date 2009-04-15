@@ -67,7 +67,10 @@ bool no_new_features = false;
 
 bool no_new_surf_features = !SHIPS_WITH_MODIFIED_SURF;
 
-
+extern const char * flag_de_DE[];
+extern const char * flag_de_AT[];
+extern const char * flag_en_US[];
+extern const char * flag_en_UK[];
 
 #define MOD if(!no_modify)
 
@@ -97,69 +100,126 @@ int moving_x = 0;
 
 SurfBWindow::SurfBWindow(std::istream& i, const std::vector<gallery>& G, surfer_options so,bool f, bool p)
 :
+
+
 personalized(p),
 waiting(true),
 valid(true),
 fullscreen_mode(f),
-
 draw_coords(false),
+current_gal(),
+current_surf(),
 pichange(0),
-
-
 opt(so),
-
 gal(G),
 kill_list(0),
 
+data(),
+data_index(),
+global_data(),
+
+conn(),
+
 m_tab(3,2),
-
-
+m_draw(),
+m_gallcon(),
 m_hscale(0,1.05,0.05,"a"),
 m_hscale2(0,1.05,0.05,"b"),
 m_hscale3(-1,1.05,0.05,"c"),
 m_hscale4(1,10.05,0.05,"d"),
 m_vscale(-1,1,0.05),
 
+m_entryframe(),
+m_bft(),
+m_entryfield(3,1),
+m_entryinside(),
+m_zoom_table(1,3),
+
+m_tool(),
+m_info(),
+m_zoom_free(),
+m_leave_image(Gtk::Stock::LEAVE_FULLSCREEN,Gtk::ICON_SIZE_BUTTON),
+m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
+m_scale_free(),
+
+m_spin(),
+
 m_aframe("",Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER,1.0,false),
+m_bframe(),
 m_cframe(_("side 1"), Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 1.0, false ),
 m_iframe(_("side 2"), Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 1.0, false),
 
+m_entry(),
+m_colors(),
+m_colors_inside(),
+m_colors_back(),
+m_movie(),
 
-
+m_note(),
 
 
 m_ctab(3,3),
 m_utab(1,1),
 m_ltab(3,3),
 
-
+m_gtab(),
 
 
 
 m_about(Gtk::Stock::ABOUT),
 m_full(Gtk::Stock::FULLSCREEN),
+m_leave(),
+m_left(),
+
 m_next(Gtk::Stock::GO_FORWARD),
+
+
+m_new_surface(Gtk::Stock::NEW),
+
 m_prev(Gtk::Stock::GO_BACK),
 
-m_entryfield(3,1),
-
-m_printing(_("Printing image...")),
-
-
-
-
-m_leave_image(Gtk::Stock::LEAVE_FULLSCREEN,Gtk::ICON_SIZE_BUTTON),
-m_zoom_image(Gtk::Stock::ZOOM_FIT,Gtk::ICON_SIZE_BUTTON),
-m_zoom_table(1,3),
-m_zero("=0"),
-m_spin(),
-m_special(_("Details")),
-m_new_surface(Gtk::Stock::NEW),
+m_print(),
+m_right(Gtk::Stock::GO_FORWARD),
+m_save(),
 m_savefile(Gtk::Stock::SAVE),
+m_special(_("Details")),
+
+m_bbox(),
+m_fbox(),
+v_butt(),
+v_fbutt(),
+
+m_backfor(),
+m_avalue(),
+m_avalue2(),
+m_error(),
+m_printing(_("Printing image...")),
+m_zero("=0"),
+
+
+m_gdraw(),
+m_gframe(),
+mr_AG(),
+mr_UIM(),
+
 //m_animate(Gtk::Stock::MEDIA_RECORD),
 m_ani(*this),
-w_sfx(*this)
+w_sfx(*this),
+
+inside_buffer(),
+outside_buffer(),
+m_inside_image(),
+m_outside_image()
+
 {
+
+       
+	//m_print.set_image(*new Gtk::Image(Gtk::Stock::PRINT,Gtk::ICON_SIZE_BUTTON));
+	//m_save.set_image(*new Gtk::Image(Gtk::Stock::SAVE,Gtk::ICON_SIZE_BUTTON));
+	m_left.set_image(*new Gtk::Image(Gtk::Stock::GO_BACK,Gtk::ICON_SIZE_BUTTON));
+//	m_right.set_image(*new Gtk::Image(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON));
+
+
 	// change window background to white
 	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
 	      }
@@ -375,10 +435,10 @@ MOD{
 				if(s[i]=='D')
 				{
 					
-					B = new Gtk::Button(_("Delete"));
+					B = Gtk::manage(new Gtk::Button(_("Delete")));
 				}
 				else
-				B = new Gtk::Button(b);
+				B = Gtk::manage(new Gtk::Button(b));
 				B->signal_clicked().connect( sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_letter_clicked_func) ,b[0]));
 				m_bbox.add(*B);
 
@@ -405,14 +465,6 @@ MOD{
 			
 			m_backfor.set_child_min_width(60);
 
-			m_print.set_image(*new Gtk::Image(Gtk::Stock::PRINT,Gtk::ICON_SIZE_BUTTON));
-			m_save.set_image(*new Gtk::Image(Gtk::Stock::SAVE,Gtk::ICON_SIZE_BUTTON));
-			
-
-
-			m_left.set_image(*new Gtk::Image(Gtk::Stock::GO_BACK,Gtk::ICON_SIZE_BUTTON));
-			m_right.set_image(*new Gtk::Image(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON));
-
 
 			m_entryfield.attach(m_left,0,1,0,1,Gtk::SHRINK,Gtk::SHRINK);
 			m_entryfield.attach(m_entryframe,1,2,0,1,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
@@ -433,7 +485,7 @@ MOD{
 			m_entry.set_text(data[data_index].public_eq);
 
 
-			Gtk::Label* v_co = new Gtk::Label(_("Coloring"));
+			Gtk::Label* v_co = Gtk::manage(new Gtk::Label(_("Coloring")));
 			MOD{
 			v_co->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
 			v_co->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
@@ -461,7 +513,7 @@ MOD{
 			
 			//if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
-			m_ctab.attach(*new Gtk::Image,1,2,1,2);
+			m_ctab.attach(*Gtk::manage(new Gtk::Image),1,2,1,2);
 			m_ctab.attach(m_cframe,1,2,2,3,Gtk::EXPAND,Gtk::SHRINK);//,Gtk::SHRINK|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 			m_cframe.add(m_colors);
 
@@ -487,7 +539,7 @@ MOD{
 
 			}
 
-			Gtk::Label *v_ga = new Gtk::Label(_("Gallery"));
+			Gtk::Label *v_ga = Gtk::manage(new Gtk::Label(_("Gallery")));
 
 			MOD {
 			v_ga->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
@@ -506,7 +558,7 @@ MOD{
 			if(!no_gallery)m_note.append_page(m_gallcon,*v_ga);
 
 
-			Gtk::Label *v_in = new Gtk::Label(_("Info"));
+			Gtk::Label *v_in = Gtk::manage(new Gtk::Label(_("Info")));
 
 			MOD {
 			v_in->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
@@ -524,7 +576,7 @@ MOD{
 
 			if(!no_new_features)
 			{
-			Gtk::Label *v_ani = new Gtk::Label(_("Animate"));
+			Gtk::Label *v_ani = Gtk::manage(new Gtk::Label(_("Animate")));
 
 			MOD {
 			v_ani->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
@@ -542,13 +594,13 @@ MOD{
 //			if(!(no_full && personalized)) m_info.set_size_request(300,600);
 			
 
-			m_gtab.attach(*new Gtk::Image,1,2,0,1);
+			m_gtab.attach(*Gtk::manage(new Gtk::Image),1,2,0,1);
 			for(unsigned i = 0; i < gal.size(); i++)
 			{
 				
 
 
-				Gtk::Frame* v_gframe = new Gtk::Frame(gal[i].name);
+				Gtk::Frame* v_gframe = Gtk::manage(new Gtk::Frame(gal[i].name));
 
 				// white background for gallery widgets
 				Gtk::Widget* W = v_gframe->get_label_widget();
@@ -565,8 +617,8 @@ MOD{
 
 				m_gtab.attach(*v_gframe,1,2,i+1,i+2,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 
-				Gtk::EventBox* v_eb = new Gtk::EventBox;
-				Gtk::Image* v_im = new Gtk::Image;
+				Gtk::EventBox* v_eb = Gtk::manage(new Gtk::EventBox);
+				Gtk::Image* v_im = Gtk::manage(new Gtk::Image);
 				v_im->set(gal[i].image);
 				MOD {
 				v_eb->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
@@ -1526,7 +1578,7 @@ void SurfBWindow::on_save_clicked()
 		int i = s1.find("#");
 		s1.replace(i,1, TEMP_ROOT_SEP +"surfb_f.ppm");
 	}
-	system((""+s1).c_str());
+	log_system((""+s1).c_str());
 }
 
 
@@ -1719,6 +1771,9 @@ void SurfBWindow::adjust_visibility()
 			//m_spin.hide();
 			//m_new_surface.hide();
 		}
+
+   std::remove(((TEMP_ROOT_SEP+"surfb_x.ppm").c_str()));
+   std::remove(((TEMP_ROOT_SEP+"surfb_x.pic").c_str()));
 }
 
 
@@ -1786,7 +1841,7 @@ void SurfBWindow::check_image(const std::string& script, const std::string& imag
 	
 	std::string cmd = opt.surf_cmd+" "+QUIET_SURF+" -n \""+script+"\" " +REDIRECTION_APEX;
 	
-	system(cmd.c_str());
+	log_system(cmd.c_str());
 		//if(w)gdk_window_set_cursor(w, NULL);
 	
 }
@@ -1936,7 +1991,7 @@ f<<"0 = "<<data[data_index].public_eq<<std::endl;
 f.close();
 
 if(!opt.print_cmd.empty())
-system((opt.print_cmd+" \""+TEMP_ROOT_SEP+"surfb_p.png\" \""+TEMP_ROOT_SEP+"surfb_p_f.tex\" \""+TEMP_ROOT_SEP+"surfb_n.txt\"").c_str());
+log_system((opt.print_cmd+" \""+TEMP_ROOT_SEP+"surfb_p.png\" \""+TEMP_ROOT_SEP+"surfb_p_f.tex\" \""+TEMP_ROOT_SEP+"surfb_n.txt\"").c_str());
 
 
 
@@ -2336,6 +2391,20 @@ mr_AG->add(Gtk::Action::create("HelpHomepage",Gtk::Stock::HOME), sigc::mem_fun(*
 mr_AG->add(Gtk::Action::create("HelpAbout",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
 
 
+Glib::RefPtr<Gtk::IconTheme> git = Gtk::IconTheme::get_default();
+Glib::RefPtr<Gdk::Pixbuf> flag_german = Gdk::Pixbuf::create_from_xpm_data(flag_de_DE);
+unsigned icon_size = flag_german->get_height();
+git->add_builtin_icon("flag_de",icon_size,flag_german);
+
+Glib::RefPtr<Gdk::Pixbuf> flag_english = Gdk::Pixbuf::create_from_xpm_data(flag_en_UK);
+icon_size = flag_english->get_height();
+git->add_builtin_icon("flag_en",icon_size,flag_english);
+
+
+mr_AG->add(Gtk::Action::create_with_icon_name("LangDE","flag_de","Deutsch","Deutsch"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"de_DE.UTF-8"));
+mr_AG->add(Gtk::Action::create_with_icon_name("LangEN","flag_en","English","English"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"en_US.UTF-8"));
+//mr_AG->add(Gtk::Action::create("LangEN",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
+
 mr_UIM = Gtk::UIManager::create();
 
 mr_UIM->insert_action_group(mr_AG);
@@ -2422,7 +2491,16 @@ Glib::ustring ui_info =
     "      <toolitem action='HelpAbout'/>"
     "  </toolbar>"
     "  <toolbar  name='PropBar'>"
+"      <toolitem action='LangDE'/>"
+"      <toolitem action='LangEN'/>"
+
+"<separator/>"
+
     "      <toolitem action='SurfaceEdit'/>"
+    "  </toolbar>"
+
+    "  <toolbar  name='LangBar'>"
+    "      <toolitem action='LangDE'/>"
     "  </toolbar>"
 
 
@@ -2599,7 +2677,17 @@ Glib::RefPtr<Gdk::Pixbuf> make_colortable(bool flip, rgb_triplet buffer[COLORTAB
 }
 
 
+void SurfBWindow::restart_with_lang(const char* LANG)
+{
 
+setenv("LANGUAGE",LANG,1);
+setenv("LANG",LANG,1);
+
+do_restart = true;
+
+hide();
+
+}
 
 
 

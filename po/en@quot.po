@@ -1,7 +1,7 @@
 # English translations for surfer package.
-# Copyright (C) 2008 Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern
+# Copyright (C) 2009 Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern
 # This file is distributed under the same license as the surfer package.
-# Automatically generated, 2008.
+# Automatically generated, 2009.
 #
 # All this catalog "translates" are quotation characters.
 # The msgids must be ASCII and therefore cannot contain real quotation
@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer 0.1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2008-11-01 13:43+0100\n"
-"PO-Revision-Date: 2008-11-01 13:43+0100\n"
+"POT-Creation-Date: 2009-04-15 18:06+0200\n"
+"PO-Revision-Date: 2009-04-15 18:06+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -110,99 +110,99 @@ msgstr "Could not access help file."
 msgid "Could not display help file. Install Adobe Reader."
 msgstr "Could not display help file. Install Adobe Reader."
 
-#: src/bwindow_gdk.cc:124
+#: src/bwindow_gdk.cc:149
 msgid "side 1"
 msgstr "side 1"
 
-#: src/bwindow_gdk.cc:125
+#: src/bwindow_gdk.cc:150
 msgid "side 2"
 msgstr "side 2"
 
-#: src/bwindow_gdk.cc:146
-msgid "Printing image..."
-msgstr "Printing image..."
-
-#: src/bwindow_gdk.cc:156
+#: src/bwindow_gdk.cc:185
 msgid "Details"
 msgstr "Details"
 
-#: src/bwindow_gdk.cc:378
+#: src/bwindow_gdk.cc:196
+msgid "Printing image..."
+msgstr "Printing image..."
+
+#: src/bwindow_gdk.cc:438
 msgid "Delete"
 msgstr "Delete"
 
-#: src/bwindow_gdk.cc:436
+#: src/bwindow_gdk.cc:488
 msgid "Coloring"
 msgstr "Coloring"
 
-#: src/bwindow_gdk.cc:490 src/bwindow_gdk.cc:2310
+#: src/bwindow_gdk.cc:542 src/bwindow_gdk.cc:2365
 msgid "Gallery"
 msgstr "Gallery"
 
-#: src/bwindow_gdk.cc:509
+#: src/bwindow_gdk.cc:561
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:527
+#: src/bwindow_gdk.cc:579
 msgid "Animate"
 msgstr "Animate"
 
-#: src/bwindow_gdk.cc:1471
+#: src/bwindow_gdk.cc:1523
 msgid "Print image"
 msgstr "Print image"
 
-#: src/bwindow_gdk.cc:1476
+#: src/bwindow_gdk.cc:1528
 msgid "Name:"
 msgstr "Name:"
 
-#: src/bwindow_gdk.cc:2042
+#: src/bwindow_gdk.cc:2097
 msgid "Save surface"
 msgstr "Save surface"
 
-#: src/bwindow_gdk.cc:2045
+#: src/bwindow_gdk.cc:2100
 msgid "Save image and save surface"
 msgstr "Save image and save surface"
 
-#: src/bwindow_gdk.cc:2047
+#: src/bwindow_gdk.cc:2102
 msgid "Save image"
 msgstr "Save image"
 
-#: src/bwindow_gdk.cc:2057 src/bwindow_gdk.cc:2192
+#: src/bwindow_gdk.cc:2112 src/bwindow_gdk.cc:2247
 msgid "Surfer Script (.pic)"
 msgstr "Surfer Script (.pic)"
 
-#: src/bwindow_gdk.cc:2062
+#: src/bwindow_gdk.cc:2117
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2084 src/bwindow_gdk.cc:2206 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2139 src/bwindow_gdk.cc:2261 src/rotate.cc:789
 msgid "All files"
 msgstr "All files"
 
-#: src/bwindow_gdk.cc:2182
+#: src/bwindow_gdk.cc:2237
 msgid "Open surface"
 msgstr "Open surface"
 
-#: src/bwindow_gdk.cc:2306
+#: src/bwindow_gdk.cc:2361
 msgid "File"
 msgstr "File"
 
-#: src/bwindow_gdk.cc:2307
+#: src/bwindow_gdk.cc:2362
 msgid "Surface"
 msgstr "Surface"
 
-#: src/bwindow_gdk.cc:2308
+#: src/bwindow_gdk.cc:2363
 msgid "Help"
 msgstr "Help"
 
-#: src/bwindow_gdk.cc:2309
+#: src/bwindow_gdk.cc:2364
 msgid "View"
 msgstr "View"
 
-#: src/bwindow_gdk.cc:2317
+#: src/bwindow_gdk.cc:2372
 msgid "Save a copy of this image"
 msgstr "Save a copy of this image"
 
-#: src/bwindow_gdk.cc:2318
+#: src/bwindow_gdk.cc:2373
 msgid "Save a copy of this surface"
 msgstr "Save a copy of this surface"
 
@@ -338,15 +338,19 @@ msgstr "y coordinate"
 msgid "z coordinate"
 msgstr "z coordinate"
 
-#: src/gallery.cc:227
+#: src/gallery.cc:243
 msgid "Select surface - Surfer"
 msgstr "Select surface - Surfer"
 
-#: src/gallery.cc:232
+#: src/gallery.cc:248
 msgid "Click on a surface, please."
 msgstr "Click on a surface, please."
 
-#: src/surfer.cc:107
+#: src/surfer.cc:96 src/surfer.cc:97
+msgid "gallery-en"
+msgstr "gallery-en"
+
+#: src/surfer.cc:162
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"

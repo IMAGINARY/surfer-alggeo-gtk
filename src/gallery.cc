@@ -34,14 +34,14 @@ std::string basename(const std::string& ff)
 {
 	std::string f = ff;
 
-	while(f.find(DIR_SEP)!=-1L)
+	while(f.find(DIR_SEP)!=std::string::npos)
 	{
 		long i = f.find(DIR_SEP);
 		f=f.substr(i+1);
 	}
 
-	long i = f.find(".");
-	if(i==-1L) return f;
+	unsigned long i = f.find(".");
+	if(i==std::string::npos) return f;
 	else return f.substr(0,i);
 }
 
@@ -209,7 +209,23 @@ namespace
 }
 
 GalleryWindow::GalleryWindow(const gallery& g, const surfer_options& o)
-:gal(g),m_tab(1,3),opt(o)
+:
+m_Columns(),
+m_VBox(),
+m_desc(),
+m_tab(1,3),
+m_ScrolledWindow(),
+m_IconView(),
+m_refListModel(),
+m_frame(),
+m_please(),
+gal(g),
+ret(),
+isu(),
+opt(o)
+
+
+
 {
 	// change gallery background to white
 	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
@@ -309,7 +325,7 @@ GalleryWindow::~GalleryWindow()
 
 
 
-void GalleryWindow::on_item_activated(const Gtk::TreeModel::Path& path)
+void GalleryWindow::on_item_activated(const Gtk::TreeModel::Path& )
 {
   
 

@@ -36,6 +36,7 @@ extern bool rewrite_config;
 extern bool no_modify;
 extern bool no_new_features;
 
+bool do_restart = false;
 
 #ifdef WIN32
 int main (int argc, char *argv[]);
@@ -45,6 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 }
 #endif
 
+void check_surf(const surfer_options& opt);
 
 class TWindow: public Gtk::Window
 {
@@ -70,12 +72,65 @@ virtual bool on_expose_event(GdkEventExpose*)
 
 };
 
-int main (int argc, char *argv[])
+
+int main_details(std::istream* i, const surfer_options& so, bool b, bool personalized)
 {
+
+check_surf(so);
+
+
+#ifndef WIN32
+Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));
+#endif
+
+do
+{
+  do_restart = false;
+
 
 bindtextdomain(PACKAGE, LOCALEDIR);
 bind_textdomain_codeset(PACKAGE, "UTF-8");
 textdomain(PACKAGE);
+setlocale(LC_ALL,"") ;
+
+  std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
+  std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path+"/"+_("gallery-en")),so.upscale);
+
+  G.insert(G.end(),Gu.begin(),Gu.end());
+
+
+  SurfBWindow sbw(*i, G,so,b ,personalized);
+
+
+
+  sbw.start();
+	
+//  TWindow t(sbw);
+//if(!no_full)	Gtk::Main::run(t);
+//else 
+
+Gtk::Main::run(sbw);
+
+} while(do_restart);
+
+parallel_clear();
+
+  return 0;
+
+
+}
+
+
+int main (int argc, char *argv[])
+{
+//char LANG_DE[] = "de_DE.UTF-8";
+
+//char LANG_EN[] = "en_US.UTF-8";
+
+//char *LANG = LANG_EN;
+
+
+
 
 
 #ifdef WIN32
@@ -218,34 +273,94 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
   }
   catch(...){}
 
-  std::vector<gallery> G =  read_galleries_new(so.gallery_path,so.upscale);
-  std::vector<gallery> Gu =  read_galleries_old(so.user_gallery_path,so.upscale);
+   main_details(i,so,(argc>1 && std::string(argv[1])=="-f") ,personalized);
 
-  G.insert(G.end(),Gu.begin(),Gu.end());
-
-#ifndef WIN32
-Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));
-#endif
-
-  SurfBWindow sbw(*i, G,so,(argc>1 && std::string(argv[1])=="-f")  ,personalized);
-
-
-
-  sbw.start();
-	
-  TWindow t(sbw);
-if(!no_full)	Gtk::Main::run(t);
-else Gtk::Main::run(sbw);
-
-  return 0;
+   return 0;
 }
 
+void check_surf(const surfer_options& opt)
+{
+        std::string image = TEMP_ROOT_SEP+"surfb_it.ppm";
+	std::string script = TEMP_ROOT_SEP+"surfb_it.pic";
 
+        std::remove(image.c_str());
+        std::remove(script.c_str());
 
-void log_system(const std::string& s)
+	std::ofstream f(script.c_str(),FILE_WRITE_MODE);
+        if(not f.is_open())
+        {
+           std::cerr<<"cannot write file "<<script<<std::endl;
+           exit(101);
+        }
+	
+/*	f<<"rot_x="<<data.initial_x+current_x<<";\n";
+	f<<"rot_y="<<data.initial_y+current_y<<";\n";
+	f<<"rot_z="<<data.initial_z+current_z<<";\n";
+*/
+	//rot_data t = rot_yxz(data.rot);
+	//f<<"rot_x="<<t.rot_x<<";\n";
+	//f<<"rot_y="<<t.rot_y<<";\n";
+	//f<<"rot_z="<<t.rot_z<<";\n";
+
+	
+	
+	
+		int w = 1;
+		f<<"width="<< w <<";\n";
+		f<<"height="<< w <<";\n";
+	
+
+	
+
+	f<<"surface="<< "x*x + y*y - z" <<";\n";
+
+	
+
+	//f<<"transparency="<<50<<";\n";
+	f<<"filename=\""<<image<<"\";\n";
+	f<<"color_file_format=ppm;\n";
+	f<<"draw_surface;\n";
+	f<<"save_color_image;\n";
+	f.close();
+
+	std::string cmd = opt.surf_cmd+" "+QUIET_SURF+" -n \""+script+"\" " +REDIRECTION_APEX;
+	
+	int r =log_system(cmd.c_str());
+        if(r != 0)
+        {
+            std::cerr<<"calling surf failed"<<std::endl;
+
+            exit(105);
+        }
+
+        std::ifstream f2(image.c_str());
+	if(not f2.is_open())
+        {
+            std::cerr<<"cannot open file "<<image<<std::endl;
+            exit(107);
+	}
+
+        std::remove(image.c_str());
+        std::remove(script.c_str());
+
+        
+}
+
+bool check_encoder()
+{
+
+}
+
+int log_system(const std::string& s)
 {
 	if(!no_log) std::cout<<"executing "<<s<<std::endl;
-	system(s.c_str());
+	int r = system(s.c_str());
+	if(r != 0)
+	{
+		std::cerr<<"surfer: system call failed"<<std::endl;
+		std::cerr<<"call was \""<<s<<"\""<<std::endl;
+	}
+	return r;
 }
 
 

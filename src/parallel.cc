@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Henning Meyer   *
- *   surfer@imaginary2008.de   *
+ *   Copyright (C) 2007 by Henning Meyer                                   *
+ *   surfer@imaginary2008.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -97,6 +97,35 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 
 }
 
+void parallel_clear()
+{
+	
+	int n = num_threads();
+	
+	
+
+	#pragma omp parallel for
+	for(int i = 0; i < n; i++)
+	{
+		std::ostringstream buf;
+		if(i)
+		buf<<(i+1);
+
+                std::remove( (TEMP_ROOT_SEP+"surfb.ppm"+buf.str()).c_str() );
+
+
+
+                std::remove(((TEMP_ROOT_SEP+std::string("surfb.pic")+buf.str()).c_str()));
+
+                std::remove(((TEMP_ROOT_SEP+std::string("surfb_f.ppm")+buf.str()).c_str()));
+                std::remove(((TEMP_ROOT_SEP+std::string("surfb_f.pic")+buf.str()).c_str()));
+
+
+		
+	}
+
+
+}
 
 
 
