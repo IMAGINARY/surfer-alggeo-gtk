@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2009-04-15 18:06+0200\n"
+"POT-Creation-Date: 2009-04-30 15:25+0200\n"
 "PO-Revision-Date: $Date$Last-Translator: Henning Meyer <hmeyer@mathematik."
 "uni-kl.de>\n"
 "Language-Team: German <surfer@imaginary2008.de>\n"
@@ -328,11 +328,11 @@ msgstr "Fläche auswählen - Surfer"
 msgid "Click on a surface, please."
 msgstr "Bitte auf eine Fläche klicken"
 
-#: src/surfer.cc:96 src/surfer.cc:97
+#: src/surfer.cc:97 src/surfer.cc:98
 msgid "gallery-en"
 msgstr "gallery-de"
 
-#: src/surfer.cc:162
+#: src/surfer.cc:181
 #, fuzzy
 msgid ""
 "Surfer - visualizing algebraic geometry\n"

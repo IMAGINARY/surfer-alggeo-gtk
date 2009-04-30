@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2009-04-15 18:06+0200\n"
+"POT-Creation-Date: 2009-04-30 15:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -306,11 +306,11 @@ msgstr ""
 msgid "Click on a surface, please."
 msgstr ""
 
-#: src/surfer.cc:96 src/surfer.cc:97
+#: src/surfer.cc:97 src/surfer.cc:98
 msgid "gallery-en"
 msgstr ""
 
-#: src/surfer.cc:162
+#: src/surfer.cc:181
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"

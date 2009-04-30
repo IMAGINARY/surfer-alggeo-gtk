@@ -97,6 +97,10 @@ surfer_options default_settings()
 	so.gallery_path = GALLERY_PATH_USE;
 	so.user_gallery_path = fix_path(fix_file(USER_GALLERY_PATH));
 
+	while(not so.gallery_path.empty() and so.gallery_path[0]=='"')
+		so.gallery_path = so.gallery_path.substr(1);
+	while(not so.gallery_path.empty() and so.gallery_path[so.gallery_path.size()-1]=='"')
+		so.gallery_path = so.gallery_path.substr(0,so.gallery_path.size()-1);
 
 	so.save_cmd = "";
 	so.print_cmd = "";

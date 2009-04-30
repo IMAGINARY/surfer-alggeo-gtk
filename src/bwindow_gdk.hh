@@ -1012,6 +1012,13 @@ extern bool no_log;
 #endif
 #endif
 
+#ifndef EXT_MARKER
+#ifndef WIN32
+#define EXT_MARKER ""
+#else
+#define EXT_MARKER ".ini"
+#endif
+#endif
 
 
 #ifndef DIR_SEP_CHAR
@@ -1047,7 +1054,7 @@ extern bool no_log;
 #else
 
 
-#define REDIRECTION_APEX (no_log?">/dev/null ":"")
+#define REDIRECTION_APEX (no_log?">/dev/null 2>/dev/null":"")
 
 #endif
 #endif

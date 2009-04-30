@@ -65,7 +65,7 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 	{
 		std::cerr<<_("surfer: multithreaded rendering not supported with this version of surf.")<<std::endl;
 		std::cerr<<_("use version of surf shipped with surfer and activate \"modified_surf=1\" in ")+fix_file("~/.surfer")<<std::endl;
-		n = 1;
+		n = global_num_threads = 1;
 	}
 
 	std::string fbuff;
