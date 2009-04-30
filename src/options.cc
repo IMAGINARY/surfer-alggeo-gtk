@@ -121,6 +121,7 @@ surfer_options default_settings()
 	#endif
 
 
+        so.change_lang = false;
 	so.modified_surf = !no_new_surf_features;
 
 	return so;
@@ -146,6 +147,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"mencoder="<<so.mencoder_cmd<<std::endl;
 	f<<"ffmpeg="<<so.ffmpeg_cmd<<std::endl;
 	f<<"modified_surf="<<so.modified_surf<<std::endl;
+        f<<"languages="<<so.change_lang<<std::endl;
 	return f;
 }
 
@@ -220,6 +222,11 @@ surfer_options read_settings_from_file(const std::string& filename)
 		{
 			std::istringstream iss(t2);
 			iss>>so.modified_surf;
+		}
+		if(t1 == "languages")
+		{
+			std::istringstream iss(t2);
+			iss>>so.change_lang;
 		}
 		if(t1=="surf")
 		so.surf_cmd = t2;

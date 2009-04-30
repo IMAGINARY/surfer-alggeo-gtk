@@ -227,6 +227,8 @@ struct surfer_options
 	int video_bitrate;
 
 	bool modified_surf;
+
+        bool change_lang;
 };
 
 class ZScale: public Gtk::VScale

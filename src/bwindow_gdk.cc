@@ -2411,7 +2411,7 @@ mr_UIM->insert_action_group(mr_AG);
 
 
 
-Glib::ustring ui_info =
+Glib::ustring ui_info = std::string(
     "<ui>"
     "  <menubar name='MenuBar'>"
     "    <menu action='MenuFile'>"
@@ -2490,20 +2490,15 @@ Glib::ustring ui_info =
     "  <toolbar  name='HelpBar'>"
     "      <toolitem action='HelpAbout'/>"
     "  </toolbar>"
-    "  <toolbar  name='PropBar'>"
+    "  <toolbar  name='PropBar'>")
++((opt.change_lang)?(
 "      <toolitem action='LangDE'/>"
 "      <toolitem action='LangEN'/>"
 
 "<separator/>"
-
+):"")+
     "      <toolitem action='SurfaceEdit'/>"
     "  </toolbar>"
-
-    "  <toolbar  name='LangBar'>"
-    "      <toolitem action='LangDE'/>"
-    "  </toolbar>"
-
-
     "</ui>";
 
 if(!opt.ui_xml.empty())
@@ -2671,7 +2666,7 @@ Glib::RefPtr<Gdk::Pixbuf> make_colortable(bool flip, rgb_triplet buffer[COLORTAB
 	}
 
 	Glib::RefPtr<Gdk::Pixbuf> f = Gdk::Pixbuf::create_from_data(&buffer[0][0][0],Gdk::COLORSPACE_RGB,false,8,COLORTABLE_SIZE,COLORTABLE_SIZE,3*COLORTABLE_SIZE);
-	f->save("/tmp/fa.png","png");
+	//f->save("/tmp/fa.png","png");
 	return f;
 
 }

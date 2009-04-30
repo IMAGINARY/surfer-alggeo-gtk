@@ -38,6 +38,7 @@ extern bool no_new_features;
 
 bool do_restart = false;
 
+
 #ifdef WIN32
 int main (int argc, char *argv[]);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow)
@@ -138,8 +139,26 @@ std::string GetTempPath();
 temp_dir = GetTempPath();
 #else
 {
-	std::string s = std::getenv("USER");
-	temp_dir += s;
+
+        char ftemplate[] = "surfer-XXXXXX";
+	std::string s = "/tmp"; 
+	if( std::getenv("TMPDIR"))
+		s = std::getenv("TMPDIR");
+	if(s.empty()) s = "/tmp";
+
+
+	temp_dir = s + "/" + ftemplate;
+        
+
+	char *L = new char[temp_dir.size() + 1];
+	strcpy(L,temp_dir.c_str());
+	
+	mkdtemp(L);
+	
+	temp_dir = L;
+	delete L;
+
+        
 }
 #endif
 
@@ -274,6 +293,12 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
   catch(...){}
 
    main_details(i,so,(argc>1 && std::string(argv[1])=="-f") ,personalized);
+
+   #ifndef WIN32
+
+   std::remove(temp_dir.c_str());
+
+   #endif
 
    return 0;
 }
