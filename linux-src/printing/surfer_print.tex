@@ -1,61 +1,15 @@
-%
-% Printing Template for Surfer
-% Distributed with Surfer
-%
-% http://surfer.imaginary2008.de
-%
-%
-
 \documentclass[a5paper]{article}
-\usepackage[a5paper,height=20cm,width=14.8cm]{geometry}
 
-\usepackage[latin1]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{epsfig}
+\usepackage[margin=6mm]{geometry}
 \usepackage{graphicx}
-\usepackage[scaled=0.92]{helvet}
+\pagestyle{empty}
 
-\setlength{\columnsep}{1.0cm}
-\setlength{\columnseprule}{0.0mm}
-
-\setlength{\parindent}{0pt} 
-\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
-
-\def\rmdefault{cmss}        % no roman
-\def\sfdefault{cmss}
-\def\ttdefault{cmtt}
-\def\itdefault{sl}
-\def\sldefault{sl}
-\def\bfdefault{bx}
-
-
-
-\begin{document}
-
-\titlepage{}
-
-\begin{center}
-\includegraphics[width=14cm]{surfer_print_header}  
-\end{center}
-
-
-\begin{center}
-\begin{tabular}{c}
-  \includegraphics[width=4in]{image}
-\end{tabular}
-{
-\includegraphics[keepaspectratio,height=3.2cm,width=12cm]{eps_formula}
-}
-\end{center}
-
-
-\vfill
-
-\begin{center}
-\includegraphics[width=14cm]{surfer_print_footer}  
-\end{center}
-
-
-
+\begin{document}%
+\begin{center}%
+\includegraphics[width=\linewidth]{surfer_print_header}\\[7mm]%
+\includegraphics[width=0.8\linewidth]{image}\\[2mm]%
+\includegraphics[keepaspectratio,width=0.9\linewidth,height=1.625cm]{eps_formula}\\%
+\vfill%
+\includegraphics[width=\linewidth]{surfer_print_footer}%
+\end{center}%
 \end{document}
-
