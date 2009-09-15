@@ -1,0 +1,51 @@
+<ui>
+<toolbar  name='NavBar'>
+<toolitem action='GalleryPrevious'/>
+<toolitem action='GalleryNext'/>
+<separator/>
+<toolitem action='ViewFullscreen'/>
+<separator/>
+
+<toolitem action='HelpAbout'/>
+</toolbar>
+<toolbar  name='DefaultBar'>
+<toolitem action='FileOpen'/>
+<toolitem action='FileSave'/>
+<separator/>
+<toolitem action='SurfaceNew'/>
+<toolitem action='SurfaceDelete'/>
+<separator/>
+<toolitem action='SurfaceEdit'/>
+<separator/>
+<toolitem action='ViewFullscreen'/>
+
+<separator/>
+<toolitem action='HelpManual'/>
+<toolitem action='HelpAbout'/>
+</toolbar>
+<toolbar  name='MiniBar'>
+<separator/>
+<toolitem action='SurfaceNew'/>
+<toolitem action='SurfaceDelete' />
+</toolbar>
+<toolbar  name='TopBar'>
+<toolitem action='FileOpen'/>
+<toolitem action='FileSave'/>
+<separator/>
+<toolitem action='GalleryPrevious'/>
+<toolitem action='GalleryNext'/>
+<separator/>
+
+<toolitem action='LangDE'/>
+<toolitem action='LangEN'/>
+<separator/>
+<toolitem action='ViewFullscreen'/>
+</toolbar>
+<toolbar  name='HelpBar'>
+<toolitem action='HelpAbout'/>
+</toolbar>
+<toolbar  name='PropBar'>
+<toolitem action='SurfaceEdit'/>
+</toolbar>
+</ui>
+
