@@ -683,11 +683,13 @@ Gtk::Table m_gtab;
 Gtk::Button m_about;
 Gtk::Button m_full;
 Gtk::Button m_leave;
+Gtk::Image m_img_left;
 Gtk::Button m_left;
 Gtk::Button m_next;
 Gtk::Button m_new_surface;
 Gtk::Button m_prev;
 Gtk::Button m_print;
+Gtk::Image m_img_right;
 Gtk::Button m_right;
 Gtk::Button m_save;
 Gtk::Button m_savefile;
@@ -822,6 +824,9 @@ Glib::RefPtr<Gdk::Pixbuf> m_outside_image;
 
 Language_box m_lang;
 
+bool first_time_full;
+public:
+ SurfBWindow* kill_w;
 };
 
 void show_the_manual(Gtk::Window* wnd, surfer_options);
@@ -986,11 +991,7 @@ extern bool no_log;
 #endif
 
 #ifndef TEMP_ROOT_SEP
-//#ifdef WIN32
-//#define TEMP_ROOT_SEP ""
-//#else
-//#define TEMP_ROOT_SEP "/tmp/"
-//#endif
+
 #define TEMP_ROOT_SEP temp_dir
 
 #endif
@@ -1078,3 +1079,6 @@ int log_system(const std::string& s);
 extern bool do_restart;
 
 void parallel_clear();
+
+SurfBWindow* main_work(const surfer_options& so, bool b, bool personalized, SurfBWindow* k);
+

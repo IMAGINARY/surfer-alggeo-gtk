@@ -169,6 +169,7 @@ m_gtab(),
 m_about(Gtk::Stock::ABOUT),
 m_full(Gtk::Stock::FULLSCREEN),
 m_leave(),
+m_img_left(Gtk::Stock::GO_BACK,Gtk::ICON_SIZE_BUTTON),
 m_left(),
 
 m_next(Gtk::Stock::GO_FORWARD),
@@ -179,7 +180,9 @@ m_new_surface(Gtk::Stock::NEW),
 m_prev(Gtk::Stock::GO_BACK),
 
 m_print(),
-m_right(Gtk::Stock::GO_FORWARD),
+
+m_img_right(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON),
+m_right(),
 m_save(),
 m_savefile(Gtk::Stock::SAVE),
 m_special(_("Details")),
@@ -209,15 +212,16 @@ w_sfx(*this),
 inside_buffer(),
 outside_buffer(),
 m_inside_image(),
-m_outside_image()
-
+m_outside_image(),
+first_time_full(true),
+kill_w(NULL)
 {
 
        
 	//m_print.set_image(*new Gtk::Image(Gtk::Stock::PRINT,Gtk::ICON_SIZE_BUTTON));
 	//m_save.set_image(*new Gtk::Image(Gtk::Stock::SAVE,Gtk::ICON_SIZE_BUTTON));
-	m_left.set_image(*new Gtk::Image(Gtk::Stock::GO_BACK,Gtk::ICON_SIZE_BUTTON));
-//	m_right.set_image(*new Gtk::Image(Gtk::Stock::GO_FORWARD,Gtk::ICON_SIZE_BUTTON));
+	m_left.set_image(m_img_left);
+	m_right.set_image(m_img_right);
 
 
 	// change window background to white
@@ -1010,11 +1014,13 @@ bool SurfBWindow::on_timer_event_func(int)
 	}
 	if(get_window())
 	{
-		if(!no_full)
+		if(!no_full and first_time_full)
 		{
-//			fullscreen();
-			no_full = true;
+			fullscreen();
+			first_time_full = false;
 		}
+                if(kill_w)
+                {kill_w->hide(); delete kill_w; kill_w = NULL;}
 	}
 	
 	Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
@@ -2680,7 +2686,12 @@ setenv("LANG",LANG,1);
 
 do_restart = true;
 
-hide();
+
+SurfBWindow* x = main_work(opt, fullscreen_mode, personalized, NULL);
+x->show();
+//hide();
+Gtk::Main::iteration();
+x-> kill_w = this;
 
 }
 

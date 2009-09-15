@@ -74,6 +74,8 @@ virtual bool on_expose_event(GdkEventExpose*)
 };
 
 
+SurfBWindow* main_work(std::istream* i, const surfer_options& so, bool b, bool personalized, SurfBWindow* k);
+
 int main_details(std::istream* i, const surfer_options& so, bool b, bool personalized)
 {
 
@@ -84,41 +86,20 @@ check_surf(so);
 Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));
 #endif
 
-do
+
+    main_work(i, so,  b, personalized, NULL);
+Gtk::Main::run();
+
+while(do_restart)
 {
   do_restart = false;
+  main_work(so,  b, personalized, NULL);
 
-
-bindtextdomain(PACKAGE, LOCALEDIR);
-bind_textdomain_codeset(PACKAGE, "UTF-8");
-textdomain(PACKAGE);
-setlocale(LC_ALL,"") ;
-
-  std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
-  std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path+"/"+_("gallery-en")),so.upscale);
-
-  G.insert(G.end(),Gu.begin(),Gu.end());
-
-
-  SurfBWindow sbw(*i, G,so,b ,personalized);
-
-
-
-  sbw.start();
-	
-//  TWindow t(sbw);
-//if(!no_full)	Gtk::Main::run(t);
-//else 
-
-Gtk::Main::run(sbw);
-
-} while(do_restart);
+} 
 
 parallel_clear();
 
   return 0;
-
-
 }
 
 
@@ -153,14 +134,26 @@ temp_dir = GetTempPath();
 	char *L = new char[temp_dir.size() + 1];
 	strcpy(L,temp_dir.c_str());
 	
-	mkdtemp(L);
+	char * tst = mkdtemp(L);
+        if(!tst)
+        {std::cerr<<"mkdtemp failed on "<<L<<std::endl;abort();}
 	
 	temp_dir = L;
 	delete L;
 
+	if(temp_dir.empty() or temp_dir[temp_dir.size()-1] != DIR_SEP_CHAR)
+		temp_dir += DIR_SEP;
         
 }
 #endif
+
+
+  if(argc>1 and std::string(argv[1])=="--version")
+	{
+		std::cout<<"Surfer "<<get_revision()<<std::endl;
+		return 0;
+		
+	}
 
   Gtk::Main kit(argc, argv);
 
@@ -246,12 +239,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
-	}
-	else if(std::string(argv[1])=="--version")
-	{
-		std::cout<<"Surfer "<<get_revision()<<std::endl;
-		return 0;
 		
 	}
 	else if(std::string(argv[1])=="-r")
@@ -393,4 +380,53 @@ int log_system(const std::string& s)
 
 
 
+SurfBWindow* main_work(const surfer_options& so, bool b, bool personalized, SurfBWindow* k)
+{
+
+
+bindtextdomain(PACKAGE, LOCALEDIR);
+bind_textdomain_codeset(PACKAGE, "UTF-8");
+textdomain(PACKAGE);
+setlocale(LC_ALL,"") ;
+
+  std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
+  std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path),so.upscale);
+
+  G.insert(G.end(),Gu.begin(),Gu.end());
+
+
+  std::istringstream i("");
+  SurfBWindow* sbw = new SurfBWindow(i, G,so,b ,personalized);
+  sbw->start();
+  sbw->kill_w = k;
+
+  sbw->show();
+  
+  return sbw;
+}
+
+SurfBWindow* main_work(std::istream* i,const surfer_options& so, bool b, bool personalized, SurfBWindow* k)
+{
+
+
+bindtextdomain(PACKAGE, LOCALEDIR);
+bind_textdomain_codeset(PACKAGE, "UTF-8");
+textdomain(PACKAGE);
+setlocale(LC_ALL,"") ;
+
+  std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
+  std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path),so.upscale);
+
+  G.insert(G.end(),Gu.begin(),Gu.end());
+
+
+  SurfBWindow* sbw = new SurfBWindow(*i, G,so,b ,personalized);
+  sbw->start();
+  sbw->kill_w = k;
+
+  sbw->show();
+  //Gtk::Main::run(*sbw);
+  
+  return sbw;
+}
 
