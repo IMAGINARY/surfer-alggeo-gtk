@@ -1,36 +1,30 @@
 #!/bin/sh
 
-echo first $1
-echo second $2
+script_dir=$(dirname $0)
 
-# enter directory path to this shell script
-HERE="/home/mima/Desktop/IMAGINARY/surfer_printing"
-IMAGE_FILE=$HERE/image.png
-FORMULA_FILE=$HERE/formula.tex
-LATEX_FILE=$HERE/surfer_print
+echo
+echo Printing ...
+echo script_dir $script_dir
+echo png file $1
+echo formula $2
+echo surfpic file $3
 
-FORMULA_EPS_TEX=$HERE/surfer_formula
+# get generated surf image
+cp $1 $script_dir/image.png
+cat $2 | "$script_dir/texify.pl" > "$script_dir/formula.tex"
 
-cp $1 $IMAGE_FILE
-cat $2 | $HERE/texify.pl > $FORMULA_FILE
-#cat $PREMATH $FORMULA_FILE.pre $POSTMATH > $FORMULA_FILE
+cd $script_dir
 
-cd $HERE
-convert image.png image.eps
+pdflatex surfer_print.tex
+lpr surfer_print.pdf
 
-latex -interactive=nonstopmode $FORMULA_EPS_TEX.tex
-dvips -E $FORMULA_EPS_TEX.dvi
-eps2eps $FORMULA_EPS_TEX.ps eps_formula.eps
-
-latex -interaction=nonstopmode $LATEX_FILE.tex
-dvips -t a5 $LATEX_FILE.dvi
-lpr   $LATEX_FILE.ps
-ps2pdf $LATEX_FILE.ps
-
-# create archive copy
+# move surf input and script output to archive
 mkdir -p archive
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
-cp $LATEX_FILE.pdf archive/$timestamp.pdf
-cp $1 archive/$timestamp.png
-cp /tmp/usersurfb_f_p.pic archive/$timestamp.pic
+#next two lines must be fixed: Surfer should send path to .pic-file as script argument
+#cp /tmp/usersurfb_f_p.pic $script_dir/archive/$timestamp.pic
+#cp $3 $script_dir/archive/$timestamp.pic
 
+mv surfer_print.pdf archive/$timestamp.pdf
+mv image.png archive/$timestamp.png
+echo done ...

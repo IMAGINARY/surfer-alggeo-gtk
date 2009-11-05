@@ -22,4 +22,6 @@ $a =~ s/\(/\\left\(/g;
 $a =~ s/\)/\\right\)/g;
 
 $a =~ s/PI/\\pi/g;
-print $a
+print "\\ensuremath{";
+print $a;
+print "}";
