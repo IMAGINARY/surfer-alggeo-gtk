@@ -122,7 +122,18 @@ temp_dir = GetTempPath();
 {
 
         char ftemplate[] = "surfer-XXXXXX";
+
+        std::string xs = "/dev/shm";
+	struct stat st;
+        
+
+        
+
 	std::string s = "/tmp"; 
+
+	if(stat(xs.c_str(),&st) == 0)
+	s = xs;
+
 	if( std::getenv("TMPDIR"))
 		s = std::getenv("TMPDIR");
 	if(s.empty()) s = "/tmp";
@@ -148,7 +159,7 @@ temp_dir = GetTempPath();
 #endif
 
 
-  if(argc>1 and std::string(argv[1])=="--version")
+  if(argc>1 && std::string(argv[1])=="--version")
 	{
 		std::cout<<"Surfer "<<get_revision()<<std::endl;
 		return 0;
@@ -264,7 +275,7 @@ arg_inspect:
 	}
   }
 
-  std::string optfile = fix_path(fix_file("~"))+(HIDDEN_MARKER "surfer");
+  std::string optfile = fix_path(fix_file("~"))+(HIDDEN_MARKER "surfer" EXT_MARKER);
 
   surfer_options so = default_settings();
 if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
@@ -299,7 +310,7 @@ void check_surf(const surfer_options& opt)
         std::remove(script.c_str());
 
 	std::ofstream f(script.c_str(),FILE_WRITE_MODE);
-        if(not f.is_open())
+        if(! f.is_open())
         {
            std::cerr<<"cannot write file "<<script<<std::endl;
            exit(101);
@@ -346,7 +357,7 @@ void check_surf(const surfer_options& opt)
         }
 
         std::ifstream f2(image.c_str());
-	if(not f2.is_open())
+	if(! f2.is_open())
         {
             std::cerr<<"cannot open file "<<image<<std::endl;
             exit(107);
@@ -360,7 +371,7 @@ void check_surf(const surfer_options& opt)
 
 bool check_encoder()
 {
-
+return false;
 }
 
 int log_system(const std::string& s)

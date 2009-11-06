@@ -653,8 +653,9 @@ Gtk::Image m_scale_free;
 
 Gtk::SpinButton m_spin;
 
-
-
+protected:
+virtual bool on_delete_event  	(  	GdkEventAny *   	 event  	 );
+private:
 bool on_gallery_press_event(GdkEventButton* e, int i);
 
 

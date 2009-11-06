@@ -34,7 +34,7 @@ std::string GetTempPath()
 	for( int i = 0; i < MAX_PATH - 1; i++ )
 		temp_path[ i ] = ' ';
 	temp_path[ MAX_PATH - 1 ] = '\0';
-	SHGetSpecialFolderPath( 0, temp_path, CSIDL_COMMON_APPDATA, TRUE );
+	SHGetSpecialFolderPath( 0, temp_path, CSIDL_APPDATA, TRUE );
 
 	// create surfer-directory
 	wcscat( temp_path , L"\\Surfer" );
@@ -47,11 +47,23 @@ std::string GetTempPath()
 	char *temp_path_c = new char[ 5 * MAX_PATH ];
 	wcstombs( temp_path_c, temp_path, 5 * MAX_PATH );
 
+	GetTempPathA(5*MAX_PATH,temp_path_c);
+	//std::cout << "temp path = " << temp_path_c << std::endl;
 	return std::string( temp_path_c );
 }
 
 std::string homepath()
 {
+
+	const int ns =5000;
+	char fn[5000];
+	GetModuleFileNameA(NULL,fn,ns);
+
+	std::string s = fn;
+	unsigned long i =s.find_last_of('\\');
+
+	return s.substr(0,i+1);
+
 	return ".";
 /*
 	LPWSTR temp_path = new TCHAR[ MAX_PATH ];

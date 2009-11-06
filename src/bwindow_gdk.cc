@@ -58,7 +58,7 @@ bool no_new_features = false;
 
 #ifndef SHIPS_WITH_MODIFIED_SURF
 #ifdef WIN32
-#define SHIPS_WITH_MODIFED_SURF 1
+#define SHIPS_WITH_MODIFIED_SURF 1
 #else
 #define SHIPS_WITH_MODIFIED_SURF 0
 #endif
@@ -225,10 +225,12 @@ kill_w(NULL)
 
 
 	// change window background to white
-	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
-	      }
-
-	m_draw.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	MOD{
+            modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	    m_draw.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+            m_left.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+            m_right.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+        }
 
 	current_gal=0;
 	if(!gal.empty())current_surf = gal[0].file.size()-1;
@@ -380,6 +382,9 @@ MOD{
 
 
 		m_leave.set_image(m_leave_image);
+
+                MOD{m_leave.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
+
 		set_border_width(0);
 		if(!no_info)set_size_request(600,500);
 		show();
@@ -412,7 +417,12 @@ MOD{
 		m_spin.set_wrap();
 		m_spin.set_increments(1,1);
 
-		
+		MOD{
+                m_spin.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                m_spin.modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+                
+                }
+
 		m_utab.attach(m_scale_free,0,1,1+1,2+1,Gtk::SHRINK,Gtk::SHRINK);
 		m_utab.attach(m_hscale,0,1,2+1,3+1,Gtk::FILL,Gtk::SHRINK);
 		m_utab.attach(m_hscale2,1,2,2+1,3+1,Gtk::FILL,Gtk::SHRINK);
@@ -436,14 +446,25 @@ MOD{
 
 				Gtk::Button* B = NULL;
 
-				if(s[i]=='D')
-				{
-					
-					B = Gtk::manage(new Gtk::Button(_("Delete")));
-				}
-				else
+				
+				
 				B = Gtk::manage(new Gtk::Button(b));
 				B->signal_clicked().connect( sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_letter_clicked_func) ,b[0]));
+                                
+                                MOD{B->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                                    B->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+                                    B->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+                                    B->modify_base(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+                                   }
+
+                                if(s[i]=='D')
+				{
+					
+					B->set_label(_("Delete"));
+				}
+                                else
+                                B->set_label(b);
+
 				m_bbox.add(*B);
 
 
@@ -476,6 +497,23 @@ MOD{
 			m_entryframe.add(m_entryinside);
 			m_entryframe.set_shadow_type(Gtk::SHADOW_IN);
 			m_entry.set_has_frame(false);
+
+                        MOD{
+                        m_entry.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                        m_entry.modify_bg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+
+                        m_entryframe.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                        m_entryframe.modify_bg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+
+                        m_entry.modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			m_entry.modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
+			m_entry.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+			
+			m_entry.modify_fg(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			m_entry.modify_text(Gtk::STATE_ACTIVE,CONTRAST_COLOR_GDK);
+			m_entry.modify_base(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+
+                        }
 
 			if(!no_zero)
 			{
@@ -541,6 +579,8 @@ MOD{
 			m_iframe.get_label_widget()->modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
 			m_iframe.get_label_widget()->modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
 
+                    	
+
 			}
 
 			Gtk::Label *v_ga = Gtk::manage(new Gtk::Label(_("Gallery")));
@@ -556,10 +596,36 @@ MOD{
 			}
 
 
-			m_gallcon.add(m_gtab);
+			if(!no_new_features)m_gallcon.add(m_gtab);
+
 			m_gallcon.set_shadow_type(Gtk::SHADOW_NONE);
 			m_gallcon.set_policy(Gtk::POLICY_NEVER,Gtk::POLICY_AUTOMATIC);
-			if(!no_gallery)m_note.append_page(m_gallcon,*v_ga);
+
+                        
+			MOD{
+			m_gallcon.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_gallcon.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+
+			m_gallcon.modify_bg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_gallcon.modify_bg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_gallcon.modify_bg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_gallcon.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+
+                        m_gtab.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_gtab.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+
+			m_gtab.modify_bg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_gtab.modify_bg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_gtab.modify_bg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_gtab.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+			}
+
+                       
+                        
+                        if(!no_new_features)
+			{if(!no_gallery)m_note.append_page(m_gallcon,*v_ga);}
+                        else
+                        {if(!no_gallery)m_note.append_page(m_gtab,*v_ga);}
 
 
 			Gtk::Label *v_in = Gtk::manage(new Gtk::Label(_("Info")));
@@ -617,7 +683,10 @@ MOD{
 				
 
 				v_gframe->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
-				v_gframe->modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); }
+				v_gframe->modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                                v_gframe->modify_bg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK); 
+				v_gframe->modify_base(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+                                }
 
 				m_gtab.attach(*v_gframe,1,2,i+1,i+2,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK|Gtk::FILL);
 
@@ -1100,9 +1169,16 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	std::ofstream f((script+sn).c_str(),FILE_WRITE_MODE);
 	
 	
+	
 	f<<"// This file is intended for use with surf (http://surf.sf.net/)"<<"\n";
 	f<<"// or Surfer (http://surfer.imaginary2008.de/)"<<"\n";
-	f<<"// This file was generated by Surfer."<<"\n\n";
+	f<<"// This file was generated by Surfer."<<"\n\n"<<std::flush;
+
+	if(!f.is_open() || f.fail() || f.bad())
+	{
+		std::cerr << "could not write to file "<< (script+sn)<<std::endl;
+		exit(1437);
+	}
 
 	f<<"width="<< w <<";\n";
 	f<<"height="<< w <<";\n";
@@ -2532,21 +2608,6 @@ if(!opt.ui_xml.empty())
 
 mr_UIM->add_ui_from_string(ui_info);
 
-//Gtk::Widget* pMenuBar = mr_UIM->get_widget("/MenuBar");
-
-/*
-Gtk::Toolbar* pStdBar = dynamic_cast<Gtk::Toolbar*>(mr_UIM->get_widget("/DefaultBar"));
-if(pStdBar)
-{
-m_utab.attach(*pStdBar, 0,5,0,1);
-pStdBar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
-pStdBar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
-
-int n = pStdBar->get_n_items();
-pStdBar->get_nth_item(n-1)->set_expand();
-
-}
-*/
 
 
 
@@ -2557,6 +2618,7 @@ pToolbar->set_toolbar_style(Gtk::TOOLBAR_ICONS);
 //pToolbar->set_icon_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
     m_tool.attach(*pToolbar,3,5,4,5,Gtk::FILL|Gtk::EXPAND,Gtk::SHRINK);
 pToolbar->set_show_arrow(false);
+
 //pToolbar->set_toolbar_style(Gtk::TOOLBAR_BOTH_HORIZ);
 MOD{pToolbar->modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 }
@@ -2681,6 +2743,10 @@ Glib::RefPtr<Gdk::Pixbuf> make_colortable(bool flip, rgb_triplet buffer[COLORTAB
 void SurfBWindow::restart_with_lang(const char* LANG)
 {
 
+#ifdef WIN32
+#define setenv(a,b,c) _putenv_s(a,b)
+#endif
+
 setenv("LANGUAGE",LANG,1);
 setenv("LANG",LANG,1);
 
@@ -2696,4 +2762,10 @@ x-> kill_w = this;
 }
 
 
+bool SurfBWindow::on_delete_event(GdkEventAny* eve)
+{
+
+Gtk::Main::quit();
+return false;
+}
 

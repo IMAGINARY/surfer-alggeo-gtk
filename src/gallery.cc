@@ -23,7 +23,7 @@
 #include <dirent.h>
 #include <fstream>
 
-bool no_modify_gallery = true;
+bool no_modify_gallery = false;
 
 #define MOD if(!no_modify_gallery)
 
