@@ -1685,14 +1685,13 @@ void generate_image()
 
 void SurfBWindow::on_print_clicked()
 {
-
+/* HACK: remove stupid name button
 Gtk::Dialog PD(_("Print image"),true);
 
 PD.add_button(Gtk::Stock::OK,Gtk::RESPONSE_OK);
 PD.add_button(Gtk::Stock::CANCEL,Gtk::RESPONSE_CANCEL);
 
 Gtk::Label label(_("Name:"));
-Gtk::Entry entry;
 PD.get_vbox()->add(label);
 PD.get_vbox()->add(entry);
 PD.show_all_children();
@@ -1700,6 +1699,9 @@ PD.set_default_response(Gtk::RESPONSE_OK);
 
 int result = PD.run();
 if(result != Gtk::RESPONSE_OK) return;
+*/
+Gtk::Entry entry;
+
 //Bild berechnen
 
 std::string image = TEMP_ROOT_SEP+"surfb_f_p.ppm";
