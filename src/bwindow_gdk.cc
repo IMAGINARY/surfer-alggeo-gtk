@@ -2073,7 +2073,11 @@ f<<"0 = "<<data[data_index].public_eq<<std::endl;
 f.close();
 
 if(!opt.print_cmd.empty())
-log_system((opt.print_cmd+" \""+TEMP_ROOT_SEP+"surfb_p.png\" \""+TEMP_ROOT_SEP+"surfb_p_f.tex\" \""+TEMP_ROOT_SEP+"surfb_n.txt\"").c_str());
+log_system((opt.print_cmd+
+            " \""+TEMP_ROOT_SEP+"surfb_p.png\""+
+            " \""+TEMP_ROOT_SEP+"surfb_p_f.tex\""+
+            " \""+TEMP_ROOT_SEP+"surfb_n.txt\""+
+            " \""+TEMP_ROOT_SEP+"surfb_f_p.pic\"").c_str());
 
 
 
