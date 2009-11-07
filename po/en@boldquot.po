@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer 0.1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2009-09-16 00:14-0700\n"
-"PO-Revision-Date: 2009-09-16 00:14-0700\n"
+"POT-Creation-Date: 2009-11-06 16:22-0800\n"
+"PO-Revision-Date: 2009-11-06 16:22-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "Delete"
 msgid "Coloring"
 msgstr "Coloring"
 
-#: src/bwindow_gdk.cc:586 src/bwindow_gdk.cc:2447
+#: src/bwindow_gdk.cc:586 src/bwindow_gdk.cc:2451
 msgid "Gallery"
 msgstr "Gallery"
 
@@ -157,55 +157,55 @@ msgstr "Print image"
 msgid "Name:"
 msgstr "Name:"
 
-#: src/bwindow_gdk.cc:2179
+#: src/bwindow_gdk.cc:2183
 msgid "Save surface"
 msgstr "Save surface"
 
-#: src/bwindow_gdk.cc:2182
+#: src/bwindow_gdk.cc:2186
 msgid "Save image and save surface"
 msgstr "Save image and save surface"
 
-#: src/bwindow_gdk.cc:2184
+#: src/bwindow_gdk.cc:2188
 msgid "Save image"
 msgstr "Save image"
 
-#: src/bwindow_gdk.cc:2194 src/bwindow_gdk.cc:2329
+#: src/bwindow_gdk.cc:2198 src/bwindow_gdk.cc:2333
 msgid "Surfer Script (.pic)"
 msgstr "Surfer Script (.pic)"
 
-#: src/bwindow_gdk.cc:2199
+#: src/bwindow_gdk.cc:2203
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2221 src/bwindow_gdk.cc:2343 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2225 src/bwindow_gdk.cc:2347 src/rotate.cc:789
 msgid "All files"
 msgstr "All files"
 
-#: src/bwindow_gdk.cc:2319
+#: src/bwindow_gdk.cc:2323
 msgid "Open surface"
 msgstr "Open surface"
 
-#: src/bwindow_gdk.cc:2443
+#: src/bwindow_gdk.cc:2447
 msgid "File"
 msgstr "File"
 
-#: src/bwindow_gdk.cc:2444
+#: src/bwindow_gdk.cc:2448
 msgid "Surface"
 msgstr "Surface"
 
-#: src/bwindow_gdk.cc:2445
+#: src/bwindow_gdk.cc:2449
 msgid "Help"
 msgstr "Help"
 
-#: src/bwindow_gdk.cc:2446
+#: src/bwindow_gdk.cc:2450
 msgid "View"
 msgstr "View"
 
-#: src/bwindow_gdk.cc:2454
+#: src/bwindow_gdk.cc:2458
 msgid "Save a copy of this image"
 msgstr "Save a copy of this image"
 
-#: src/bwindow_gdk.cc:2455
+#: src/bwindow_gdk.cc:2459
 msgid "Save a copy of this surface"
 msgstr "Save a copy of this surface"
 
@@ -349,7 +349,7 @@ msgstr "Select surface - Surfer"
 msgid "Click on a surface, please."
 msgstr "Click on a surface, please."
 
-#: src/surfer.cc:174
+#: src/surfer.cc:185
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
@@ -371,7 +371,7 @@ msgstr ""
 "       -t removes animation und multiple surfaces from user interface \n"
 "       file is a surf or surfer script\n"
 
-#: src/surfer.cc:392 src/surfer.cc:417
+#: src/surfer.cc:403 src/surfer.cc:428
 msgid "gallery-en"
 msgstr "gallery-en"
 

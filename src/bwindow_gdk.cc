@@ -122,7 +122,12 @@ conn(),
 
 m_tab(3,2),
 m_draw(),
+
+m_gallconvpx(1,0,1),
+m_gallconvpy(1,0,1),
+m_gallconvp(m_gallconvpx,m_gallconvpy),
 m_gallcon(),
+
 m_hscale(0,1.05,0.05,"a"),
 m_hscale2(0,1.05,0.05,"b"),
 m_hscale3(-1,1.05,0.05,"c"),
@@ -198,7 +203,7 @@ m_avalue2(),
 m_error(),
 m_printing(_("Printing image...")),
 m_zero("=0"),
-
+m_background(),
 
 m_gdraw(),
 m_gframe(),
@@ -526,6 +531,28 @@ MOD{
 
 			m_entry.set_text(data[data_index].public_eq);
 
+			
+			MOD{
+			m_note.modify_fg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_note.modify_fg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+
+			m_note.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_note.modify_base(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_note.modify_base(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_note.modify_base(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_note.modify_base(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+
+			m_note.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_note.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+			}
+			
+
 
 			Gtk::Label* v_co = Gtk::manage(new Gtk::Label(_("Coloring")));
 			MOD{
@@ -543,16 +570,6 @@ MOD{
 
 
 
-			MOD{
-			m_note.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
-			m_note.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
-
-			m_note.modify_bg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
-			m_note.modify_bg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
-			m_note.modify_bg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
-			m_note.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
-			}
-			
 			//if(!PRESENTATION_MODE)m_ctab.attach(m_special,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK);
 
 			m_ctab.attach(*Gtk::manage(new Gtk::Image),1,2,1,2);
@@ -596,7 +613,63 @@ MOD{
 			}
 
 
-			if(!no_new_features)m_gallcon.add(m_gtab);
+                        m_gallconvp.add(m_gtab);
+			if(!no_new_features)m_gallcon.add(m_gallconvp);
+
+
+
+			MOD{
+                        m_background.modify_fg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+			m_background.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+			m_background.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                        
+                        m_background.modify_fg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+			m_background.modify_bg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+			m_background.modify_base(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+
+			m_background.modify_fg(Gtk::STATE_PRELIGHT,MAIN_COLOR_GDK);
+			m_background.modify_bg(Gtk::STATE_PRELIGHT,MAIN_COLOR_GDK);
+			m_background.modify_base(Gtk::STATE_PRELIGHT,MAIN_COLOR_GDK);
+
+			m_background.modify_fg(Gtk::STATE_SELECTED,MAIN_COLOR_GDK);
+			m_background.modify_bg(Gtk::STATE_SELECTED,MAIN_COLOR_GDK);
+			m_background.modify_base(Gtk::STATE_SELECTED,MAIN_COLOR_GDK);
+
+			m_background.modify_fg(Gtk::STATE_INSENSITIVE,MAIN_COLOR_GDK);
+			m_background.modify_bg(Gtk::STATE_INSENSITIVE,MAIN_COLOR_GDK);
+			m_background.modify_base(Gtk::STATE_INSENSITIVE,MAIN_COLOR_GDK);
+
+			}
+
+
+			
+			MOD{
+                        m_gallconvp.modify_fg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+			m_gallconvp.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+			m_gallconvp.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+                        
+                        m_gallconvp.modify_fg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+			m_gallconvp.modify_bg(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+			m_gallconvp.modify_base(Gtk::STATE_ACTIVE,MAIN_COLOR_GDK);
+
+			m_gallconvp.modify_fg(Gtk::STATE_PRELIGHT,MAIN_COLOR_GDK);
+			m_gallconvp.modify_bg(Gtk::STATE_PRELIGHT,MAIN_COLOR_GDK);
+			m_gallconvp.modify_base(Gtk::STATE_PRELIGHT,MAIN_COLOR_GDK);
+
+			m_gallconvp.modify_fg(Gtk::STATE_SELECTED,MAIN_COLOR_GDK);
+			m_gallconvp.modify_bg(Gtk::STATE_SELECTED,MAIN_COLOR_GDK);
+			m_gallconvp.modify_base(Gtk::STATE_SELECTED,MAIN_COLOR_GDK);
+
+			m_gallconvp.modify_fg(Gtk::STATE_INSENSITIVE,MAIN_COLOR_GDK);
+			m_gallconvp.modify_bg(Gtk::STATE_INSENSITIVE,MAIN_COLOR_GDK);
+			m_gallconvp.modify_base(Gtk::STATE_INSENSITIVE,MAIN_COLOR_GDK);
+
+			}
+
+
+			
+
+
 
 			m_gallcon.set_shadow_type(Gtk::SHADOW_NONE);
 			m_gallcon.set_policy(Gtk::POLICY_NEVER,Gtk::POLICY_AUTOMATIC);
@@ -604,12 +677,23 @@ MOD{
                         
 			MOD{
 			m_gallcon.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
-			m_gallcon.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_gallcon.modify_base(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_gallcon.modify_base(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_gallcon.modify_base(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_gallcon.modify_base(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
 
+			m_gallcon.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
 			m_gallcon.modify_bg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
 			m_gallcon.modify_bg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
 			m_gallcon.modify_bg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
 			m_gallcon.modify_bg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
+
+
+			m_gallcon.modify_fg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
+			m_gallcon.modify_fg(Gtk::STATE_ACTIVE, MAIN_COLOR_GDK);
+			m_gallcon.modify_fg(Gtk::STATE_SELECTED, MAIN_COLOR_GDK);
+			m_gallcon.modify_fg(Gtk::STATE_PRELIGHT, MAIN_COLOR_GDK);
+			m_gallcon.modify_fg(Gtk::STATE_INSENSITIVE, MAIN_COLOR_GDK);
 
                         m_gtab.modify_base(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
 			m_gtab.modify_bg(Gtk::STATE_NORMAL, MAIN_COLOR_GDK);
@@ -707,7 +791,7 @@ MOD{
 
 				v_eb->add_events(Gdk::POINTER_MOTION_MASK|Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_RELEASE_MASK);
 			}
-
+			//m_gtab.attach(m_background,1,2,0,1+gal.size());
 
 			//m_bft.attach(m_backfor,0,1,0,1,Gtk::FILL,Gtk::SHRINK);
 			//m_bft.attach(m_fbox,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);

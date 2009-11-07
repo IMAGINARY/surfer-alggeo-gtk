@@ -95,7 +95,7 @@ surfer_options default_settings()
 {
 	surfer_options so;
 	so.gallery_path = GALLERY_PATH_USE;
-	so.user_gallery_path = fix_path(fix_file(USER_GALLERY_PATH));
+	so.user_gallery_path = "";//fix_path(fix_file(USER_GALLERY_PATH));
 
 	while(! so.gallery_path.empty() && so.gallery_path[0]=='"')
 		so.gallery_path = so.gallery_path.substr(1);

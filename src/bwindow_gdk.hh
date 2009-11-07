@@ -624,6 +624,9 @@ void adjust_visibility();
 Gtk::Table m_tab;
 Gtk::DrawingArea m_draw;
 
+Gtk::Adjustment m_gallconvpx;
+Gtk::Adjustment m_gallconvpy;
+Gtk::Viewport m_gallconvp;
 Gtk::ScrolledWindow m_gallcon;
 
 AScale m_hscale;
@@ -713,6 +716,7 @@ Gtk::Label m_error;
 Gtk::Label m_printing;
 Gtk::Label m_zero;
 
+Gtk::DrawingArea m_background;
 
 void check_image(const std::string& script, const std::string& image);
 

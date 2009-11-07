@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2009-09-16 00:14-0700\n"
+"POT-Creation-Date: 2009-11-06 16:22-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgstr ""
 msgid "Coloring"
 msgstr ""
 
-#: src/bwindow_gdk.cc:586 src/bwindow_gdk.cc:2447
+#: src/bwindow_gdk.cc:586 src/bwindow_gdk.cc:2451
 msgid "Gallery"
 msgstr ""
 
@@ -114,55 +114,55 @@ msgstr ""
 msgid "Name:"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2179
+#: src/bwindow_gdk.cc:2183
 msgid "Save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2182
+#: src/bwindow_gdk.cc:2186
 msgid "Save image and save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2184
+#: src/bwindow_gdk.cc:2188
 msgid "Save image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2194 src/bwindow_gdk.cc:2329
+#: src/bwindow_gdk.cc:2198 src/bwindow_gdk.cc:2333
 msgid "Surfer Script (.pic)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2199
+#: src/bwindow_gdk.cc:2203
 msgid "Portable Network Graphics (.png)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2221 src/bwindow_gdk.cc:2343 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2225 src/bwindow_gdk.cc:2347 src/rotate.cc:789
 msgid "All files"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2319
+#: src/bwindow_gdk.cc:2323
 msgid "Open surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2443
+#: src/bwindow_gdk.cc:2447
 msgid "File"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2444
+#: src/bwindow_gdk.cc:2448
 msgid "Surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2445
+#: src/bwindow_gdk.cc:2449
 msgid "Help"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2446
+#: src/bwindow_gdk.cc:2450
 msgid "View"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2454
+#: src/bwindow_gdk.cc:2458
 msgid "Save a copy of this image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2455
+#: src/bwindow_gdk.cc:2459
 msgid "Save a copy of this surface"
 msgstr ""
 
@@ -306,7 +306,7 @@ msgstr ""
 msgid "Click on a surface, please."
 msgstr ""
 
-#: src/surfer.cc:174
+#: src/surfer.cc:185
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
@@ -319,7 +319,7 @@ msgid ""
 "       file is a surf or surfer script\n"
 msgstr ""
 
-#: src/surfer.cc:392 src/surfer.cc:417
+#: src/surfer.cc:403 src/surfer.cc:428
 msgid "gallery-en"
 msgstr ""
 
