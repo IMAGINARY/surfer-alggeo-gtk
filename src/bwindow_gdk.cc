@@ -219,7 +219,10 @@ outside_buffer(),
 m_inside_image(),
 m_outside_image(),
 first_time_full(true),
-kill_w(NULL)
+kill_w(NULL),
+m_reset(Gtk::Stock::STOP),
+m_last_action(time(NULL)),
+m_waiting_mode(0)
 {
 
        
@@ -332,6 +335,7 @@ MOD{
 	m_vscale.modify_text(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 }
 
+	m_reset.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_reset_clicked));
 
 	m_leave.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_noscreen_clicked));
 	m_save.signal_clicked().connect(sigc::mem_fun(*this, &SurfBWindow::on_save_clicked));
@@ -814,6 +818,12 @@ MOD{
 // This is where we connect the slot to the Glib::signal_timeout()
 	conn = Glib::signal_timeout().connect(my_slot, MSECS);
 
+	sigc::slot<bool> wait_slot = sigc::mem_fun(*this, &SurfBWindow::on_wait_elapsed);
+
+// This is where we connect the slot to the Glib::signal_timeout()
+	m_wait_conn = Glib::signal_timeout().connect(wait_slot, 60*1000);
+
+
 }
 
 void SurfBWindow::start()
@@ -851,7 +861,83 @@ bool SurfBWindow::on_expose_event_func(GdkEventExpose*)
 	
 }
 
+void SurfBWindow::on_reset_clicked()
+{
 
+m_last_action = time(NULL);
+m_waiting_mode = 0;
+
+
+#ifndef WIN32
+int result = system("killall -9 surf");
+#endif
+
+std::string t = opt.reset_file;
+		try{
+
+		std::ifstream f(t.c_str());
+		
+			parse_result P;
+			
+			P.global_data = global_defaults();
+			P.data = read_pic(f,P.global_data);
+		
+		if(!P.data.empty())
+		{
+
+			data = P.data;
+			global_data = P.global_data;
+
+			data_index = 0;
+			update_visuals();
+			
+		}
+
+
+		}
+		catch(...)
+		{}
+
+	
+}
+
+bool SurfBWindow::on_wait_elapsed()
+{
+	time_t d = time(NULL) - m_last_action;
+	//std::cout<<"checking time "<<d<<" | "<<m_waiting_mode<<std::endl;
+
+
+
+
+
+if(m_waiting_mode == 0 && d > 5 * 60 )
+{
+
+
+for(unsigned i = 0; i < gal.size(); i++)
+if(gal[i].path.find(opt.screen_saver_gallery) != std::string::npos)
+{
+current_gal = i;
+
+current_surf = 0;
+	
+	
+	data =  gal[current_gal].file[current_surf].data;
+	global_data =  gal[current_gal].file[current_surf].global_data;
+update_visuals();
+m_waiting_mode = 1;
+}
+
+}
+else if(m_waiting_mode == 1 && d > 1 * 60 )
+{
+on_next_clicked();
+m_waiting_mode = 1;
+}
+
+
+	return true;
+}
 
 
 color_double colormap(double bx, double by, double Z)
@@ -903,6 +989,9 @@ color_double colormap(double bx, double by, double Z)
 
 bool SurfBWindow::on_color_button_press_event_func(GdkEventButton* event)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
+
 		data[data_index].outside = colormap(event->x,event->y).surf_colors();
 		button_down = true;
 		pichange = 5;
@@ -916,6 +1005,8 @@ bool SurfBWindow::on_color_button_press_event_func(GdkEventButton* event)
 
 bool SurfBWindow::on_button_press_event_func(GdkEventButton* event)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 
 // This is where we draw on the window
 	Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
@@ -946,6 +1037,8 @@ bool SurfBWindow::on_button_press_event_func(GdkEventButton* event)
 
 bool SurfBWindow::on_button_release_event_func(GdkEventButton* )
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 
 // This is where we draw on the window
 
@@ -959,6 +1052,8 @@ bool SurfBWindow::on_button_release_event_func(GdkEventButton* )
 
 bool SurfBWindow::on_color_button_release_event_func(GdkEventButton* event)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 
 
 	button_down = false;
@@ -977,6 +1072,8 @@ bool SurfBWindow::on_color_button_release_event_func(GdkEventButton* event)
 
 bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 
 // This is where we draw on the window
 	Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
@@ -1034,6 +1131,9 @@ bool SurfBWindow::on_motion_notify_event_func(GdkEventMotion* event)
 
 bool SurfBWindow::on_color_motion_notify_event_func(GdkEventMotion* event)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
+
 	if(button_down)
 	{
 		double x, y;
@@ -1049,6 +1149,8 @@ bool SurfBWindow::on_color_motion_notify_event_func(GdkEventMotion* event)
 
 void SurfBWindow::on_insert_text_func(const Glib::ustring&,int*)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 	
 	std::string t2 = fix_input(m_entry.get_text());
 	std::string t3;
@@ -1078,6 +1180,8 @@ void SurfBWindow::on_insert_text_func(const Glib::ustring&,int*)
 
 void SurfBWindow::on_delete_text_func(int,int)
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 	
 	std::string t2 = fix_input(m_entry.get_text());
 	std::string t3;
@@ -1104,6 +1208,8 @@ void SurfBWindow::on_delete_text_func(int,int)
 
 void SurfBWindow::on_value_changed_func()
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 	
 	global_data.scale = exp(log(10.0)*m_vscale.get_value());
 	
@@ -1123,6 +1229,8 @@ void SurfBWindow::on_spin_changed_func()
 
 void SurfBWindow::on_para_changed_func()
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 	
 	
 	global_data.para[0] = m_hscale.get_value();
@@ -1131,6 +1239,8 @@ void SurfBWindow::on_para_changed_func()
 
 void SurfBWindow::on_para2_changed_func()
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
 	
 	
 	global_data.para[1] = m_hscale2.get_value();
@@ -1139,12 +1249,18 @@ void SurfBWindow::on_para2_changed_func()
 
 void SurfBWindow::on_para3_changed_func()
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
+
 	global_data.para[2] = m_hscale3.get_value();
 	pichange = 15;
 }
 
 void SurfBWindow::on_para4_changed_func()
 {
+m_last_action = time(NULL);
+m_waiting_mode = 0;
+
 	global_data.para[3] = m_hscale4.get_value();
 	pichange = 15;
 }
@@ -1219,6 +1335,11 @@ bool SurfBWindow::on_timer_event_func(int)
 
 void SurfBWindow::refresh_image(const std::string& script, const std::string& image, const int aa, bool full, const int n , bool max_res, bool max_res2)
 {
+
+//std::cout<<"action at "<<m_last_action<<std::endl;
+
+
+
 	max_res2 &= max_res;
 
 	if(!valid) return;
@@ -2561,6 +2682,7 @@ mr_AG->add(Gtk::Action::create("GalleryNext",Gtk::Stock::GO_FORWARD), sigc::mem_
 mr_AG->add(Gtk::Action::create("HelpManual",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_manual_clicked));
 mr_AG->add(Gtk::Action::create("HelpHomepage",Gtk::Stock::HOME), sigc::mem_fun(*this,&SurfBWindow::on_homepage_clicked));
 mr_AG->add(Gtk::Action::create("HelpAbout",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
+mr_AG->add(Gtk::Action::create("FileReset",Gtk::Stock::STOP), sigc::mem_fun(*this, &SurfBWindow::on_reset_clicked));
 
 
 Glib::RefPtr<Gtk::IconTheme> git = Gtk::IconTheme::get_default();
@@ -2670,6 +2792,8 @@ Glib::ustring ui_info = std::string(
 "<separator/>"
 ):"")+
     "      <toolitem action='SurfaceEdit'/>"
+    "      <separator/>"
+    "      <toolitem action='FileReset'/>"
     "  </toolbar>"
     "</ui>";
 

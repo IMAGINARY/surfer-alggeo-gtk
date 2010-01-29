@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2009-11-06 16:22-0800\n"
+"POT-Creation-Date: 2009-11-09 19:50-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,99 +70,99 @@ msgstr ""
 msgid "Could not display help file. Install Adobe Reader."
 msgstr ""
 
-#: src/bwindow_gdk.cc:149
+#: src/bwindow_gdk.cc:154
 msgid "side 1"
 msgstr ""
 
-#: src/bwindow_gdk.cc:150
+#: src/bwindow_gdk.cc:155
 msgid "side 2"
 msgstr ""
 
-#: src/bwindow_gdk.cc:188
+#: src/bwindow_gdk.cc:193
 msgid "Details"
 msgstr ""
 
-#: src/bwindow_gdk.cc:199
+#: src/bwindow_gdk.cc:204
 msgid "Printing image..."
 msgstr ""
 
-#: src/bwindow_gdk.cc:463
+#: src/bwindow_gdk.cc:468
 msgid "Delete"
 msgstr ""
 
-#: src/bwindow_gdk.cc:530
+#: src/bwindow_gdk.cc:557
 msgid "Coloring"
 msgstr ""
 
-#: src/bwindow_gdk.cc:586 src/bwindow_gdk.cc:2451
+#: src/bwindow_gdk.cc:603 src/bwindow_gdk.cc:2535
 msgid "Gallery"
 msgstr ""
 
-#: src/bwindow_gdk.cc:631
+#: src/bwindow_gdk.cc:715
 msgid "Info"
 msgstr ""
 
-#: src/bwindow_gdk.cc:649
+#: src/bwindow_gdk.cc:733
 msgid "Animate"
 msgstr ""
 
-#: src/bwindow_gdk.cc:1605
+#: src/bwindow_gdk.cc:1689
 msgid "Print image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:1610
+#: src/bwindow_gdk.cc:1694
 msgid "Name:"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2183
+#: src/bwindow_gdk.cc:2267
 msgid "Save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2186
+#: src/bwindow_gdk.cc:2270
 msgid "Save image and save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2188
+#: src/bwindow_gdk.cc:2272
 msgid "Save image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2198 src/bwindow_gdk.cc:2333
+#: src/bwindow_gdk.cc:2282 src/bwindow_gdk.cc:2417
 msgid "Surfer Script (.pic)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2203
+#: src/bwindow_gdk.cc:2287
 msgid "Portable Network Graphics (.png)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2225 src/bwindow_gdk.cc:2347 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2309 src/bwindow_gdk.cc:2431 src/rotate.cc:789
 msgid "All files"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2323
+#: src/bwindow_gdk.cc:2407
 msgid "Open surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2447
+#: src/bwindow_gdk.cc:2531
 msgid "File"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2448
+#: src/bwindow_gdk.cc:2532
 msgid "Surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2449
+#: src/bwindow_gdk.cc:2533
 msgid "Help"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2450
+#: src/bwindow_gdk.cc:2534
 msgid "View"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2458
+#: src/bwindow_gdk.cc:2542
 msgid "Save a copy of this image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2459
+#: src/bwindow_gdk.cc:2543
 msgid "Save a copy of this surface"
 msgstr ""
 

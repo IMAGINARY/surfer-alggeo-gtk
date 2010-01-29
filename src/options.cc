@@ -128,6 +128,9 @@ surfer_options default_settings()
         so.change_lang = false;
 	so.modified_surf = !no_new_surf_features;
 
+	so.reset_file = so.gallery_path + DIR_SEP + _("gallery-en")+DIR_SEP+"ADE"+DIR_SEP+"A1pm.pic";
+	so.screen_saver_gallery = "flaechen_fantasien";
+
 	return so;
 }
 
@@ -152,6 +155,8 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"ffmpeg="<<so.ffmpeg_cmd<<std::endl;
 	f<<"modified_surf="<<so.modified_surf<<std::endl;
         f<<"languages="<<so.change_lang<<std::endl;
+        f<<"reset="<<so.reset_file<<std::endl;
+	f<<"screen_saver_gallery="<<so.screen_saver_gallery<<std::endl;
 	return f;
 }
 
@@ -207,6 +212,8 @@ surfer_options read_settings_from_file(const std::string& filename)
 		if(t1 == "uixml") so.ui_xml = t2;
 		if(t1 == "mencoder") so.mencoder_cmd = t2;
 		if(t1 == "ffmpeg") so.ffmpeg_cmd = t2;
+		if(t1 == "reset") so.reset_file = t2;
+		if(t1 == "screen_saver_gallery") so.screen_saver_gallery = t2;
 		if(t1 == "resolution")
 		{
 			std::istringstream iss(t2);

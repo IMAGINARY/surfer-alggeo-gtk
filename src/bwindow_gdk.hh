@@ -229,6 +229,9 @@ struct surfer_options
 	bool modified_surf;
 
         bool change_lang;
+
+	std::string reset_file;
+	std::string screen_saver_gallery;
 };
 
 class ZScale: public Gtk::VScale
@@ -723,6 +726,10 @@ void check_image(const std::string& script, const std::string& image);
 std::vector<Gtk::DrawingArea> m_gdraw;
 std::vector<Gtk::AspectFrame> m_gframe;
 
+Gtk::Button m_reset;
+time_t m_last_action;
+unsigned m_waiting_mode;
+sigc::connection m_wait_conn;
 
 void adjust_printing();
 
@@ -738,6 +745,8 @@ void on_delete_text_func(int,int);
 void refresh(const std::string& script, const std::string& image, int aa , bool full = false);
 void refresh_image(const std::string& script, const std::string& image, const int aa , bool full, const int n = num_threads(), bool max_res = false, bool max_res2 = true);
 
+void on_reset_clicked();
+bool on_wait_elapsed();
 
 void refresh_display(const std::string& image, bool full = false);
 void refresh_print(const std::string& image);
