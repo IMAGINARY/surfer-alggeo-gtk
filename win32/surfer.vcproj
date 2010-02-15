@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="surfer"
 	ProjectGUID="{D1114305-C0CA-4CB3-8875-95174D40117F}"
 	RootNamespace="surfer"
 	Keyword="ManagedCProj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -20,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\gtkmm-2.4d.vsprops"
+			InheritedPropertySheets=".\gtkmm-vc90-d-2_4.vsprops"
 			CharacterSet="1"
 			ManagedExtensions="0"
 			>
@@ -68,6 +69,8 @@
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -89,9 +92,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -100,7 +100,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\gtkmm-2.4.vsprops"
+			InheritedPropertySheets=".\gtkmm-vc90-2_4.vsprops"
 			CharacterSet="1"
 			ManagedExtensions="0"
 			WholeProgramOptimization="1"
@@ -147,6 +147,8 @@
 				AdditionalLibraryDirectories="lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -166,9 +168,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

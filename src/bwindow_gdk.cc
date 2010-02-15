@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#ifndef PRESENTATAION_MODE
+#ifndef PRESENTATION_MODE
 #define PRESENTATION_MODE 0
 #endif
 
@@ -1283,7 +1283,7 @@ bool SurfBWindow::on_timer_event_func(int)
 	}
 	if(get_window())
 	{
-		if(!no_full and first_time_full)
+		if(!no_full && first_time_full)
 		{
 			fullscreen();
 			first_time_full = false;

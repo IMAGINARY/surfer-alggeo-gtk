@@ -4,7 +4,7 @@
 #define MyAppName "Surfer"
 #define MyAppVerName "Surfer 0.1"
 #define MyAppPublisher "Mathematisches Forschungsinstitut Oberwolfach"
-#define MyAppURL "http://surfer.imaginary2008.de"
+#define MyAppURL "http://surfer.imaginary-exhibition.com"
 #define MyAppExeName "surfer.exe"
 
 [Setup]
@@ -36,63 +36,53 @@ WizardImageFile=surfer.bmp
 
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"
-Name: "de"; MessagesFile: "compiler:Languages\German.isl"
+Name: en; MessagesFile: compiler:Default.isl
+Name: de; MessagesFile: compiler:Languages\German.isl
 
 [CustomMessages]
 ; en
 en.RCInstall=Installing %1.
-en.VCRedist=Microsoft Visual Studio 2005 SP1 runtime components
-en.GTK=GTK+ runtime components
-en.gtkmm=gtkmm runtime components
+en.VCRedist=Microsoft Visual Studio 2008 SP1 runtime components
+
 ; de
 de.RCInstall=Installiere %1.
-de.VCRedist=Microsoft Visual Studio 2005 SP1 Laufzeitkomponenten
-de.GTK=GTK+ Laufzeitkomponenten
-de.gtkmm=gtkmm Laufzeitkomponenten
+de.VCRedist=Microsoft Visual Studio 2008 SP1 Laufzeitkomponenten
 
 [Components]
-Name: "main"; Description: "Surfer"; Types: full compact custom; Flags: fixed;
-Name: "vcredist"; Description: "{cm:VCRedist}"; Types: full;
-Name: "gtk"; Description: "{cm:GTK}"; Types: full;
-Name: "gtkmm"; Description: "{cm:gtkmm}"; Types: full;
+Name: main; Description: Surfer; Types: full custom compact; Flags: fixed
+Name: vcredist; Description: {cm:VCRedist}; Types: full custom compact; Flags: fixed; Languages: 
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
+Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}
 
 [Files]
 ; Surfer-Files
-Source: "..\bin\surfer.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\surfer"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\surfer-help.pdf"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\..\po\de.gmo"; DestDir: "{app}\languages\de\LC_MESSAGES"; DestName: "surfer.mo"; Flags: ignoreversion; Components: main
-Source: "..\..\gallery\*"; DestDir: "{app}\gallery"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main
+Source: ..\bin\surfer.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: ..\surfer.ini; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: ..\..\surfer-help.pdf; DestDir: {app}; Flags: ignoreversion; Components: main
+Source: ..\..\po\de.gmo; DestDir: {app}\languages\de\LC_MESSAGES; DestName: surfer.mo; Flags: ignoreversion; Components: main
+Source: ..\..\gallery-de\*; DestDir: {app}\gallery\gallery-de; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main; Excludes: .svn
+Source: ..\..\gallery-en\*; DestDir: {app}\gallery\gallery-en; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main; Excludes: .svn
 ; ffmpeg-Files
-Source: "..\redist\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "..\redist\pthreadGC2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: ..\redist\ffmpeg\ffmpeg.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: ..\redist\ffmpeg\pthreadGC2.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 ; Surf-Files
-Source: "surf\jpeg62.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "surf\libtiff3.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "surf\pthreadVC2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "surf\surf.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: main
-Source: "surf\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: main
+Source: surf\pthreadVC2.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: surf\surf.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 ; Dependencies
-Source: "..\redist\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Components: vcredist
-Source: "..\redist\gtk-2.10.11-win32-1.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Components: gtk
-Source: "..\redist\gtkmm-win32-runtime-2.10.11-1.exe"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall; Components: gtkmm
+Source: ..\redist\vcredist_x86.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall; Components: vcredist
+; GTKmm with GTK
+Source: ..\redist\gtkmm\*; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main; Excludes: .svn
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: {group}\{#MyAppName}; Filename: {app}\bin\{#MyAppExeName}; WorkingDir: {app}\bin
+Name: {group}\{cm:ProgramOnTheWeb,{#MyAppName}}; Filename: {#MyAppURL}
+Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}; WorkingDir: {app}
+Name: {commondesktop}\{#MyAppName}; Filename: {app}\bin\{#MyAppExeName}; WorkingDir: {app}\bin; Tasks: desktopicon
 
 [Run]
-Filename: "{tmp}\vcredist_x86.exe"; StatusMsg: "{cm:RCInstall,VCRedist}"; Components: vcredist
-Filename: "{tmp}\gtk-2.10.11-win32-1.exe"; StatusMsg: "{cm:RCInstall,GTK}"; Components: gtk
-Filename: "{tmp}\gtkmm-win32-runtime-2.10.11-1.exe"; StatusMsg: "{cm:RCInstall,gtkmm}"; Components: gtkmm
+Filename: {tmp}\vcredist_x86.exe; StatusMsg: {cm:RCInstall,{cm:VCRedist}}; Components: vcredist; Parameters: /q
 ; Launch program after installation
-;Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#MyAppName}}"; Flags: nowait postinstall skipifsilent
-
+;Filename: "{app}\bin\{#MyAppExeName}"; WorkingDir: {app}; Description: "{cm:LaunchProgram,{#MyAppName}}"; Flags: nowait postinstall skipifsilent
