@@ -23,7 +23,7 @@ LicenseFile=gpl-3.0.txt
 OutputDir=.
 OutputBaseFilename=surfer-setup
 Compression=lzma
-SolidCompression=yes
+SolidCompression=false
 PrivilegesRequired=admin
 
 ;; use new InnoSetup-Images
