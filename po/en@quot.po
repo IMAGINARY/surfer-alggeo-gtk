@@ -1,7 +1,7 @@
 # English translations for surfer package.
-# Copyright (C) 2009 Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern
+# Copyright (C) 2010 Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern
 # This file is distributed under the same license as the surfer package.
-# Automatically generated, 2009.
+# Automatically generated, 2010.
 #
 # All this catalog "translates" are quotation characters.
 # The msgids must be ASCII and therefore cannot contain real quotation
@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer 0.1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2009-11-09 19:50-0800\n"
-"PO-Revision-Date: 2009-11-09 19:50-0800\n"
+"POT-Creation-Date: 2010-03-07 00:43+0100\n"
+"PO-Revision-Date: 2010-03-07 00:43+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -126,83 +126,75 @@ msgstr "Details"
 msgid "Printing image..."
 msgstr "Printing image..."
 
-#: src/bwindow_gdk.cc:468
+#: src/bwindow_gdk.cc:472
 msgid "Delete"
 msgstr "Delete"
 
-#: src/bwindow_gdk.cc:557
+#: src/bwindow_gdk.cc:561
 msgid "Coloring"
 msgstr "Coloring"
 
-#: src/bwindow_gdk.cc:603 src/bwindow_gdk.cc:2535
+#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2658
 msgid "Gallery"
 msgstr "Gallery"
 
-#: src/bwindow_gdk.cc:715
+#: src/bwindow_gdk.cc:719
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:733
+#: src/bwindow_gdk.cc:737
 msgid "Animate"
 msgstr "Animate"
 
-#: src/bwindow_gdk.cc:1689
-msgid "Print image"
-msgstr "Print image"
-
-#: src/bwindow_gdk.cc:1694
-msgid "Name:"
-msgstr "Name:"
-
-#: src/bwindow_gdk.cc:2267
+#: src/bwindow_gdk.cc:2390
 msgid "Save surface"
 msgstr "Save surface"
 
-#: src/bwindow_gdk.cc:2270
+#: src/bwindow_gdk.cc:2393
 msgid "Save image and save surface"
 msgstr "Save image and save surface"
 
-#: src/bwindow_gdk.cc:2272
+#: src/bwindow_gdk.cc:2395
 msgid "Save image"
 msgstr "Save image"
 
-#: src/bwindow_gdk.cc:2282 src/bwindow_gdk.cc:2417
+#: src/bwindow_gdk.cc:2405 src/bwindow_gdk.cc:2540
 msgid "Surfer Script (.pic)"
 msgstr "Surfer Script (.pic)"
 
-#: src/bwindow_gdk.cc:2287
+#: src/bwindow_gdk.cc:2410
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2309 src/bwindow_gdk.cc:2431 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2432 src/bwindow_gdk.cc:2554 src/rotate.cc:789
 msgid "All files"
 msgstr "All files"
 
-#: src/bwindow_gdk.cc:2407
+#: src/bwindow_gdk.cc:2530
 msgid "Open surface"
 msgstr "Open surface"
 
-#: src/bwindow_gdk.cc:2531
+#: src/bwindow_gdk.cc:2654
 msgid "File"
 msgstr "File"
 
-#: src/bwindow_gdk.cc:2532
+#: src/bwindow_gdk.cc:2655
 msgid "Surface"
 msgstr "Surface"
 
-#: src/bwindow_gdk.cc:2533
+#: src/bwindow_gdk.cc:2656
 msgid "Help"
 msgstr "Help"
 
-#: src/bwindow_gdk.cc:2534
+#: src/bwindow_gdk.cc:2657
 msgid "View"
 msgstr "View"
 
-#: src/bwindow_gdk.cc:2542
+#: src/bwindow_gdk.cc:2665
 msgid "Save a copy of this image"
 msgstr "Save a copy of this image"
 
-#: src/bwindow_gdk.cc:2543
+#: src/bwindow_gdk.cc:2666
 msgid "Save a copy of this surface"
 msgstr "Save a copy of this surface"
 
