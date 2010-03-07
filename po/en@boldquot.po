@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer 0.1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2010-03-07 00:43+0100\n"
-"PO-Revision-Date: 2010-03-07 00:43+0100\n"
+"POT-Creation-Date: 2010-03-07 01:21+0100\n"
+"PO-Revision-Date: 2010-03-07 01:21+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -341,7 +341,7 @@ msgstr "Select surface - Surfer"
 msgid "Click on a surface, please."
 msgstr "Click on a surface, please."
 
-#: src/surfer.cc:185
+#: src/surfer.cc:186
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
 "usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
@@ -363,7 +363,7 @@ msgstr ""
 "       -t removes animation und multiple surfaces from user interface \n"
 "       file is a surf or surfer script\n"
 
-#: src/surfer.cc:403 src/surfer.cc:428
+#: src/surfer.cc:404 src/surfer.cc:429
 msgid "gallery-en"
 msgstr "gallery-en"
 

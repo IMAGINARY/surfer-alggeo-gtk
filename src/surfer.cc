@@ -21,6 +21,7 @@
 
 
 #include <gtkmm/main.h>
+#include <sys/stat.h>
 #include "bwindow_gdk.hh"
 
 std::string temp_dir = "/tmp/";
