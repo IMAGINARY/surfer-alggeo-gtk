@@ -618,7 +618,9 @@ MOD{
 
 
                         m_gallconvp.add(m_gtab);
-			if(!no_new_features)m_gallcon.add(m_gallconvp);
+
+			if(!no_new_features or true)
+                        m_gallcon.add(m_gallconvp);
 
 
 
@@ -710,7 +712,7 @@ MOD{
 
                        
                         
-                        if(!no_new_features)
+                        if(!no_new_features or true)
 			{if(!no_gallery)m_note.append_page(m_gallcon,*v_ga);}
                         else
                         {if(!no_gallery)m_note.append_page(m_gtab,*v_ga);}
@@ -2797,7 +2799,7 @@ Glib::ustring ui_info = std::string(
     "  <toolbar  name='PropBar'>"
     "      <toolitem action='SurfaceEdit'/>"
     "      <separator/>"
-    "      <toolitem action='FileReset'/>"
+    //"      <toolitem action='FileReset'/>"
     "  </toolbar>"
     "</ui>";
 
