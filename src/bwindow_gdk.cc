@@ -2696,7 +2696,7 @@ git->add_builtin_icon("flag_en",icon_size,flag_english);
 
 
 mr_AG->add(Gtk::Action::create_with_icon_name("LangDE","flag_de","Deutsch","Deutsch"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"de_DE.UTF-8"));
-mr_AG->add(Gtk::Action::create_with_icon_name("LangEN","flag_en","English","English"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"en_US.UTF-8"));
+mr_AG->add(Gtk::Action::create_with_icon_name("LangEN","flag_en","English","English"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"en_GB.UTF-8"));
 //mr_AG->add(Gtk::Action::create("LangEN",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
 
 mr_UIM = Gtk::UIManager::create();
@@ -2766,6 +2766,16 @@ Glib::ustring ui_info = std::string(
     "      <toolitem action='SurfaceDelete' />"
 //"      <separator/>"
 //    "      <toolitem action='Animate'/>"
+
+)
++((opt.change_lang)?(
+"      <toolitem action='LangDE'/>"
+"      <toolitem action='LangEN'/>"
+
+"<separator/>"
+):"")+
+
+
     "  </toolbar>"
 
     "  <toolbar  name='TopBar'>"
@@ -2784,13 +2794,7 @@ Glib::ustring ui_info = std::string(
     "  <toolbar  name='HelpBar'>"
     "      <toolitem action='HelpAbout'/>"
     "  </toolbar>"
-    "  <toolbar  name='PropBar'>")
-+((opt.change_lang)?(
-"      <toolitem action='LangDE'/>"
-"      <toolitem action='LangEN'/>"
-
-"<separator/>"
-):"")+
+    "  <toolbar  name='PropBar'>"
     "      <toolitem action='SurfaceEdit'/>"
     "      <separator/>"
     "      <toolitem action='FileReset'/>"
