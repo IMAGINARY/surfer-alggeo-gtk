@@ -41,6 +41,9 @@
 
 <toolitem action='LangDE'/>
 <toolitem action='LangEN'/>
+<separator/>
+
+<toolitem action='Print'/>
 <!--
 <separator/>
 <toolitem action='ViewFullscreen'/>

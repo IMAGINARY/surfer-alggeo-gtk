@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer 0.1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2010-03-07 01:21+0100\n"
-"PO-Revision-Date: 2010-03-07 01:21+0100\n"
+"POT-Creation-Date: 2010-08-30 02:28+0200\n"
+"PO-Revision-Date: 2010-08-30 02:28+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -134,67 +134,71 @@ msgstr "Delete"
 msgid "Coloring"
 msgstr "Coloring"
 
-#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2658
+#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2660
 msgid "Gallery"
 msgstr "Gallery"
 
-#: src/bwindow_gdk.cc:719
+#: src/bwindow_gdk.cc:721
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:737
+#: src/bwindow_gdk.cc:739
 msgid "Animate"
 msgstr "Animate"
 
-#: src/bwindow_gdk.cc:2390
+#: src/bwindow_gdk.cc:1860
+msgid "PrintAcknowledge"
+msgstr "PrintAcknowledge"
+
+#: src/bwindow_gdk.cc:2392
 msgid "Save surface"
 msgstr "Save surface"
 
-#: src/bwindow_gdk.cc:2393
+#: src/bwindow_gdk.cc:2395
 msgid "Save image and save surface"
 msgstr "Save image and save surface"
 
-#: src/bwindow_gdk.cc:2395
+#: src/bwindow_gdk.cc:2397
 msgid "Save image"
 msgstr "Save image"
 
-#: src/bwindow_gdk.cc:2405 src/bwindow_gdk.cc:2540
+#: src/bwindow_gdk.cc:2407 src/bwindow_gdk.cc:2542
 msgid "Surfer Script (.pic)"
 msgstr "Surfer Script (.pic)"
 
-#: src/bwindow_gdk.cc:2410
+#: src/bwindow_gdk.cc:2412
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2432 src/bwindow_gdk.cc:2554 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2434 src/bwindow_gdk.cc:2556 src/rotate.cc:789
 msgid "All files"
 msgstr "All files"
 
-#: src/bwindow_gdk.cc:2530
+#: src/bwindow_gdk.cc:2532
 msgid "Open surface"
 msgstr "Open surface"
 
-#: src/bwindow_gdk.cc:2654
+#: src/bwindow_gdk.cc:2656
 msgid "File"
 msgstr "File"
 
-#: src/bwindow_gdk.cc:2655
+#: src/bwindow_gdk.cc:2657
 msgid "Surface"
 msgstr "Surface"
 
-#: src/bwindow_gdk.cc:2656
+#: src/bwindow_gdk.cc:2658
 msgid "Help"
 msgstr "Help"
 
-#: src/bwindow_gdk.cc:2657
+#: src/bwindow_gdk.cc:2659
 msgid "View"
 msgstr "View"
 
-#: src/bwindow_gdk.cc:2665
+#: src/bwindow_gdk.cc:2667
 msgid "Save a copy of this image"
 msgstr "Save a copy of this image"
 
-#: src/bwindow_gdk.cc:2666
+#: src/bwindow_gdk.cc:2668
 msgid "Save a copy of this surface"
 msgstr "Save a copy of this surface"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2010-03-07 01:21+0100\n"
+"POT-Creation-Date: 2010-08-30 02:28+0200\n"
 "PO-Revision-Date: $Date$Last-Translator: Henning Meyer <hmeyer@mathematik."
 "uni-kl.de>\n"
 "Language-Team: German <surfer@imaginary2008.de>\n"
@@ -110,72 +110,77 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: src/bwindow_gdk.cc:561
-#, fuzzy
 msgid "Coloring"
 msgstr "Farben"
 
-#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2658
+#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2660
 msgid "Gallery"
 msgstr "Galerie"
 
-#: src/bwindow_gdk.cc:719
+#: src/bwindow_gdk.cc:721
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:737
+#: src/bwindow_gdk.cc:739
 msgid "Animate"
 msgstr "Film erstellen"
 
-#: src/bwindow_gdk.cc:2390
+#: src/bwindow_gdk.cc:1860
+msgid "PrintAcknowledge"
+msgstr ""
+"Ihr Bild wird in Kürze als Glasplatten-Projektion erscheinen!Ein kostenloser "
+"Ausdruck kann an der Kasse abgeholt werden."
+
+#: src/bwindow_gdk.cc:2392
 #, fuzzy
 msgid "Save surface"
 msgstr "Fläche öffnen"
 
-#: src/bwindow_gdk.cc:2393
+#: src/bwindow_gdk.cc:2395
 msgid "Save image and save surface"
 msgstr "Bild und Fläche speichern"
 
-#: src/bwindow_gdk.cc:2395
+#: src/bwindow_gdk.cc:2397
 msgid "Save image"
 msgstr "Bild speichern"
 
-#: src/bwindow_gdk.cc:2405 src/bwindow_gdk.cc:2540
+#: src/bwindow_gdk.cc:2407 src/bwindow_gdk.cc:2542
 msgid "Surfer Script (.pic)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2410
+#: src/bwindow_gdk.cc:2412
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2432 src/bwindow_gdk.cc:2554 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2434 src/bwindow_gdk.cc:2556 src/rotate.cc:789
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/bwindow_gdk.cc:2530
+#: src/bwindow_gdk.cc:2532
 msgid "Open surface"
 msgstr "Fläche öffnen"
 
-#: src/bwindow_gdk.cc:2654
+#: src/bwindow_gdk.cc:2656
 msgid "File"
 msgstr "Datei"
 
-#: src/bwindow_gdk.cc:2655
+#: src/bwindow_gdk.cc:2657
 msgid "Surface"
 msgstr "Fläche"
 
-#: src/bwindow_gdk.cc:2656
+#: src/bwindow_gdk.cc:2658
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/bwindow_gdk.cc:2657
+#: src/bwindow_gdk.cc:2659
 msgid "View"
 msgstr "Ansicht"
 
-#: src/bwindow_gdk.cc:2665
+#: src/bwindow_gdk.cc:2667
 msgid "Save a copy of this image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2666
+#: src/bwindow_gdk.cc:2668
 #, fuzzy
 msgid "Save a copy of this surface"
 msgstr "Bild und Fläche speichern"

@@ -226,8 +226,8 @@ m_waiting_mode(0)
 {
 
        
-	//m_print.set_image(*new Gtk::Image(Gtk::Stock::PRINT,Gtk::ICON_SIZE_BUTTON));
-	//m_save.set_image(*new Gtk::Image(Gtk::Stock::SAVE,Gtk::ICON_SIZE_BUTTON));
+	m_print.set_image(*new Gtk::Image(Gtk::Stock::PRINT,Gtk::ICON_SIZE_BUTTON));
+	m_save.set_image(*new Gtk::Image(Gtk::Stock::SAVE,Gtk::ICON_SIZE_BUTTON));
 	m_left.set_image(m_img_left);
 	m_right.set_image(m_img_right);
 
@@ -1857,7 +1857,9 @@ global_data.hires = res;
 printing = true;
 adjust_printing();
 refresh_print(TEMP_ROOT_SEP +"surfb_f_p.ppm");
-
+Gtk::MessageDialog print_ack( *this, _("PrintAcknowledge"), false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, true );
+print_ack.set_decorated(false);
+print_ack.run();
 }
 
 void SurfBWindow::on_save_clicked()
@@ -2699,6 +2701,10 @@ git->add_builtin_icon("flag_en",icon_size,flag_english);
 
 mr_AG->add(Gtk::Action::create_with_icon_name("LangDE","flag_de","Deutsch","Deutsch"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"de_DE.UTF-8"));
 mr_AG->add(Gtk::Action::create_with_icon_name("LangEN","flag_en","English","English"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"en_GB.UTF-8"));
+
+mr_AG->add(Gtk::Action::create("Print",Gtk::Stock::PRINT), sigc::mem_fun(*this, &SurfBWindow::on_print_clicked));
+
+
 //mr_AG->add(Gtk::Action::create("LangEN",Gtk::Stock::HELP), sigc::mem_fun(*this, &SurfBWindow::on_about_clicked));
 
 mr_UIM = Gtk::UIManager::create();
@@ -2776,7 +2782,7 @@ Glib::ustring ui_info = std::string(
 
 "<separator/>"
 ):"")+
-
+((opt.print_cmd != "")?"<toolitem action='Print'/>":"")+
 
     "  </toolbar>"
 
