@@ -184,15 +184,24 @@ arg_inspect:
 	{
 		std::cout<<
 		_("Surfer - visualizing algebraic geometry\n"
-		"usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
+		"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
 		"       -f toggles between fullscreen and windowed mode\n"
                 "       -g hides the gallery\n"
 		"       -i hides the information for gallery entries\n"
                 "       -s small mode: no fullscreen, no gallery, no information\n"
                 "       -V verbose operation\n"
                 "       -t removes animation und multiple surfaces from user interface \n"
+		"       -l sets the language, e.g. to LANG=de_DE.utf8\n"
                 "       file is a surf or surfer script\n");
 		return 0;
+	}
+	else if(std::string(argv[1])=="-l")
+	{
+		setenv("LANGUAGE",argv[2],1);
+		setenv("LANG",argv[2],1);
+		argc -= 2;
+		argv += 2;
+		goto arg_inspect;
 		
 	}
 	else if(std::string(argv[1])=="-f")
@@ -201,7 +210,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-g")
 	{
