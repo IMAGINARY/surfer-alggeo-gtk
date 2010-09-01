@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2010-08-30 02:28+0200\n"
+"POT-Creation-Date: 2010-09-01 16:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgstr ""
 msgid "Coloring"
 msgstr ""
 
-#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2660
+#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2662
 msgid "Gallery"
 msgstr ""
 
@@ -110,55 +110,55 @@ msgstr ""
 msgid "PrintAcknowledge"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2392
+#: src/bwindow_gdk.cc:2394
 msgid "Save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2395
+#: src/bwindow_gdk.cc:2397
 msgid "Save image and save surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2397
+#: src/bwindow_gdk.cc:2399
 msgid "Save image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2407 src/bwindow_gdk.cc:2542
+#: src/bwindow_gdk.cc:2409 src/bwindow_gdk.cc:2544
 msgid "Surfer Script (.pic)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2412
+#: src/bwindow_gdk.cc:2414
 msgid "Portable Network Graphics (.png)"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2434 src/bwindow_gdk.cc:2556 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2436 src/bwindow_gdk.cc:2558 src/rotate.cc:789
 msgid "All files"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2532
+#: src/bwindow_gdk.cc:2534
 msgid "Open surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2656
+#: src/bwindow_gdk.cc:2658
 msgid "File"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2657
+#: src/bwindow_gdk.cc:2659
 msgid "Surface"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2658
+#: src/bwindow_gdk.cc:2660
 msgid "Help"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2659
+#: src/bwindow_gdk.cc:2661
 msgid "View"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2667
+#: src/bwindow_gdk.cc:2669
 msgid "Save a copy of this image"
 msgstr ""
 
-#: src/bwindow_gdk.cc:2668
+#: src/bwindow_gdk.cc:2670
 msgid "Save a copy of this surface"
 msgstr ""
 
@@ -305,17 +305,18 @@ msgstr ""
 #: src/surfer.cc:186
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
-"usage: surfer [-f] [-h] [-i] [-s] [-V] [file]\n"
+"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
 "       -f toggles between fullscreen and windowed mode\n"
 "       -g hides the gallery\n"
 "       -i hides the information for gallery entries\n"
 "       -s small mode: no fullscreen, no gallery, no information\n"
 "       -V verbose operation\n"
 "       -t removes animation und multiple surfaces from user interface \n"
+"       -l sets the language, e.g. to LANG=de_DE.utf8\n"
 "       file is a surf or surfer script\n"
 msgstr ""
 
-#: src/surfer.cc:404 src/surfer.cc:429
+#: src/surfer.cc:412 src/surfer.cc:437
 msgid "gallery-en"
 msgstr ""
 
