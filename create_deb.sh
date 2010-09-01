@@ -20,6 +20,6 @@ mkdir -p $DEB/usr/local/share/surfer/
 cp ./surf/surf $DEB/usr/local/bin/
 cp /usr/local/bin/surfer $DEB/usr/local/bin/
 cp -r /usr/local/share/surfer/ $DEB/usr/local/share/surfer/ 
-rm -f $DEB/usr/local/share/surfer/gallery/gallery.tar
+rm -rf $DEB/usr/local/share/surfer/gallery/gallery.tar
 cp surfer_ui_exhibition.xml $DEB/usr/local/share/surfer/
 dpkg -b ./deb surfer.deb
