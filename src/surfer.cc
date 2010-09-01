@@ -171,6 +171,7 @@ temp_dir = GetTempPath();
 
  // HelloWorld helloworld;
   bool personalized = false;
+char *ui_xml = NULL;
   std::istream* i = new std::istringstream("");
 
   init_threads();
@@ -184,7 +185,7 @@ arg_inspect:
 	{
 		std::cout<<
 		_("Surfer - visualizing algebraic geometry\n"
-		"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
+		"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml uixmlfile] [file]\n"
 		"       -f toggles between fullscreen and windowed mode\n"
                 "       -g hides the gallery\n"
 		"       -i hides the information for gallery entries\n"
@@ -192,8 +193,16 @@ arg_inspect:
                 "       -V verbose operation\n"
                 "       -t removes animation und multiple surfaces from user interface \n"
 		"       -l sets the language, e.g. to LANG=de_DE.utf8\n"
+		"       --uixml uses the given xml file as an UI definiton\n"
                 "       file is a surf or surfer script\n");
 		return 0;
+	}
+	else if(std::string(argv[1])=="--uixml")
+	{
+		ui_xml = argv[2];
+		argc -= 2;
+		argv += 2;
+		goto arg_inspect;
 	}
 	else if(std::string(argv[1])=="-l")
 	{
@@ -202,7 +211,6 @@ arg_inspect:
 		argc -= 2;
 		argv += 2;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-f")
 	{
@@ -288,7 +296,8 @@ arg_inspect:
 
   surfer_options so = default_settings();
 if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
-
+	if( ui_xml != NULL )
+		so.ui_xml = std::string( ui_xml );
   no_new_surf_features = !so.modified_surf;
 
   if(rewrite_config)
