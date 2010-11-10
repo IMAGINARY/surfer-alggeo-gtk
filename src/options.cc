@@ -126,7 +126,7 @@ surfer_options default_settings()
 
 
         so.change_lang = false;
-	so.modified_surf = !no_new_surf_features;
+	so.modified_surf = true;//!no_new_surf_features;
 
 	so.reset_file = so.gallery_path + DIR_SEP + _("gallery-en")+DIR_SEP+"ADE"+DIR_SEP+"A1pm.pic";
 	so.screen_saver_gallery = "flaechen_fantasien";
@@ -139,7 +139,7 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	
 
 	f<<"gallery="<<so.gallery_path<<std::endl;
-	f<<"user_gallery="<<so.gallery_path<<std::endl;
+//	f<<"user_gallery="<<so.gallery_path<<std::endl;
 	f<<"save="<<so.save_cmd<<std::endl;
 	f<<"print="<<so.print_cmd<<std::endl;
 	f<<"format="<<so.format<<std::endl;
