@@ -1,0 +1,29 @@
+scale_x = 1.1627906976744187;
+scale_y = 1.1627906976744187;
+scale_z = 1.1627906976744187;
+radius=9.0;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 6;
+
+background_red=255;background_blue=255;background_green=255;//=0; background_green=0; background_blue=51;
+
+poly f1 = x^2*y*z+x*y^2+y^3+y^3*z-1*x^2*z^2;
+surface = f1;
+surface_red = 51;surface_green = 153;surface_blue = 255;
+inside_red = 153;inside_green = 255;inside_blue = 153;
+transparence = 0;
+surface=rotate(surface,-1.3274005279255057,yAxis);
+surface=rotate(surface,-0.22280762515438302,xAxis);
+surface=rotate(surface,1.5081005988335328,zAxis);
+
+draw_surface;
+filename="/home/felix/henning/Solitude.pic.jpg";
+color_file_format=jpg;
+save_color_image;

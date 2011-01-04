@@ -1,0 +1,383 @@
+# SURFER i18n
+# Copyright (C) 2008 Henning Meyer
+# This file is distributed under the same license as the PACKAGE package.
+# Henning Meyer <hmeyer@mathematik.uni-kl.de>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: surfer\n"
+"Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
+"POT-Creation-Date: 2010-09-01 16:04+0200\n"
+"PO-Revision-Date: Unknown\n"
+"Last-Translator: Unknown\n"
+"Language-Team: Unknown <surfer@imaginary-exhibition.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/about.cc:63
+msgid "About Surfer"
+msgstr "Acerca de Surfer"
+
+#: src/about.cc:67
+msgid ""
+"Surfer uses the program surf by Stephan Endrass et al.\n"
+"(http://surf.sourceforge.net)"
+msgstr ""
+"Surfer usa el programa surf de Stephan Endrass et al.\n"
+"(http://surf.sourceforge.net)"
+
+#: src/about.cc:68
+msgid ""
+"Surfer was developed for the exposition IMAGINARY, which was conceived by "
+"Mathematischen Forschungsinstitut Oberwolfach on occassion of the Year of "
+"Mathematics 2008 in Germany. The exposition has received funding by the "
+"German Federal Department of Education and Research."
+msgstr ""
+"Surfer fue desarrollado para la exposición IMAGINARY, concebida "
+"por el Instituto Matemático de Oberwolfach con ocasión del Año de las "
+"Matemáticas en Alemania y financiada por el Departamento Federal de "
+"Educación e Investigación."
+
+#: src/about.cc:71
+msgid ""
+"You will find the latest version of Surfer and additional information at "
+"http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/"
+msgstr ""
+"La última versión de Surfer, e información adicional, se puede encontrar en "
+"http://surfer.imaginary2008.de/ y http://www.imaginary2008.de/"
+
+#: src/about.cc:76
+msgid ""
+"Contact: surfer@imaginary2008.de\n"
+"Please visit our website at http://surfer.imaginary2008.de\n"
+"for further information and new releases of Surfer."
+msgstr ""
+"Contacto: surfer@imaginary2008.de\n"
+"Para más información y nuevas versiones se puede visitar la página Web "
+"http://surfer.imaginary2008.de"
+
+#: src/about.cc:79
+msgid ""
+"(c) Mathematisches Forschungsinstitut Oberwolfach and University of "
+"Kaiserslautern, 2008"
+msgstr ""
+"(c) Instituto Matemático de Oberwolfach y "
+"Universidad de Kaiserslautern, 2008"
+
+#: src/about.cc:83
+msgid ""
+"Director: Gert-Martin Greuel\n"
+"Programming: Henning Meyer and Christian Stussak\n"
+"Galleries: Oliver Labs\n"
+"Support: Felix Riemann\n"
+"Coordination: Andreas Matt"
+msgstr ""
+"Director: Gert-Martin Greuel\n"
+"Programación: Henning Meyer y Christian Stussak\n"
+"Galerías de imágenes: Oliver Labs\n"
+"Soporte: Felix Riemann\n"
+"Coordinación: Andreas Matt"
+
+#: src/about.cc:212
+msgid "Could not access help file."
+msgstr "No se ha podido acceder al archivo de ayuda"
+
+#: src/about.cc:219
+msgid "Could not display help file. Install Adobe Reader."
+msgstr "No se ha podido mostrar el archivo de ayuda. Instalar Adobe Reader"
+
+#: src/bwindow_gdk.cc:154
+msgid "side 1"
+msgstr "cara 1"
+
+#: src/bwindow_gdk.cc:155
+msgid "side 2"
+msgstr "cara 2"
+
+#: src/bwindow_gdk.cc:193
+msgid "Details"
+msgstr "Detalles"
+
+#: src/bwindow_gdk.cc:204
+msgid "Printing image..."
+msgstr "Imprimiendo imagen..."
+
+#: src/bwindow_gdk.cc:472
+msgid "Delete"
+msgstr "Borrar"
+
+#: src/bwindow_gdk.cc:561
+msgid "Coloring"
+msgstr "Colores"
+
+#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2662
+msgid "Gallery"
+msgstr "Galería"
+
+#: src/bwindow_gdk.cc:721
+msgid "Info"
+msgstr "Info"
+
+#: src/bwindow_gdk.cc:739
+msgid "Animate"
+msgstr "Animar"
+
+#: src/bwindow_gdk.cc:1860
+msgid "PrintAcknowledge"
+msgstr ""
+"Tu imagen aparecerá pronto en la pantalla. Puedes obtener una copia "
+"impresa gratuita en la mesa de recepción."
+
+#: src/bwindow_gdk.cc:2394
+msgid "Save surface"
+msgstr "Guardar superficie"
+
+#: src/bwindow_gdk.cc:2397
+msgid "Save image and save surface"
+msgstr "Guardar imagen y superficie"
+
+#: src/bwindow_gdk.cc:2399
+msgid "Save image"
+msgstr "Guardar imagen"
+
+#: src/bwindow_gdk.cc:2409 src/bwindow_gdk.cc:2544
+msgid "Surfer Script (.pic)"
+msgstr "Formato Surfer (.pic)"
+
+#: src/bwindow_gdk.cc:2414
+msgid "Portable Network Graphics (.png)"
+msgstr "Formato PNG (.png)"
+
+#: src/bwindow_gdk.cc:2436 src/bwindow_gdk.cc:2558 src/rotate.cc:789
+msgid "All files"
+msgstr "Todos los archivos"
+
+#: src/bwindow_gdk.cc:2534
+msgid "Open surface"
+msgstr "Abrir superficie"
+
+#: src/bwindow_gdk.cc:2658
+msgid "File"
+msgstr "Archivo"
+
+#: src/bwindow_gdk.cc:2659
+msgid "Surface"
+msgstr "Superficie"
+
+#: src/bwindow_gdk.cc:2660
+msgid "Help"
+msgstr "Ayuda"
+
+#: src/bwindow_gdk.cc:2661
+msgid "View"
+msgstr "Vista"
+
+#: src/bwindow_gdk.cc:2669
+msgid "Save a copy of this image"
+msgstr "Guardar una copia de esta imagen"
+
+#: src/bwindow_gdk.cc:2670
+msgid "Save a copy of this surface"
+msgstr "Guardar una copia de esta superficie"
+
+#: src/select.cc:202
+msgid "Transparency"
+msgstr "Transparencia"
+
+#: src/select.cc:203
+msgid "Thickness"
+msgstr "Grosor"
+
+#: src/select.cc:204
+msgid "Smoothness"
+msgstr "Suavidad"
+
+#: src/select.cc:205
+msgid "Ambient light"
+msgstr "Luz ambiental"
+
+#: src/select.cc:206
+msgid "Diffuse light"
+msgstr "Luz difusa"
+
+#: src/select.cc:207
+msgid "Reflected light"
+msgstr "Luz reflejada"
+
+#: src/select.cc:208
+msgid "Resolution of saved image"
+msgstr "Resolución de la imagen guardada"
+
+#: src/select.cc:209
+msgid "Resolution while rotating"
+msgstr "Resolución al girar"
+
+#: src/select.cc:210
+msgid "Maximal resolution when idle"
+msgstr "Resolución máxima en estado inactivo"
+
+#: src/select.cc:211
+msgid "Anti-aliasing factor"
+msgstr "Factor antialiasing"
+
+#: src/select.cc:212
+msgid "angle"
+msgstr "ángulo"
+
+#: src/select.cc:213
+msgid "rotate around x-axis"
+msgstr "girar alrededor del eje x"
+
+#: src/select.cc:214
+msgid "rotate around y-axis"
+msgstr "girar alrededor del eje y"
+
+#: src/select.cc:215
+msgid "rotate around z-axis"
+msgstr "girar alrededor del eje z"
+
+#: src/select.cc:216
+msgid "Video resolution"
+msgstr "Resolución de vídeo"
+
+#: src/select.cc:217
+msgid "Video frame rate"
+msgstr "Fotogramas por segundo"
+
+#: src/select.cc:218
+msgid "Video bit rate"
+msgstr "Bits por segundo"
+
+#: src/select.cc:219
+msgid "apply changes immediately"
+msgstr "aplicar los cambios inmediatamente"
+
+#: src/select.cc:226
+msgid "Scene Properties - Surfer"
+msgstr "Propiedades de la escena - Surfer"
+
+#: src/select.cc:228
+msgid "Color 1"
+msgstr "Color 1"
+
+#: src/select.cc:229
+msgid "Color 2"
+msgstr "Color 2"
+
+#: src/select.cc:230
+msgid "Background color"
+msgstr "Color del fondo"
+
+#: src/select.cc:231
+msgid "Illumination"
+msgstr "Iluminación"
+
+#: src/select.cc:232
+msgid "Material"
+msgstr "Material"
+
+#: src/select.cc:233
+msgid "Position"
+msgstr "Posición"
+
+#: src/select.cc:234
+msgid "Resolution"
+msgstr "Resolución"
+
+#: src/select.cc:235
+msgid "Special Surf-Code"
+msgstr "Código Surf especial"
+
+#: src/select.cc:360
+msgid "Light"
+msgstr "Luz"
+
+#: src/select.cc:431
+msgid "color of light"
+msgstr "color de la luz"
+
+#: src/select.cc:432
+msgid "intensity of light"
+msgstr "intensidad de la luz"
+
+#: src/select.cc:433
+msgid "x coordinate"
+msgstr "coordenada x"
+
+#: src/select.cc:434
+msgid "y coordinate"
+msgstr "coordenada y"
+
+#: src/select.cc:435
+msgid "z coordinate"
+msgstr "coordenada z"
+
+#: src/gallery.cc:243
+msgid "Select surface - Surfer"
+msgstr "Seleccionar superficie - Surfer"
+
+#: src/gallery.cc:248
+msgid "Click on a surface, please."
+msgstr "Pinchar sobre la superficie"
+
+#: src/surfer.cc:186
+msgid ""
+"Surfer - visualizing algebraic geometry\n"
+"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
+"       -f toggles between fullscreen and windowed mode\n"
+"       -g hides the gallery\n"
+"       -i hides the information for gallery entries\n"
+"       -s small mode: no fullscreen, no gallery, no information\n"
+"       -V verbose operation\n"
+"       -t removes animation und multiple surfaces from user interface \n"
+"       -l sets the language, e.g. to LANG=de_DE.utf8\n"
+"       file is a surf or surfer script\n"
+msgstr ""
+"Surfer - visualización\n"
+"uso: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [archivo]\n"
+"       -f intercambia pantalla completa y modo ventana\n"
+"       -g oculta la galería\n"
+"       -i oculta la información de las entradas de la galería\n"
+"       -s modo mínimo: ni pantalla completa, ni galería, ni información\n"
+"       -V modo verboso\n"
+"       -t cancela animación y superficies múltiples de la interfaz de usuario\n"
+"       -l selección de idioma, p. ej. LANG=es_ES.utf8\n"
+"       el archivo es de código surf o surfer\n"
+
+
+#: src/surfer.cc:412 src/surfer.cc:437
+msgid "gallery-en"
+msgstr "gallery-es"
+
+#: src/rotate.cc:307
+msgid "Video Preview"
+msgstr "Previsualización de vídeo"
+
+#: src/rotate.cc:327
+msgid "Key Frame"
+msgstr "Fotograma clave"
+
+#: src/rotate.cc:328
+msgid "Duration"
+msgstr "Duración"
+
+#: src/rotate.cc:753
+msgid "Save video"
+msgstr "Guardar vídeo"
+
+#: src/rotate.cc:763
+msgid "AVI Video Container (*.avi)"
+msgstr "Contenedor de vídeo AVI (.avi)"
+
+#: src/rotate.cc:770
+msgid "MPEG-4 Video (.mp4)"
+msgstr "Vídeo MPEG-4 (.mp4)"
+
+#: src/rotate.cc:776
+msgid "GIF Animation (.gif)"
+msgstr "Animación GIF (.gif)"
+
+#: src/rotate.cc:868
+msgid "File exists. Overwrite?"
+msgstr "El archivo ya existe. ¿Sobreescribir?"

@@ -39,8 +39,10 @@
 <toolitem action='GalleryNext'/>
 <separator/>
 
+<toolitem action='LangES'/>
 <toolitem action='LangDE'/>
 <toolitem action='LangEN'/>
+
 <separator/>
 
 <toolitem action='Print'/>
