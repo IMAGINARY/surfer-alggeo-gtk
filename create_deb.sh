@@ -10,6 +10,9 @@ cd ..
 
 echo -e "\033[1mbuilding and installing surfer" && tput sgr0
 chmod +x ./configure ./missing
+cd po
+make update-gmo
+cd ..
 CFLAGS="-O3 -fopenmp" CXXFLAGS="-O3 -fopenmp" ./configure
 sudo make install
 

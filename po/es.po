@@ -89,11 +89,11 @@ msgstr "No se ha podido mostrar el archivo de ayuda. Instalar Adobe Reader"
 
 #: src/bwindow_gdk.cc:154
 msgid "side 1"
-msgstr "cara 1"
+msgstr "Cara 1"
 
 #: src/bwindow_gdk.cc:155
 msgid "side 2"
-msgstr "cara 2"
+msgstr "Cara 2"
 
 #: src/bwindow_gdk.cc:193
 msgid "Details"

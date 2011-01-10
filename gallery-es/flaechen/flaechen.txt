@@ -1,4 +1,4 @@
-Fancy Surfaces II
+Superficies notables II
 Geisha.pic:name:Geisha
 Geisha.pic:lowres:150
 Geisha.pic:highres:1024

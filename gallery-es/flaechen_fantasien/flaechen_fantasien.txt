@@ -1,4 +1,4 @@
-Fancy Surfaces
+Superficies notables
 Calyx.pic:name:Calyx
 Calyx.pic:lowres:150
 Calyx.pic:highres:1024
