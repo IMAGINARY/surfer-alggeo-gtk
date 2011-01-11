@@ -46,6 +46,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 {
 	return main( __argc, __argv );
 }
+
+#define setenv(a,b,c) _putenv_s(a,b)
+
 #endif
 
 void check_surf(const surfer_options& opt);
@@ -206,8 +209,12 @@ arg_inspect:
 	}
 	else if(std::string(argv[1])=="-l")
 	{
+#ifdef WIN32
+		printf( "-l option will probably not work on windows ... sorry\n" );
+#endif
 		setenv("LANGUAGE",argv[2],1);
 		setenv("LANG",argv[2],1);
+
 		argc -= 2;
 		argv += 2;
 		goto arg_inspect;
@@ -411,12 +418,10 @@ int log_system(const std::string& s)
 
 SurfBWindow* main_work(const surfer_options& so, bool b, bool personalized, SurfBWindow* k)
 {
-
-
-bindtextdomain(PACKAGE, LOCALEDIR);
-bind_textdomain_codeset(PACKAGE, "UTF-8");
-textdomain(PACKAGE);
-setlocale(LC_ALL,"") ;
+	setlocale( LC_ALL, "" );
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(PACKAGE, "UTF-8");
+	textdomain(PACKAGE);
 
   std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
   std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path),so.upscale);
@@ -436,12 +441,11 @@ setlocale(LC_ALL,"") ;
 
 SurfBWindow* main_work(std::istream* i,const surfer_options& so, bool b, bool personalized, SurfBWindow* k)
 {
+	setlocale( LC_ALL, "" );
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(PACKAGE, "UTF-8");
+	textdomain(PACKAGE);
 
-
-bindtextdomain(PACKAGE, LOCALEDIR);
-bind_textdomain_codeset(PACKAGE, "UTF-8");
-textdomain(PACKAGE);
-setlocale(LC_ALL,"") ;
 
   std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
   std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path),so.upscale);

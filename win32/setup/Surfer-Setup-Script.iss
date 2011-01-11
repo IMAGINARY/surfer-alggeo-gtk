@@ -34,10 +34,10 @@ PrivilegesRequired=admin
 WizardSmallImageFile=surfer-small.bmp
 WizardImageFile=surfer.bmp
 
-
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
 Name: de; MessagesFile: compiler:Languages\German.isl
+Name: es; MessagesFile: compiler:Languages\Spanish.isl
 
 [CustomMessages]
 ; en
@@ -47,6 +47,10 @@ en.VCRedist=Microsoft Visual Studio 2008 SP1 runtime components
 ; de
 de.RCInstall=Installiere %1.
 de.VCRedist=Microsoft Visual Studio 2008 SP1 Laufzeitkomponenten
+
+; es
+es.RCInstall=Instalar el %1.
+es.VCRedist=Paquete redistribuible de Microsoft Visual C++ 2008 SP1
 
 [Components]
 Name: main; Description: Surfer; Types: full custom compact; Flags: fixed
@@ -60,14 +64,20 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Source: ..\bin\surfer.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: ..\surfer.ini; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: ..\..\surfer-help.pdf; DestDir: {app}; Flags: ignoreversion; Components: main
-Source: ..\..\po\de.gmo; DestDir: {app}\languages\de\LC_MESSAGES; DestName: surfer.mo; Flags: ignoreversion; Components: main
+Source: ..\..\po\de.gmo; DestDir: {app}\share\locale\de\LC_MESSAGES; DestName: surfer.mo; Flags: ignoreversion; Components: main
+Source: ..\..\po\en_GB.gmo; DestDir: {app}\share\locale\en_GB\LC_MESSAGES; DestName: surfer.mo; Flags: ignoreversion; Components: main
+Source: ..\..\po\es.gmo; DestDir: {app}\share\locale\es\LC_MESSAGES; DestName: surfer.mo; Flags: ignoreversion; Components: main
 Source: ..\..\gallery-de\*; DestDir: {app}\gallery\gallery-de; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main; Excludes: .svn
 Source: ..\..\gallery-en\*; DestDir: {app}\gallery\gallery-en; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main; Excludes: .svn
+Source: ..\..\gallery-es\*; DestDir: {app}\gallery\gallery-es; Flags: ignoreversion recursesubdirs createallsubdirs; Components: main; Excludes: .svn
 ; ffmpeg-Files
 Source: ..\redist\ffmpeg\ffmpeg.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: ..\redist\ffmpeg\pthreadGC2.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 ; Surf-Files
 Source: surf\pthreadVC2.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: surf\jpeg62.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: surf\libtiff3.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: surf\zlib1.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: surf\surf.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 ; Dependencies
 Source: ..\redist\vcredist_x86.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall; Components: vcredist
