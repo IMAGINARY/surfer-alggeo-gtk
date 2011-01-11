@@ -77,7 +77,6 @@ Source: ..\redist\ffmpeg\pthreadGC2.dll; DestDir: {app}\bin; Flags: ignoreversio
 Source: surf\pthreadVC2.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: surf\jpeg62.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: surf\libtiff3.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
-Source: surf\zlib1.dll; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: surf\surf.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 ; Dependencies
 Source: ..\redist\vcredist_x86.exe; DestDir: {tmp}; Flags: ignoreversion deleteafterinstall; Components: vcredist
