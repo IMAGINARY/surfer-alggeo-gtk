@@ -62,6 +62,9 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 [Files]
 ; Surfer-Files
 Source: ..\bin\surfer.exe; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: ..\bin\surfer_de_DE.bat; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: ..\bin\surfer_en_GB.bat; DestDir: {app}\bin; Flags: ignoreversion; Components: main
+Source: ..\bin\surfer_es_ES.bat; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: ..\surfer.ini; DestDir: {app}\bin; Flags: ignoreversion; Components: main
 Source: ..\..\surfer-help.pdf; DestDir: {app}; Flags: ignoreversion; Components: main
 Source: ..\..\po\de.gmo; DestDir: {app}\share\locale\de\LC_MESSAGES; DestName: surfer.mo; Flags: ignoreversion; Components: main
