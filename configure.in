@@ -1,11 +1,11 @@
 
-AC_INIT([surfer], [0.1], [surfer@imaginary2008.de])
+AC_INIT([surfer],[0.1],[surfer@imaginary2008.de])
 
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
-AC_LANG_CPLUSPLUS
+AC_LANG([C++])
 AC_PROG_CXX
 
 AC_HEADER_DIRENT
@@ -17,5 +17,6 @@ AM_GNU_GETTEXT([external])
 
 PKG_CHECK_MODULES([GTKMM], [gtkmm-2.4 >= 2.8])
 
-AC_OUTPUT(Makefile src/Makefile  po/Makefile.in)
+AC_CONFIG_FILES([Makefile src/Makefile  po/Makefile.in])
+AC_OUTPUT
 

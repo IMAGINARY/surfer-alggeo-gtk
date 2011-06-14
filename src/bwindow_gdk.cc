@@ -67,6 +67,7 @@ bool no_new_features = false;
 
 bool no_new_surf_features = !SHIPS_WITH_MODIFIED_SURF;
 
+extern const char * flag_ca_ES[];
 extern const char * flag_es_ES[];
 extern const char * flag_de_DE[];
 extern const char * flag_de_AT[];
@@ -2705,7 +2706,7 @@ git->add_builtin_icon("flag_es",icon_size,flag_spanish);
 
 Glib::RefPtr<Gdk::Pixbuf> flag_catalan = Gdk::Pixbuf::create_from_xpm_data(flag_ca_ES);
 icon_size = flag_catalan->get_height();
-git->add_builtin_icon("flag_ca",icon_size,flag_spanish);
+git->add_builtin_icon("flag_ca",icon_size,flag_catalan);
 
 
 mr_AG->add(Gtk::Action::create_with_icon_name("LangDE","flag_de","Deutsch","Deutsch"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"de_DE.UTF-8"));
