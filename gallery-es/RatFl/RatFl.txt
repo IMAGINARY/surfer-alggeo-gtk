@@ -1,5 +1,5 @@
 Superficies elementales
-ebene.pic:Name:Plano
+ebene.pic:name:Plano
 ebene.pic:lowres:300
 ebene.pic:hires:640
 kugel.pic:name:Esfera
