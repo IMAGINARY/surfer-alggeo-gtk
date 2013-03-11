@@ -67,6 +67,7 @@ bool no_new_features = false;
 
 bool no_new_surf_features = !SHIPS_WITH_MODIFIED_SURF;
 
+extern const char * flag_ga_ES[];
 extern const char * flag_ca_ES[];
 extern const char * flag_es_ES[];
 extern const char * flag_de_DE[];
@@ -2708,11 +2709,16 @@ Glib::RefPtr<Gdk::Pixbuf> flag_catalan = Gdk::Pixbuf::create_from_xpm_data(flag_
 icon_size = flag_catalan->get_height();
 git->add_builtin_icon("flag_ca",icon_size,flag_catalan);
 
+Glib::RefPtr<Gdk::Pixbuf> flag_galicia = Gdk::Pixbuf::create_from_xpm_data(flag_ga_ES);
+icon_size = flag_galicia->get_height();
+git->add_builtin_icon("flag_ga",icon_size,flag_galicia);
+
 
 mr_AG->add(Gtk::Action::create_with_icon_name("LangDE","flag_de","Deutsch","Deutsch"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"de_DE.UTF-8"));
 mr_AG->add(Gtk::Action::create_with_icon_name("LangEN","flag_en","English","English"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"en_GB.UTF-8"));
 mr_AG->add(Gtk::Action::create_with_icon_name("LangES","flag_es","Español","Español"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"es_ES.UTF-8"));
 mr_AG->add(Gtk::Action::create_with_icon_name("LangCA","flag_ca","Català","Català"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"ca_ES.UTF-8"));
+mr_AG->add(Gtk::Action::create_with_icon_name("LangGA","flag_ga","Galego","Galego"), sigc::bind(sigc::mem_fun(*this, &SurfBWindow::restart_with_lang),"ga_ES.UTF-8"));
 
 mr_AG->add(Gtk::Action::create("Print",Gtk::Stock::PRINT), sigc::mem_fun(*this, &SurfBWindow::on_print_clicked));
 
@@ -2791,6 +2797,7 @@ Glib::ustring ui_info = std::string(
 +((opt.change_lang)?(
 "      <toolitem action='LangES'/>"
 "      <toolitem action='LangCA'/>"
+"      <toolitem action='LangGA'/>"
 "      <toolitem action='LangEN'/>"
 "      <toolitem action='LangDE'/>"
 

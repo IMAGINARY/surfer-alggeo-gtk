@@ -37,8 +37,10 @@
 <separator/>
 
 <toolitem action='LangES'/>
-<toolitem action='LangDE'/>
+<toolitem action='LangCA'/>
+<toolitem action='LangGA'/>
 <toolitem action='LangEN'/>
+<toolitem action='LangDE'/>
 <separator/>
 <toolitem action='ViewFullscreen'/>
 </toolbar>

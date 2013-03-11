@@ -1,0 +1,29 @@
+scale_x = 0.16339869281045752;
+scale_y = 0.16339869281045752;
+scale_z = 0.16339869281045752;
+radius=9.0;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 6;
+
+background_red=255;background_blue=255;background_green=255;//=0; background_green=0; background_blue=51;
+
+poly f1 = (x^2+9/4*y^2+z^2-1*1)^3-1*x^2*z^3-1*9/80*y^2*z^3;
+surface = f1;
+surface_red = 255;surface_green = 153;surface_blue = 255;
+inside_red = 255;inside_green = 153;inside_blue = 255;
+transparence = 0;
+surface=rotate(surface,0.2229113075866258,yAxis);
+surface=rotate(surface,-1.4227643798240046,xAxis);
+surface=rotate(surface,-0.2411628886861781,zAxis);
+
+draw_surface;
+filename="/home/felix/henning/Süss.pic.jpg";
+color_file_format=jpg;
+save_color_image;
