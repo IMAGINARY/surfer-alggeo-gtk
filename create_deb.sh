@@ -40,7 +40,8 @@ LOCALE_FILES="/usr/local/share/locale/de/LC_MESSAGES/surfer.mo
 /usr/local/share/locale/en@boldquot/LC_MESSAGES/surfer.mo
 /usr/local/share/locale/en_GB/LC_MESSAGES/surfer.mo
 /usr/local/share/locale/es_ES/LC_MESSAGES/surfer.mo
-/usr/local/share/locale/ca_ES/LC_MESSAGES/surfer.mo"
+/usr/local/share/locale/ca_ES/LC_MESSAGES/surfer.mo
+/usr/local/share/locale/ga_ES/LC_MESSAGES/surfer.mo"
 for lf in $LOCALE_FILES
 do
 	mkdir -p `dirname $DEB$lf`
