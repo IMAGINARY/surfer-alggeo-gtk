@@ -1,7 +1,7 @@
-# English translations for surfer package.
-# Copyright (C) 2010 Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern
-# This file is distributed under the same license as the surfer package.
-# Automatically generated, 2010.
+# English translations for surfer-alggeo-gtk package.
+# Copyright (C) 2015 Mathematisches Forschungsinstitut Oberwolfach and University of Kaiserslautern
+# This file is distributed under the same license as the surfer-alggeo-gtk package.
+# Automatically generated, 2015.
 #
 # All this catalog "translates" are quotation characters.
 # The msgids must be ASCII and therefore cannot contain real quotation
@@ -27,16 +27,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: surfer 0.1\n"
+"Project-Id-Version: surfer-alggeo-gtk 0.2.0~1\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2010-09-01 16:04+0200\n"
-"PO-Revision-Date: 2010-09-01 16:04+0200\n"
+"POT-Creation-Date: 2015-04-02 18:33+0200\n"
+"PO-Revision-Date: 2015-04-02 18:33+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: en@quot\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/about.cc:63
@@ -111,97 +111,149 @@ msgstr "Could not access help file."
 msgid "Could not display help file. Install Adobe Reader."
 msgstr "Could not display help file. Install Adobe Reader."
 
-#: src/bwindow_gdk.cc:154
+#: src/bwindow_gdk.cc:157
 msgid "side 1"
 msgstr "side 1"
 
-#: src/bwindow_gdk.cc:155
+#: src/bwindow_gdk.cc:158
 msgid "side 2"
 msgstr "side 2"
 
-#: src/bwindow_gdk.cc:193
+#: src/bwindow_gdk.cc:196
 msgid "Details"
 msgstr "Details"
 
-#: src/bwindow_gdk.cc:204
+#: src/bwindow_gdk.cc:207
 msgid "Printing image..."
 msgstr "Printing image..."
 
-#: src/bwindow_gdk.cc:472
+#: src/bwindow_gdk.cc:475
 msgid "Delete"
 msgstr "Delete"
 
-#: src/bwindow_gdk.cc:561
+#: src/bwindow_gdk.cc:564
 msgid "Coloring"
 msgstr "Coloring"
 
-#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2662
+#: src/bwindow_gdk.cc:610 src/bwindow_gdk.cc:2665
 msgid "Gallery"
 msgstr "Gallery"
 
-#: src/bwindow_gdk.cc:721
+#: src/bwindow_gdk.cc:724
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:739
+#: src/bwindow_gdk.cc:742
 msgid "Animate"
 msgstr "Animate"
 
-#: src/bwindow_gdk.cc:1860
+#: src/bwindow_gdk.cc:1863
 msgid "PrintAcknowledge"
 msgstr "PrintAcknowledge"
 
-#: src/bwindow_gdk.cc:2394
+#: src/bwindow_gdk.cc:2397
 msgid "Save surface"
 msgstr "Save surface"
 
-#: src/bwindow_gdk.cc:2397
+#: src/bwindow_gdk.cc:2400
 msgid "Save image and save surface"
 msgstr "Save image and save surface"
 
-#: src/bwindow_gdk.cc:2399
+#: src/bwindow_gdk.cc:2402
 msgid "Save image"
 msgstr "Save image"
 
-#: src/bwindow_gdk.cc:2409 src/bwindow_gdk.cc:2544
+#: src/bwindow_gdk.cc:2412 src/bwindow_gdk.cc:2547
 msgid "Surfer Script (.pic)"
 msgstr "Surfer Script (.pic)"
 
-#: src/bwindow_gdk.cc:2414
+#: src/bwindow_gdk.cc:2417
 msgid "Portable Network Graphics (.png)"
 msgstr "Portable Network Graphics (.png)"
 
-#: src/bwindow_gdk.cc:2436 src/bwindow_gdk.cc:2558 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2439 src/bwindow_gdk.cc:2561 src/rotate.cc:789
 msgid "All files"
 msgstr "All files"
 
-#: src/bwindow_gdk.cc:2534
+#: src/bwindow_gdk.cc:2537
 msgid "Open surface"
 msgstr "Open surface"
 
-#: src/bwindow_gdk.cc:2658
+#: src/bwindow_gdk.cc:2661
 msgid "File"
 msgstr "File"
 
-#: src/bwindow_gdk.cc:2659
+#: src/bwindow_gdk.cc:2662
 msgid "Surface"
 msgstr "Surface"
 
-#: src/bwindow_gdk.cc:2660
+#: src/bwindow_gdk.cc:2663
 msgid "Help"
 msgstr "Help"
 
-#: src/bwindow_gdk.cc:2661
+#: src/bwindow_gdk.cc:2664
 msgid "View"
 msgstr "View"
 
-#: src/bwindow_gdk.cc:2669
+#: src/bwindow_gdk.cc:2672
 msgid "Save a copy of this image"
 msgstr "Save a copy of this image"
 
-#: src/bwindow_gdk.cc:2670
+#: src/bwindow_gdk.cc:2673
 msgid "Save a copy of this surface"
 msgstr "Save a copy of this surface"
+
+#: src/gallery.cc:243
+msgid "Select surface - Surfer"
+msgstr "Select surface - Surfer"
+
+#: src/gallery.cc:248
+msgid "Click on a surface, please."
+msgstr "Click on a surface, please."
+
+#: src/parallel.cc:66
+msgid ""
+"surfer: multithreaded rendering not supported with this version of surf."
+msgstr ""
+"surfer: multithreaded rendering not supported with this version of surf."
+
+#: src/parallel.cc:67
+msgid ""
+"use version of surf shipped with surfer and activate \"modified_surf=1\" in "
+msgstr ""
+"use version of surf shipped with surfer and activate “modified_surf=1” in "
+
+#: src/rotate.cc:307
+msgid "Video Preview"
+msgstr "Video Preview"
+
+#: src/rotate.cc:327
+msgid "Key Frame"
+msgstr "Key Frame"
+
+#: src/rotate.cc:328
+msgid "Duration"
+msgstr "Duration"
+
+#: src/rotate.cc:753
+msgid "Save video"
+msgstr "Save video"
+
+#: src/rotate.cc:763
+msgid "AVI Video Container (*.avi)"
+msgstr "AVI Video Container (*.avi)"
+
+#: src/rotate.cc:770
+msgid "MPEG-4 Video (.mp4)"
+msgstr "MPEG-4 Video (.mp4)"
+
+#: src/rotate.cc:776
+msgid "GIF Animation (.gif)"
+msgstr "GIF Animation (.gif)"
+
+#: src/rotate.cc:868
+msgid "File exists. Overwrite?"
+msgstr "File exists. Overwrite?"
 
 #: src/select.cc:202
 msgid "Transparency"
@@ -335,18 +387,10 @@ msgstr "y coordinate"
 msgid "z coordinate"
 msgstr "z coordinate"
 
-#: src/gallery.cc:243
-msgid "Select surface - Surfer"
-msgstr "Select surface - Surfer"
-
-#: src/gallery.cc:248
-msgid "Click on a surface, please."
-msgstr "Click on a surface, please."
-
-#: src/surfer.cc:186
+#: src/surfer.cc:190
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
-"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
+"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml uixmlfile] [file]\n"
 "       -f toggles between fullscreen and windowed mode\n"
 "       -g hides the gallery\n"
 "       -i hides the information for gallery entries\n"
@@ -354,10 +398,11 @@ msgid ""
 "       -V verbose operation\n"
 "       -t removes animation und multiple surfaces from user interface \n"
 "       -l sets the language, e.g. to LANG=de_DE.utf8\n"
+"       --uixml uses the given xml file as an UI definiton\n"
 "       file is a surf or surfer script\n"
 msgstr ""
 "Surfer - visualizing algebraic geometry\n"
-"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
+"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml uixmlfile] [file]\n"
 "       -f toggles between fullscreen and windowed mode\n"
 "       -g hides the gallery\n"
 "       -i hides the information for gallery entries\n"
@@ -365,40 +410,9 @@ msgstr ""
 "       -V verbose operation\n"
 "       -t removes animation und multiple surfaces from user interface \n"
 "       -l sets the language, e.g. to LANG=de_DE.utf8\n"
+"       --uixml uses the given xml file as an UI definiton\n"
 "       file is a surf or surfer script\n"
 
-#: src/surfer.cc:412 src/surfer.cc:437
+#: src/surfer.cc:426 src/surfer.cc:450
 msgid "gallery-en"
 msgstr "gallery-en"
-
-#: src/rotate.cc:307
-msgid "Video Preview"
-msgstr "Video Preview"
-
-#: src/rotate.cc:327
-msgid "Key Frame"
-msgstr "Key Frame"
-
-#: src/rotate.cc:328
-msgid "Duration"
-msgstr "Duration"
-
-#: src/rotate.cc:753
-msgid "Save video"
-msgstr "Save video"
-
-#: src/rotate.cc:763
-msgid "AVI Video Container (*.avi)"
-msgstr "AVI Video Container (*.avi)"
-
-#: src/rotate.cc:770
-msgid "MPEG-4 Video (.mp4)"
-msgstr "MPEG-4 Video (.mp4)"
-
-#: src/rotate.cc:776
-msgid "GIF Animation (.gif)"
-msgstr "GIF Animation (.gif)"
-
-#: src/rotate.cc:868
-msgid "File exists. Overwrite?"
-msgstr "File exists. Overwrite?"

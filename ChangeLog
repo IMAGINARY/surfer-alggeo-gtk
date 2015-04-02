@@ -1,6 +1,9 @@
-2008-02-25  gettextize  <bug-gnu-gettext@gnu.org>
+2015-04-02 Jerome Benoit <jgmbenoit@rezozer.net>
 
-	* Makefile.am (ACLOCAL_AMFLAGS): New variable.
-	(EXTRA_DIST): Add config.rpath, m4/ChangeLog.
-	* configure.in (AC_OUTPUT): Add po/Makefile.in.
+	* autotools machinery cleanup
+	* gettext material update
+	* Version 0.2.0
 
+2011-01-11 Henning Meyer <hmeyer@mathematik.uni-kl.de>
+
+	* Version 0.1.0 (revision 269)

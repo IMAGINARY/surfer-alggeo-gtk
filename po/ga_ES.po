@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2010-09-01 16:04+0200\n"
+"POT-Creation-Date: 2015-04-02 18:33+0200\n"
 "PO-Revision-Date: $Date$Last-Translator: Henning Meyer <hmeyer@mathematik."
 "uni-kl.de>\n"
 "Language-Team: German <surfer@imaginary-exhibition.com>\n"
+"Language: ga_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,8 +21,9 @@ msgid "About Surfer"
 msgstr "Sobre Surfer"
 
 #: src/about.cc:67
+#, fuzzy
 msgid ""
-"Surfer uses the program surf by Stephan Endraß et al.\n"
+"Surfer uses the program surf by Stephan Endrass et al.\n"
 "(http://surf.sourceforge.net)"
 msgstr ""
 "Surfer usa o programa surf de Stephan Endraß et al.\n"
@@ -34,23 +36,24 @@ msgid ""
 "Mathematics 2008 in Germany. The exposition has received funding by the "
 "German Federal Department of Education and Research."
 msgstr ""
-"Surfer fo desenvolvido para a exposición IMAGINARY, concibida "
-"polo Instituto Matemático de Oberwolfach con ocasión do Ano das "
-"Matemáticas en Alemaña e financiada polo Departamento Federal "
-"de Educación e Investigación."
+"Surfer fo desenvolvido para a exposición IMAGINARY, concibida polo Instituto "
+"Matemático de Oberwolfach con ocasión do Ano das Matemáticas en Alemaña e "
+"financiada polo Departamento Federal de Educación e Investigación."
 
 #: src/about.cc:71
+#, fuzzy
 msgid ""
 "You will find the latest version of Surfer and additional information at "
-"www.imaginary-exhibition.com and http://www.imaginary-exhibition.com/"
+"http://surfer.imaginary2008.de/ and http://www.imaginary2008.de/"
 msgstr ""
-"Podedes achar a última versión de Surfer, e informació adicional, en"
-"http://surfer.imaginary-exhibition.com/ y http://www.imaginary-exhibition.com/"
+"Podedes achar a última versión de Surfer, e informació adicional, enhttp://"
+"surfer.imaginary-exhibition.com/ y http://www.imaginary-exhibition.com/"
 
 #: src/about.cc:76
+#, fuzzy
 msgid ""
 "Contact: surfer@imaginary2008.de\n"
-"Please visit our website at http://surfer.imaginary-exhibition.com\n"
+"Please visit our website at http://surfer.imaginary2008.de\n"
 "for further information and new releases of Surfer."
 msgstr ""
 "Contacto: surfer@imaginary2008.de\n"
@@ -62,8 +65,8 @@ msgid ""
 "(c) Mathematisches Forschungsinstitut Oberwolfach and University of "
 "Kaiserslautern, 2008"
 msgstr ""
-"(c) Instituto Matemático dr Oberwolfach r "
-"Universidade de Kaiserslautern, 2008"
+"(c) Instituto Matemático dr Oberwolfach r Universidade de Kaiserslautern, "
+"2008"
 
 #: src/about.cc:83
 msgid ""
@@ -84,102 +87,153 @@ msgid "Could not access help file."
 msgstr "Non se puido acceder no arquivo de axuda."
 
 #: src/about.cc:219
-msgid "Could not display help file. Install Adobe Reader.\n"
+#, fuzzy
+msgid "Could not display help file. Install Adobe Reader."
 msgstr "Non se puido acceder ao arquivo de axuda. Instalade Adobe Reader.\n"
 
-#: src/bwindow_gdk.cc:154
+#: src/bwindow_gdk.cc:157
 msgid "side 1"
 msgstr "Cara 1"
 
-#: src/bwindow_gdk.cc:155
+#: src/bwindow_gdk.cc:158
 msgid "side 2"
 msgstr "Cara 2"
 
-#: src/bwindow_gdk.cc:193
+#: src/bwindow_gdk.cc:196
 msgid "Details"
 msgstr "Detalles"
 
-#: src/bwindow_gdk.cc:204
+#: src/bwindow_gdk.cc:207
 msgid "Printing image..."
 msgstr " A imaxe estase a imprimir..."
 
-#: src/bwindow_gdk.cc:472
+#: src/bwindow_gdk.cc:475
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/bwindow_gdk.cc:561
+#: src/bwindow_gdk.cc:564
 msgid "Coloring"
 msgstr "Cores"
 
-#: src/bwindow_gdk.cc:607 src/bwindow_gdk.cc:2662
+#: src/bwindow_gdk.cc:610 src/bwindow_gdk.cc:2665
 msgid "Gallery"
 msgstr "Galerías"
 
-#: src/bwindow_gdk.cc:721
+#: src/bwindow_gdk.cc:724
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:739
+#: src/bwindow_gdk.cc:742
 msgid "Animate"
 msgstr "Animar"
 
-#: src/bwindow_gdk.cc:1860
+#: src/bwindow_gdk.cc:1863
 msgid "PrintAcknowledge"
 msgstr ""
-"A túa imaxe aparecerá pronto na pantalla. Podes obter"
-"unha copia imprimida gratuíta na mesa de recepción."
+"A túa imaxe aparecerá pronto na pantalla. Podes obterunha copia imprimida "
+"gratuíta na mesa de recepción."
 
-#: src/bwindow_gdk.cc:2394
+#: src/bwindow_gdk.cc:2397
 msgid "Save surface"
 msgstr "Gardar a superfície"
 
-#: src/bwindow_gdk.cc:2397
+#: src/bwindow_gdk.cc:2400
 msgid "Save image and save surface"
 msgstr "Gardar a imaxe e a superficie"
 
-#: src/bwindow_gdk.cc:2399
+#: src/bwindow_gdk.cc:2402
 msgid "Save image"
 msgstr "Gardar a imaxe"
 
-#: src/bwindow_gdk.cc:2409 src/bwindow_gdk.cc:2544
+#: src/bwindow_gdk.cc:2412 src/bwindow_gdk.cc:2547
 msgid "Surfer Script (.pic)"
 msgstr "Formato Surfer (.pic)"
 
-#: src/bwindow_gdk.cc:2414
+#: src/bwindow_gdk.cc:2417
 msgid "Portable Network Graphics (.png)"
 msgstr "Formato PNG (.png)"
 
-#: src/bwindow_gdk.cc:2436 src/bwindow_gdk.cc:2558 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2439 src/bwindow_gdk.cc:2561 src/rotate.cc:789
 msgid "All files"
 msgstr "Todos os arquvos"
 
-#: src/bwindow_gdk.cc:2534
+#: src/bwindow_gdk.cc:2537
 msgid "Open surface"
 msgstr "Abrir superficie"
 
-#: src/bwindow_gdk.cc:2658
+#: src/bwindow_gdk.cc:2661
 msgid "File"
 msgstr "Arquivo"
 
-#: src/bwindow_gdk.cc:2659
+#: src/bwindow_gdk.cc:2662
 msgid "Surface"
 msgstr "Superficie"
 
-#: src/bwindow_gdk.cc:2660
+#: src/bwindow_gdk.cc:2663
 msgid "Help"
 msgstr "Axuda"
 
-#: src/bwindow_gdk.cc:2661
+#: src/bwindow_gdk.cc:2664
 msgid "View"
 msgstr "Vista"
 
-#: src/bwindow_gdk.cc:2669
+#: src/bwindow_gdk.cc:2672
 msgid "Save a copy of this image"
 msgstr "Gardar unha copia desta imaxe"
 
-#: src/bwindow_gdk.cc:2670
+#: src/bwindow_gdk.cc:2673
 msgid "Save a copy of this surface"
 msgstr "Guardar unha copia desta superficie"
+
+#: src/gallery.cc:243
+msgid "Select surface - Surfer"
+msgstr "Seleccionade superficie - Surfer"
+
+#: src/gallery.cc:248
+msgid "Click on a surface, please."
+msgstr "Cliquear sobre superficie"
+
+#: src/parallel.cc:66
+msgid ""
+"surfer: multithreaded rendering not supported with this version of surf."
+msgstr ""
+
+#: src/parallel.cc:67
+msgid ""
+"use version of surf shipped with surfer and activate \"modified_surf=1\" in "
+msgstr ""
+
+#: src/rotate.cc:307
+msgid "Video Preview"
+msgstr "Previsualización de vídeo"
+
+#: src/rotate.cc:327
+msgid "Key Frame"
+msgstr "Fotograma clave"
+
+#: src/rotate.cc:328
+msgid "Duration"
+msgstr "Duración"
+
+#: src/rotate.cc:753
+msgid "Save video"
+msgstr "Gardar vídeo"
+
+#: src/rotate.cc:763
+msgid "AVI Video Container (*.avi)"
+msgstr "Colector de vídeo AVI (.avi)"
+
+#: src/rotate.cc:770
+msgid "MPEG-4 Video (.mp4)"
+msgstr "Vídeo MPEG-4 (.mp4)"
+
+#: src/rotate.cc:776
+msgid "GIF Animation (.gif)"
+msgstr "Animación GIF (.gif)"
+
+#: src/rotate.cc:868
+msgid "File exists. Overwrite?"
+msgstr "O arquivo xa existe. Sobrescribir?"
 
 #: src/select.cc:202
 msgid "Transparency"
@@ -313,18 +367,11 @@ msgstr "coordenada y"
 msgid "z coordinate"
 msgstr "coordenada z"
 
-#: src/gallery.cc:243
-msgid "Select surface - Surfer"
-msgstr "Seleccionade superficie - Surfer"
-
-#: src/gallery.cc:248
-msgid "Click on a surface, please."
-msgstr "Cliquear sobre superficie"
-
-#: src/surfer.cc:186
+#: src/surfer.cc:190
+#, fuzzy
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
-"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [file]\n"
+"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml uixmlfile] [file]\n"
 "       -f toggles between fullscreen and windowed mode\n"
 "       -g hides the gallery\n"
 "       -i hides the information for gallery entries\n"
@@ -332,6 +379,7 @@ msgid ""
 "       -V verbose operation\n"
 "       -t removes animation und multiple surfaces from user interface \n"
 "       -l sets the language, e.g. to LANG=de_DE.utf8\n"
+"       --uixml uses the given xml file as an UI definiton\n"
 "       file is a surf or surfer script\n"
 msgstr ""
 "Surfer - visualitzación\n"
@@ -341,44 +389,11 @@ msgstr ""
 "       -i oculta a información das entradas da galería\n"
 "       -s modo mínimo: nin pantalla completa, nin galería, nin información\n"
 "       -V modo verboso\n"
-"       -t cancela a animación e as superficies múltiples da interface de usuario\n"
+"       -t cancela a animación e as superficies múltiples da interface de "
+"usuario\n"
 "       -l selección de idioma, p. ex. LANG=es_GAL.utf8\n"
 "       o arquivo é de código surf ou surfer\n"
 
-
-#: src/surfer.cc:412 src/surfer.cc:437
+#: src/surfer.cc:426 src/surfer.cc:450
 msgid "gallery-en"
 msgstr "gallery-ga"
-
-#: src/rotate.cc:307
-msgid "Video Preview"
-msgstr "Previsualización de vídeo"
-
-#: src/rotate.cc:327
-msgid "Key Frame"
-msgstr "Fotograma clave"
-
-#: src/rotate.cc:328
-msgid "Duration"
-msgstr "Duración"
-
-#: src/rotate.cc:753
-msgid "Save video"
-msgstr "Gardar vídeo"
-
-#: src/rotate.cc:763
-msgid "AVI Video Container (*.avi)"
-msgstr "Colector de vídeo AVI (.avi)"
-
-#: src/rotate.cc:770
-msgid "MPEG-4 Video (.mp4)"
-msgstr "Vídeo MPEG-4 (.mp4)"
-
-#: src/rotate.cc:776
-msgid "GIF Animation (.gif)"
-msgstr "Animación GIF (.gif)"
-
-#: src/rotate.cc:868
-msgid "File exists. Overwrite?"
-msgstr "O arquivo xa existe. Sobrescribir?"
-
