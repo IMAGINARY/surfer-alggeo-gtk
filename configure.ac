@@ -17,6 +17,8 @@ AM_GNU_GETTEXT([external])
 
 AC_CANONICAL_HOST
 
+surfer_AC_SURFER_GALLERY_SETUP
+
 AC_PROG_SED
 AC_PROG_LN_S
 AC_PROG_INSTALL
@@ -47,6 +49,10 @@ AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	po/Makefile.in
+	gallery/Makefile
+	gallery/pool/Makefile
+	gallery/pool/pic/Makefile
+	gallery/pool/ppm/Makefile
 	])
 AC_OUTPUT
 dnl eof

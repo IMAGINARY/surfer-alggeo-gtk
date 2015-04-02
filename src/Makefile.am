@@ -45,7 +45,7 @@ surfer_SOURCES = \
 
 surfer_CPPFLAGS = \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DGALLERY_PATH=\"$(pkgdatadir)\" \
+	-DGALLERY_PATH=\"$(gallerydir)\" \
 	-I $(top_srcdir)/src/vecmath
 
 surfer_CXXFLAGS = \
