@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Surfer
-Comment=Surfer - Interactive Visualization of algebraic surfaces
-Exec=surfer
-Icon=surfer
-Terminal=false
-Type=Application
-Categories=IMAGINARY;
-StartupNotify=false

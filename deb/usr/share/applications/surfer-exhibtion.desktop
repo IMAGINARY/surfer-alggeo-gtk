@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Surfer (Exhibition Mode)
-Comment=Surfer - Interactive Visualization of algebraic surfaces
-Exec=surfer -f -t --uixml /usr/local/share/surfer/surfer_ui_exhibition.xml 
-Icon=surfer
-Terminal=false
-Type=Application
-Categories=IMAGINARY;
-StartupNotify=false
