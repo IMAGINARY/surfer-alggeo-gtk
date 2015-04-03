@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
 ##LT_PREREQ([2.4.2])
-AC_INIT([surfer],[0.2.0~1],
+AC_INIT([surfer],[0.2.0~2],
 	[surfer@imaginary2008.de],[surfer-alggeo-gtk],
 	[http://imaginary.org/])
 AC_CONFIG_MACRO_DIR([m4])
@@ -53,6 +53,12 @@ AC_CONFIG_FILES([
 	gallery/pool/Makefile
 	gallery/pool/pic/Makefile
 	gallery/pool/ppm/Makefile
+	gallery/gallery-en/Makefile
+	gallery/gallery-en/ADE/Makefile
+	gallery/gallery-en/flaechen/Makefile
+	gallery/gallery-en/flaechen_fantasien/Makefile
+	gallery/gallery-en/ManySings/Makefile
+	gallery/gallery-en/RatFl/Makefile
 	])
 AC_OUTPUT
 dnl eof

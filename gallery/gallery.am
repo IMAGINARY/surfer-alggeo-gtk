@@ -1,0 +1,22 @@
+include $(top_srcdir)/gallery/gallery.mk
+
+gallery_collection_tuple = $(call surfer_gallery_get_tuple)
+gct_tllc = $(firstword $(gallery_collection_tuple))
+gct_fldr = $(lastword $(gallery_collection_tuple))
+
+gallery_collection_dir = $(gallerydir)/$(call surfer_gallery_get_relfolder,$(gct_tllc),$(gct_fldr))
+
+gallery_collection__DATA = $(call surfer_gallery_get_data,$(gct_tllc),$(gct_fldr))
+
+install-data-local:
+	$(call surfer_gallery_populate,$(gct_tllc),$(gct_fldr))
+
+uninstall-local:
+	$(call surfer_gallery_unpopulate,$(gct_tllc),$(gct_fldr))
+
+uninstall-hook:
+	@if test -d $(gallery_collection_dir) ; then rmdir --i $(gallery_collection_dir) ; fi
+
+EXTRA_DIST = $(gallery_collection__DATA)
+
+# vim:syntax=automake
