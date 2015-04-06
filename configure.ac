@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
 ##LT_PREREQ([2.4.2])
-AC_INIT([surfer],[0.2.0~4],
+AC_INIT([surfer],[0.2.0~5],
 	[surfer@imaginary2008.de],[surfer-alggeo-gtk],
 	[http://imaginary.org/])
 AC_CONFIG_MACRO_DIR([m4])

@@ -51,6 +51,11 @@ surfer_gallery_collection_get_tuple = \
 surfer_gallery_collection_get_relfolder = gallery-$(1)/$(2)
 
 ## parameters: TwoLetterLanguageCode Collection
+surfer_gallery_collection_get_altrelfolder = \
+	$(eval _alt_tllc:=$(SURFER_GALLERY_ALTERNATIVE_LANGUAGE_$(1))) \
+	$(if $(_alt_tllc),$(call surfer_gallery_collection_get_relfolder,$(_alt_tllc),$(2)),)
+
+## parameters: TwoLetterLanguageCode Collection
 surfer_gallery_collection_get_data = \
 	$(2).txt \
 	$(if $(wildcard $(2).png),$(2).png,) \
@@ -58,9 +63,24 @@ surfer_gallery_collection_get_data = \
 
 ## parameters: TwoLetterLanguageCode Collection
 surfer_gallery_collection_populate = \
-	$(eval _folder:=$(DESTDIR)/$(gallerydir)/$(call surfer_gallery_collection_get_relfolder,$(1),$(2))) \
+	$(eval _relfolder:=$(call surfer_gallery_collection_get_relfolder,$(1),$(2))) \
+	$(eval _altrelfolder:=$(call surfer_gallery_collection_get_altrelfolder,$(1),$(2))) \
+	$(eval _folder:=$(DESTDIR)/$(gallerydir)/$(_relfolder)) \
 	$(eval _data:=$(call surfer_gallery_collection_get_data,$(1),$(2))) \
-	$(call surfer__populate,$(_folder),$(_data)) \
+	$(shell $(MKDIR_P) $(_folder)) \
+	$(foreach _datum,$(_data), \
+		$(if $(wildcard $(_datum)), \
+			$(shell \
+				test -f $(_folder)/$(_datum) || cp -p $(_datum) $(_folder)/$(_datum) || exit 1 ; \
+				), \
+			$(if $(_altrelfolder), \
+				$(shell \
+					cd $(_folder) ; \
+					test -f $(_datum) || $(LN_S) ../../$(_altrelfolder)/$(_datum) || exit 1 ; \
+					), \
+				$(warning no alternative for $(_relfolder)/$(_datum), let continue)) \
+			) \
+		) \
 	$(foreach _pic,$(SURFER_GALLERY_COLLECTION_LISTOF_PICTURE_$(2)), \
 		$(shell \
 			cd $(_folder) ; \
