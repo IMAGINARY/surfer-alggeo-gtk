@@ -12,8 +12,7 @@ ag_gmk_write_preamble_check () {
 	}
 
 if [ -d ${GALLERY_FLDR} ] ; then
-	LISTOF_GALLERY_TLLC_FLDR=$(find ${GALLERY_FLDR} -type d -a -regextype posix-extended -regex ${GALLERY_FLDR}'/gallery-en')
-#WIP#	LISTOF_GALLERY_TLLC_FLDR=$(find ${GALLERY_FLDR} -type d -a -regextype posix-extended -regex ${GALLERY_FLDR}'/gallery-[a-z]{2}')
+	LISTOF_GALLERY_TLLC_FLDR=$(find ${GALLERY_FLDR} -type d -a -regextype posix-extended -regex ${GALLERY_FLDR}'/gallery-[a-z]{2}')
 	for gal_tllc in ${LISTOF_GALLERY_TLLC_FLDR} ; do
 		gallery_collection_data=${gal_tllc}/galleries.txt
 		if [ -f ${gallery_collection_data} ]; then
