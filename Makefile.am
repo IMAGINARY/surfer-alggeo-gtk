@@ -1,7 +1,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = src po gallery
+SUBDIRS = src po gallery doc
 
 uninstall-hook:
 	@if test -d $(pkgdatadir) ; then rmdir --i $(pkgdatadir) ; fi

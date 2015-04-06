@@ -54,6 +54,7 @@ AC_CONFIG_FILES([
 	gallery/pool/Makefile
 	gallery/pool/pic/Makefile
 	gallery/pool/ppm/Makefile
+	doc/Makefile
 	])
 AC_OUTPUT
 dnl eof
