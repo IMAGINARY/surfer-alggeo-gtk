@@ -2,7 +2,7 @@ export abs_top_builddir abs_top_srcdir
 
 SUBDIRS = pool
 
-GMKM_SUBDIRS = gallery-en gallery-de gallery-es #gallery-ca gallery-ga
+GMKM_SUBDIRS = $(wildcard gallery-??)
 
 install-data-local:
 	$(foreach _gal,$(GMKM_SUBDIRS), $(MAKE) -C $(srcdir)/$(_gal) $(AM_MAKEFLAGS) install-data ;)
