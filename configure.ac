@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
 ##LT_PREREQ([2.4.2])
-AC_INIT([surfer],[0.2.0~6],
+AC_INIT([surfer],[0.2.0~7],
 	[surfer@imaginary2008.de],[surfer-alggeo-gtk],
 	[http://imaginary.org/])
 AC_CONFIG_MACRO_DIR([m4])
@@ -29,6 +29,8 @@ AC_LANG(C++)
 AC_PROG_CXX
 
 ##LT_INIT
+
+AC_CHECK_PROGS([SURF_CMD],[surf-alggeo surf],[surf])
 
 PKG_PROG_PKG_CONFIG
 LT_LIB_M

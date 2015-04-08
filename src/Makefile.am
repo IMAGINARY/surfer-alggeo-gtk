@@ -44,6 +44,7 @@ surfer_SOURCES = \
 	xpm_data.cc
 
 surfer_CPPFLAGS = \
+	-DSURF_CMD=\"$(SURF_CMD)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DGALLERY_PATH=\"$(gallerydir)\" \
 	-I $(top_srcdir)/src/vecmath

@@ -42,8 +42,6 @@ std::string datestring = "$Date$";
 
 int fastaa = 1;//"antialiasing=2;";
 
-//#define SURF_CMD "surf"
-
 bool no_full = true;
 bool no_info = false;
 bool no_gallery = false;

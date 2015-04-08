@@ -376,8 +376,6 @@ void check_surf(const surfer_options& opt)
 	int r =log_system(cmd.c_str());
         if(r != 0)
         {
-            std::cerr<<"calling surf failed"<<std::endl;
-
             exit(105);
         }
 
@@ -406,7 +404,7 @@ int log_system(const std::string& s)
 	if(r != 0)
 	{
 		std::cerr<<"surfer: system call failed"<<std::endl;
-		std::cerr<<"call was \""<<s<<"\""<<std::endl;
+		std::cerr<<"call was: "<<s<<std::endl;
 	}
 	return r;
 }

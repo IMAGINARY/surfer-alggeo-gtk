@@ -18,6 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef SURF_CMD
+#define SURF_CMD "surf"
+#endif
+
 #ifndef GALLERY_PATH
 #define GALLERY_PATH_USE ""
 #else
@@ -107,7 +111,7 @@ surfer_options default_settings()
 	
 	so.format = "ppm";
 	so.resolution = PREVIEW_SIZE;
-	so.surf_cmd="surf";
+	so.surf_cmd = SURF_CMD;
 	so.upscale = 1;
 	so.print_resolution = 1740;
 	so.ui_xml = "";
