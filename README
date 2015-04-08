@@ -58,9 +58,10 @@ surf=      the command to invoke surf
 mencoder=  command to invoke mencoder, if you wish to create movies with surfer
 ffmpeg=    command to invoke ffmpeg, if you wish to create movies with surfer
 
-modified_surf=  To take advantage of multiple processors, we modified the source code
-                for surf such that surf now supports the option "--clip_to". If you use
-                a version of surf which does not support this option, set modified_surf=0.
+modified_surf= To take advantage of multiple processors, recent version of surf
+               supports the option "--clip-to-rectangle" which allows to compute
+               partial iamges: if you use a version of surf which does not support
+               this option, set modified_surf=0.
 
 
 COMMAND LINE ARGUMENTS

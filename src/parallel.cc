@@ -18,10 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#define SURF_CMD_OPTION_CLIPTO "--clip-to-rectangle"
+
 #include "bwindow_gdk.hh"
-
-
-
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -87,7 +86,7 @@ void parallel_surf(const std::string& script,bool sync, int width, const surfer_
 		if(i)
 		buf<<(i+1);
 
-		std::string cmd = (opt.surf_cmd +QUIET_SURF+ ((n!=1)?(" --clip_to 0 "+min_buff.str()+" "+fbuff+" "+" "+max_buff.str()):"")+" -n \""+script+buf.str()+"\" " + REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
+		std::string cmd = (opt.surf_cmd +QUIET_SURF+ ((n!=1)?( " " SURF_CMD_OPTION_CLIPTO " 0 " +min_buff.str()+" "+fbuff+" "+" "+max_buff.str()):"")+" -n \""+script+buf.str()+"\" " + REDIRECTION_APEX +((!sync) ?"":DAEMONIZE));
 
 
 
