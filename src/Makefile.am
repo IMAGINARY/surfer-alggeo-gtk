@@ -44,12 +44,14 @@ surfer_SOURCES = \
 	xpm_data.cc
 
 surfer_CPPFLAGS = \
+	-I $(top_srcdir)/src/vecmath \
 	-DSURF_CMD=\"$(SURF_CMD)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DGALLERY_PATH=\"$(gallerydir)\" \
-	-I $(top_srcdir)/src/vecmath
+	$(OPENMP_CXXFLAGS)
 
 surfer_CXXFLAGS = \
+	$(OPENMP_CXXFLAGS) \
 	$(LIBGTKMM_CFLAGS)
 
 surfer_LDADD = \
