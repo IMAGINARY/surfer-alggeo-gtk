@@ -1987,16 +1987,16 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	GalleryWindow w(gal[i],opt);
 	w.set_modal();
 	w.show();
-	w.maximize();
-	w.fullscreen();
+////	w.maximize();
+////	w.fullscreen();
 	w.present();
 	w.raise();
-	//w.fullscreen();
+//////w.fullscreen();
 	Gtk::Main::run(w);
 
 	data = w.ret.data;
 
-	global_data = w.ret.global_data;;
+	global_data = w.ret.global_data;
 
 	current_surf = w.isu;
 

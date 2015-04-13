@@ -310,8 +310,8 @@ const int count = entries.size();
   }
 
 
-		maximize();
-		fullscreen();
+////		maximize();
+////		fullscreen();
 
   show_all_children();
   present();
