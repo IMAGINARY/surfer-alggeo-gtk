@@ -220,8 +220,8 @@ m_refListModel(),
 m_frame(),
 m_please(),
 gal(g),
-ret(),
-isu(),
+ret(g.file[0]),
+isu(0),
 opt(o)
 
 
