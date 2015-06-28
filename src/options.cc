@@ -129,8 +129,7 @@ surfer_options default_settings()
 	#endif
 
 
-        so.change_lang = false;
-	so.modified_surf = true;//!no_new_surf_features;
+  so.change_lang = false;
 
 	so.reset_file = so.gallery_path + DIR_SEP + _("gallery-en")+DIR_SEP+"ADE"+DIR_SEP+"A1pm.pic";
 	so.screen_saver_gallery = "flaechen_fantasien";
@@ -140,7 +139,6 @@ surfer_options default_settings()
 
 std::ostream& write(const surfer_options& so, std::ostream& f)
 {
-	
 
 	f<<"gallery="<<so.gallery_path<<std::endl;
 //	f<<"user_gallery="<<so.gallery_path<<std::endl;
@@ -157,19 +155,16 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	f<<"uixml="<<so.ui_xml<<std::endl;
 	f<<"mencoder="<<so.mencoder_cmd<<std::endl;
 	f<<"ffmpeg="<<so.ffmpeg_cmd<<std::endl;
-	f<<"modified_surf="<<so.modified_surf<<std::endl;
-        f<<"languages="<<so.change_lang<<std::endl;
-        f<<"reset="<<so.reset_file<<std::endl;
+	f<<"languages="<<so.change_lang<<std::endl;
+	f<<"reset="<<so.reset_file<<std::endl;
 	f<<"screen_saver_gallery="<<so.screen_saver_gallery<<std::endl;
 	return f;
 }
 
 surfer_options read_settings_from_file(const std::string& filename)
 {
-	
-
 	surfer_options so = default_settings();
-	
+
 	std::ifstream f;
 	try{
 		f.open(filename.c_str());
@@ -178,9 +173,6 @@ surfer_options read_settings_from_file(const std::string& filename)
 
 
 	if(f.bad()||f.eof()||!f.good()||!f.is_open()) {rewrite_config = true; return so;}
-
-
-
 
 	std::string t;
 	while(!getline(f,t).eof())
@@ -202,8 +194,6 @@ surfer_options read_settings_from_file(const std::string& filename)
 
 		for(;i<t.size() && (t[i]!=';') ;i++)
 		t2+=t[i];
-
-
 
 		if(t1 == "gallery") so.gallery_path = fix_file(t2);
 		if(t1 == "user_gallery") so.user_gallery_path = fix_file(t2);
@@ -233,11 +223,6 @@ surfer_options read_settings_from_file(const std::string& filename)
 			std::istringstream iss(t2);
 			iss>>so.upscale;
 		}
-		if(t1 == "modified_surf")
-		{
-			std::istringstream iss(t2);
-			iss>>so.modified_surf;
-		}
 		if(t1 == "languages")
 		{
 			std::istringstream iss(t2);
@@ -246,10 +231,6 @@ surfer_options read_settings_from_file(const std::string& filename)
 		if(t1=="surf")
 		so.surf_cmd = t2;
 	}
-
-
-
-
 
 	return so;
 }

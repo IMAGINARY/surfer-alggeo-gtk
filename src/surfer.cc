@@ -99,9 +99,9 @@ while(do_restart)
   do_restart = false;
   main_work(so,  b, personalized, NULL);
 
-} 
+}
 
-parallel_clear();
+do_postpare();
 
   return 0;
 }
@@ -115,10 +115,6 @@ int main (int argc, char *argv[])
 
 //char *LANG = LANG_EN;
 
-
-
-
-
 #ifdef WIN32
 std::string GetTempPath();
 temp_dir = GetTempPath();
@@ -129,11 +125,8 @@ temp_dir = GetTempPath();
 
         std::string xs = "/dev/shm";
 	struct stat st;
-        
 
-        
-
-	std::string s = "/tmp"; 
+	std::string s = "/tmp";
 
 	if(stat(xs.c_str(),&st) == 0)
 	s = xs;
@@ -144,21 +137,20 @@ temp_dir = GetTempPath();
 
 
 	temp_dir = s + "/" + ftemplate;
-        
 
 	char *L = new char[temp_dir.size() + 1];
 	strcpy(L,temp_dir.c_str());
-	
+
 	char * tst = mkdtemp(L);
         if(!tst)
         {std::cerr<<"mkdtemp failed on "<<L<<std::endl;abort();}
-	
+
 	temp_dir = L;
 	delete L;
 
 	if(temp_dir.empty() or temp_dir[temp_dir.size()-1] != DIR_SEP_CHAR)
 		temp_dir += DIR_SEP;
-        
+
 }
 #endif
 
@@ -167,7 +159,6 @@ temp_dir = GetTempPath();
 	{
 		std::cout<<"Surfer "<<get_revision()<<std::endl;
 		return 0;
-		
 	}
 
   Gtk::Main kit(argc, argv);
@@ -176,8 +167,6 @@ temp_dir = GetTempPath();
   bool personalized = false;
 char *ui_xml = NULL;
   std::istream* i = new std::istringstream("");
-
-  init_threads();
 
 arg_inspect:
   if(argc>1)
@@ -232,7 +221,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-t")
 	{
@@ -240,7 +228,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-i")
 	{
@@ -248,7 +235,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-s")
 	{
@@ -258,7 +244,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-d")
 	{
@@ -266,7 +251,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-V")
 	{
@@ -274,7 +258,6 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
 	else if(std::string(argv[1])=="-r")
 	{
@@ -282,16 +265,15 @@ arg_inspect:
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
+#if 0
 	else if(std::string(argv[1])=="-m")
 	{
-		no_new_surf_features = !no_new_surf_features;
 		argc--;
 		argv++;
 		goto arg_inspect;
-		
 	}
+#endif
 	else
 	{
 		personalized = true;
@@ -305,7 +287,6 @@ arg_inspect:
 if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
 	if( ui_xml != NULL )
 		so.ui_xml = std::string( ui_xml );
-  no_new_surf_features = !so.modified_surf;
 
   if(rewrite_config)
   try{
@@ -340,7 +321,7 @@ void check_surf(const surfer_options& opt)
            std::cerr<<"cannot write file "<<script<<std::endl;
            exit(101);
         }
-	
+
 /*	f<<"rot_x="<<data.initial_x+current_x<<";\n";
 	f<<"rot_y="<<data.initial_y+current_y<<";\n";
 	f<<"rot_z="<<data.initial_z+current_z<<";\n";
@@ -350,19 +331,11 @@ void check_surf(const surfer_options& opt)
 	//f<<"rot_y="<<t.rot_y<<";\n";
 	//f<<"rot_z="<<t.rot_z<<";\n";
 
-	
-	
-	
 		int w = 1;
 		f<<"width="<< w <<";\n";
 		f<<"height="<< w <<";\n";
-	
-
-	
 
 	f<<"surface="<< "x*x + y*y - z" <<";\n";
-
-	
 
 	//f<<"transparency="<<50<<";\n";
 	f<<"filename=\""<<image<<"\";\n";
@@ -372,7 +345,7 @@ void check_surf(const surfer_options& opt)
 	f.close();
 
 	std::string cmd = opt.surf_cmd+" "+QUIET_SURF+" -n \""+script+"\" " +REDIRECTION_APEX;
-	
+
 	int r =log_system(cmd.c_str());
         if(r != 0)
         {
@@ -388,8 +361,6 @@ void check_surf(const surfer_options& opt)
 
         std::remove(image.c_str());
         std::remove(script.c_str());
-
-        
 }
 
 bool check_encoder()
@@ -408,11 +379,6 @@ int log_system(const std::string& s)
 	}
 	return r;
 }
-
-
-
-
-
 
 SurfBWindow* main_work(const surfer_options& so, bool b, bool personalized, SurfBWindow* k)
 {
@@ -433,7 +399,7 @@ SurfBWindow* main_work(const surfer_options& so, bool b, bool personalized, Surf
   sbw->kill_w = k;
 
   sbw->show();
-  
+
   return sbw;
 }
 
@@ -457,7 +423,7 @@ SurfBWindow* main_work(std::istream* i,const surfer_options& so, bool b, bool pe
 
   sbw->show();
   //Gtk::Main::run(*sbw);
-  
+
   return sbw;
 }
 

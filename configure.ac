@@ -30,8 +30,6 @@ AC_PROG_CXX
 
 ##LT_INIT
 
-AC_OPENMP
-
 AC_CHECK_PROGS([SURF_CMD],[surf-alggeo surf],[surf])
 
 PKG_PROG_PKG_CONFIG

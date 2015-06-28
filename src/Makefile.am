@@ -35,7 +35,6 @@ surfer_SOURCES = \
 	gallery.cc \
 	gallerycontrol.cc \
 	options.cc \
-	parallel.cc \
 	parsepic.cc \
 	rotate.cc \
 	select.cc \
@@ -47,11 +46,9 @@ surfer_CPPFLAGS = \
 	-I $(top_srcdir)/src/vecmath \
 	-DSURF_CMD=\"$(SURF_CMD)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DGALLERY_PATH=\"$(gallerydir)\" \
-	$(OPENMP_CXXFLAGS)
+	-DGALLERY_PATH=\"$(gallerydir)\"
 
 surfer_CXXFLAGS = \
-	$(OPENMP_CXXFLAGS) \
 	$(LIBGTKMM_CFLAGS)
 
 surfer_LDADD = \

@@ -56,7 +56,7 @@ typedef pid_t PID_type;
 #define MAIN_COLOR_STRING "white"
 #define CONTRAST_COLOR_STRING "black"
 #define MAIN_COLOR_LUMINA 255
- 
+
 #endif
 
 
@@ -69,8 +69,6 @@ bool check_input(const std::string& s);
 std::string fix_input(const std::string& s);
 std::string fix_input_for_display(const std::string& s);
 std::string fix_input_for_surf(const std::string& s);
-
-int num_threads();
 
 struct color_rgb256
 {
@@ -213,7 +211,7 @@ struct surfer_options
 
 	std::string surf_cmd;
 	std::string entryfont;
-	
+
 	std::string helpfile;
 	std::string help_cmd;
 
@@ -226,9 +224,7 @@ struct surfer_options
 	int video_resolution;
 	int video_bitrate;
 
-	bool modified_surf;
-
-        bool change_lang;
+	bool change_lang;
 
 	std::string reset_file;
 	std::string screen_saver_gallery;
@@ -241,7 +237,6 @@ ZScale(double a, double b, double c): Gtk::VScale(a,b,c) {}
 protected:
 Glib::ustring on_format_value(double value)
 {
-	
 	std::ostringstream os;
 	os.precision(0);
 	os.setf(std::ios_base::fixed);
@@ -740,10 +735,10 @@ bool on_button_press_event_func(GdkEventButton* event);
 bool on_button_release_event_func(GdkEventButton* event);
 bool on_timer_event_func(int extra);
 void on_insert_text_func(const Glib::ustring&,int*);
-void on_delete_text_func(int,int);	
+void on_delete_text_func(int,int);
 
 void refresh(const std::string& script, const std::string& image, int aa , bool full = false);
-void refresh_image(const std::string& script, const std::string& image, const int aa , bool full, const int n = num_threads(), bool max_res = false, bool max_res2 = true);
+void refresh_image(const std::string& script, const std::string& image, const int aa , bool full, bool max_res = false, bool max_res2 = true);
 
 void on_reset_clicked();
 bool on_wait_elapsed();
@@ -937,10 +932,6 @@ void write_gallery_file(std::ostream& f, const gallery& G);
 gallery read_gallery_file(std::istream& f, const std::string& path, const std::string& dname,double);
 PID_type system_async(const std::string& s, const std::string& ulimit, const surfer_options& opt);
 
-
-void parallel_surf(const std::string& script,bool sync, int width, const surfer_options& opt);
-
-void init_threads();
 std::string get_revision();
 surfer_options default_settings();
 
@@ -993,10 +984,7 @@ public:
 
 extern bool no_log;
 
-#define QUIET_SURF (std::string((no_log && !no_new_surf_features)?(" -q "):("")))
-
-
-
+#define QUIET_SURF (std::string((no_log)?(" -q "):("")))
 
 #ifndef WIN32
 #ifdef WIN_32
@@ -1086,13 +1074,12 @@ extern bool no_log;
 #define PREVIEW_SIZE 150
 #endif
 
-
-extern bool no_new_surf_features;
 int log_system(const std::string& s);
 
 extern bool do_restart;
 
-void parallel_clear();
+//void do_prepare();
+void do_postpare();
 
 SurfBWindow* main_work(const surfer_options& so, bool b, bool personalized, SurfBWindow* k);
 
