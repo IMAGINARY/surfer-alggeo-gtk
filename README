@@ -1,25 +1,22 @@
-Surfer
-Interactive Visualization of Algebraic Surfaces
+Surfer: Interactive Visualization of Algebraic Surfaces
 
 developed for the touring exhibition IMAGINARY 2008 of Mathematisches Forschungsinstitut Oberwolfach.
 http://www.imaginary2008/
+http://www.imaginary.org/
 
 
+-------------------------
 INSTALLATION INSTRUCTIONS
 
 Read this if you want to compile from source on a unix-like operating system
 (Linux, FreeBsd, Mac OS X, Cygwin).
 
-Before you can use Surfer, you have to install surf,
-preferably the version shipped with this source, which supports partial rendering.
-
-First compile and install surf, as described in the documentation for surf.
-
+Before you can use Surfer, you have to install surf[-alggeo].
 Next, issue these commands in the directory containing the source:
 
 ./configure
 make
-sudo make install
+make install
 
 This will fail if you don't have the necessary libraries installed,
 Surfer depends on Gtkmm 2.8, the corresponding package will be called something like
@@ -27,23 +24,10 @@ gtkmm2.4-dev or gtkmm-2.4-dev.
 
 If you have problems compiling Surfer, you may try to ignore the makefile
 and use the following command:
-g++ -o surfer src/*.cc `pkg-config --cflags --libs gtkmm-2.4`
+g++ -o surfer src/*.cc $(pkg-config --cflags --libs gtkmm-2.4)
 
 
-Compiling with multicore support:
-
-If your compiler supports OpenMP *and* you use the version of surf shipped with Surfer,
-then you should pass the options enabling OpenMP to the configure script.
-
-Example:
-g++ has support for OpenMP beginning with version 4.2
-If you are using g++ then issue the following command
-
-CXX="g++" CXXFLAGS="-fopenmp" ./configure
-
-instead of ./configure as described above.
-
------------------
+-----------
 CONFIGURING
 
 After installation, run the program.
@@ -58,12 +42,8 @@ surf=      the command to invoke surf
 mencoder=  command to invoke mencoder, if you wish to create movies with surfer
 ffmpeg=    command to invoke ffmpeg, if you wish to create movies with surfer
 
-modified_surf= To take advantage of multiple processors, recent version of surf
-               supports the option "--clip-to-rectangle" which allows to compute
-               partial iamges: if you use a version of surf which does not support
-               this option, set modified_surf=0.
 
-
+----------------------
 COMMAND LINE ARGUMENTS
 usage:
 surfer [-f] [-h] [-i] [-s] [-V] [file]
