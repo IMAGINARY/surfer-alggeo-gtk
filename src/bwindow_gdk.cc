@@ -1193,8 +1193,7 @@ m_waiting_mode = 0;
 
 void SurfBWindow::on_spin_changed_func()
 {
-	
-	data_index = int(m_spin.get_value())-1;	
+	data_index = int(m_spin.get_value())-1;
 	update_visuals();
 }
 
@@ -1249,6 +1248,7 @@ bool SurfBWindow::on_button_changed_func(GdkEventButton* )
 
 bool SurfBWindow::on_timer_event_func(int)
 {
+
 	if(printing)
 	{
 		refresh_print(TEMP_ROOT_SEP+"surfb_f_p.ppm");
@@ -1264,11 +1264,11 @@ bool SurfBWindow::on_timer_event_func(int)
                 if(kill_w)
                 {kill_w->hide(); delete kill_w; kill_w = NULL;}
 	}
-	
+
 	Glib::RefPtr<Gdk::Window> window = m_draw.get_window();
+
 	if( pichange>=5)
 	{
-		
 		conn.disconnect();
 		sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
 
@@ -1281,15 +1281,15 @@ bool SurfBWindow::on_timer_event_func(int)
 			pichange = 3;
 		else pichange--;
 		waiting = true;
-		
+
 	}
 	else if( !button_down && pichange == 3)
 	{
-		
+
 		conn.disconnect();
-		
+
 		sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &SurfBWindow::on_timer_event_func),0);
-	
+
 		refresh(TEMP_ROOT_SEP +"surfb_f.pic",TEMP_ROOT_SEP +"surfb_f.ppm",0,true);
 		conn = Glib::signal_timeout().connect(my_slot, MSECS);
 
@@ -1305,9 +1305,8 @@ bool SurfBWindow::on_timer_event_func(int)
 }
 
 static
-void compose_surf(const std::string& script, bool sync, int width, const surfer_options& opt)
+void compose_surf(const std::string& script, bool sync, const surfer_options& opt)
 {
-	if(width<1)return;
 	std::string cmd = ( opt.surf_cmd + QUIET_SURF + " -n \""+script+"\" " + REDIRECTION_APEX + ((!sync)?"":DAEMONIZE) );
 	log_system(cmd);
 }
@@ -1373,7 +1372,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 
 	if(max_res2)
 	{
-		log_system((opt.surf_cmd+" -n \""+script+"\" " +REDIRECTION_APEX).c_str());
+		compose_surf(script,false,opt);
 	}
 	else
 	if(full)
@@ -1387,7 +1386,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 		std::remove((image).c_str());
 
 		//kill_list = system_async(script,"25",opt);
-		compose_surf(script,true,w,opt);
+		compose_surf(script,true,opt);
 
 		Gdk::Cursor hglass(Gdk::WATCH);
     Glib::RefPtr<Gdk::Window> wi = get_window();
@@ -1399,7 +1398,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	}
 	else
 	{
-		compose_surf(script,false,w,opt);
+		compose_surf(script,false,opt);
 
 		//my_system(script," " REDIRECTION_APEX ,"5",opt);
 		//if(w)gdk_window_set_cursor(w, NULL);
@@ -1448,7 +1447,6 @@ void SurfBWindow::refresh(const std::string& script, const std::string& image, c
 
 bool SurfBWindow::on_inside_expose_event_func(GdkEventExpose*)
 {
-	
 
 	Glib::RefPtr<Gdk::Window> window = m_colors_inside.get_window();
 	if(window)
