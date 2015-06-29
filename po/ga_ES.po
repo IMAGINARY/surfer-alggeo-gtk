@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: surfer\n"
 "Report-Msgid-Bugs-To: surfer@imaginary2008.de\n"
-"POT-Creation-Date: 2015-04-02 18:33+0200\n"
+"POT-Creation-Date: 2015-06-29 14:14+0200\n"
 "PO-Revision-Date: $Date$Last-Translator: Henning Meyer <hmeyer@mathematik."
 "uni-kl.de>\n"
 "Language-Team: German <surfer@imaginary-exhibition.com>\n"
@@ -91,97 +91,97 @@ msgstr "Non se puido acceder no arquivo de axuda."
 msgid "Could not display help file. Install Adobe Reader."
 msgstr "Non se puido acceder ao arquivo de axuda. Instalade Adobe Reader.\n"
 
-#: src/bwindow_gdk.cc:157
+#: src/bwindow_gdk.cc:144
 msgid "side 1"
 msgstr "Cara 1"
 
-#: src/bwindow_gdk.cc:158
+#: src/bwindow_gdk.cc:145
 msgid "side 2"
 msgstr "Cara 2"
 
-#: src/bwindow_gdk.cc:196
+#: src/bwindow_gdk.cc:183
 msgid "Details"
 msgstr "Detalles"
 
-#: src/bwindow_gdk.cc:207
+#: src/bwindow_gdk.cc:194
 msgid "Printing image..."
 msgstr " A imaxe estase a imprimir..."
 
-#: src/bwindow_gdk.cc:475
+#: src/bwindow_gdk.cc:462
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/bwindow_gdk.cc:564
+#: src/bwindow_gdk.cc:551
 msgid "Coloring"
 msgstr "Cores"
 
-#: src/bwindow_gdk.cc:610 src/bwindow_gdk.cc:2665
+#: src/bwindow_gdk.cc:597 src/bwindow_gdk.cc:2470
 msgid "Gallery"
 msgstr "Galerías"
 
-#: src/bwindow_gdk.cc:724
+#: src/bwindow_gdk.cc:711
 msgid "Info"
 msgstr "Info"
 
-#: src/bwindow_gdk.cc:742
+#: src/bwindow_gdk.cc:729
 msgid "Animate"
 msgstr "Animar"
 
-#: src/bwindow_gdk.cc:1863
+#: src/bwindow_gdk.cc:1758
 msgid "PrintAcknowledge"
 msgstr ""
 "A túa imaxe aparecerá pronto na pantalla. Podes obterunha copia imprimida "
 "gratuíta na mesa de recepción."
 
-#: src/bwindow_gdk.cc:2397
+#: src/bwindow_gdk.cc:2218
 msgid "Save surface"
 msgstr "Gardar a superfície"
 
-#: src/bwindow_gdk.cc:2400
+#: src/bwindow_gdk.cc:2221
 msgid "Save image and save surface"
 msgstr "Gardar a imaxe e a superficie"
 
-#: src/bwindow_gdk.cc:2402
+#: src/bwindow_gdk.cc:2223
 msgid "Save image"
 msgstr "Gardar a imaxe"
 
-#: src/bwindow_gdk.cc:2412 src/bwindow_gdk.cc:2547
+#: src/bwindow_gdk.cc:2230 src/bwindow_gdk.cc:2358
 msgid "Surfer Script (.pic)"
 msgstr "Formato Surfer (.pic)"
 
-#: src/bwindow_gdk.cc:2417
+#: src/bwindow_gdk.cc:2235
 msgid "Portable Network Graphics (.png)"
 msgstr "Formato PNG (.png)"
 
-#: src/bwindow_gdk.cc:2439 src/bwindow_gdk.cc:2561 src/rotate.cc:789
+#: src/bwindow_gdk.cc:2255 src/bwindow_gdk.cc:2372 src/rotate.cc:782
 msgid "All files"
 msgstr "Todos os arquvos"
 
-#: src/bwindow_gdk.cc:2537
+#: src/bwindow_gdk.cc:2350
 msgid "Open surface"
 msgstr "Abrir superficie"
 
-#: src/bwindow_gdk.cc:2661
+#: src/bwindow_gdk.cc:2466
 msgid "File"
 msgstr "Arquivo"
 
-#: src/bwindow_gdk.cc:2662
+#: src/bwindow_gdk.cc:2467
 msgid "Surface"
 msgstr "Superficie"
 
-#: src/bwindow_gdk.cc:2663
+#: src/bwindow_gdk.cc:2468
 msgid "Help"
 msgstr "Axuda"
 
-#: src/bwindow_gdk.cc:2664
+#: src/bwindow_gdk.cc:2469
 msgid "View"
 msgstr "Vista"
 
-#: src/bwindow_gdk.cc:2672
+#: src/bwindow_gdk.cc:2477
 msgid "Save a copy of this image"
 msgstr "Gardar unha copia desta imaxe"
 
-#: src/bwindow_gdk.cc:2673
+#: src/bwindow_gdk.cc:2478
 msgid "Save a copy of this surface"
 msgstr "Guardar unha copia desta superficie"
 
@@ -192,16 +192,6 @@ msgstr "Seleccionade superficie - Surfer"
 #: src/gallery.cc:248
 msgid "Click on a surface, please."
 msgstr "Cliquear sobre superficie"
-
-#: src/parallel.cc:66
-msgid ""
-"surfer: multithreaded rendering not supported with this version of surf."
-msgstr ""
-
-#: src/parallel.cc:67
-msgid ""
-"use version of surf shipped with surfer and activate \"modified_surf=1\" in "
-msgstr ""
 
 #: src/rotate.cc:307
 msgid "Video Preview"
@@ -215,23 +205,23 @@ msgstr "Fotograma clave"
 msgid "Duration"
 msgstr "Duración"
 
-#: src/rotate.cc:753
+#: src/rotate.cc:746
 msgid "Save video"
 msgstr "Gardar vídeo"
 
-#: src/rotate.cc:763
+#: src/rotate.cc:756
 msgid "AVI Video Container (*.avi)"
 msgstr "Colector de vídeo AVI (.avi)"
 
-#: src/rotate.cc:770
+#: src/rotate.cc:763
 msgid "MPEG-4 Video (.mp4)"
 msgstr "Vídeo MPEG-4 (.mp4)"
 
-#: src/rotate.cc:776
+#: src/rotate.cc:769
 msgid "GIF Animation (.gif)"
 msgstr "Animación GIF (.gif)"
 
-#: src/rotate.cc:868
+#: src/rotate.cc:861
 msgid "File exists. Overwrite?"
 msgstr "O arquivo xa existe. Sobrescribir?"
 
@@ -367,7 +357,7 @@ msgstr "coordenada y"
 msgid "z coordinate"
 msgstr "coordenada z"
 
-#: src/surfer.cc:190
+#: src/surfer.cc:179
 #, fuzzy
 msgid ""
 "Surfer - visualizing algebraic geometry\n"
@@ -394,6 +384,6 @@ msgstr ""
 "       -l selección de idioma, p. ex. LANG=es_GAL.utf8\n"
 "       o arquivo é de código surf ou surfer\n"
 
-#: src/surfer.cc:426 src/surfer.cc:450
+#: src/surfer.cc:390 src/surfer.cc:414
 msgid "gallery-en"
 msgstr "gallery-ga"
