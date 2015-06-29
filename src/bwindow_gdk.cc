@@ -1305,7 +1305,7 @@ bool SurfBWindow::on_timer_event_func(int)
 }
 
 static
-void parallel_surf(const std::string& script, bool sync, int width, const surfer_options& opt)
+void compose_surf(const std::string& script, bool sync, int width, const surfer_options& opt)
 {
 	if(width<1)return;
 	std::string cmd = ( opt.surf_cmd + QUIET_SURF + " -n \""+script+"\" " + REDIRECTION_APEX + ((!sync)?"":DAEMONIZE) );
@@ -1387,7 +1387,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 		std::remove((image).c_str());
 
 		//kill_list = system_async(script,"25",opt);
-		parallel_surf(script,true,w,opt);
+		compose_surf(script,true,w,opt);
 
 		Gdk::Cursor hglass(Gdk::WATCH);
     Glib::RefPtr<Gdk::Window> wi = get_window();
@@ -1399,7 +1399,7 @@ void SurfBWindow::refresh_image(const std::string& script, const std::string& im
 	}
 	else
 	{
-		parallel_surf(script,false,w,opt);
+		compose_surf(script,false,w,opt);
 
 		//my_system(script," " REDIRECTION_APEX ,"5",opt);
 		//if(w)gdk_window_set_cursor(w, NULL);

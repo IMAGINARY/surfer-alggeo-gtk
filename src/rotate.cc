@@ -652,29 +652,22 @@ void AniWindow::compute()
 		f<<"width="<<gui.opt.video_resolution<<";\n";
 		f<<"height="<<gui.opt.video_resolution<<";\n";
 
-			
 		write_surf(intermediate[i].global_data,f,0);
 		for(unsigned k = 0; k < intermediate[i].data.size(); k++)
 		{
 			write_surf(intermediate[i].data[k],k,f);
-		
 		}
-	
-		
-		
-		
-	
+
 		//f<<"transparency="<<50<<";\n";
 		f<<"filename=\""<<(v_image[i])<<"\";\n";
 		f<<"color_file_format="+gui.opt.format+";\n";
 		f<<"draw_surface;\n";
 		f<<"save_color_image;\n";
-		f.close();		
+		f.close();
 
 		//out<<"finished file "<<i<<std::endl;
 	}
 
-        //#pragma omp parallel for
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
 		m_prog.set_fraction(double(i)/intermediate.size());
