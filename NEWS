@@ -1,6 +1,7 @@
-* Noteworthy changes in release 0.2.0 (2015/04/02)
+* Noteworthy changes in release 0.2.0 (2015/07/04)
 
-	Autotools machnery cleanup.
+	Autotools machinery cleanup;
+	Parallelization machinery wipeout.
 
 * Noteworthy changes in release 0.1.0 (2011/01/11)
 
