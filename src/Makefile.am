@@ -46,8 +46,7 @@ surfer_alggeo_gtk_SOURCES = \
 
 AM_H2MFLAGS = \
 	--manual="IMAGINARY" \
-	--help-option="--help" \
-	--version-option="--version" \
+	--no-discard-stderr \
 	--no-info
 
 surfer_alggeo_gtk_CPPFLAGS = \
