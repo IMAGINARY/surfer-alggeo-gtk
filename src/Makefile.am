@@ -1,6 +1,6 @@
-bin_PROGRAMS = surfer
+bin_PROGRAMS = surfer-alggeo-gtk
 
-man_MANS = surfer.1
+man_MANS = surfer-alggeo-gtk.1
 
 noinst_HEADERS = \
 	surfer.hh \
@@ -30,7 +30,7 @@ noinst_HEADERS = \
 	vecmath/Matrix4.h \
 	vecmath/Tuple3.h
 
-surfer_SOURCES = \
+surfer_alggeo_gtk_SOURCES = \
 	about.cc \
 	bwindow_gdk.cc \
 	fix_input.cc \
@@ -50,20 +50,20 @@ AM_H2MFLAGS = \
 	--version-option="--version" \
 	--no-info
 
-surfer_CPPFLAGS = \
+surfer_alggeo_gtk_CPPFLAGS = \
 	-I $(top_srcdir)/src/vecmath \
 	-DSURF_CMD=\"$(SURF_CMD)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DGALLERY_PATH=\"$(gallerydir)\"
 
-surfer_CXXFLAGS = \
+surfer_alggeo_gtk_CXXFLAGS = \
 	$(LIBGTKMM_CFLAGS)
 
-surfer_LDADD = \
+surfer_alggeo_gtk_LDADD = \
 	$(LIBGTKMM_LIBS)
 
 ## short descriptions for manpages
-surfer_DESCRIPTION =  "Interactive Visualization of ALGebraic GEOmetric SURFaces"
+surfer_alggeo_gtk_DESCRIPTION =  "Interactive Visualization of ALGebraic GEOmetric SURFaces"
 
 %.1: %
 	$(HELP2MAN) \

@@ -138,7 +138,7 @@ arg_inspect:
 	{
 		std::cout<<
 		_(/*"Surfer - visualizing algebraic geometry\n"*/
-		"Usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml UIXMLFILE] [SCRIPT]\n"
+		"Usage: surfer-alggeo-gtk [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml UIXMLFILE] [SCRIPT]\n"
 		"Options:\n"
 		"  -f             toggles between fullscreen and windowed mode\n"
 		"  -g             hides the gallery\n"
