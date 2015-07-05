@@ -28,6 +28,8 @@ AC_PROG_CC_C99
 AC_LANG(C++)
 AC_PROG_CXX
 
+AC_PATH_PROG([HELP2MAN],[help2man])
+
 ##LT_INIT
 
 AC_CHECK_PROGS([SURF_CMD],[surf-alggeo surf],[surf])

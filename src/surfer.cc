@@ -137,7 +137,7 @@ arg_inspect:
 	else if(std::string(argv[1])=="-h" || std::string(argv[1])=="--help")
 	{
 		std::cout<<
-		_("Surfer - visualizing algebraic geometry\n"
+		_(/*"Surfer - visualizing algebraic geometry\n"*/
 		"Usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml UIXMLFILE] [SCRIPT]\n"
 		"Options:\n"
 		"  -f             toggles between fullscreen and windowed mode\n"

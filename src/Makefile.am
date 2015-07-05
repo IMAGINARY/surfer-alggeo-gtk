@@ -1,5 +1,7 @@
 bin_PROGRAMS = surfer
 
+man_MANS = surfer.1
+
 noinst_HEADERS = \
 	surfer.hh \
 	bwindow_gdk.hh \
@@ -42,6 +44,12 @@ surfer_SOURCES = \
 	win32.cc \
 	xpm_data.cc
 
+AM_H2MFLAGS = \
+	--manual="IMAGINARY" \
+	--help-option="--help" \
+	--version-option="--version" \
+	--no-info
+
 surfer_CPPFLAGS = \
 	-I $(top_srcdir)/src/vecmath \
 	-DSURF_CMD=\"$(SURF_CMD)\" \
@@ -53,4 +61,22 @@ surfer_CXXFLAGS = \
 
 surfer_LDADD = \
 	$(LIBGTKMM_LIBS)
+
+## short descriptions for manpages
+surfer_DESCRIPTION =  "Interactive Visualization of ALGebraic GEOmetric SURFaces"
+
+%.1: %
+	$(HELP2MAN) \
+			-s 1 \
+			$(AM_H2MFLAGS) \
+			-I $(top_srcdir)/man/$*.h2m \
+			-n $(if $($(subst -,_,$*)_DESCRIPTION), $($(subst -,_,$*)_DESCRIPTION), "manual page for $*") \
+			-o $@ \
+		$(builddir)/$<
+
+EXTRA_DIST = \
+	$(man_MANS)
+
+DISTCLEANFILES = \
+	$(man_MANS)
 
