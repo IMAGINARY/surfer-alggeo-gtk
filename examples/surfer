@@ -1,11 +1,11 @@
-gallery=.\gallery\
+gallery=/usr/share/surfer-alggeo-gtk/gallery
 save=
 print=
 format=ppm
 resolution=150
-surf=surf
+surf=surf-alggeo
 upscale=1
 entryfont=
 help=
-helpfile=surfer-help.pdf
+helpfile=surfer-help-de.pdf
 ffmpeg=ffmpeg
