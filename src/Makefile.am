@@ -76,6 +76,6 @@ surfer_alggeo_gtk_DESCRIPTION =  "Interactive Visualization of ALGebraic GEOmetr
 EXTRA_DIST = \
 	$(man_MANS)
 
-DISTCLEANFILES = \
+MAINTAINERCLEANFILES = \
 	$(man_MANS)
 
