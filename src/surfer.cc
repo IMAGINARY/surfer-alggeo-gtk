@@ -18,8 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-
 #include <gtkmm/main.h>
 #include <sys/stat.h>
 #include "bwindow_gdk.hh"
@@ -115,52 +113,6 @@ int main (int argc, char *argv[])
 
 //char *LANG = LANG_EN;
 
-#ifdef WIN32
-std::string GetTempPath();
-temp_dir = GetTempPath();
-#else
-{
-
-        char ftemplate[] = "surfer-XXXXXX";
-
-        std::string xs = "/dev/shm";
-	struct stat st;
-
-	std::string s = "/tmp";
-
-	if(stat(xs.c_str(),&st) == 0)
-	s = xs;
-
-	if( std::getenv("TMPDIR"))
-		s = std::getenv("TMPDIR");
-	if(s.empty()) s = "/tmp";
-
-
-	temp_dir = s + "/" + ftemplate;
-
-	char *L = new char[temp_dir.size() + 1];
-	strcpy(L,temp_dir.c_str());
-
-	char * tst = mkdtemp(L);
-        if(!tst)
-        {std::cerr<<"mkdtemp failed on "<<L<<std::endl;abort();}
-
-	temp_dir = L;
-	delete L;
-
-	if(temp_dir.empty() or temp_dir[temp_dir.size()-1] != DIR_SEP_CHAR)
-		temp_dir += DIR_SEP;
-
-}
-#endif
-
-
-  if(argc>1 && std::string(argv[1])=="--version")
-	{
-		std::cout<<"Surfer "<<get_revision()<<std::endl;
-		return 0;
-	}
-
   Gtk::Main kit(argc, argv);
 
  // HelloWorld helloworld;
@@ -173,20 +125,35 @@ arg_inspect:
   {
 	if(std::string(argv[1])=="-")
 		i = &std::cin;
+	else if(std::string(argv[1])=="--version")
+	{
+#if 1
+		std::cout<< PACKAGE_VERSION <<std::endl;
+#else
+		std::cout<<"Surfer "<<get_revision()<<std::endl;
+#endif
+		return 0;
+	}
 	else if(std::string(argv[1])=="-h" || std::string(argv[1])=="--help")
 	{
 		std::cout<<
 		_("Surfer - visualizing algebraic geometry\n"
-		"usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml uixmlfile] [file]\n"
-		"       -f toggles between fullscreen and windowed mode\n"
-                "       -g hides the gallery\n"
-		"       -i hides the information for gallery entries\n"
-                "       -s small mode: no fullscreen, no gallery, no information\n"
-                "       -V verbose operation\n"
-                "       -t removes animation und multiple surfaces from user interface \n"
-		"       -l sets the language, e.g. to LANG=de_DE.utf8\n"
-		"       --uixml uses the given xml file as an UI definiton\n"
-                "       file is a surf or surfer script\n");
+		"Usage: surfer [-f] [-h] [-i] [-s] [-V] [-l LANG] [--uixml UIXMLFILE] [SCRIPT]\n"
+		"Options:\n"
+		"  -f             toggles between fullscreen and windowed mode\n"
+		"  -g             hides the gallery\n"
+		"  -i             hides the information for gallery entries\n"
+		"  -s             small mode: no fullscreen, no gallery, no information\n"
+		"  -V             verbose operation\n"
+		"  -t             removes animation und multiple surfaces from user interface \n"
+		"  -l             sets the language, e.g. to LANG=de_DE.utf8\n"
+		"     --uixml     uses the given XML file as an UI definiton\n"
+		"\n"
+		"  -h, --help     display this help and exit\n"
+		"      --version  display version tuple and exit\n"
+		"\n"
+		"                 SCRIPT is a surf or surfer script\n"
+		"\n");
 		return 0;
 	}
 	else if(std::string(argv[1])=="--uixml")
@@ -280,6 +247,45 @@ arg_inspect:
 		i = new std::ifstream(argv[1]);
 	}
   }
+
+#ifdef WIN32
+std::string GetTempPath();
+temp_dir = GetTempPath();
+#else
+{
+
+  char ftemplate[] = "surfer-XXXXXX";
+
+  std::string xs = "/dev/shm";
+	struct stat st;
+
+	std::string s = "/tmp";
+
+	if(stat(xs.c_str(),&st) == 0)
+	s = xs;
+
+	if( std::getenv("TMPDIR"))
+		s = std::getenv("TMPDIR");
+	if(s.empty()) s = "/tmp";
+
+
+	temp_dir = s + "/" + ftemplate;
+
+	char *L = new char[temp_dir.size() + 1];
+	strcpy(L,temp_dir.c_str());
+
+	char * tst = mkdtemp(L);
+        if(!tst)
+        {std::cerr<<"mkdtemp failed on "<<L<<std::endl;abort();}
+
+	temp_dir = L;
+	delete L;
+
+	if(temp_dir.empty() or temp_dir[temp_dir.size()-1] != DIR_SEP_CHAR)
+		temp_dir += DIR_SEP;
+
+}
+#endif
 
   std::string optfile = fix_path(fix_file("~"))+(HIDDEN_MARKER "surfer" EXT_MARKER);
 
