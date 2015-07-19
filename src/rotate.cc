@@ -98,7 +98,7 @@ rot_data rot_yxz(const matrix<double> M)
 	rot_data R;
 
 	double sb = M.el(3,2);
-	
+
 	double cb = sqrt(1-sb*sb);
 
 	if(cb>=EPS)
@@ -228,27 +228,27 @@ global_parse interpolate(const global_parse& P, const global_parse& Q, double t)
 
 	Qt.normalize_brightness = P.normalize_brightness || Q.normalize_brightness;
 	Qt.depth_cueing = P.depth_cueing || Q.depth_cueing;
-	
+
 	Qt.depth_value = interpolate(P.depth_value,Q.depth_value,t);
 
 	for(unsigned i = 0; i < 4; i++)
 	Qt.para[i] = interpolate(P.para[i],Q.para[i],t);
 
 	Qt.illumination = P.illumination;
-	
+
 	for(unsigned i = 0; i < 9; i++)
 	Qt.light[i] = interpolate(P.light[i],Q.light[i],t);
-	
+
 	Qt.antialiasing = P.antialiasing;
 
 	Qt.rot = interpolate(P.rot,Q.rot,t);
-	
+
 	Qt.lores = P.lores;
 	Qt.hires = P.hires;
 	Qt.saveres = P.saveres;
-	
+
 	Qt.general_stuff = P.general_stuff; //seperately add clock
-	
+
 	return Qt;
 }
 
@@ -291,7 +291,7 @@ parse_result interpolate(const parse_result& P, const parse_result& Q, double t)
 bool AniWindow::on_view_key_press(GdkEventKey* event)
 {
 	if(!event)	return true;
-	
+
 	if(event->keyval == GDK_Delete)
 	{
 		on_delete_frame();
@@ -300,12 +300,20 @@ bool AniWindow::on_view_key_press(GdkEventKey* event)
 	return true;
 }
 
-
-
-AniWindow::AniWindow(SurfBWindow& g)
-:gui(g),fcount(0),m_record(Gtk::Stock::MEDIA_PLAY),m_movie_frame(-1), 
-m_fpreview(_("Video Preview")), m_pad_to(0),m_stop(Gtk::Stock::MEDIA_STOP),m_pause_cont(Gtk::Stock::MEDIA_PAUSE),m_add_frame(Gtk::Stock::ADD),m_delete_frame(Gtk::Stock::REMOVE),
-m_edit(Gtk::Stock::JUMP_TO), m_save(Gtk::Stock::SAVE),invalidated(true)
+AniWindow::AniWindow(SurfBWindow& g):
+	gui(g),
+	fcount(0),
+	m_record(Gtk::Stock::MEDIA_PLAY),
+	m_movie_frame(-1),
+	m_fpreview(_("Video Preview")),
+	m_pad_to(0),
+	m_stop(Gtk::Stock::MEDIA_STOP),
+	m_pause_cont(Gtk::Stock::MEDIA_PAUSE),
+	m_add_frame(Gtk::Stock::ADD),
+	m_delete_frame(Gtk::Stock::REMOVE),
+	m_edit(Gtk::Stock::JUMP_TO),
+	m_save(Gtk::Stock::SAVE),
+	invalidated(true)
 {
 
 set_up_the_ani_menu();
@@ -483,18 +491,16 @@ add_entry(p,25,++fcount);
 
 }
 
-
 bool AniWindow::on_timer(int)
 {
 	if(!is_visible()) return true;
 	if(m_movie_frame==m_movie_file.size()) m_movie_frame = 0;
-	if (m_movie_frame<0) {return true;}
+	if ((m_movie_frame<0) || (m_movie_file.size()==0)) {return true;}
 
-	
 	//out<<"now playing "<<m_movie_frame<<": "<<m_movie_file[m_movie_frame]<<std::endl;
 
 	Glib::RefPtr<Gdk::Pixbuf> g = Gdk::Pixbuf::create_from_file(m_movie_file[m_movie_frame]);
-	
+
 	m_preview.set(g->scale_simple(100,100,Gdk::INTERP_BILINEAR));
 
 	conn.disconnect();
@@ -503,9 +509,7 @@ bool AniWindow::on_timer(int)
 // This is where we connect the slot to the Glib::signal_timeout()
 //const int frame_rate = 10;
 
-
 	conn = Glib::signal_timeout().connect(my_slot, 1000/gui.opt.video_frame_rate);
-
 
 	m_movie_frame++;
 
@@ -529,7 +533,7 @@ void clear_dir(const std::string& path)
 	if(gd==NULL) return ;
 	dirent* R = readdir(gd);
 	while(R)
-	{	
+	{
 		std::string d (R->d_name);
 		if(!d.empty() && d[0]!='.' )
 		std::remove((path+DIR_SEP+R->d_name).c_str());
@@ -542,9 +546,6 @@ void AniWindow::on_record()
 {
 	compute();
 	m_movie_frame = 0;
-		
-	
-
 }
 
 
@@ -556,7 +557,6 @@ void AniWindow::compute()
 	m_movie_frame = -1;
 	//m_save.set_sensitive(false);
 	m_prog.set_fraction(0);
-	
 
 	const bool do_pad = use_mencoder;
 	const bool do_jpeg = true;
@@ -568,7 +568,6 @@ void AniWindow::compute()
 	std::vector<unsigned> v_dur;
 	std::vector<parse_result> v_sta;
 
-	
 	Gtk::TreeModel::iterator irow = m_refListStore->children().begin();
 
 	for(;irow != m_refListStore->children().end(); ++irow)
@@ -579,7 +578,7 @@ void AniWindow::compute()
 	if(v_dur.empty()) return;
 
 	std::vector<parse_result> intermediate;
-	
+
 	for(unsigned i = 0; i+1 < v_sta.size(); i++)
 	{
 		intermediate.push_back(v_sta[i]);
@@ -622,17 +621,13 @@ void AniWindow::compute()
 
 	std::vector<std::string> optionv;
 	optionv.push_back("100");
-	
+
 	if(do_pad) m_pad_to = six.size();
 
 	for(unsigned i = 0; i < intermediate.size(); i++)
 	{
-		
-
 		g_mkdir((TEMP_ROOT_SEP+"surfer_ani").c_str(), 0774);
-		
-		
-		
+
 		std::ostringstream os;
 		os<<i;
 
@@ -694,7 +689,6 @@ void AniWindow::compute()
 	{
 		invalidated = false;
 		m_prog.set_fraction(1);
-		
 	}
 	else
 	m_prog.set_fraction(0);
@@ -711,9 +705,8 @@ void make_movie_mencoder(const std::string& outfile, const std::string& indir, c
 	os<<" -ovc lavc -lavcopts vcodec="<<format<<":vbitrate="<<bitrate;
 	if(container == "gif") os<<":pix_fmt=rgb24";
 	if(container != "avi") os<<" -lavfopts format="<<container;
-	
 
-	log_system(os.str()+" "+REDIRECTION_APEX); 
+	log_system(os.str()+" "+REDIRECTION_APEX);
 }
 
 
@@ -732,7 +725,7 @@ void make_movie_ffmpeg(const std::string& outfile, const std::string& indir, con
 	if(format != "flv")
 	os<<" -b "<<bitrate;
 
-	log_system(os.str()+" "+REDIRECTION_APEX); 
+	log_system(os.str()+" "+REDIRECTION_APEX);
 }
 
 
@@ -742,11 +735,7 @@ void AniWindow::on_save()
 
 	std::ostringstream title;
 
-	
 	title << _("Save video");
-
-	
-	
 
 	Gtk::FileChooserDialog dialog(gui,title.str(),Gtk::FILE_CHOOSER_ACTION_SAVE);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -761,13 +750,12 @@ void AniWindow::on_save()
 
 	Gtk::FileFilter filter_mp4;
 	  filter_mp4.set_name(_("MPEG-4 Video (.mp4)"));
-	  filter_mp4.add_mime_type("video/mp4");	  
+	  filter_mp4.add_mime_type("video/mp4");
 	dialog.add_filter(filter_mp4);
 
-	
 	Gtk::FileFilter filter_gif;
 	  filter_gif.set_name(_("GIF Animation (.gif)"));
-	  filter_gif.add_mime_type("image/gif");	  
+	  filter_gif.add_mime_type("image/gif");
 if(false) dialog.add_filter(filter_gif);
 
 		/*
@@ -791,7 +779,7 @@ if(false) dialog.add_filter(filter_gif);
 	//Gtk::Main::run(dialog);
 
 	int result = Gtk::RESPONSE_CANCEL;
-	
+
 	bool do_gif = false;
 	bool do_msmpeg = false;
 	bool do_mp4 = false;
@@ -806,7 +794,7 @@ if(false) dialog.add_filter(filter_gif);
 		if(!no_log)
 		{
 		std::cout<<"video save: "<<dialog.get_filename()<<std::endl;
-		std::cout<<dialog.get_filter()->get_name()<<std::endl;	
+		std::cout<<dialog.get_filter()->get_name()<<std::endl;
 		}
 
 		do_gif = dialog.get_filter()->get_name() == filter_gif.get_name();
@@ -838,7 +826,7 @@ if(false) dialog.add_filter(filter_gif);
 		}
 
 		if(use_mencoder)
-		{			
+		{
 			if(do_msmpeg)
 			make_movie_mencoder(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt);
 			else if(do_mp4)
@@ -864,7 +852,7 @@ if(false) dialog.add_filter(filter_gif);
 					goto choose_again;
 				}
 			}
-			
+
 			if(do_msmpeg)
 			make_movie_ffmpeg(t,TEMP_ROOT_SEP+"surfer_ani",gui.opt,gui.opt.video_bitrate,gui.opt.video_frame_rate);
 			else if(do_mp4)
@@ -878,10 +866,6 @@ if(false) dialog.add_filter(filter_gif);
 
 		}
 	}
-
-
-
-	
 
 }
 
@@ -899,7 +883,6 @@ Gtk::TreePath T;
 		Gtk::TreeViewColumn* C;
 		m_TreeView.get_cursor(T,C);
 
-		
 		if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) m_refListStore->erase(m_refListStore->get_iter(T));
 }
 
@@ -918,8 +901,8 @@ bool AniWindow::on_button_press_event_func(GdkEventButton* event)
 			Gtk::TreeViewColumn* C;
 			m_TreeView.get_cursor(T,C);
 			Gtk::TreeModel::Row row = *(m_refListStore->get_iter(T));
-			std::cout<<"button press"<<std::endl;			
-			if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) 
+			std::cout<<"button press"<<std::endl;
+			if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T)))
 			{
 			parse_result P = row[m_Columns.m_col_state];
 			gui.data = P.data;
@@ -944,9 +927,8 @@ void AniWindow::on_edit()
 			Gtk::TreePath T;
 			Gtk::TreeViewColumn* C;
 			m_TreeView.get_cursor(T,C);
-			
-			
-			if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T))) 
+
+			if(!T.empty() && m_refListStore->iter_is_valid(m_refListStore->get_iter(T)))
 			{
 			Gtk::TreeModel::Row row = *(m_refListStore->get_iter(T));
 			parse_result P = row[m_Columns.m_col_state];
