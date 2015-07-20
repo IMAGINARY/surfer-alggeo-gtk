@@ -20,6 +20,8 @@
 
 #include <gtkmm/main.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include "bwindow_gdk.hh"
 
 std::string temp_dir = "/tmp/";
@@ -104,6 +106,25 @@ do_postpare();
   return 0;
 }
 
+void wipe_dir(const std::string& path)
+{
+	DIR* gd = opendir(path.c_str());
+	if(gd==NULL) return ;
+	dirent* R = readdir(gd);
+	while(R)
+	{
+		std::string d (R->d_name);
+		if(!d.empty() && d[0]!='.' ) {
+			if (R->d_type==DT_REG)
+				std::remove((path+DIR_SEP+R->d_name).c_str());
+			else if (R->d_type==DT_DIR)
+				wipe_dir((path+DIR_SEP+R->d_name).c_str());
+		}
+		R = readdir(gd);
+	}
+	closedir(gd);
+	std::remove(path.c_str());
+}
 
 int main (int argc, char *argv[])
 {
@@ -304,11 +325,7 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
 
    main_details(i,so,(argc>1 && std::string(argv[1])=="-f") ,personalized);
 
-   #ifndef WIN32
-
-   std::remove(temp_dir.c_str());
-
-   #endif
+   wipe_dir(temp_dir.c_str());
 
    return 0;
 }
