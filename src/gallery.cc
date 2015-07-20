@@ -75,8 +75,6 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 
 	while(R)
 	{
-
-		
 		std::string d (R->d_name);
 		if(!d.empty() && d[0]!='.' && extension(d)==".pic")
 		{
@@ -85,13 +83,12 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 		parse_result P;
 		P.global_data = global_defaults();
 		P.data = read_pic( f, P.global_data);
-		
+
 		if(!P.data.empty())
 		{
 			if(ignore_bg_in_gallery)
 			{
 				P.global_data.background = global_background;
-				
 			}
 
 			//P.filename = d;
@@ -115,7 +112,7 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 	G.path = path;
 	G.image = path+DIR_SEP+name+".ppm";
 	G.desc = path+DIR_SEP+name+".png";
-	
+
 	if(!G.file.empty())
 	try{
 		std::ifstream fi(G.image.c_str());
@@ -123,7 +120,6 @@ gallery read_gallery(const std::string& path, const std::string& name, double up
 		}catch(...){
 	G.image = thumbnail(G.file[0]);
 	}
-	
 
 	//std::ofstream F((path+DIR_SEP+name+".txt").c_str());
 	//write_gallery_file(F,G);
@@ -144,7 +140,6 @@ std::vector<gallery> read_galleries_old(const std::string& path, double upscalin
 
 	while(R)
 	{
-		
 		std::string d (R->d_name);
 		if(!d.empty() && d[0]!='.')
 		{
@@ -152,42 +147,13 @@ std::vector<gallery> read_galleries_old(const std::string& path, double upscalin
 
 			if(!G.path.empty()) V.push_back(G);
 		}
-		
 		R = readdir(gd);
 	}
 
 	closedir(gd);
 
-	
 	return V;
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 namespace
 {
@@ -223,45 +189,41 @@ gal(g),
 ret(g.file[0]),
 isu(0),
 opt(o)
-
-
-
 {
 	// change gallery background to white
-	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
-	m_desc.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	MOD{ modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_desc.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 
-	m_tab.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
-	m_ScrolledWindow.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
-	m_IconView.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK); 
+	m_tab.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_ScrolledWindow.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
+	m_IconView.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 	m_VBox.modify_base(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);
 
 	m_IconView.modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
 	m_IconView.modify_text(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);  }
- 
 
 	set_title(_("Select surface - Surfer"));
   set_border_width(5);
   set_default_size(400, 400);
   add(m_tab);
-  
- m_please.set_markup(std::string("<span foreground=\"#FF0000\" weight=\"bold\">")+_("Click on a surface, please.")+"</span>");
+
+	m_please.set_markup(std::string("<span foreground=\"#FF0000\" weight=\"bold\">")+_("Click on a surface, please.")+"</span>");
 
   m_frame.add(m_desc);
   m_tab.attach(m_frame,0,1,0,1,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK);
   m_tab.attach( m_VBox,0,1,2,3 );
   m_tab.attach( m_please,0,1,1,2,Gtk::EXPAND|Gtk::FILL,Gtk::SHRINK );
 
-m_desc.set_size_request(1000,200);
-try{
-	std::ifstream fi(g.desc.c_str());
-	if(fi.is_open())
-	{
-		m_desc.set(g.desc);
-		m_desc.set_size_request(1000,300);		
-	}
+	m_desc.set_size_request(1000,200);
+	try{
+		std::ifstream fi(g.desc.c_str());
+		if(fi.is_open())
+		{
+			m_desc.set(g.desc);
+			m_desc.set_size_request(1000,300);
+		}
 	else
-	m_desc.clear();
+		m_desc.clear();
 	}
 	catch(...){m_desc.clear();}
 
@@ -297,15 +259,12 @@ try{
   m_IconView.set_size_request(1000,400);
   for(unsigned i = 0; i < gal.file.size(); i++)
   {
-	
 	IconEntry e(thumbnail(gal.file[i]),gal.file[i].global_data.name);
-
 	entries.push_back(e);
   }
-const int count = entries.size();
+	const int count = entries.size();
   for( int idx = 0; idx < count; ++idx )
   {
-
     add_entry( entries[idx].m_filename, entries[idx].m_description ,idx);
   }
 
@@ -321,17 +280,9 @@ GalleryWindow::~GalleryWindow()
 {
 }
 
-
-
-
-
 void GalleryWindow::on_item_activated(const Gtk::TreeModel::Path& )
 {
-  
-
- 
 }
-
 
 void GalleryWindow::on_selection_changed()
 {
@@ -346,9 +297,9 @@ void GalleryWindow::on_selection_changed()
     const std::string filename = row[m_Columns.m_col_filename];
     const Glib::ustring description = row[m_Columns.m_col_description];
     int i = row[m_Columns.m_col_index];
-  
+
 	isu = i;
-        ret = gal.file[i];
+	ret = gal.file[i];
 	hide();
   }
 }
@@ -372,18 +323,7 @@ make_thumbs(gal.file,opt);
 
 }
 	row[m_Columns.m_col_index] = idx;
-
 }
-
-
-
-
-
-
-
-
-
-
 
 std::string thumbnail(const parse_result& P)
 {

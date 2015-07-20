@@ -120,7 +120,7 @@ int thickness;
 
 std::string equation;
 std::string public_eq;
-	
+
 public:
 private:
 public:
@@ -148,7 +148,7 @@ struct global_parse
 	bool depth_cueing;
 	double depth_value;
 	double para[4];
-	
+
 	int illumination;
 
 	surf_light light[9];
@@ -249,10 +249,9 @@ Glib::ustring on_format_value(double value)
 class AScale: public Gtk::HScale
 {
 public:
-AScale(double a, double b, double c, const std::string& v): Gtk::HScale(a,b,c),var(v) 
+AScale(double a, double b, double c, const std::string& v): Gtk::HScale(a,b,c),var(v)
 {
-modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK); 
-				
+	modify_fg(Gtk::STATE_NORMAL,CONTRAST_COLOR_GDK);
 }
 protected:
 Glib::ustring on_format_value(double value)
@@ -261,7 +260,6 @@ Glib::ustring on_format_value(double value)
 	os.precision(2);
 	os.setf(std::ios_base::fixed);
 	os<<var<<"="<<value;
-	
 	return os.str();
 }
 private:
