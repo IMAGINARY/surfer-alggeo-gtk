@@ -709,6 +709,8 @@ void AniWindow::on_save()
 {
 	compute();
 
+	if (m_movie_file.size()==0) return;
+
 	std::ostringstream title;
 
 	title << _("Save video");
