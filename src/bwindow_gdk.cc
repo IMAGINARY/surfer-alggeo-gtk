@@ -42,7 +42,7 @@ std::string datestring = "$Date$";
 
 int fastaa = 1;//"antialiasing=2;";
 
-bool no_full = true;
+////extern bool no_full;
 bool no_info = false;
 bool no_gallery = false;
 bool printing = false;
@@ -343,8 +343,10 @@ m_waiting_mode(0)
 	m_zoom_table.attach(m_zoom_image,0,1,1,2,Gtk::SHRINK,Gtk::SHRINK);
 	m_zoom_table.attach(m_vscale,0,1,2,3,Gtk::SHRINK);
 
+#if 0
 	if(fullscreen_mode)
 	{
+
 		m_utab.attach(m_aframe,0,2,0+1,2+1);
 		m_utab.attach(m_avalue,3,4,0+1,1+1,Gtk::SHRINK);
 		m_utab.attach(m_leave,3,4,1+1,2+1,Gtk::SHRINK,Gtk::SHRINK);
@@ -362,14 +364,15 @@ m_waiting_mode(0)
     MOD{m_leave.modify_bg(Gtk::STATE_NORMAL,MAIN_COLOR_GDK);}
 
 		set_border_width(0);
-		if(!no_info)set_size_request(600,500);
-		show();
-		maximize();
+		if(!no_info) set_size_request(600,500);
+//////		show();
+//////		maximize();
 		fullscreen();
 		present();
-		raise();
+//////		raise();
 	}
 	else
+#endif
 	{
 		set_up_the_menu();
 
@@ -1119,7 +1122,7 @@ bool SurfBWindow::on_timer_event_func(int)
 	}
 	if(get_window())
 	{
-		if(!no_full && first_time_full)
+		if(fullscreen_mode && first_time_full)
 		{
 			fullscreen();
 			first_time_full = false;
@@ -1685,12 +1688,21 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 
 	GalleryWindow w(gal[i],opt);
 	w.set_modal();
-	w.show();
-////	w.maximize();
-////	w.fullscreen();
-	w.present();
-	w.raise();
-//////	w.fullscreen();
+
+	if (fullscreen_mode)
+	{
+		hide();
+		w.fullscreen();
+	}
+	else
+	{
+		int width=INT_MIN, height=INT_MIN;
+		get_window()->get_root_origin(width,height); w.move(width,height);
+		width=get_width(); height=get_height(); w.resize(width,height);
+		hide();
+		w.present();
+	}
+
 	Gtk::Main::run(w);
 
 	data = w.ret.data;
@@ -1698,6 +1710,14 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 	global_data = w.ret.global_data;
 
 	current_surf = w.isu;
+
+	if (!fullscreen_mode) {
+		int width=INT_MIN, height=INT_MIN;
+		w.get_window()->get_root_origin(width,height); move(width,height);
+		width=w.get_width(); height=w.get_height(); resize(width,height);
+		}
+	w.hide();
+	present();
 
 	update_visuals();
 

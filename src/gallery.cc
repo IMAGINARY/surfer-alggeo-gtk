@@ -268,12 +268,7 @@ opt(o)
     add_entry( entries[idx].m_filename, entries[idx].m_description ,idx);
   }
 
-
-////		maximize();
-////		fullscreen();
-
   show_all_children();
-  present();
 }
 
 GalleryWindow::~GalleryWindow()

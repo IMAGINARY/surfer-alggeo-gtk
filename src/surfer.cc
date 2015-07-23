@@ -29,7 +29,7 @@ std::string temp_dir = "/tmp/";
 extern char * surfer_small_xpm[] ;
 extern char * surfer_xpm[] ;
 
-extern bool no_full;
+extern bool no_full = true;
 extern bool no_info;
 extern bool no_gallery;
 extern bool no_log;
@@ -83,25 +83,22 @@ SurfBWindow* main_work(std::istream* i, const surfer_options& so, bool b, bool p
 int main_details(std::istream* i, const surfer_options& so, bool b, bool personalized)
 {
 
-check_surf(so);
-
+	check_surf(so);
 
 #ifndef WIN32
-Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));
+	Gtk::Window::set_default_icon( Gdk::Pixbuf::create_from_xpm_data(surfer_xpm));
 #endif
 
+	main_work(i, so,  b, personalized, NULL);
+	Gtk::Main::run();
 
-    main_work(i, so,  b, personalized, NULL);
-Gtk::Main::run();
+	while(do_restart)
+	{
+  	do_restart = false;
+  	main_work(so,  b, personalized, NULL);
+	}
 
-while(do_restart)
-{
-  do_restart = false;
-  main_work(so,  b, personalized, NULL);
-
-}
-
-do_postpare();
+	do_postpare();
 
   return 0;
 }
@@ -311,7 +308,7 @@ temp_dir = GetTempPath();
   std::string optfile = fix_path(fix_file("~"))+(HIDDEN_MARKER "surfer" EXT_MARKER);
 
   surfer_options so = default_settings();
-if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
+	if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
 	if( ui_xml != NULL )
 		so.ui_xml = std::string( ui_xml );
 
@@ -323,7 +320,7 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
   }
   catch(...){}
 
-   main_details(i,so,(argc>1 && std::string(argv[1])=="-f") ,personalized);
+   main_details(i,so,!no_full,personalized);
 
    wipe_dir(temp_dir.c_str());
 
@@ -332,18 +329,18 @@ if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
 
 void check_surf(const surfer_options& opt)
 {
-        std::string image = TEMP_ROOT_SEP+"surfb_it.ppm";
+	std::string image = TEMP_ROOT_SEP+"surfb_it.ppm";
 	std::string script = TEMP_ROOT_SEP+"surfb_it.pic";
 
-        std::remove(image.c_str());
-        std::remove(script.c_str());
+	std::remove(image.c_str());
+	std::remove(script.c_str());
 
 	std::ofstream f(script.c_str(),FILE_WRITE_MODE);
-        if(! f.is_open())
-        {
-           std::cerr<<"cannot write file "<<script<<std::endl;
-           exit(101);
-        }
+	if(! f.is_open())
+	{
+		std::cerr<<"cannot write file "<<script<<std::endl;
+		exit(101);
+	}
 
 /*	f<<"rot_x="<<data.initial_x+current_x<<";\n";
 	f<<"rot_y="<<data.initial_y+current_y<<";\n";
@@ -433,12 +430,10 @@ SurfBWindow* main_work(std::istream* i,const surfer_options& so, bool b, bool pe
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
 
-
   std::vector<gallery> G =  read_galleries_new(fix_path(so.gallery_path+"/"+_("gallery-en")),so.upscale);
   std::vector<gallery> Gu =  read_galleries_old(fix_path(so.user_gallery_path),so.upscale);
 
   G.insert(G.end(),Gu.begin(),Gu.end());
-
 
   SurfBWindow* sbw = new SurfBWindow(*i, G,so,b ,personalized);
   sbw->start();
