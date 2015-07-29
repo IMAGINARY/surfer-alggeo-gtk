@@ -1,6 +1,9 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
+AM_DISTCHECK_CONFIGURE_FLAGS ?= \
+	--disable-maintainer-mode
+
 SUBDIRS = src po gallery doc
 
 uninstall-hook:

@@ -61,6 +61,9 @@ surfer_alggeo_gtk_CXXFLAGS = \
 surfer_alggeo_gtk_LDADD = \
 	$(LIBGTKMM_LIBS)
 
+
+if MAINTAINER_MODE
+
 ## short descriptions for manpages
 surfer_alggeo_gtk_DESCRIPTION =  "Interactive Visualization of ALGebraic GEOmetric SURFaces"
 
@@ -72,6 +75,9 @@ surfer_alggeo_gtk_DESCRIPTION =  "Interactive Visualization of ALGebraic GEOmetr
 			-n $(if $($(subst -,_,$*)_DESCRIPTION), $($(subst -,_,$*)_DESCRIPTION), "manual page for $*") \
 			-o $@ \
 		$(builddir)/$<
+
+endif
+
 
 EXTRA_DIST = \
 	$(man_MANS)
