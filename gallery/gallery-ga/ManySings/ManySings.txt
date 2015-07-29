@@ -1,0 +1,41 @@
+Superficies récord
+doppelkegel.pic:name:Cono cuadrático
+doppelkegel.pic:lowres:200
+doppelkegel.pic:highres:480
+cayley_cubic.pic:name:Cúbica de Cayley
+cayley_cubic.pic:lowres:200
+cayley_cubic.pic:highres:480
+kummer.pic:name:Cuártica de Kummer
+kummer.pic:lowres:200
+kummer.pic:highres:480
+togliatti.pic:name:Quíntica de Togliatti
+togliatti.pic:lowres:180
+togliatti.pic:highres:440
+barth_sextic.pic:name:Séxtica de Barth
+barth_sextic.pic:lowres:150
+barth_sextic.pic:highres:360
+labs_septic.pic:name:Séptica con 99 singularidades
+labs_septic.pic:lowres:150
+labs_septic.pic:highres:320
+endrass_octic.pic:name:Óctica de Endraß
+endrass_octic.pic:lowres:150
+endrass_octic.pic:highres:280
+p9surface.pic:name:Superficie con moitas singularidades reais
+p9surface.pic:lowres:150
+p9surface.pic:highres:280
+chmutov_pn_8.pic:name:Óctica de Chmutov
+chmutov_pn_8.pic:lowres:200
+chmutov_pn_8.pic:hires:400
+septic_7eck.pic:name:Séptica con simetría heptagonal
+septic_7eck.pic:lowres:200
+septic_7eck.pic:hires:400
+monoid.pic:name:Monoide con moitas singularidades
+monoid.pic:lowres:200
+monoid.pic:hires:400
+dessins_quint_15a2.pic:name:Quíntica con 15 cúspides
+dessins_quint_15a2.pic:lowres:200
+dessins_quint_15a2.pic:hires:400
+barthsextic_30A2.pic:name:Séxtica de Barth con 30 cúspides
+barthsextic_30A2.pic:lowres:200
+barthsextic_30A2.pic:hires:400
+

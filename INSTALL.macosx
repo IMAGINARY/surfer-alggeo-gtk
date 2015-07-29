@@ -1,0 +1,36 @@
+SURFER
+Interactive Visualization of Algebraic Geometry
+
+
+INSTALLATION INSTRUCTIONS
+
+This guide explains how to install Surfer on your Mac OS X or Darwin system.
+
+You find fink at   http://www.finkproject.org/.
+
+To use fink, you need Mac OS X 10.4 or later.
+
+Install fink, and then type
+
+sudo fink install surfer
+
+or use a graphical front-end like FinkCommander.
+
+
+Note:
+It is possible to compile surfer manually on Mac OS X or Darwin
+via the packages provided by Fink or MacPorts,
+follow the instructions in INSTALL.linux.
+
+
+-----------------
+
+You find additional instructions in the
+relative manuals of surf and surfer.
+
+Questions, suggestions, bug reports and feature requests go to
+surfer@imaginary2008.de
+
+The latest version of surfer can always be found at
+http://surfer.imaginary2008.de
+
