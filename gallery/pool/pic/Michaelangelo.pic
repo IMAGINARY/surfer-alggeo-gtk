@@ -1,0 +1,29 @@
+scale_x = 0.2898550724637681;
+scale_y = 0.2898550724637681;
+scale_z = 0.2898550724637681;
+radius=9.0;
+illumination = ambient_light + diffuse_light + reflected_light + transmitted_light;
+ambient      = 40;
+diffuse      = 80;
+reflected    = 80;
+transmitted  = 20;
+smoothness   = 50;
+transparence = 0;
+thickness = 10;
+antialiasing = 6;
+
+background_red=255;background_blue=255;background_green=255;//=0; background_green=0; background_blue=51;
+
+poly f1 = x^2+y^4+y^3*z^2;
+surface = f1;
+surface_red = 255;surface_green = 51;surface_blue = 0;
+inside_red = 153;inside_green = 153;inside_blue = 255;
+transparence = 0;
+surface=rotate(surface,-1.2576878040322506,yAxis);
+surface=rotate(surface,-0.6824516790451601,xAxis);
+surface=rotate(surface,1.3353489544857229,zAxis);
+
+draw_surface;
+filename="Michaelangelo.ppm";
+color_file_format=ppm;
+save_color_image;

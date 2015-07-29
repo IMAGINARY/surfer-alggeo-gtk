@@ -1,0 +1,41 @@
+Superficies elementais
+ebene.pic:name:Plano
+ebene.pic:lowres:300
+ebene.pic:hires:640
+kugel.pic:name:Esfera
+kugel.pic:lowres:300
+kugel.pic:hires:640
+Ell.pic:name:Elipsoide
+Ell.pic:lowres:240
+Ell.pic:hires:480
+einHyp.pic:name:Hiperboloide dunha folla
+einHyp.pic:lowres:240
+einHyp.pic:hires:480
+kegel.pic:name:Cono cuadrático
+kegel.pic:lowres:240
+kegel.pic:hires:480
+ellPar.pic:name:Paraboloide elíptico
+ellPar.pic:lowres:240
+ellPar.pic:hires:480
+hypPar.pic:name:Paraboloide hiperbólico
+hypPar.pic:lowres:240
+hypPar.pic:hires:480
+ellZyl.pic:name:Cilindro elíptico
+ellZyl.pic:lowres:240
+ellZyl.pic:hires:480
+hypZyl.pic:name:Cilindro hiperbólico
+hypZyl.pic:lowres:240
+hypZyl.pic:hires:480
+clebsch.pic:name:Cúbica de Clebsch
+clebsch.pic:lowres:200
+clebsch.pic:hires:400
+cayley.pic:name:Cúbica de Cayley
+cayley.pic:lowres:200
+cayley.pic:hires:400
+kub_A5A1.pic:name:Cúbica con dúas singularidades
+kub_A5A1.pic:lowres:200
+kub_A5A1.pic:hires:400
+kub_D4.pic:name:Cúbica cunha singularidade D4
+kub_D4.pic:lowres:200
+kub_D4.pic:hires:400
+

@@ -1,0 +1,99 @@
+SURFER
+Interactive Visualization of Algebraic Geometry
+
+
+QUICK INSTALLATION INSTRUCTIONS
+
+This guide explains how to install Surfer on your linux system.
+
+The minimal (i.e. least recent) configuration to compile surfer is (gtkmm 2.8, gcc 4.0).
+
+Surfer has been successfully compiled on Ubuntu GNU/Linux (6.06 and later), Mac OS X (10.4 or later, gtkmm 2.10 or later via fink or macports),
+Debian GNU/Linux (etch and lenny).
+
+
+First Step:
+
+Install the rendering front-end surf:
+
+surf depends on the following packages:
+gmp       (apt-get install libgmp3-dev)
+libtiff   (apt-get install libtiff4-dev)
+libjpeg   (apt-get install libjpeg62-dev)
+zlib      (apt-get install zlib1g-dev)
+libx11    (apt-get install libx11-dev)
+flex      (apt-get install flex)
+
+Users of Ubuntu-based distributions may just enter the commands in parentheses to install these libraries.
+Users of other linux distributions or other Unix-based systems use their respective package manager to install the libraries.
+
+Caution: You need not only binary packets (e.g. zlib) but also libraries and headers used for development,
+these packages usually end in -dev or -devel (e.g. zlib-devel). You need to install BOTH.
+
+(You may skip this step if you already have surf installed)
+
+You find the source for surf in the tarball
+./surf-for-surfer.tar.gz
+
+type the following commands
+to install surf
+
+gunzip surf-for-surfer.tar.gz
+tar xvf surf-for-surfer.tar
+cd ./surf-rev-55
+./configure --disable-gui
+make
+sudo make install
+cd ..
+
+ [Optional] You might want to:
+ * add compiler flags to increase optimization for speed (e.g. -O4 -march=pentium4)
+ * remove the "--disable-gui"-flag to compile surf with a GTK+-1.2-based user interface.
+  This will add several dependencies on GTK+ and X11 development libraries.
+
+Second Step:
+Install the graphical interface Surfer:
+
+Surfer depends on
+gtkmm-2.4        (apt-get install libgtkmm-2.4-dev)
+
+Users of Ubuntu-based distributions may just enter the command in parentheses to install these libraries.
+Users of other linux distributions or other Unix-based systems use their respective package manager to install the libraries.
+
+Caution: You need not only binary packets, but also libraries and headers used for development,
+these packages usually end in -dev or -devel. You need to install BOTH.
+The name of the gtkmm package might be something like gtkmm, libgtkmm, gtmm-2.4, libgtkmm24.
+Make sure you install gtkmm and development files for gtkmm which are AT LEAST VERSION 2.10, version 2.12 would be even better.
+
+You find the source for Surfer in the subdirectory
+./surfer-0.0.XXX where XXX is some number
+
+type the following commands
+to install Surfer
+
+cd ./surfer-0.0.*
+./configure
+make
+sudo make install
+cd ..
+
+ [Optional] You might want to:
+ * add compiler flags to enable OpenMP support if you are on a multiprocessor or multicore system
+   See surfer-0.0.*/README for details on that.
+
+
+That's it.
+You should now be able to run Surfer by typing "surfer".
+
+Surfer should display a gallery of algebraic surfaces upon start.
+-----------------
+
+You find additional instructions in the
+relative manuals of surf and Surfer.
+
+Questions, suggestions, bug reports and feature requests go to
+surfer@imaginary2008.de
+
+The latest version of surfer can always be found at
+http://surfer.imaginary2008.de
+

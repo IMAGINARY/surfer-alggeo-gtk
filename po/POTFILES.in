@@ -1,0 +1,7 @@
+# List of source files which contain translatable strings.
+src/about.cc
+src/bwindow_gdk.cc
+src/gallery.cc
+src/rotate.cc
+src/select.cc
+src/surfer.cc
