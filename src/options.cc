@@ -43,6 +43,14 @@
 #include "bwindow_gdk.hh"
 #include <cstdlib>
 
+#define DEFAULT_SETTINGS_FFMPEG_ARGUMENTS "-version 2>/dev/null >/dev/null"
+#if 1
+#define DEFAULT_SETTINGS_FFMPEG_DEFAULT     "ffmpeg"
+#define DEFAULT_SETTINGS_FFMPEG_ALTERNATIVE "avconv"
+#else
+#define DEFAULT_SETTINGS_FFMPEG_DEFAULT     "avconv"
+#define DEFAULT_SETTINGS_FFMPEG_ALTERNATIVE "ffmpeg"
+#endif
 
 bool rewrite_config = false;
 
@@ -61,14 +69,8 @@ std::string fix_file(const std::string& s)
 
 	std::string r = s;
 
-	
-
-
-	
-
 	while(r.find("~")!=std::string::npos)
 	{
-		
 		int i = r.find("~");
 
 		r = r.replace(i,1,home_dir());
@@ -76,7 +78,6 @@ std::string fix_file(const std::string& s)
 
 	while(r.find(WRONG_DIR_SEP_CHAR)!=std::string::npos)
 	{
-		
 		int i = r.find(WRONG_DIR_SEP_CHAR);
 
 		r[i] = DIR_SEP_CHAR;
@@ -94,7 +95,6 @@ std::string fix_path(const std::string& s)
 	else return s;
 }
 
-
 surfer_options default_settings()
 {
 	surfer_options so;
@@ -108,7 +108,7 @@ surfer_options default_settings()
 
 	so.save_cmd = "";
 	so.print_cmd = "";
-	
+
 	so.format = "ppm";
 	so.resolution = PREVIEW_SIZE;
 	so.surf_cmd = SURF_CMD;
@@ -122,7 +122,18 @@ surfer_options default_settings()
 
 	#ifndef WIN32
 	so.mencoder_cmd = "mencoder";
-	so.ffmpeg_cmd = "ffmpeg";
+	if(!(log_system( DEFAULT_SETTINGS_FFMPEG_DEFAULT " " DEFAULT_SETTINGS_FFMPEG_ARGUMENTS ,false)))
+	{
+		so.ffmpeg_cmd = DEFAULT_SETTINGS_FFMPEG_DEFAULT ;
+	}
+	else if(!(log_system( DEFAULT_SETTINGS_FFMPEG_ALTERNATIVE " " DEFAULT_SETTINGS_FFMPEG_ARGUMENTS ,false)))
+	{
+		so.ffmpeg_cmd = DEFAULT_SETTINGS_FFMPEG_ALTERNATIVE ;
+	}
+	else
+	{
+		so.ffmpeg_cmd = DEFAULT_SETTINGS_FFMPEG_DEFAULT ;
+	}
 	#else
 	so.mencoder_cmd = "";
 	so.ffmpeg_cmd = "";
@@ -161,10 +172,8 @@ std::ostream& write(const surfer_options& so, std::ostream& f)
 	return f;
 }
 
-surfer_options read_settings_from_file(const std::string& filename)
+surfer_options read_settings_from_file(surfer_options& so, const std::string& filename)
 {
-	surfer_options so = default_settings();
-
 	std::ifstream f;
 	try{
 		f.open(filename.c_str());
@@ -205,7 +214,15 @@ surfer_options read_settings_from_file(const std::string& filename)
 		if(t1 == "format") so.format = t2;
 		if(t1 == "uixml") so.ui_xml = t2;
 		if(t1 == "mencoder") so.mencoder_cmd = t2;
-		if(t1 == "ffmpeg") so.ffmpeg_cmd = t2;
+		if(t1 == "ffmpeg")
+		{
+			std::ostringstream os;
+			os << t2 << " " DEFAULT_SETTINGS_FFMPEG_ARGUMENTS << std::endl;
+			if(!(log_system(os.str(),false)))
+			{
+				so.ffmpeg_cmd = t2;
+			}
+		}
 		if(t1 == "reset") so.reset_file = t2;
 		if(t1 == "screen_saver_gallery") so.screen_saver_gallery = t2;
 		if(t1 == "resolution")

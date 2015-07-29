@@ -858,7 +858,7 @@ void make_thumbs(const std::vector<parse_result>& R, const surfer_options& opt);
 
 
 surface_data surfer_local();
-surfer_options read_settings_from_file(const std::string& filename);
+surfer_options read_settings_from_file(surfer_options& so, const std::string& filename);
 std::ostream& write(const surfer_options& so, std::ostream& f);
 
 std::string fix_file(const std::string& s);
@@ -1077,7 +1077,7 @@ extern bool no_log;
 #define PREVIEW_SIZE 150
 #endif
 
-int log_system(const std::string& s);
+int log_system(const std::string& s, bool verbosity=true);
 
 extern bool do_restart;
 

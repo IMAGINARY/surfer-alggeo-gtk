@@ -308,7 +308,7 @@ temp_dir = GetTempPath();
   std::string optfile = fix_path(fix_file("~"))+(HIDDEN_MARKER "surfer" EXT_MARKER);
 
   surfer_options so = default_settings();
-	if(!rewrite_config) so = read_settings_from_file(optfile.c_str());
+	if(!rewrite_config) read_settings_from_file(so, optfile.c_str());
 	if( ui_xml != NULL )
 		so.ui_xml = std::string( ui_xml );
 
@@ -388,11 +388,11 @@ bool check_encoder()
 return false;
 }
 
-int log_system(const std::string& s)
+int log_system(const std::string& s, bool verbosity)
 {
 	if(!no_log) std::cout<<"executing "<<s<<std::endl;
 	int r = system(s.c_str());
-	if(r != 0)
+	if((r != 0) && (verbosity))
 	{
 		std::cerr<<"surfer: system call failed"<<std::endl;
 		std::cerr<<"call was: "<<s<<std::endl;
