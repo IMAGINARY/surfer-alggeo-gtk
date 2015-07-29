@@ -195,6 +195,11 @@ outside_buffer(),
 m_inside_image(),
 m_outside_image(),
 first_time_full(true),
+first_time_notfull(true),
+last_time_notfull_origin_x(INT_MIN),
+last_time_notfull_origin_y(INT_MIN),
+last_time_notfull_width(1024),
+last_time_notfull_height(724), // floor(1024/sqrt(2))
 kill_w(NULL),
 m_reset(Gtk::Stock::STOP),
 m_last_action(time(NULL)),
@@ -724,6 +729,8 @@ m_waiting_mode(0)
 
 	m_entry.grab_focus();
 
+	resize(last_time_notfull_width,last_time_notfull_height);
+
 	show_all_children();
 	if(MAX_SURFACES == 1) m_spin.hide();
 
@@ -1122,11 +1129,39 @@ bool SurfBWindow::on_timer_event_func(int)
 	}
 	if(get_window())
 	{
+#if 1
+		if(fullscreen_mode)
+		{
+			if(first_time_full)
+			{
+				last_time_notfull_height=get_height(); last_time_notfull_width=get_width();
+				get_window()->get_root_origin(last_time_notfull_origin_x,last_time_notfull_origin_y);
+				fullscreen();
+				first_time_full = false;
+				first_time_notfull = true;
+			}
+		}
+		else
+		{
+			if(first_time_notfull)
+			{
+				hide();
+				unfullscreen();
+				if((0<=last_time_notfull_origin_x) && (0<=last_time_notfull_origin_y))
+					move(last_time_notfull_origin_x,last_time_notfull_origin_y);
+				resize(last_time_notfull_width,last_time_notfull_height);
+				show();
+				first_time_notfull = false;
+				first_time_full = true;
+			}
+		}
+#else
 		if(fullscreen_mode && first_time_full)
 		{
 			fullscreen();
 			first_time_full = false;
 		}
+#endif
 		if(kill_w)
 			{kill_w->hide(); delete kill_w; kill_w = NULL;}
 	}
@@ -1492,6 +1527,9 @@ void SurfBWindow::on_letter_clicked_func(char s)
 
 void SurfBWindow::on_fullscreen_clicked()
 {
+#if 1
+	fullscreen_mode = ! fullscreen_mode;
+#else
 	std::istringstream nothing("");
 	SurfBWindow f(nothing,gal,opt,true);
 	f.set_modal();
@@ -1522,6 +1560,7 @@ void SurfBWindow::on_fullscreen_clicked()
 // This is where we connect the slot to the Glib::signal_timeout()
 	conn = Glib::signal_timeout().connect(my_slot, MSECS);
 	refresh(TEMP_ROOT_SEP +"surfb.pic",TEMP_ROOT_SEP +"surfb.ppm",fastaa);
+#endif
 }
 
 void generate_image()
@@ -1711,13 +1750,14 @@ bool SurfBWindow::on_gallery_press_event(GdkEventButton*,int i)
 
 	current_surf = w.isu;
 
-	if (!fullscreen_mode) {
+	if (!fullscreen_mode)
+	{
 		int width=INT_MIN, height=INT_MIN;
 		w.get_window()->get_root_origin(width,height); move(width,height);
 		width=w.get_width(); height=w.get_height(); resize(width,height);
-		}
+	}
 	w.hide();
-	present();
+	show();
 
 	update_visuals();
 

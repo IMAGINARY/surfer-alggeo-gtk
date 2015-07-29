@@ -29,7 +29,7 @@ std::string temp_dir = "/tmp/";
 extern char * surfer_small_xpm[] ;
 extern char * surfer_xpm[] ;
 
-extern bool no_full = true;
+/*extern*/ bool no_full = true;
 extern bool no_info;
 extern bool no_gallery;
 extern bool no_log;

@@ -832,6 +832,11 @@ Glib::RefPtr<Gdk::Pixbuf> m_outside_image;
 Language_box m_lang;
 
 bool first_time_full;
+bool first_time_notfull;
+int last_time_notfull_origin_x;
+int last_time_notfull_origin_y;
+int last_time_notfull_width;
+int last_time_notfull_height;
 public:
  SurfBWindow* kill_w;
 };
